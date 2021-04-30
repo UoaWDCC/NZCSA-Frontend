@@ -12,17 +12,7 @@ import {
   Route,
   Redirect,
 } from "react-router-dom";
-
-const theme = createMuiTheme({
-  palette: {
-    primary: {
-      main: green[500],
-    },
-    secondary: {
-      main: purple[500],
-    },
-  },
-});
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 
 const fakeAuth = {
   isAuthenticated: false,
@@ -52,6 +42,20 @@ function PrivateRoute({ children, ...rest }) {
 }
 
 function App() {
+const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+
+const theme = createMuiTheme({
+  palette: {
+    type: prefersDarkMode ? 'dark' : 'light',
+    primary: {
+      main: green[500],
+    },
+    secondary: {
+      main: purple[500],
+    },
+  },
+});
+
   return (
     <ThemeProvider theme={theme}>
       <div className="App">
