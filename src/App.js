@@ -4,7 +4,7 @@ import SignInSide from "./pages/SignInSide";
 import SignUp from "./pages/SignUp";
 import Dashboard from "./pages/dashboard/Dashboard";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
-import green from "@material-ui/core/colors/green";
+import orange from "@material-ui/core/colors/orange";
 import purple from "@material-ui/core/colors/purple";
 import {
   BrowserRouter as Router,
@@ -48,10 +48,7 @@ const theme = createMuiTheme({
   palette: {
     type: prefersDarkMode ? 'dark' : 'light',
     primary: {
-      main: green[500],
-    },
-    secondary: {
-      main: purple[500],
+      main: "rgba(237, 28, 36, 0.5)",
     },
   },
 });
