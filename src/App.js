@@ -2,20 +2,17 @@ import React from "react";
 import "./App.css";
 import SignInSide from "./pages/SignInSide";
 import SignUp from "./pages/SignUp";
-import Dashboard from "./pages/dashboard/Dashboard";
+import Dashboard from "./pages/Dashboard";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
-import orange from "@material-ui/core/colors/orange";
-import purple from "@material-ui/core/colors/purple";
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   Redirect,
 } from "react-router-dom";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
 
 const fakeAuth = {
-  isAuthenticated: false,
+  isAuthenticated: true,
   authenticate(cb) {
     this.isAuthenticated = true;
     setTimeout(cb, 100);
@@ -42,13 +39,13 @@ function PrivateRoute({ children, ...rest }) {
 }
 
 function App() {
-const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+const prefersDarkMode = 'dark';
 
 const theme = createMuiTheme({
   palette: {
     type: prefersDarkMode ? 'dark' : 'light',
     primary: {
-      main: "rgba(237, 28, 36, 0.5)",
+      main: "rgba(237, 28, 36, 0.6)",
     },
   },
 });
