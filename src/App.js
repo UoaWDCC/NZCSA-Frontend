@@ -11,7 +11,9 @@ import {
   Redirect,
 } from "react-router-dom";
 
+// DO NOT CHANGE
 const fakeAuth = {
+  // This function sets the authentication state, will connect to backend in future
   isAuthenticated: true,
   authenticate(cb) {
     this.isAuthenticated = true;
@@ -23,7 +25,9 @@ const fakeAuth = {
   },
 };
 
+// DO NOT CHANGE
 function PrivateRoute({ children, ...rest }) {
+  // Function for protected routes, eg.Dashboard, do not change anything in this section
   return (
     <Route
       {...rest}
@@ -39,13 +43,13 @@ function PrivateRoute({ children, ...rest }) {
 }
 
 function App() {
-const prefersDarkMode = 'dark';
+const prefersDarkMode = 'dark'; // Currently dark mode is enabled by default, will change in the future
 
 const theme = createMuiTheme({
   palette: {
     type: prefersDarkMode ? 'dark' : 'light',
     primary: {
-      main: "rgba(237, 28, 36, 0.6)",
+      main: "rgba(237, 28, 36, 0.6)", // This is the primary color
     },
   },
 });

@@ -26,6 +26,7 @@ function Copyright() {
   );
 }
 
+// TODO: Modify to match figma design
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
@@ -46,6 +47,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+// TODO: Modify to match figma design
 export default function SignUp() {
   const classes = useStyles();
 
