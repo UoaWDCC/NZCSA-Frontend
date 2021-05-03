@@ -3,6 +3,7 @@ import "./App.css";
 import SignInSide from "./pages/SignInSide";
 import SignUp from "./pages/SignUp";
 import Dashboard from "./pages/Dashboard";
+import ForgotPassword from "./pages/ForgotPassword"
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import {
   BrowserRouter as Router,
@@ -68,6 +69,9 @@ const theme = createMuiTheme({
               </Route>
               <Route path="/signup">
                 <SignUp />
+              </Route>
+              <Route path="/forgotPassword">
+                <ForgotPassword />
               </Route>
               <PrivateRoute path="/dashboard">
                 <Dashboard />
