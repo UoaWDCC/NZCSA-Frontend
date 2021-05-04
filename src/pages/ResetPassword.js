@@ -12,7 +12,12 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import { useForm, Controller } from "react-hook-form";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import { useForm, Controller, useWatch } from "react-hook-form";
+import checkPasswordStrength from "../components/PasswordChecker";
+import Visibility from "@material-ui/icons/Visibility";
+import VisibilityOff from "@material-ui/icons/VisibilityOff";
+import IconButton from "@material-ui/core/IconButton";
 
 function Copyright() {
   return (
@@ -56,6 +61,12 @@ function handleClick() {
 export default function ResetPassword() {
   const classes = useStyles();
   const [passReset, setPassReset] = useState(false);
+  const [values, setValues] = React.useState({
+    showPassword: false,
+    showConfirm: false,
+    passStrength: "",
+  });
+
   const {
     control,
     handleSubmit,
@@ -63,7 +74,16 @@ export default function ResetPassword() {
   } = useForm();
 
   const onSubmit = (data) => {
+    console.log(data);
     setPassReset(true);
+  };
+
+  const handleClickShowPassword = () => {
+    setValues({ ...values, showPassword: !values.showPassword });
+  };
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
   };
 
   return (
@@ -85,7 +105,6 @@ export default function ResetPassword() {
         </Box>
         <form
           className={classes.form}
-          noValidate
           onSubmit={handleSubmit(onSubmit)}
           href="#"
         >
@@ -94,7 +113,7 @@ export default function ResetPassword() {
               <Grid item xs={12}>
                 {!passReset && (
                   <Typography component="p" variant="body1">
-                    {`Password Strength: ...`}
+                    {`Password Strength: ` + values.passStrength}
                   </Typography>
                 )}
               </Grid>
@@ -107,6 +126,14 @@ export default function ResetPassword() {
                   render={({ field }) => (
                     <TextField
                       {...field}
+                      onChange={(e) => {
+                        field.onChange(e.target.value);
+                        if (!errors.password) {
+                          let score = checkPasswordStrength(e.target.value);
+                          setValues({ ...values, passStrength: score });
+                          console.log(score);
+                        }
+                      }}
                       variant="outlined"
                       required
                       fullWidth
@@ -114,7 +141,25 @@ export default function ResetPassword() {
                       label="New Password"
                       name="password"
                       autoComplete="password"
-                      type="password"
+                      type={values.showPassword ? "text" : "password"}
+                      error={errors.password ? true : false}
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <IconButton
+                              aria-label="toggle password visibility"
+                              onClick={handleClickShowPassword}
+                              onMouseDown={handleMouseDownPassword}
+                            >
+                              {values.showPassword ? (
+                                <Visibility />
+                              ) : (
+                                <VisibilityOff />
+                              )}
+                            </IconButton>
+                          </InputAdornment>
+                        ),
+                      }}
                     />
                   )}
                 />
@@ -137,6 +182,7 @@ export default function ResetPassword() {
                       name="confirm"
                       autoComplete="password"
                       type="password"
+                      error={errors.confirm ? true : false}
                     />
                   )}
                 />
