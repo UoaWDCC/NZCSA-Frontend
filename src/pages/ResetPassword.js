@@ -14,10 +14,11 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import { useForm, Controller, useWatch } from "react-hook-form";
-import checkPasswordStrength from "../components/PasswordChecker";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import IconButton from "@material-ui/core/IconButton";
+import PasswordStrengthIndicator from "../components/PasswordStrengthIndicator";
+import checkPasswordStrength from "../components/PasswordChecker";
 
 function Copyright() {
   return (
@@ -52,10 +53,6 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(3, 0, 2),
   },
 }));
-
-function handleClick() {
-  alert("test");
-}
 
 // TODO: Modify to match figma design
 export default function ResetPassword() {
@@ -128,11 +125,9 @@ export default function ResetPassword() {
                       {...field}
                       onChange={(e) => {
                         field.onChange(e.target.value);
-                        if (!errors.password) {
-                          let score = checkPasswordStrength(e.target.value);
-                          setValues({ ...values, passStrength: score });
-                          console.log(score);
-                        }
+                        let score = checkPasswordStrength(e.target.value);
+                        setValues({ ...values, passStrength: score });
+                        console.log(score);
                       }}
                       variant="outlined"
                       required
@@ -164,6 +159,7 @@ export default function ResetPassword() {
                   )}
                 />
                 {errors.password && <span>This field is required</span>}
+                <PasswordStrengthIndicator input={values.passStrength} />
               </Grid>
               <Grid item xs={12}>
                 <Controller
