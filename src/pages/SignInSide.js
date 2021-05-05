@@ -16,6 +16,7 @@ import NZCSABackground from '../assets/bg.png'
 import logo from '../assets/logo.png'
 import { Container } from '@material-ui/core';
 
+
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -36,6 +37,7 @@ const useStyles = makeStyles((theme) => ({
   },
   image: {
     backgroundImage: `url(${NZCSABackground})`,
+
     backgroundRepeat: 'no-repeat',
     backgroundColor:
       theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
@@ -70,6 +72,7 @@ const useStyles = makeStyles((theme) => ({
   logoNCopyright:{
     marginTop:"50%"
   }
+
 }));
 
 // TODO: Modify to match figma design
@@ -156,6 +159,5 @@ export default function SignInSide() {
           </Grid>
           </Grid>
   </Grid>
-
   );
 }
