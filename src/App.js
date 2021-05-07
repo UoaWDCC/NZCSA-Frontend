@@ -2,6 +2,7 @@ import React from "react";
 import "./App.css";
 import SignInSide from "./pages/SignInSide";
 import SignUp from "./pages/SignUp";
+import ResetPassword from "./pages/ResetPassword";
 import Dashboard from "./pages/Dashboard";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import {
@@ -71,6 +72,9 @@ const theme = createMuiTheme({
               </Route>
               <PrivateRoute path="/dashboard">
                 <Dashboard />
+              </PrivateRoute>
+              <PrivateRoute path="/resetPassword">
+                <ResetPassword />
               </PrivateRoute>
             </Switch>
           </Router>
