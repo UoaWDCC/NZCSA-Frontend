@@ -8,6 +8,7 @@ import Checkbox from "@material-ui/core/Checkbox";
 import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
+
 //import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
@@ -20,20 +21,24 @@ import RadioButtonCheckedIcon from "@material-ui/icons/RadioButtonChecked";
 
 //import emailSymbol from "../assets/email symbol.png"
 
+
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {"Copyright © "}
       <Link color="inherit" href="https://material-ui.com/">
+
         NZCSA
       </Link>{" "}
       {new Date().getFullYear()}
       {""}
+
     </Typography>
   );
 }
 
 // TODO: Modify to match figma design
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -47,11 +52,13 @@ const useStyles = makeStyles((theme) => ({
   },
   paper: {
     //marginTop: theme.spacing(0),
+
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
   },
   avatar: {
+
     //marginTop: theme.spacing(11),
     marginTop: "5%",
     backgroundColor: "primary",
@@ -78,6 +85,8 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "rgba(245, 245, 245, 0.3)",
     borderRadius: "5px",
   }
+
+
 }));
 
 // TODO: Modify to match figma design
@@ -85,6 +94,7 @@ export default function SignUp() {
   const classes = useStyles();
 
   return (
+
     <Grid container component="main" className={classes.root}>
       <Grid item xs={12} className={classes.image}>
         <Container maxWidth="sm">
@@ -221,5 +231,6 @@ export default function SignUp() {
         </Container>
       </Grid>
     </Grid>
+
   );
 }
