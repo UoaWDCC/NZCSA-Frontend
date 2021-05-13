@@ -16,7 +16,6 @@ import NZCSABackground from '../assets/bg.png'
 import logo from '../assets/logo.png'
 import { Container } from '@material-ui/core';
 
-
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -37,7 +36,6 @@ const useStyles = makeStyles((theme) => ({
   },
   image: {
     backgroundImage: `url(${NZCSABackground})`,
-
     backgroundRepeat: 'no-repeat',
     backgroundColor:
       theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
@@ -61,6 +59,7 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+
   backPanel: {
     backgroundColor: 'black',
     opacity: 0.8,
