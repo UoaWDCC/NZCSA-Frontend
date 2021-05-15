@@ -15,6 +15,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import NZCSABackground from '../assets/bg.png'
 import logo from '../assets/logo.png'
 import { Container } from '@material-ui/core';
+import {useState} from 'react';
+import {login} from '../api/connectBackend';
 
 function Copyright() {
   return (
@@ -77,6 +79,18 @@ const useStyles = makeStyles((theme) => ({
 // TODO: Modify to match figma design
 export default function SignInSide() {
   const classes = useStyles();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [hasErrors, setHasErrors] = useState(false);
+  const isError = (condition) => hasErrors && condition;
+
+  async function handleSignIn(){
+    setHasErrors(true);
+    const loginInfo = { email, password }
+    if(email.length>0 && password.length>0 ){
+      const response = await login(loginInfo);
+    }
+  }
 
   return (
     <Grid container component="main" className={classes.root}>
@@ -93,6 +107,7 @@ export default function SignInSide() {
             square
             className={classes.backPanel}
           >
+
             <div className={classes.paper}>
               <Avatar className={classes.avatar}>
                 <LockOutlinedIcon />
@@ -100,7 +115,8 @@ export default function SignInSide() {
               <Typography component="h1" variant="h5">
                 Sign in
               </Typography>
-              <form className={classes.form} noValidate>
+              {/* <form className={classes.form} noValidate> */}
+                <div className={classes.form} noValidate>
                 <TextField variant="outlined"
                   margin="normal"
                   required
@@ -109,7 +125,11 @@ export default function SignInSide() {
                   label="Email Address"
                   name="email"
                   autoComplete="email"
-                  autoFocus />
+                  autoFocus 
+                  onChange={e => setEmail(e.target.value)}
+                  error={isError(email.length === 0)}
+                  helperText={isError(email.length === 0) && "Please enter your email!"}
+                  />
                 <TextField  variant="outlined"
                   margin="normal"
                   required
@@ -119,6 +139,9 @@ export default function SignInSide() {
                   type="password"
                   id="password"
                   autoComplete="current-password" 
+                  onChange={e => setPassword(e.target.value)}
+                  error={isError(password.length === 0)}
+                  helperText={isError(password.length === 0) && "Please enter your password!"}
                   />
                 <FormControlLabel
                   control={<Checkbox value="remember" color="primary" />}
@@ -130,12 +153,13 @@ export default function SignInSide() {
                   variant="contained"
                   color="primary"
                   className={classes.submit}
+                  onClick={()=>handleSignIn()}
                 >
                   Sign In
                 </Button>
                 <Grid container>
                   <Grid item xs>
-                    <Link href="#" variant="body2">
+                    <Link href="/forgotPassword" variant="body2">
                       Forgot password?
                     </Link>
                   </Grid>
@@ -153,7 +177,8 @@ export default function SignInSide() {
                     <Copyright />
                   </Box>
                 </Container>
-              </form>
+              {/* </form> */}
+              </div>
             </div>
           </Grid>
           </Grid>
