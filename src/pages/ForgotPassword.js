@@ -12,6 +12,7 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+import {forgetPassword} from "../api/connectBackend";
 
 function Copyright() {
   return (
@@ -50,11 +51,18 @@ const useStyles = makeStyles((theme) => ({
 // TODO: Modify to match figma design
 export default function ForgotPassword() {
   const classes = useStyles();
+  const [email, setEmail] = useState('');
   const [emailSent, setEmailSent] = useState(false);
+  const [hasErrors, setHasErrors] = useState(false);
+  const isError = (condition) => hasErrors && condition;
 
-  function handleSubmit(event) {
-    event.preventDefault();
-    setEmailSent(true);
+ async function handleSubmit() {
+    setHasErrors(true);
+    // TODO: Check the email address & format here
+    if(email.length>0){
+      setEmailSent(true);
+      const res =  await forgetPassword(email);
+    }
   }
 
   return (
@@ -74,7 +82,7 @@ export default function ForgotPassword() {
               : `We'll send you an email to help you reset your password.`}
           </Typography>
         </Box>
-        <form className={classes.form} noValidate onSubmit={handleSubmit}>
+        <div className={classes.form} noValidate >
           {!emailSent && (
             <Grid container spacing={2}>
               <Grid item xs={12}>
@@ -87,6 +95,9 @@ export default function ForgotPassword() {
                   name="email"
                   autoComplete="email"
                   type="email"
+                  onChange={e => setEmail(e.target.value)}
+                  error={isError(email.length === 0)}
+                  helperText={isError(email.length === 0) && "Please enter your email!"}
                 />
               </Grid>
             </Grid>
@@ -97,6 +108,7 @@ export default function ForgotPassword() {
             variant="contained"
             color="primary"
             className={classes.submit}
+            onClick={handleSubmit}
           >
             {emailSent ? `Done` : `Continue`}
           </Button>
@@ -105,7 +117,7 @@ export default function ForgotPassword() {
               {"Return to log in"}
             </Link>
           </Grid>
-        </form>
+        </div>
       </div>
       <Box mt={5}>
         <Copyright />

@@ -18,7 +18,8 @@ import signInSymbol from "../assets/signInSymbol.png";
 import logo from "../assets/logo.png";
 import RadioButtonUncheckedIcon from "@material-ui/icons/RadioButtonUnchecked";
 import RadioButtonCheckedIcon from "@material-ui/icons/RadioButtonChecked";
-
+import {useState} from 'react';
+import {signUp} from '../api/connectBackend';
 //import emailSymbol from "../assets/email symbol.png"
 
 
@@ -93,6 +94,32 @@ const useStyles = makeStyles((theme) => ({
 export default function SignUp() {
   const classes = useStyles();
 
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [hasErrors, setHasErrors] = useState(false);
+  const [isPasswordSame, setPasswordSame] = useState(true);
+
+  const isError = (condition) => hasErrors && condition;
+
+  function handlePasswordError(){
+      if(confirmPassword!==password){
+          setPasswordSame(false);
+      }else{
+          setPasswordSame(true);
+      }
+  }
+  async function handleRegister(){
+      setHasErrors(true);
+      const signInfo = {firstname: firstName, lastname: lastName, email:email, password:password}
+      if(firstName.length>0&&lastName.length>0&&email.length>0&&password.length>0&&isPasswordSame){
+
+          const response = await signUp(signInfo);
+      }
+  }
+
   return (
 
     <Grid container component="main" className={classes.root}>
@@ -104,7 +131,8 @@ export default function SignUp() {
             <Typography component="h1" variant="h5">
               Sign up
             </Typography>
-            <form className={classes.form} noValidate>
+            {/* <form className={classes.form} noValidate> */}
+            <div className={classes.form} noValidate>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>
                   <TextField
@@ -117,6 +145,9 @@ export default function SignUp() {
                     label="First Name"
                     autoFocus
                     className={classes.textF}
+                    onChange={e => setFirstName(e.target.value)}
+                    error={isError(firstName.length === 0)}
+                    helperText={isError(firstName.length === 0) && "Please enter your first name!"}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -129,6 +160,9 @@ export default function SignUp() {
                     name="lastName"
                     autoComplete="lname"
                     className={classes.textF}
+                    onChange={e => setLastName(e.target.value)}
+                    error={isError(lastName.length === 0)}
+                    helperText={isError(lastName.length === 0) && "Please enter your last name!"}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -141,6 +175,9 @@ export default function SignUp() {
                     name="email"
                     autoComplete="email"
                     className={classes.textF}
+                    onChange={e => setEmail(e.target.value)}
+                    error={isError(email.length === 0)}
+                    helperText={isError(email.length === 0) && "Please enter your email!"}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -154,6 +191,9 @@ export default function SignUp() {
                     id="password"
                     autoComplete="current-password"
                     className={classes.textF}
+                    onChange={e => setPassword(e.target.value)}
+                    error={isError(password.length === 0)}
+                    helperText={isError(password.length === 0) && "The password cannot be empty!"}
                   />
                 </Grid>
                 <Grid item xs={12} className={classes.Name}>
@@ -167,35 +207,12 @@ export default function SignUp() {
                     id="confirm password"
                     autoComplete="confirm password"
                     className={classes.textF}
+                    onChange={e=>setConfirmPassword(e.target.value)}
+                    onBlur={handlePasswordError}
+                    error={!isPasswordSame||isError(confirmPassword.length === 0)}
+                    helperText={(!isPasswordSame && "The comfirm password must be same to before!")||(isError(confirmPassword.length === 0) && "The password cannot be empty!")}
+
                   />
-                </Grid>
-                <Grid container spacing={2} justify="center">
-                  <Grid item xs={3}>
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          icon={<RadioButtonUncheckedIcon />}
-                          checkedIcon={<RadioButtonCheckedIcon />}
-                          value="Male"
-                          color="primary"
-                        />
-                      }
-                      label="Male"
-                    />
-                  </Grid>
-                  <Grid item xs={3}>
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          icon={<RadioButtonUncheckedIcon />}
-                          checkedIcon={<RadioButtonCheckedIcon />}
-                          value="Female"
-                          color="primary"
-                        />
-                      }
-                      label="Female"
-                    />
-                  </Grid>
                 </Grid>
                 <Grid item xs={12}>
                   <FormControlLabel
@@ -212,6 +229,7 @@ export default function SignUp() {
                 fullWidth
                 variant="outlined"
                 className={classes.submit}
+                onClick={()=>handleRegister()}
               >
                 Sign Up
               </Button>
@@ -222,7 +240,8 @@ export default function SignUp() {
                   </Link>
                 </Grid>
               </Grid>
-            </form>
+            {/* </form> */}
+            </div>
           </div>
           <Box mt={5}  align="center">
             <img className={classes.logo} src={logo} alt="cur" align="center" />
