@@ -64,6 +64,10 @@ export default function ForgotPassword() {
       const res =  await forgetPassword(email);
     }
   }
+  function backtoLogin(){
+    //this.props.history.push('/login')
+    window.location.href="/login"
+  }
 
   return (
     <Container component="main" maxWidth="xs">
@@ -108,12 +112,12 @@ export default function ForgotPassword() {
             variant="contained"
             color="primary"
             className={classes.submit}
-            onClick={handleSubmit}
+            onClick={emailSent ? backtoLogin : handleSubmit}
           >
             {emailSent ? `Done` : `Continue`}
           </Button>
           <Grid container>
-            <Link href="#" variant="body2" color="primary">
+            <Link href="/login" variant="body2" color="primary">
               {"Return to log in"}
             </Link>
           </Grid>

@@ -19,6 +19,8 @@ import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import IconButton from "@material-ui/core/IconButton";
 import PasswordStrengthIndicator from "../components/PasswordStrengthIndicator";
 import checkPasswordStrength from "../components/PasswordChecker";
+import {resetPassword} from "../api/connectBackend";
+
 
 function Copyright() {
   return (
@@ -56,6 +58,8 @@ const useStyles = makeStyles((theme) => ({
 
 // TODO: Modify to match figma design
 export default function ResetPassword() {
+  const [password, setPassword] = useState('');
+  // const [confirmPassword, setConfirmPassword] = useState('');
   const classes = useStyles();
   const [passReset, setPassReset] = useState(false);
   const [values, setValues] = React.useState({
@@ -72,7 +76,10 @@ export default function ResetPassword() {
 
   const onSubmit = (data) => {
     console.log(data);
-    setPassReset(true);
+    if (data.password == data.confirm){
+      setPassReset(true);
+      handleSubmitButton()
+    }
   };
 
   const handleClickShowPassword = () => {
@@ -82,6 +89,16 @@ export default function ResetPassword() {
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
+
+  async function handleSubmitButton() {
+    
+      // setPassReset(true);
+    const res =  await resetPassword(window.location.pathname,password);
+    
+  }
+  function backtoLogin(){
+    window.location.href="/login"
+  }
 
   return (
     <Container component="main" maxWidth="xs">
@@ -105,6 +122,7 @@ export default function ResetPassword() {
           onSubmit={handleSubmit(onSubmit)}
           href="#"
         >
+        {/* <div> */}
           {!passReset && (
             <Grid container spacing={2}>
               <Grid item xs={12}>
@@ -119,11 +137,13 @@ export default function ResetPassword() {
                   name="password"
                   control={control}
                   defaultValue=""
-                  rules={{ required: true, minLength: 6 }}
+                  rules={{ required: true, minLength: 6, pattern:
+                    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/}}
                   render={({ field }) => (
                     <TextField
                       {...field}
                       onChange={(e) => {
+                        setPassword(e.target.value)
                         field.onChange(e.target.value);
                         let score = checkPasswordStrength(e.target.value);
                         setValues({ ...values, passStrength: score });
@@ -166,10 +186,12 @@ export default function ResetPassword() {
                   name="confirm"
                   control={control}
                   defaultValue=""
-                  rules={{ required: true, minLength: 6 }}
+                  rules={{ required: true, minLength: 6 ,pattern:
+                    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/}}
                   render={({ field }) => (
                     <TextField
                       {...field}
+                      // onChange={(e) => setPassword(e.target.value)}
                       variant="outlined"
                       required
                       fullWidth
@@ -192,10 +214,12 @@ export default function ResetPassword() {
             variant="contained"
             color="primary"
             className={classes.submit}
+            // onClick={passReset ? backtoLogin : handleSubmitButton}
           >
             {passReset ? `Continue` : `Save`}
           </Button>
         </form>
+        {/* </div> */}
       </div>
       <Box mt={5}>
         <Copyright />
