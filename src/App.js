@@ -3,7 +3,7 @@ import "./App.css";
 import SignInSide from "./pages/SignInSide";
 import SignUp from "./pages/SignUp";
 import ResetPassword from "./pages/ResetPassword";
-import Dashboard from "./pages/Dashboard";
+import Dashboard from "./pages/Dashboard/Dashboard";
 import ForgotPassword from "./pages/ForgotPassword"
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import {
@@ -12,6 +12,7 @@ import {
   Route,
   Redirect,
 } from "react-router-dom";
+import red from '@material-ui/core/colors/red';
 
 // DO NOT CHANGE
 const fakeAuth = {
@@ -45,14 +46,12 @@ function PrivateRoute({ children, ...rest }) {
 }
 
 function App() {
-const prefersDarkMode = 'dark'; // Currently dark mode is enabled by default, will change in the future
+const prefersDarkMode = false; // Currently dark mode is enabled by default, will change in the future
 
 const theme = createMuiTheme({
   palette: {
     type: prefersDarkMode ? 'dark' : 'light',
-    primary: {
-      main: "rgba(237, 28, 36, 0.6)", // This is the primary color
-    },
+    primary: red,
   },
 });
 
