@@ -39,9 +39,9 @@ async function forgetPassword(email){
     return response; 
 }
 
-async function resetPassword(token, password){
+async function resetPassword(pathname, password){
     const body = {password:password};
-    const response = await axios(`/api/auth/resetpassword/${token}`,{
+    const response = await axios(`/api/auth/${pathname}`,{
         headers: {
             "Content-type": "application/json"
           },
