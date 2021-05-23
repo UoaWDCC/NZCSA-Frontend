@@ -91,7 +91,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 // TODO: Modify to match figma design
-export default function SignUp() {
+export default function SignUp(props) {
   const classes = useStyles();
 
   const [firstName, setFirstName] = useState('');
@@ -103,6 +103,10 @@ export default function SignUp() {
   const [isPasswordSame, setPasswordSame] = useState(true);
 
   const isError = (condition) => hasErrors && condition;
+
+  React.useEffect(() => {
+    props.changeDarkMode(true);
+  }, [])
 
   function handlePasswordError(){
       if(confirmPassword!==password){

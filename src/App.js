@@ -4,7 +4,7 @@ import SignInSide from "./pages/SignInSide";
 import SignUp from "./pages/SignUp";
 import ResetPassword from "./pages/ResetPassword";
 import Dashboard from "./pages/Dashboard/Dashboard";
-import ForgotPassword from "./pages/ForgotPassword"
+import ForgotPassword from "./pages/ForgotPassword";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import {
   BrowserRouter as Router,
@@ -12,7 +12,7 @@ import {
   Route,
   Redirect,
 } from "react-router-dom";
-import red from '@material-ui/core/colors/red';
+import red from "@material-ui/core/colors/red";
 
 // DO NOT CHANGE
 const fakeAuth = {
@@ -46,14 +46,18 @@ function PrivateRoute({ children, ...rest }) {
 }
 
 function App() {
-const prefersDarkMode = false; // Currently dark mode is enabled by default, will change in the future
+  const [darkMode, setDarkMode] = React.useState(false); // Currently dark mode is enabled by default, will change in the future
 
-const theme = createMuiTheme({
-  palette: {
-    type: prefersDarkMode ? 'dark' : 'light',
-    primary: red,
-  },
-});
+  function changeDarkMode(input) {
+    setDarkMode(input);
+  }
+
+  const theme = createMuiTheme({
+    palette: {
+      type: darkMode ? "dark" : "light",
+      primary: red,
+    },
+  });
 
   return (
     <ThemeProvider theme={theme}>
@@ -62,13 +66,13 @@ const theme = createMuiTheme({
           <Router>
             <Switch>
               <Route exact path="/">
-                <SignInSide />
+                <SignInSide changeDarkMode={changeDarkMode}/>
               </Route>
               <Route path="/login">
-                <SignInSide />
+                <SignInSide changeDarkMode={changeDarkMode}/>
               </Route>
               <Route path="/signup">
-                <SignUp />
+                <SignUp changeDarkMode={changeDarkMode}/>
               </Route>
               <Route path="/forgotPassword">
                 <ForgotPassword />

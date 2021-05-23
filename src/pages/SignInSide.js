@@ -77,12 +77,16 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 // TODO: Modify to match figma design
-export default function SignInSide() {
+export default function SignInSide(props) {
   const classes = useStyles();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [hasErrors, setHasErrors] = useState(false);
   const isError = (condition) => hasErrors && condition;
+
+  React.useEffect(() => {
+    props.changeDarkMode(true);
+  }, [])
 
   async function handleSignIn(){
     setHasErrors(true);
