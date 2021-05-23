@@ -28,6 +28,12 @@ import AccountBoxIcon from "@material-ui/icons/AccountBox";
 import Brightness2Icon from "@material-ui/icons/Brightness2";
 import ExitToAppTwoToneIcon from "@material-ui/icons/ExitToAppTwoTone";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
+import {
+  Avatar,
+  ListItem,
+  ListItemAvatar,
+  ListItemText,
+} from "@material-ui/core";
 
 function Copyright() {
   return (
@@ -204,6 +210,29 @@ export default function Dashboard() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
+      <MenuItem>
+        <ListItem alignItems="flex-start">
+          <ListItemAvatar>
+            <Avatar alt="Cindy Baker" src="/static/images/avatar/3.jpg" />
+          </ListItemAvatar>
+          <ListItemText
+            primary="Name"
+            secondary={
+              <React.Fragment>
+                <Typography
+                  component="span"
+                  variant="body2"
+                  className={classes.inline}
+                  color="textSecondary"
+                >
+                  YourEmail@gmail.com
+                </Typography>
+              </React.Fragment>
+            }
+          />
+        </ListItem>
+      </MenuItem>
+      <Divider variant="middle" />
       <MenuItem onClick={handleMenuClose}>
         <ListItemIcon>
           <AccountBoxIcon fontSize="medium" />
@@ -265,7 +294,11 @@ export default function Dashboard() {
             onClick={handleProfileMenuOpen}
             color="inherit"
           >
-            <AccountCircle />
+            <Avatar
+              alt="Remy Sharp"
+              src="/static/images/avatar/1.jpg"
+              className={classes.large}
+            />
           </IconButton>
         </Toolbar>
       </AppBar>
@@ -284,8 +317,8 @@ export default function Dashboard() {
         </div>
         <Divider />
         <List>{mainListItems}</List>
-        <Divider />
-        <List>{secondaryListItems}</List>
+        <Divider variant="middle" />
+        <List>{open && secondaryListItems}</List>
       </Drawer>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />

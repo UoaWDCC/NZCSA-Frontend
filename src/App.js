@@ -13,6 +13,7 @@ import {
   Redirect,
 } from "react-router-dom";
 import red from "@material-ui/core/colors/red";
+import { deepPurple } from "@material-ui/core/colors";
 
 // DO NOT CHANGE
 const fakeAuth = {
@@ -56,6 +57,7 @@ function App() {
     palette: {
       type: darkMode ? "dark" : "light",
       primary: red,
+      secondary: deepPurple,
     },
   });
 
