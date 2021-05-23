@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import clsx from "clsx";
 import { makeStyles, fade } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -170,8 +170,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Dashboard() {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(true);
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [open, setOpen] = useState(true);
+  const [anchorEl, setAnchorEl] = useState(null);
 
   const isMenuOpen = Boolean(anchorEl);
 

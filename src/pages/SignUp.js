@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -18,7 +18,6 @@ import signInSymbol from "../assets/signInSymbol.png";
 import logo from "../assets/logo.png";
 import RadioButtonUncheckedIcon from "@material-ui/icons/RadioButtonUnchecked";
 import RadioButtonCheckedIcon from "@material-ui/icons/RadioButtonChecked";
-import {useState} from 'react';
 import {signUp} from '../api/connectBackend';
 //import emailSymbol from "../assets/email symbol.png"
 
@@ -104,7 +103,7 @@ export default function SignUp(props) {
 
   const isError = (condition) => hasErrors && condition;
 
-  React.useEffect(() => {
+  useEffect(() => {
     props.changeDarkMode(true);
   }, [])
 

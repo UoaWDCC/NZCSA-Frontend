@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import "./App.css";
 import SignInSide from "./pages/SignInSide";
 import SignUp from "./pages/SignUp";
@@ -47,7 +47,7 @@ function PrivateRoute({ children, ...rest }) {
 }
 
 function App() {
-  const [darkMode, setDarkMode] = React.useState(false); // Currently dark mode is enabled by default, will change in the future
+  const [darkMode, setDarkMode] = useState(false); // Currently dark mode is enabled by default, will change in the future
 
   function changeDarkMode(input) {
     setDarkMode(input);

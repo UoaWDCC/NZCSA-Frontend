@@ -15,7 +15,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import NZCSABackground from '../assets/bg.png'
 import logo from '../assets/logo.png'
 import { Container } from '@material-ui/core';
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import {login} from '../api/connectBackend';
 
 function Copyright() {
@@ -84,7 +84,7 @@ export default function SignInSide(props) {
   const [hasErrors, setHasErrors] = useState(false);
   const isError = (condition) => hasErrors && condition;
 
-  React.useEffect(() => {
+  useEffect(() => {
     props.changeDarkMode(true);
   }, [])
 
