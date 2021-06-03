@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -18,7 +18,6 @@ import signInSymbol from "../assets/signInSymbol.png";
 import logo from "../assets/logo.png";
 import RadioButtonUncheckedIcon from "@material-ui/icons/RadioButtonUnchecked";
 import RadioButtonCheckedIcon from "@material-ui/icons/RadioButtonChecked";
-import {useState} from 'react';
 import {signUp} from '../api/connectBackend';
 //import emailSymbol from "../assets/email symbol.png"
 
@@ -91,7 +90,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 // TODO: Modify to match figma design
-export default function SignUp() {
+export default function SignUp(props) {
   const classes = useStyles();
 
   const [firstName, setFirstName] = useState('');
@@ -103,6 +102,10 @@ export default function SignUp() {
   const [isPasswordSame, setPasswordSame] = useState(true);
 
   const isError = (condition) => hasErrors && condition;
+
+  useEffect(() => {
+    props.changeDarkMode(true);
+  }, [])
 
   function handlePasswordError(){
       if(confirmPassword!==password){

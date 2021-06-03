@@ -1,10 +1,10 @@
-import React from "react";
+import React, {useState} from "react";
 import "./App.css";
 import SignInSide from "./pages/SignInSide";
 import SignUp from "./pages/SignUp";
 import ResetPassword from "./pages/ResetPassword";
-import Dashboard from "./pages/Dashboard";
-import ForgotPassword from "./pages/ForgotPassword"
+import Dashboard from "./pages/Dashboard/Dashboard";
+import ForgotPassword from "./pages/ForgotPassword";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import {
   BrowserRouter as Router,
@@ -12,6 +12,8 @@ import {
   Route,
   Redirect,
 } from "react-router-dom";
+import red from "@material-ui/core/colors/red";
+import { deepPurple } from "@material-ui/core/colors";
 
 // DO NOT CHANGE
 const fakeAuth = {
@@ -45,16 +47,19 @@ function PrivateRoute({ children, ...rest }) {
 }
 
 function App() {
-const prefersDarkMode = 'dark'; // Currently dark mode is enabled by default, will change in the future
+  const [darkMode, setDarkMode] = useState(false); // Currently dark mode is enabled by default, will change in the future
 
-const theme = createMuiTheme({
-  palette: {
-    type: prefersDarkMode ? 'dark' : 'light',
-    primary: {
-      main: "rgba(237, 28, 36, 0.6)", // This is the primary color
+  function changeDarkMode(input) {
+    setDarkMode(input);
+  }
+
+  const theme = createMuiTheme({
+    palette: {
+      type: darkMode ? "dark" : "light",
+      primary: red,
+      secondary: deepPurple,
     },
-  },
-});
+  });
 
   return (
     <ThemeProvider theme={theme}>
@@ -63,13 +68,13 @@ const theme = createMuiTheme({
           <Router>
             <Switch>
               <Route exact path="/">
-                <SignInSide />
+                <SignInSide changeDarkMode={changeDarkMode}/>
               </Route>
               <Route path="/login">
-                <SignInSide />
+                <SignInSide changeDarkMode={changeDarkMode}/>
               </Route>
               <Route path="/signup">
-                <SignUp />
+                <SignUp changeDarkMode={changeDarkMode}/>
               </Route>
               <Route path="/forgotPassword">
                 <ForgotPassword />

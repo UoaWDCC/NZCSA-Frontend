@@ -15,7 +15,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import NZCSABackground from '../assets/bg.png'
 import logo from '../assets/logo.png'
 import { Container } from '@material-ui/core';
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import {login} from '../api/connectBackend';
 
 function Copyright() {
@@ -77,12 +77,16 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 // TODO: Modify to match figma design
-export default function SignInSide() {
+export default function SignInSide(props) {
   const classes = useStyles();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [hasErrors, setHasErrors] = useState(false);
   const isError = (condition) => hasErrors && condition;
+
+  useEffect(() => {
+    props.changeDarkMode(true);
+  }, [])
 
   async function handleSignIn(){
     setHasErrors(true);
