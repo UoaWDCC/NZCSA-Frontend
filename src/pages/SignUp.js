@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -18,7 +18,7 @@ import signInSymbol from "../assets/signInSymbol.png";
 import logo from "../assets/logo.png";
 import RadioButtonUncheckedIcon from "@material-ui/icons/RadioButtonUnchecked";
 import RadioButtonCheckedIcon from "@material-ui/icons/RadioButtonChecked";
-import {signUp} from '../api/connectBackend';
+import { signUp } from '../api/connectBackend';
 //import emailSymbol from "../assets/email symbol.png"
 
 
@@ -45,13 +45,13 @@ const useStyles = makeStyles((theme) => ({
     height: "100vh",
   },
   image: {
-    backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),url(${backgroundImage})`,
+    backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 2.6)),url(${backgroundImage})`,
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
     backgroundPosition: "center",
   },
   paper: {
-    //marginTop: theme.spacing(0),
+    marginTop: theme.spacing(8),
 
     display: "flex",
     flexDirection: "column",
@@ -68,23 +68,18 @@ const useStyles = makeStyles((theme) => ({
     //marginTop: theme.spacing(10),
     marginTop: "5%",
   },
-
-  submit: {
-    margin: theme.spacing(3, 0, 0),
-    overflow: "hidden",
-    borderWidth: 1,
-    borderColor: "#fff",
-    backgroundColor: "rgba(168, 15, 21, 0.8)",
-  },
   logo: {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+    marginBottom: 20,
   },
-  textF :{
-    backgroundColor: "rgba(245, 245, 245, 0.3)",
+  textF: {
     borderRadius: "5px",
-  }
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+  },
 
 
 }));
@@ -107,20 +102,20 @@ export default function SignUp(props) {
     props.changeDarkMode(true);
   }, [])
 
-  function handlePasswordError(){
-      if(confirmPassword!==password){
-          setPasswordSame(false);
-      }else{
-          setPasswordSame(true);
-      }
+  function handlePasswordError() {
+    if (confirmPassword !== password) {
+      setPasswordSame(false);
+    } else {
+      setPasswordSame(true);
+    }
   }
-  async function handleRegister(){
-      setHasErrors(true);
-      const signInfo = {firstname: firstName, lastname: lastName, email:email, password:password}
-      if(firstName.length>0&&lastName.length>0&&email.length>0&&password.length>0&&isPasswordSame){
+  async function handleRegister() {
+    setHasErrors(true);
+    const signInfo = { firstname: firstName, lastname: lastName, email: email, password: password }
+    if (firstName.length > 0 && lastName.length > 0 && email.length > 0 && password.length > 0 && isPasswordSame) {
 
-          const response = await signUp(signInfo);
-      }
+      const response = await signUp(signInfo);
+    }
   }
 
   return (
@@ -205,15 +200,15 @@ export default function SignUp(props) {
                     required
                     fullWidth
                     name="confirm password"
-                    label="Please confirm your password"
-                    type="confirm password"
+                    label="Confirm Password"
+                    type="password"
                     id="confirm password"
                     autoComplete="confirm password"
                     className={classes.textF}
-                    onChange={e=>setConfirmPassword(e.target.value)}
+                    onChange={e => setConfirmPassword(e.target.value)}
                     onBlur={handlePasswordError}
-                    error={!isPasswordSame||isError(confirmPassword.length === 0)}
-                    helperText={(!isPasswordSame && "The comfirm password must be same to before!")||(isError(confirmPassword.length === 0) && "The password cannot be empty!")}
+                    error={!isPasswordSame || isError(confirmPassword.length === 0)}
+                    helperText={(!isPasswordSame && "The comfirm password must be same to before!") || (isError(confirmPassword.length === 0) && "The password cannot be empty!")}
 
                   />
                 </Grid>
@@ -230,9 +225,10 @@ export default function SignUp(props) {
               <Button
                 type="submit"
                 fullWidth
-                variant="outlined"
+                variant="contained"
+                color="primary"
+                onClick={() => handleRegister()}
                 className={classes.submit}
-                onClick={()=>handleRegister()}
               >
                 Sign Up
               </Button>
@@ -243,10 +239,10 @@ export default function SignUp(props) {
                   </Link>
                 </Grid>
               </Grid>
-            {/* </form> */}
+              {/* </form> */}
             </div>
           </div>
-          <Box mt={5}  align="center">
+          <Box mt={5} align="center">
             <img className={classes.logo} src={logo} alt="cur" align="center" />
             <Copyright />
           </Box>
