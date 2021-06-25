@@ -32,6 +32,9 @@ import {
   ListItemAvatar,
   ListItemText,
 } from "@material-ui/core";
+import EventCard from "../../components/EventCard";
+import MainCard from "../../components/MainCard";
+
 
 function Copyright() {
   return (
@@ -315,17 +318,24 @@ export default function Dashboard() {
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
             {/* Chart */}
+            <Grid item xs={12}>
+              <Paper className={classes.paper}><Typography variant="h6">Browse Events</Typography></Paper>
+            </Grid>
+            <Grid item xs={12}>
+              <MainCard>asdasdad</MainCard>
+            </Grid>
             <Grid item xs={12} md={8} lg={9}>
-              <Paper className={fixedHeightPaper}></Paper>
+              <Paper className={fixedHeightPaper}>
+                <EventCard date="2020">
+                  adsadasdsadasd
+                </EventCard>
+              </Paper>
             </Grid>
             {/* Recent Deposits */}
             <Grid item xs={12} md={4} lg={3}>
               <Paper className={fixedHeightPaper}></Paper>
             </Grid>
             {/* Recent Orders */}
-            <Grid item xs={12}>
-              <Paper className={classes.paper}></Paper>
-            </Grid>
           </Grid>
           <Box pt={4}>
             <Copyright />

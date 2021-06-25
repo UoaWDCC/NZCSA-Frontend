@@ -234,7 +234,7 @@ export default function SignUp(props) {
               </Button>
               <Grid container justify="flex-end">
                 <Grid item>
-                  <Link href="#" variant="body2" style={{ color: "#fff" }}>
+                  <Link href="/" variant="body2" style={{ color: "#fff" }}>
                     Already have an account? Sign in
                   </Link>
                 </Grid>
