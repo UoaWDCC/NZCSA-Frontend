@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import clsx from "clsx";
 import { makeStyles, fade } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -32,9 +32,8 @@ import {
   ListItemAvatar,
   ListItemText,
 } from "@material-ui/core";
-import EventCard from "../../components/EventCard";
 import MainCard from "../../components/MainCard";
-
+import EventGrid from "./EventGrid";
 
 function Copyright() {
   return (
@@ -319,18 +318,16 @@ export default function Dashboard() {
           <Grid container spacing={3}>
             {/* Chart */}
             <Grid item xs={12}>
-              <Paper className={classes.paper}><Typography variant="h6">Browse Events</Typography></Paper>
-            </Grid>
-            <Grid item xs={12}>
-              <MainCard>asdasdad</MainCard>
-            </Grid>
-            <Grid item xs={12} md={8} lg={9}>
-              <Paper className={fixedHeightPaper}>
-                <EventCard date="2020">
-                  adsadasdsadasd
-                </EventCard>
+              <Paper className={classes.paper}>
+                <Typography variant="h6">Browse Events</Typography>
               </Paper>
             </Grid>
+            {/* Main Events Section */}
+            <Grid item xs={12}>
+              <MainCard />
+            </Grid>
+            {/* List of Events */}
+            <EventGrid />
             {/* Recent Deposits */}
             <Grid item xs={12} md={4} lg={3}>
               <Paper className={fixedHeightPaper}></Paper>

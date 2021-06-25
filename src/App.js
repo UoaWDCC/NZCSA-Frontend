@@ -5,7 +5,7 @@ import SignUp from "./pages/SignUp";
 import ResetPassword from "./pages/ResetPassword";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import ForgotPassword from "./pages/ForgotPassword";
-import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
+import { createMuiTheme, ThemeProvider, responsiveFontSizes } from "@material-ui/core/styles";
 import {
   BrowserRouter as Router,
   Switch,
@@ -53,13 +53,18 @@ function App() {
     setDarkMode(input);
   }
 
-  const theme = createMuiTheme({
+  let theme = createMuiTheme({
     palette: {
       type: darkMode ? "dark" : "light",
       primary: red,
-      secondary: deepPurple,
+      secondary: {
+        main: "#7e57c2",
+      },
     },
   });
+
+  theme = responsiveFontSizes(theme);
+
 
   return (
     <ThemeProvider theme={theme}>
