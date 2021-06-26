@@ -7,8 +7,10 @@ import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
-
-import BackgroundImage from "../assets/bg.png";
+import {
+  BrowserRouter as Router,
+  Link,
+} from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -52,33 +54,35 @@ export default function EventCard(props) {
     //     </CardActionArea>
     // </Card>
 
-    <Card className={classes.root}>
-      <CardActionArea>
-        <CardMedia
-          className={classes.media}
-          component="img"
-          alt="Contemplative Reptile"
-          height="140"
-          image="./bg.png"
-          title="Contemplative Reptile"
-        />
-        <CardContent>
-          <Typography variant="p" component="p">
-            {props.date}
-          </Typography>
-          <Typography variant="h6" component="h5">
-            {props.title}
-          </Typography>
-          <Typography variant="subtitle2" color="textSecondary" component="p">
-            {props.location}
-          </Typography>
-        </CardContent>
-      </CardActionArea>
-      <CardActions>
-        <Button variant="contained" size="medium" disableElevation>
-          Register
-        </Button>
-      </CardActions>
-    </Card>
+    <Router>
+      <Card className={classes.root}>
+        <Link to={`${props.id}`} component={CardActionArea}>
+          <CardMedia
+            className={classes.media}
+            component="img"
+            alt="Contemplative Reptile"
+            height="140"
+            image="./bg.png"
+            title="Contemplative Reptile"
+          />
+          <CardContent>
+            <Typography variant="p" component="p">
+              {props.date}
+            </Typography>
+            <Typography variant="h6" component="h5">
+              {props.title}
+            </Typography>
+            <Typography variant="subtitle2" color="textSecondary" component="p">
+              {props.location}
+            </Typography>
+          </CardContent>
+        </Link>
+        <CardActions>
+          <Button variant="contained" size="medium" disableElevation>
+            Register
+          </Button>
+        </CardActions>
+      </Card>
+    </Router>
   );
 }

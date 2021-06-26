@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
   },
   media: {
     height: 240,
-    filter: "brightness(50%)",
+    filter: props => props.darken ? "brightness(50%)" : null,
   },
   overlay: {
     position: "absolute",
@@ -35,8 +35,8 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function MainCard() {
-  const classes = useStyles();
+export default function MainCard(props) {
+  const classes = useStyles(props);
 
   return (
     <Card className={classes.root}>
@@ -46,23 +46,23 @@ export default function MainCard() {
           component="img"
           alt="Contemplative Reptile"
           height="140"
-          image="/bg.png"
+          image={props.img}
           title="Contemplative Reptile"
         />
         <CardContent className={classes.overlay}>
           <Container>
             <Typography xs={0} variant="subtitle1" component="p">
-              Thursday, 5 August 2021
+              {props.date}
             </Typography>
             <Typography className={classes.heading} gutterBottom variant="h3" component="h3">
-              Professional Networking
+              {props.title}
             </Typography>
             <Typography className={classes.sub} gutterBottom variant="subtitle2" component="p">
-              303-G20, City Campus, University of Auckland
+              {props.location}
             </Typography>
-            <Button variant="contained" size="medium" color="secondary" width="20px">
+            {props.btn && <Button variant="contained" size="medium" color="secondary" width="20px">
               Register
-            </Button>
+            </Button>}
           </Container>
         </CardContent>
       </CardActionArea>

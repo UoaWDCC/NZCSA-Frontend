@@ -19,18 +19,12 @@ const useStyles = makeStyles(theme => ({
 export default function AltCard() {
     const classes = useStyles()
     const data = [
-        { date: "FRI, AUG 6 AT 7:30 PM UTC+12", name: "Event1", location: "UOA City Campus" },
-        { date: "FRI, AUG 6 AT 7:30 PM UTC+12", name: "Event1", location: "UOA City Campus" },
-        { date: "FRI, AUG 6 AT 7:30 PM UTC+12", name: "Event1", location: "UOA City Campus" },
-        { date: "FRI, AUG 6 AT 7:30 PM UTC+12", name: "Event1", location: "UOA City Campus" },
-        { date: "FRI, AUG 6 AT 7:30 PM UTC+12", name: "Event1", location: "UOA City Campus" },
-        { date: "FRI, AUG 6 AT 7:30 PM UTC+12", name: "Event1", location: "UOA City Campus" },
-        { date: "FRI, AUG 6 AT 7:30 PM UTC+12", name: "Event1", location: "UOA City Campus" },
-        { date: "FRI, AUG 6 AT 7:30 PM UTC+12", name: "Event1", location: "UOA City Campus" },
-        { date: "FRI, AUG 6 AT 7:30 PM UTC+12", name: "Event1", location: "UOA City Campus" },
-        { date: "FRI, AUG 6 AT 7:30 PM UTC+12", name: "Event1", location: "UOA City Campus" },
-        { date: "FRI, AUG 6 AT 7:30 PM UTC+12", name: "Event1", location: "UOA City Campus" },
-        { date: "FRI, AUG 6 AT 7:30 PM UTC+12", name: "Event1", location: "UOA City Campus" },
+        { id: 1, date: "FRI, AUG 6 AT 7:30 PM UTC+12", name: "Event1", location: "UOA City Campus" },
+        { id: 2, date: "FRI, AUG 6 AT 7:30 PM UTC+12", name: "Event1", location: "UOA City Campus" },
+        { id: 3, date: "FRI, AUG 6 AT 7:30 PM UTC+12", name: "Event1", location: "UOA City Campus" },
+        { id: 4, date: "FRI, AUG 6 AT 7:30 PM UTC+12", name: "Event1", location: "UOA City Campus" },
+        { id: 5, date: "FRI, AUG 6 AT 7:30 PM UTC+12", name: "Event1", location: "UOA City Campus" },
+        { id: 6, date: "FRI, AUG 6 AT 7:30 PM UTC+12", name: "Event1", location: "UOA City Campus" },
     ]
     return (
         <div className={classes.root}>
@@ -41,9 +35,9 @@ export default function AltCard() {
                 justify="flex-start"
                 alignItems="flex-start"
             >
-                {data.map(elem => (
-                    <Grid item xs={12} sm={6} md={3} key={data.indexOf(elem)}>
-                        <EventCard title={elem.name} date={elem.date} location={elem.location}/>
+                {data.map((elem, i) => (
+                    <Grid item xs={12} sm={6} md={3} key={elem.id.toString()}>
+                        <EventCard id={elem.id.toString()} title={elem.name} date={elem.date} location={elem.location}/>
                      </Grid>
                 ))}
             </Grid>

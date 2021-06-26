@@ -34,6 +34,13 @@ import {
 } from "@material-ui/core";
 import MainCard from "../../components/MainCard";
 import EventGrid from "./EventGrid";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  useParams,
+} from "react-router-dom";
+import EventDetail from "./EventDetail"
 
 function Copyright() {
   return (
@@ -71,8 +78,8 @@ const useStyles = makeStyles((theme) => ({
       duration: theme.transitions.duration.leavingScreen,
     }),
     color: theme.palette.text.primary,
-    background: "rgba(255, 255, 255, 0.75)",
-    backdropFilter: "blur(2px)",
+    background: "rgba(255, 255, 255, 0.9)",
+    backdropFilter: "blur(6px)",
   },
   menuButton: {
     marginRight: 36,
@@ -246,6 +253,8 @@ export default function Dashboard() {
     </Menu>
   );
 
+  let { id } = useParams();
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -315,28 +324,40 @@ export default function Dashboard() {
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
-          <Grid container spacing={3}>
-            {/* Chart */}
-            <Grid item xs={12}>
-              <Paper className={classes.paper}>
-                <Typography variant="h6">Browse Events</Typography>
-              </Paper>
+          {!id ? (
+            <Grid container spacing={3}>
+              {/* Chart */}
+              <Grid item xs={12}>
+                <Paper className={classes.paper}>
+                  <Typography variant="h6">Browse Events</Typography>
+                </Paper>
+              </Grid>
+              {/* Main Events Section */}
+              <Grid item xs={12}>
+                <MainCard
+                  img="/bg.png"
+                  title="Professional Networking"
+                  date="Thursday, 5 August 2021"
+                  location="303-G20, City Campus, University of Auckland"
+                  btn
+                  darken
+                />
+              </Grid>
+              {/* List of Events */}
+              <EventGrid />
+              {/* Recent Deposits */}
+              <Grid item xs={12} md={4} lg={3}>
+                <Paper className={fixedHeightPaper}>{id}</Paper>
+              </Grid>
+              {/* Recent Orders */}
             </Grid>
-            {/* Main Events Section */}
-            <Grid item xs={12}>
-              <MainCard />
-            </Grid>
-            {/* List of Events */}
-            <EventGrid />
-            {/* Recent Deposits */}
-            <Grid item xs={12} md={4} lg={3}>
-              <Paper className={fixedHeightPaper}></Paper>
-            </Grid>
-            {/* Recent Orders */}
-          </Grid>
+          ) : (
+            // Event details
+            <EventDetail/>
+          )}
           <Box pt={4}>
             <Copyright />
-          </Box>
+          </Box>{" "}
         </Container>
       </main>
     </div>

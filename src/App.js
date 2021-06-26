@@ -1,11 +1,15 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import "./App.css";
 import SignInSide from "./pages/SignInSide";
 import SignUp from "./pages/SignUp";
 import ResetPassword from "./pages/ResetPassword";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import ForgotPassword from "./pages/ForgotPassword";
-import { createMuiTheme, ThemeProvider, responsiveFontSizes } from "@material-ui/core/styles";
+import {
+  createMuiTheme,
+  ThemeProvider,
+  responsiveFontSizes,
+} from "@material-ui/core/styles";
 import {
   BrowserRouter as Router,
   Switch,
@@ -65,28 +69,27 @@ function App() {
 
   theme = responsiveFontSizes(theme);
 
-
   return (
     <ThemeProvider theme={theme}>
       <div className="App">
         <header className="App-header">
           <Router>
             <Switch>
-              <Route exact path="/">
-                <SignInSide changeDarkMode={changeDarkMode}/>
-              </Route>
+              <PrivateRoute exact path="/">
+                <Dashboard />
+              </PrivateRoute>
+              <PrivateRoute path="/:id">
+                <Dashboard />
+              </PrivateRoute>
               <Route path="/login">
-                <SignInSide changeDarkMode={changeDarkMode}/>
+                <SignInSide changeDarkMode={changeDarkMode} />
               </Route>
               <Route path="/signup">
-                <SignUp changeDarkMode={changeDarkMode}/>
+                <SignUp changeDarkMode={changeDarkMode} />
               </Route>
               <Route path="/forgotPassword">
                 <ForgotPassword />
               </Route>
-              <PrivateRoute path="/dashboard">
-                <Dashboard />
-              </PrivateRoute>
               <PrivateRoute path="/resetPassword">
                 <ResetPassword />
               </PrivateRoute>
