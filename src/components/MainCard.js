@@ -8,6 +8,7 @@ import CardMedia from "@material-ui/core/CardMedia";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import { Container } from "@material-ui/core";
+import { Link as RouterLink } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -40,7 +41,7 @@ export default function MainCard(props) {
 
   return (
     <Card className={classes.root}>
-      <CardActionArea>
+      <CardActionArea component={RouterLink}  to={`${props.id}`}>
         <CardMedia
           className={classes.media}
           component="img"
@@ -61,7 +62,7 @@ export default function MainCard(props) {
               {props.location}
             </Typography>
             {props.btn && <Button variant="contained" size="medium" color="secondary" width="20px">
-              Register
+              Find Out More
             </Button>}
           </Container>
         </CardContent>

@@ -78,9 +78,6 @@ function App() {
               <PrivateRoute exact path="/">
                 <Dashboard />
               </PrivateRoute>
-              <PrivateRoute path="/:id">
-                <Dashboard />
-              </PrivateRoute>
               <Route path="/login">
                 <SignInSide changeDarkMode={changeDarkMode} />
               </Route>
@@ -92,6 +89,9 @@ function App() {
               </Route>
               <PrivateRoute path="/resetPassword">
                 <ResetPassword />
+              </PrivateRoute>
+              <PrivateRoute path="/:id">
+                <Dashboard />
               </PrivateRoute>
             </Switch>
           </Router>

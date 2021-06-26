@@ -39,6 +39,7 @@ import {
   Switch,
   Route,
   useParams,
+  Link as RouterLink
 } from "react-router-dom";
 import EventDetail from "./EventDetail"
 
@@ -244,7 +245,7 @@ export default function Dashboard() {
         </ListItemIcon>
         <Typography>Dark Mode</Typography>
       </MenuItem>
-      <MenuItem onClick={handleMenuClose}>
+      <MenuItem onClick={handleMenuClose} component={RouterLink} to="/login">
         <ListItemIcon>
           <ExitToAppTwoToneIcon fontSize="medium" />
         </ListItemIcon>
@@ -339,6 +340,7 @@ export default function Dashboard() {
                   title="Professional Networking"
                   date="Thursday, 5 August 2021"
                   location="303-G20, City Campus, University of Auckland"
+                  id="0"
                   btn
                   darken
                 />
