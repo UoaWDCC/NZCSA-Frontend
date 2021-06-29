@@ -36,8 +36,6 @@ import MainCard from "../../components/MainCard";
 import EventGrid from "./EventGrid";
 import {
   BrowserRouter as Router,
-  Switch,
-  Route,
   useParams,
   Link as RouterLink
 } from "react-router-dom";
