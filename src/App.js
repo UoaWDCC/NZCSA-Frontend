@@ -1,11 +1,15 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import "./App.css";
 import SignInSide from "./pages/SignInSide";
 import SignUp from "./pages/SignUp";
 import ResetPassword from "./pages/ResetPassword";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import ForgotPassword from "./pages/ForgotPassword";
-import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
+import {
+  createMuiTheme,
+  ThemeProvider,
+  responsiveFontSizes,
+} from "@material-ui/core/styles";
 import {
   BrowserRouter as Router,
   Switch,
@@ -53,13 +57,17 @@ function App() {
     setDarkMode(input);
   }
 
-  const theme = createMuiTheme({
+  let theme = createMuiTheme({
     palette: {
       type: darkMode ? "dark" : "light",
       primary: red,
-      secondary: deepPurple,
+      secondary: {
+        main: "#7e57c2",
+      },
     },
   });
+
+  theme = responsiveFontSizes(theme);
 
   return (
     <ThemeProvider theme={theme}>
@@ -67,23 +75,23 @@ function App() {
         <header className="App-header">
           <Router>
             <Switch>
-              <Route exact path="/">
-                <SignInSide changeDarkMode={changeDarkMode}/>
-              </Route>
+              <PrivateRoute exact path="/">
+                <Dashboard />
+              </PrivateRoute>
               <Route path="/login">
-                <SignInSide changeDarkMode={changeDarkMode}/>
+                <SignInSide changeDarkMode={changeDarkMode} />
               </Route>
               <Route path="/signup">
-                <SignUp changeDarkMode={changeDarkMode}/>
+                <SignUp changeDarkMode={changeDarkMode} />
               </Route>
               <Route path="/forgotPassword">
                 <ForgotPassword />
               </Route>
-              <PrivateRoute path="/dashboard">
-                <Dashboard />
-              </PrivateRoute>
               <PrivateRoute path="/resetPassword">
                 <ResetPassword />
+              </PrivateRoute>
+              <PrivateRoute path="/:id">
+                <Dashboard />
               </PrivateRoute>
             </Switch>
           </Router>

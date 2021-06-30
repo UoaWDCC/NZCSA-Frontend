@@ -6,10 +6,11 @@ import DashboardIcon from "@material-ui/icons/Dashboard";
 import PeopleIcon from "@material-ui/icons/People";
 import Button from "@material-ui/core/Button";
 import { EventNote } from "@material-ui/icons";
+import { BrowserRouter as Router, Link } from "react-router-dom";
 
 export const mainListItems = (
   <div>
-    <ListItem button>
+    <ListItem button to="/" component={Link}>
       <ListItemIcon>
         <DashboardIcon />
       </ListItemIcon>

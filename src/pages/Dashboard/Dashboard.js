@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import clsx from "clsx";
 import { makeStyles, fade } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -32,6 +32,14 @@ import {
   ListItemAvatar,
   ListItemText,
 } from "@material-ui/core";
+import MainCard from "../../components/MainCard";
+import EventGrid from "./EventGrid";
+import {
+  BrowserRouter as Router,
+  useParams,
+  Link as RouterLink
+} from "react-router-dom";
+import EventDetail from "./EventDetail"
 
 function Copyright() {
   return (
@@ -69,8 +77,8 @@ const useStyles = makeStyles((theme) => ({
       duration: theme.transitions.duration.leavingScreen,
     }),
     color: theme.palette.text.primary,
-    background: "rgba(255, 255, 255, 0.75)",
-    backdropFilter: "blur(2px)",
+    background: "rgba(255, 255, 255, 0.9)",
+    backdropFilter: "blur(6px)",
   },
   menuButton: {
     marginRight: 36,
@@ -235,7 +243,7 @@ export default function Dashboard() {
         </ListItemIcon>
         <Typography>Dark Mode</Typography>
       </MenuItem>
-      <MenuItem onClick={handleMenuClose}>
+      <MenuItem onClick={handleMenuClose} component={RouterLink} to="/login">
         <ListItemIcon>
           <ExitToAppTwoToneIcon fontSize="medium" />
         </ListItemIcon>
@@ -243,6 +251,8 @@ export default function Dashboard() {
       </MenuItem>
     </Menu>
   );
+
+  let { id } = useParams();
 
   return (
     <div className={classes.root}>
@@ -313,23 +323,41 @@ export default function Dashboard() {
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
-          <Grid container spacing={3}>
-            {/* Chart */}
-            <Grid item xs={12} md={8} lg={9}>
-              <Paper className={fixedHeightPaper}></Paper>
+          {!id ? (
+            <Grid container spacing={3}>
+              {/* Chart */}
+              <Grid item xs={12}>
+                <Paper className={classes.paper}>
+                  <Typography variant="h6">Browse Events</Typography>
+                </Paper>
+              </Grid>
+              {/* Main Events Section */}
+              <Grid item xs={12}>
+                <MainCard
+                  img="/bg.png"
+                  title="Professional Networking"
+                  date="Thursday, 5 August 2021"
+                  location="303-G20, City Campus, University of Auckland"
+                  id="0"
+                  btn
+                  darken
+                />
+              </Grid>
+              {/* List of Events */}
+              <EventGrid />
+              {/* Recent Deposits */}
+              <Grid item xs={12} md={4} lg={3}>
+                <Paper className={fixedHeightPaper}>{id}</Paper>
+              </Grid>
+              {/* Recent Orders */}
             </Grid>
-            {/* Recent Deposits */}
-            <Grid item xs={12} md={4} lg={3}>
-              <Paper className={fixedHeightPaper}></Paper>
-            </Grid>
-            {/* Recent Orders */}
-            <Grid item xs={12}>
-              <Paper className={classes.paper}></Paper>
-            </Grid>
-          </Grid>
+          ) : (
+            // Event details
+            <EventDetail/>
+          )}
           <Box pt={4}>
             <Copyright />
-          </Box>
+          </Box>{" "}
         </Container>
       </main>
     </div>
