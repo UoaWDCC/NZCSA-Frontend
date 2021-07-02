@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function UpgradeForm(props) {
     // const [gender, setGender]=useState()
-    const [selectedDate, setSelectedDate] = React.useState(new Date('2014-08-18T21:11:54'));
+    // const [selectedDate, setSelectedDate] = React.useState(new Date('2014-08-18T21:11:54'));
     const [email, setEmail] = useState()
     const [gender, setGender] = useState()
     const [wechatId, setWechaId] = useState()
@@ -42,8 +42,9 @@ export default function UpgradeForm(props) {
     const [maxWidth, setMaxWidth] = React.useState('md');
     const [yearError, setYearError]=useState("");
 
-    const handleDateChange = (date) => {
-        setSelectedDate(date);
+    const handleBirthdayChange = (date) => {
+        console.log(date)
+        setBirthday(date);
     };
 
     const yearCheck =(e)=>{
@@ -104,14 +105,15 @@ export default function UpgradeForm(props) {
                                     <MuiPickersUtilsProvider utils={DateFnsUtils}>
                                         <KeyboardDatePicker
                                             required
+                                            disableFuture={true}
                                             disableToolbar
                                             variant="inline"
                                             format="dd/MM/yyyy"
                                             margin="normal"
                                             id="date-picker-inline"
-                                            label="Date picker inline"
-                                            // value={selectedDate}
-                                            onChange={handleDateChange}
+                                            label="Birthday"
+                                            value={birthday}
+                                            onChange={handleBirthdayChange}
                                             KeyboardButtonProps={{
                                                 'aria-label': 'change date',
                                             }}
