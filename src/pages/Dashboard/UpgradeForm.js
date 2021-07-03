@@ -13,7 +13,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import FormGroup from '@material-ui/core/FormGroup';
 import Button from "@material-ui/core/Button";
 import RadioInputBtn from '../../components/RadioIInputBtn'
-
+import CheckboxInputBtn from "../../components/CheckboxInputBtn";
 import {
     MuiPickersUtilsProvider,
     KeyboardDatePicker,
@@ -52,16 +52,35 @@ export default function UpgradeForm(props) {
         Law: false,
         Medicine: false,
         Architecture: false,
-        CollegeOfFoundation: false
+        CollegeOfFoundation: false,
+        Others:false
     })
+    // When others is true, you need to add this into the list of faculty too
+    const [otherFaculty,setOtherFculty]=useState('')
+    const [facultyList,setFacultyList]=useState();
 
     const handleBirthdayChange = (date) => {
         console.log(date)
         setBirthday(date);
     };
 
-    const handleFaulty=(event)=>{
+    const handleFaculty=(event)=>{
         setFaculty({...faculty,[event.target.name]:event.target.checked})
+        
+    }
+
+    const getAllFaculty=()=>{
+        const list=Object.keys(faculty).map((key,index)=>{
+            if(faculty[key] && key!=="Others"){
+                return key
+            }else if(key==="Others" && faculty[key]===true){
+                return otherFaculty;
+            }
+            return null
+         }).filter((el)=>{
+             return el!=null
+         })
+        console.log(list)
     }
 
     const yearCheck = (e) => {
@@ -80,6 +99,7 @@ export default function UpgradeForm(props) {
 
     const {Arts,BussinessSchool,Science,NICAI,Engineering,Law,Medicine,Architecture,CollegeOfFoundation,Others}=faculty
     const classes = useStyles();
+    console.log(faculty)
 
     return (
         <Dialog open={props.open} onClose={props.close} aria-labelledby="form-dialog-title" maxWidth={maxWidth} fullWidth={true}>
@@ -199,71 +219,66 @@ export default function UpgradeForm(props) {
                                         <FormLabel component="legend">Faculty</FormLabel>
                                         <FormGroup>
                                             <FormControlLabel
-                                                control={<Checkbox checked={Arts} name="Arts" />}
+                                                control={<Checkbox checked={Arts}o onChange={handleFaculty} name="Arts" />}
                                                 label="Arts"
                                             />
                                             <FormControlLabel
                                                 control={<Checkbox 
                                                     checked={BussinessSchool} 
-                                                    name="Bussiness School" 
-                                                    onChange={handleFaulty}/>}
+                                                    name="BussinessSchool" 
+                                                    onChange={handleFaculty}/>}
                                                 label="Bussiness School"
                                             />
                                             <FormControlLabel
                                                 control={<Checkbox
                                                     checked={Science}
                                                     name="Science" 
-                                                    onChange={handleFaulty}/>}
+                                                    onChange={handleFaculty}/>}
                                                 label="Science"
                                             />
                                             <FormControlLabel
                                                 control={<Checkbox
                                                     checked={NICAI}
                                                     name="NICAI" 
-                                                    onChange={handleFaulty}/>}
+                                                    onChange={handleFaculty}/>}
                                                 label="NICAI"
                                             />
                                             <FormControlLabel
                                                 control={<Checkbox
                                                     checked={Engineering}
                                                     name="Engineering" 
-                                                    onChange={handleFaulty}/>}
+                                                    onChange={handleFaculty}/>}
                                                 label="Engineering"
                                             />
                                             <FormControlLabel
                                                 control={<Checkbox
                                                     checked={Law}
-                                                    name="Law" />}
+                                                    name="Law" 
+                                                    onChange={handleFaculty}/>}
                                                 label="Law"
                                             />
                                             <FormControlLabel
                                                 control={<Checkbox
                                                     checked={Medicine}
                                                     name="Medicine"
-                                                    onChange={handleFaulty} />}
+                                                    onChange={handleFaculty} />}
                                                 label="Medicine"
                                             />
                                             <FormControlLabel
                                                 control={<Checkbox
                                                     checked={Architecture}
                                                     name="Architecture" 
-                                                    onChange={handleFaulty}/>}
+                                                    onChange={handleFaculty}/>}
                                                 label="Architecture"
                                             />
                                             <FormControlLabel
                                                 control={<Checkbox
                                                     checked={CollegeOfFoundation}
-                                                    name="College of Foundation" 
-                                                    onChange={handleFaulty}/>}
+                                                    name="CollegeOfFoundation" 
+                                                    onChange={handleFaculty}/>}
                                                 label="College of Foundation"
                                             />
-                                            <FormControlLabel
-                                                control={<Checkbox
-                                                    checked={Others}
-                                                    name="Others" 
-                                                    onChange={handleFaulty}/>}
-                                                label={<TextField label="Others" />}
-                                            />
+                                            <CheckboxInputBtn options={faculty} setOption={setFaculty} setOtherOption={setOtherFculty}/>
                                         </FormGroup>
                                     </FormControl>
                                 </Grid>
@@ -301,7 +316,7 @@ export default function UpgradeForm(props) {
 
 
                     <Grid container justify={"center"} >
-                        <Button>Submit</Button>
+                        <Button onClick={getAllFaculty}>Submit</Button>
                     </Grid>
                 </form>
             </DialogContent>
