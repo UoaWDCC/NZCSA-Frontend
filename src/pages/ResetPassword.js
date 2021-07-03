@@ -17,6 +17,7 @@ import { useForm, Controller, useWatch } from "react-hook-form";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import IconButton from "@material-ui/core/IconButton";
+import Alert from '@material-ui/lab/Alert';
 import PasswordStrengthIndicator from "../components/PasswordStrengthIndicator";
 import checkPasswordStrength from "../components/PasswordChecker";
 import {resetPassword} from "../api/connectBackend";
@@ -54,14 +55,28 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  textF: {
+    borderRadius: "5px",
+  },
+  signin: {
+    fontStyle: 'italic',
+    textDecorationLine: 'underline'
+  },
+  eMessage: {
+    marginBottom: theme.spacing(1),
+  }
 }));
 
 // TODO: Modify to match figma design
 export default function ResetPassword() {
   const [password, setPassword] = useState('');
-  // const [confirmPassword, setConfirmPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const classes = useStyles();
+  const [isPasswordSame, setPasswordSame] = useState(true);
   const [passReset, setPassReset] = useState(false);
+  const [hasErrors, setHasErrors] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [success, setSuccess] = useState(false);
   const [values, setValues] = React.useState({
     showPassword: false,
     showConfirm: false,
@@ -70,17 +85,25 @@ export default function ResetPassword() {
 
   const {
     control,
-    handleSubmit,
     formState: { errors },
   } = useForm();
 
   const onSubmit = (data) => {
+    setHasErrors(true);
     console.log(data);
     if (data.password == data.confirm){
       setPassReset(true);
       handleSubmitButton()
     }
   };
+
+  function handlePasswordError() {
+    if (confirmPassword !== password) {
+      setPasswordSame(false);
+    } else {
+      setPasswordSame(true);
+    }
+  }
 
   const handleClickShowPassword = () => {
     setValues({ ...values, showPassword: !values.showPassword });
@@ -91,139 +114,181 @@ export default function ResetPassword() {
   };
 
   async function handleSubmitButton() {
-    
       // setPassReset(true);
     const res =  await resetPassword(window.location.pathname,password);
     
   }
-  function backtoLogin(){
-    window.location.href="/login"
+
+  async function handleSubmit() {
+    setHasErrors(true);
+    if (password.length > 0 && isPasswordSame) {
+      try {
+        const res = await resetPassword(window.location.pathname,password);
+        if (res.status === 200){
+          setSuccess(true);
+          setPassword('');
+          setConfirmPassword('');
+          setHasErrors(false);
+          setErrorMessage('');
+          setValues({ 
+            showPassword: false,
+            showConfirm: false,
+            passStrength: "" });
+        }
+      } catch (e) {
+        setErrorMessage(e.response.data.error);
+      }
+    }
   }
 
+  const redirectToLogin = () => {
+    window.location.href = '/login';
+  }
+
+  const isError = (condition) => hasErrors && condition;
+
   return (
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h4">
-          {passReset ? `Your password has been reset` : `Reset your password`}
-        </Typography>
-        <Box mt={3}>
-          {!passReset && (
-            <Typography component="p" variant="body1" align="center">
-              {`Reset your password below`}
-            </Typography>
-          )}
-        </Box>
-        <form
-          className={classes.form}
-          onSubmit={handleSubmit(onSubmit)}
-          href="#"
-        >
-        {/* <div> */}
-          {!passReset && (
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                {!passReset && (
-                  <Typography component="p" variant="body1">
-                    {`Password Strength: ` + values.passStrength}
-                  </Typography>
-                )}
-              </Grid>
-              <Grid item xs={12}>
-                <Controller
-                  name="password"
-                  control={control}
-                  defaultValue=""
-                  rules={{ required: true, minLength: 6, pattern:
-                    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/}}
-                  render={({ field }) => (
-                    <TextField
-                      {...field}
-                      onChange={(e) => {
-                        setPassword(e.target.value)
-                        field.onChange(e.target.value);
-                        let score = checkPasswordStrength(e.target.value);
-                        setValues({ ...values, passStrength: score });
-                        console.log(score);
-                      }}
-                      variant="outlined"
-                      required
-                      fullWidth
-                      id="password"
-                      label="New Password"
-                      name="password"
-                      autoComplete="password"
-                      type={values.showPassword ? "text" : "password"}
-                      error={errors.password ? true : false}
-                      InputProps={{
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <IconButton
-                              aria-label="toggle password visibility"
-                              onClick={handleClickShowPassword}
-                              onMouseDown={handleMouseDownPassword}
-                            >
-                              {values.showPassword ? (
-                                <Visibility />
-                              ) : (
-                                <VisibilityOff />
-                              )}
-                            </IconButton>
-                          </InputAdornment>
-                        ),
-                      }}
-                    />
-                  )}
-                />
-                {errors.password && <span>This field is required</span>}
-                <PasswordStrengthIndicator input={values.passStrength} />
-              </Grid>
-              <Grid item xs={12}>
-                <Controller
-                  name="confirm"
-                  control={control}
-                  defaultValue=""
-                  rules={{ required: true, minLength: 6 ,pattern:
-                    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/}}
-                  render={({ field }) => (
-                    <TextField
-                      {...field}
-                      // onChange={(e) => setPassword(e.target.value)}
-                      variant="outlined"
-                      required
-                      fullWidth
-                      id="password"
-                      label="Confirm New Password"
-                      name="confirm"
-                      autoComplete="password"
-                      type="password"
-                      error={errors.confirm ? true : false}
-                    />
-                  )}
-                />
-                {errors.confirm && <span>This field is required</span>}
-              </Grid>
-            </Grid>
-          )}
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-            // onClick={passReset ? backtoLogin : handleSubmitButton}
+    <Grid>
+      {success && <Alert variant="filled" onClose={() => {setSuccess(false)}}> Your password has been successfully reset. Please <a className={classes.signin} onClick={redirectToLogin}>log in</a>.</Alert>}
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <div className={classes.paper}>
+          <Avatar className={classes.avatar}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h4">
+            {passReset ? `Your password has been reset` : `Reset your password`}
+          </Typography>
+          <Box mt={3}>
+            {!passReset && (
+              <Typography component="p" variant="body1" align="center">
+                {`Reset your password below`}
+              </Typography>
+            )}
+          </Box>
+          <div
+            className={classes.form}
+            href="#"
           >
-            {passReset ? `Continue` : `Save`}
-          </Button>
-        </form>
-        {/* </div> */}
-      </div>
-      <Box mt={5}>
-        <Copyright />
-      </Box>
-    </Container>
+          {/* <div> */}
+            <Typography color='error' className={classes.eMessage}>
+              {errorMessage}
+            </Typography>
+            {!passReset && (
+              <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  {!passReset && (
+                    <Typography component="p" variant="body1">
+                      {`Password Strength: ` + values.passStrength}
+                    </Typography>
+                  )}
+                </Grid>
+                <Grid item xs={12}>
+                  <Controller
+                    name="password"
+                    control={control}
+                    defaultValue=""
+                    rules={{ required: true, minLength: 6, pattern:
+                      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/}}
+                    render={({ field }) => (
+                      <TextField
+                        {...field}
+                        onChange={(e) => {
+                          setPassword(e.target.value)
+                          field.onChange(e.target.value);
+                          let score = checkPasswordStrength(e.target.value);
+                          setValues({ ...values, passStrength: score });
+                          //console.log(score);
+                          if (e.target.value.length === 0) {
+                            setValues({ ...values, passStrength: "" });
+                          }
+                        }}
+                        variant="outlined"
+                        required
+                        fullWidth
+                        id="password"
+                        label="New Password"
+                        name="password"
+                        autoComplete="password"
+                        type={values.showPassword ? "text" : "password"}
+                        value={password}
+                        error={isError(password.length === 0)}
+                        helperText={isError(password.length === 0) && "The password cannot be empty"}
+                        InputProps={{
+                          endAdornment: (
+                            <InputAdornment position="end">
+                              <IconButton
+                                aria-label="toggle password visibility"
+                                onClick={handleClickShowPassword}
+                                onMouseDown={handleMouseDownPassword}
+                              >
+                                {values.showPassword ? (
+                                  <Visibility />
+                                ) : (
+                                  <VisibilityOff />
+                                )}
+                              </IconButton>
+                            </InputAdornment>
+                          ),
+                        }}
+                      />
+                    )}
+                  />
+                  <PasswordStrengthIndicator input={values.passStrength} />
+                </Grid>
+                <Grid item xs={12}>
+                  <Controller
+                    name="confirm"
+                    control={control}
+                    defaultValue=""
+                    rules={{ required: true, minLength: 6 ,pattern:
+                      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/}}
+                    render={({ field }) => (
+                      <TextField
+                        {...field}
+                        variant="outlined"
+                        required
+                        fullWidth
+                        name="confirm password"
+                        label="Confirm Password"
+                        type={values.showConfirm ? "text" : "password"}
+                        id="confirm password"
+                        autoComplete="confirm password"
+                        className={classes.textF}
+                        value={confirmPassword}
+                        onChange={e => setConfirmPassword(e.target.value)}
+                        onBlur={handlePasswordError}
+                        error={!isPasswordSame || isError(confirmPassword.length === 0)}
+                        helperText={(!isPasswordSame && "The comfirm password must be same to before") || (isError(confirmPassword.length === 0) && "The password cannot be empty")}
+                      />
+                    )}
+                  />
+                </Grid>
+              </Grid>
+            )}
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+              onClick={handleSubmit}
+              // onClick={passReset ? backtoLogin : handleSubmitButton}
+            >
+              {passReset ? `Continue` : `Submit`}
+            </Button>
+            <Grid container>
+              <Link href="/login" variant="body2" color="primary">
+                {"Return to log in"}
+              </Link>
+            </Grid>
+          </div>
+          {/* </div> */}
+        </div>
+        <Box mt={5}>
+          <Copyright />
+        </Box>
+      </Container>
+    </Grid>
   );
 }

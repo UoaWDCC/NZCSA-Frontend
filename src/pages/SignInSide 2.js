@@ -17,7 +17,6 @@ import logo from '../assets/logo.png'
 import { Container } from '@material-ui/core';
 import {useState, useEffect} from 'react';
 import {login} from '../api/connectBackend';
-import { red } from '@material-ui/core/colors';
 
 function Copyright() {
   return (
@@ -73,9 +72,6 @@ const useStyles = makeStyles((theme) => ({
   },
   logoNCopyright:{
     marginTop:"50%"
-  },
-  errorMessage:{
-    color: red
   }
 
 }));
@@ -85,9 +81,7 @@ export default function SignInSide(props) {
   const classes = useStyles();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
   const [hasErrors, setHasErrors] = useState(false);
-  const [startTime, setstartTime] = useState('');
   const isError = (condition) => hasErrors && condition;
 
   useEffect(() => {
@@ -98,20 +92,7 @@ export default function SignInSide(props) {
     setHasErrors(true);
     const loginInfo = { email, password }
     if(email.length>0 && password.length>0 ){
-      try {
-        const response = await login(loginInfo);
-        if (response.status === 200){
-          window.location.href = '/';
-        }
-        //console.log(response.data);
-      } catch (e) {
-        setErrorMessage(e.response.data.error);
-        setTimeout(() => {
-          setErrorMessage('');
-        }, 8000);
-        setErrorMessage(e.response.data.error);
-        //console.log(e.response.data.error);
-      }
+      const response = await login(loginInfo);
     }
   }
 
@@ -138,12 +119,8 @@ export default function SignInSide(props) {
               <Typography component="h1" variant="h5">
                 Sign in
               </Typography>
-
               {/* <form className={classes.form} noValidate> */}
                 <div className={classes.form} noValidate>
-                <Typography color='error'>
-                  {errorMessage}
-                </Typography>
                 <TextField variant="outlined"
                   margin="normal"
                   required
