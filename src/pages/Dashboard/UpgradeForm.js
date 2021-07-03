@@ -41,32 +41,44 @@ export default function UpgradeForm(props) {
     const [wechatId, setWechaId] = useState()
     const [birthday, setBirthday] = useState()
     const [maxWidth, setMaxWidth] = React.useState('md');
-    const [yearError, setYearError]=useState("");
-    const [university,setUniversity]=useState("UNITEC")
+    const [yearError, setYearError] = useState("");
+    const [university, setUniversity] = useState("UNITEC")
+    const [faculty, setFaculty] = useState({
+        Arts: false,
+        BussinessSchool: false,
+        Science: false,
+        NICAI: false,
+        Engineering: false,
+        Law: false,
+        Medicine: false,
+        Architecture: false,
+        CollegeOfFoundation: false
+    })
 
     const handleBirthdayChange = (date) => {
         console.log(date)
         setBirthday(date);
     };
 
-    const yearCheck =(e)=>{
-        const newValue=e.target.value;
+    const handleFaulty=(event)=>{
+        setFaculty({...faculty,[event.target.name]:event.target.checked})
+    }
 
-        if(newValue <1){
-            console.log("bad")
+    const yearCheck = (e) => {
+        const newValue = e.target.value;
+
+        if (newValue < 1) {
             setYearError("Year cannot be <1")
-        }else{
-            console.log("god")
-
+        } else {
             setYearError("")
         }
     }
 
-    const handleUniversity=(e)=>{
+    const handleUniversity = (e) => {
         setUniversity(e.target.value);
     }
-    console.log(university)
-    console.log(props)
+
+    const {Arts,BussinessSchool,Science,NICAI,Engineering,Law,Medicine,Architecture,CollegeOfFoundation,Others}=faculty
     const classes = useStyles();
 
     return (
@@ -156,10 +168,10 @@ export default function UpgradeForm(props) {
                                         <Grid item md={12}>
                                             <FormControl required component="fieldset">
                                                 <FormLabel component="legend">University</FormLabel>
-                                                <RadioGroup  aria-label="University" name="University" value={university} onChange={handleUniversity}>
+                                                <RadioGroup aria-label="University" name="University" value={university} onChange={handleUniversity}>
                                                     <FormControlLabel value="UNITEC" control={<Radio />} label="UNITEC" />
                                                     <FormControlLabel value="AUT" control={<Radio />} label="AUT" />
-                                                    <FormControlLabel value="Massey University" control={<Radio />} label="Massey University" />
+                                                    <FormControlLabel value="MasseyUniversity" control={<Radio />} label="Massey University" />
                                                     <FormControlLabel value="UoA" control={<Radio />} label="UoA" />
                                                     <RadioInputBtn setOther={setUniversity} />
                                                 </RadioGroup>
@@ -169,13 +181,13 @@ export default function UpgradeForm(props) {
                                             <TextField required label="Major/Specialisation" type="Text" />
                                         </Grid>
                                         <Grid item md={12}>
-                                            <TextField 
-                                            required 
-                                            label="Year of Study" 
-                                            type="number" 
-                                            helperText={yearError}
-                                            error={!!yearError}
-                                            onChange={yearCheck}/>
+                                            <TextField
+                                                required
+                                                label="Year of Study"
+                                                type="number"
+                                                helperText={yearError}
+                                                error={!!yearError}
+                                                onChange={yearCheck} />
 
                                         </Grid>
                                     </Grid>
@@ -187,43 +199,69 @@ export default function UpgradeForm(props) {
                                         <FormLabel component="legend">Faculty</FormLabel>
                                         <FormGroup>
                                             <FormControlLabel
-                                                control={<Checkbox name="Arts" />}
+                                                control={<Checkbox checked={Arts} name="Arts" />}
                                                 label="Arts"
                                             />
                                             <FormControlLabel
-                                                control={<Checkbox name="Bussiness School" />}
+                                                control={<Checkbox 
+                                                    checked={BussinessSchool} 
+                                                    name="Bussiness School" 
+                                                    onChange={handleFaulty}/>}
                                                 label="Bussiness School"
                                             />
                                             <FormControlLabel
-                                                control={<Checkbox name="Science" />}
+                                                control={<Checkbox
+                                                    checked={Science}
+                                                    name="Science" 
+                                                    onChange={handleFaulty}/>}
                                                 label="Science"
                                             />
                                             <FormControlLabel
-                                                control={<Checkbox name="NICAI" />}
+                                                control={<Checkbox
+                                                    checked={NICAI}
+                                                    name="NICAI" 
+                                                    onChange={handleFaulty}/>}
                                                 label="NICAI"
                                             />
                                             <FormControlLabel
-                                                control={<Checkbox name="Engineering" />}
+                                                control={<Checkbox
+                                                    checked={Engineering}
+                                                    name="Engineering" 
+                                                    onChange={handleFaulty}/>}
                                                 label="Engineering"
                                             />
                                             <FormControlLabel
-                                                control={<Checkbox name="Law" />}
+                                                control={<Checkbox
+                                                    checked={Law}
+                                                    name="Law" />}
                                                 label="Law"
                                             />
                                             <FormControlLabel
-                                                control={<Checkbox name="Medicine" />}
+                                                control={<Checkbox
+                                                    checked={Medicine}
+                                                    name="Medicine"
+                                                    onChange={handleFaulty} />}
                                                 label="Medicine"
                                             />
                                             <FormControlLabel
-                                                control={<Checkbox name="Architecture" />}
+                                                control={<Checkbox
+                                                    checked={Architecture}
+                                                    name="Architecture" 
+                                                    onChange={handleFaulty}/>}
                                                 label="Architecture"
                                             />
                                             <FormControlLabel
-                                                control={<Checkbox name="College of Foundation" />}
+                                                control={<Checkbox
+                                                    checked={CollegeOfFoundation}
+                                                    name="College of Foundation" 
+                                                    onChange={handleFaulty}/>}
                                                 label="College of Foundation"
                                             />
                                             <FormControlLabel
-                                                control={<Checkbox name="Science" />}
+                                                control={<Checkbox
+                                                    checked={Others}
+                                                    name="Others" 
+                                                    onChange={handleFaulty}/>}
                                                 label={<TextField label="Others" />}
                                             />
                                         </FormGroup>
