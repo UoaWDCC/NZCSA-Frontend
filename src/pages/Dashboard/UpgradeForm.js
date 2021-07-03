@@ -12,6 +12,7 @@ import DateFnsUtils from '@date-io/date-fns';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormGroup from '@material-ui/core/FormGroup';
 import Button from "@material-ui/core/Button";
+import RadioInputBtn from '../../components/RadioIInputBtn'
 
 import {
     MuiPickersUtilsProvider,
@@ -41,6 +42,7 @@ export default function UpgradeForm(props) {
     const [birthday, setBirthday] = useState()
     const [maxWidth, setMaxWidth] = React.useState('md');
     const [yearError, setYearError]=useState("");
+    const [university,setUniversity]=useState("UNITEC")
 
     const handleBirthdayChange = (date) => {
         console.log(date)
@@ -59,6 +61,11 @@ export default function UpgradeForm(props) {
             setYearError("")
         }
     }
+
+    const handleUniversity=(e)=>{
+        setUniversity(e.target.value);
+    }
+    console.log(university)
     console.log(props)
     const classes = useStyles();
 
@@ -149,12 +156,12 @@ export default function UpgradeForm(props) {
                                         <Grid item md={12}>
                                             <FormControl required component="fieldset">
                                                 <FormLabel component="legend">University</FormLabel>
-                                                <RadioGroup aria-label="University" name="University" >
+                                                <RadioGroup  aria-label="University" name="University" value={university} onChange={handleUniversity}>
                                                     <FormControlLabel value="UNITEC" control={<Radio />} label="UNITEC" />
                                                     <FormControlLabel value="AUT" control={<Radio />} label="AUT" />
                                                     <FormControlLabel value="Massey University" control={<Radio />} label="Massey University" />
                                                     <FormControlLabel value="UoA" control={<Radio />} label="UoA" />
-                                                    <FormControlLabel value="other" control={<Radio />} label={<TextField label="Other" />} />
+                                                    <RadioInputBtn setOther={setUniversity} />
                                                 </RadioGroup>
                                             </FormControl>
                                         </Grid>
