@@ -149,7 +149,7 @@ export default function ResetPassword() {
 
   return (
     <Grid>
-      {success && <Alert variant="filled" onClose={() => {setSuccess(false)}}> Your password has been successfully reset. Please <a className={classes.signin} onClick={redirectToLogin}>log in</a>.</Alert>}
+      {success && <Alert onClose={() => {setSuccess(false)}}> Your password has been successfully reset. Please <a className={classes.signin} onClick={redirectToLogin}>log in</a>.</Alert>}
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <div className={classes.paper}>
