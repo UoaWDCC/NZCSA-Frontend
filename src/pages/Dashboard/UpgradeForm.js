@@ -262,7 +262,7 @@ export default function UpgradeForm(props) {
                                             <TextField
                                                 required
                                                 label="Year of Study"
-                                                type="number"
+                                                type="text"
                                                 helperText={yearError}
                                                 error={!!yearError}
                                                 onChange={handleYear} />
