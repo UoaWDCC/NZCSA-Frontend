@@ -134,12 +134,25 @@ export default function UpgradeForm(props) {
         setUniversity(e.target.value);
     }
 
+    const handlecloseUpgradeForm=()=>{
+        if(window.confirm("All your inputs will be discarded")){
+            props.close(false)
+        }else{
+            props.close(true)
+        }
+    }
+
+    const handleSubmitUpgradeForm=()=>{
+        props.close(false)
+    }
+
+
     const { Arts, BussinessSchool, Science, NICAI, Engineering, Law, Medicine, Architecture, CollegeOfFoundation, Others } = faculty
     const classes = useStyles();
     console.log(faculty)
 
     return (
-        <Dialog open={props.open} onClose={props.close}  aria-labelledby="form-dialog-title" maxWidth={maxWidth} fullWidth={true}>
+        <Dialog open={props.open} onClose={handlecloseUpgradeForm}  aria-labelledby="form-dialog-title" maxWidth={maxWidth} fullWidth={true}>
             <DialogTitle align={"center"}>Registration Form</DialogTitle>
             <DialogContent>
                 <form >
@@ -362,7 +375,7 @@ export default function UpgradeForm(props) {
 
 
                     <Grid container justify={"center"} >
-                        <Button onClick={getAllFaculty}>Submit</Button>
+                        <Button disabled={!understand} onClick={handleSubmitUpgradeForm}>Submit</Button>
                     </Grid>
                 </form>
             </DialogContent>

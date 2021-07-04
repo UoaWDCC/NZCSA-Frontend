@@ -202,7 +202,7 @@ export default function Dashboard() {
   };
 
   const handleUpgradeFormOpen = () => {
-    setUpgradeFormOpen(!upgradeFormOpen);
+      setUpgradeFormOpen(!upgradeFormOpen);
   }
 
   const menuId = "primary-search-account-menu";
@@ -346,7 +346,7 @@ export default function Dashboard() {
         </div>}</List>
 
       </Drawer>
-      <UpgradeForm open={upgradeFormOpen} close={handleUpgradeFormOpen}/>
+      <UpgradeForm open={upgradeFormOpen} close={setUpgradeFormOpen} />
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
