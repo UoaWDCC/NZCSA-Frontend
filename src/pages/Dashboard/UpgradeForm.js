@@ -36,7 +36,6 @@ export default function UpgradeForm(props) {
   const [phone, setPhone] = useState();
   const [stdentId, setStudentId] = useState();
   const [birthday, setBirthday] = useState();
-  const [maxWidth, setMaxWidth] = React.useState("md");
   const [yearError, setYearError] = useState("");
   const [university, setUniversity] = useState("UNITEC");
   const [faculty, setFaculty] = useState({
@@ -150,342 +149,343 @@ export default function UpgradeForm(props) {
   console.log(faculty);
 
   return (
-        <form>
-          <Grid container spacing={4} justify={"center"}>
-            <Grid item md={12}>
-              <Grid container justify={"space-evenly"} spacing={4}>
-                <Grid item md={4}>
-                  <TextField
-                    required
-                    autoFocus
-                    margin="dense"
-                    id="name"
-                    label="Chinese Name"
-                    type="name"
-                    fullwidth="true"
-                    onChange={handleName}
-                  />
-                </Grid>
-                <Grid item md={4}>
-                  <FormControl
-                    required
-                    component="fieldset"
-                    value={gender}
-                    onChange={handleGender}
-                  >
-                    <FormLabel component="legend">Gender</FormLabel>
-                    <RadioGroup aria-label="gender" name="gender1" row>
-                      <FormControlLabel
-                        value="female"
-                        control={<Radio />}
-                        label="Female"
-                      />
-                      <FormControlLabel
-                        value="male"
-                        control={<Radio />}
-                        label="Male"
-                      />
-                      <FormControlLabel
-                        value="Prefer not say"
-                        control={<Radio />}
-                        label="Other"
-                      />
-                    </RadioGroup>
-                  </FormControl>
-                </Grid>
-              </Grid>
-            </Grid>
-            <Grid item md={12}>
-              <Grid container justify={"space-evenly"} spacing={4}>
-                <Grid item md={4}>
-                  <TextField
-                    margin="dense"
-                    id="name"
-                    label="Wechat ID"
-                    type="text"
-                    fullwidth="true"
-                    onChange={handleWecahtId}
-                  />
-                </Grid>
-                <Grid item md={4}>
-                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                    <KeyboardDatePicker
+        <DialogContent>
+          <form>
+            <Grid container spacing={4} justify={"center"}>
+              <Grid item md={12}>
+                <Grid container justify={"space-evenly"} spacing={4}>
+                  <Grid item md={4}>
+                    <TextField
                       required
-                      disableFuture={true}
-                      disableToolbar
-                      variant="inline"
-                      format="dd/MM/yyyy"
-                      margin="normal"
-                      id="date-picker-inline"
-                      label="Birthday"
-                      value={birthday}
-                      onChange={handleBirthdayChange}
-                      KeyboardButtonProps={{
-                        "aria-label": "change date",
-                      }}
+                      autoFocus
+                      margin="dense"
+                      id="name"
+                      label="Chinese Name"
+                      type="name"
+                      fullwidth="true"
+                      onChange={handleName}
                     />
-                  </MuiPickersUtilsProvider>
-                </Grid>
-              </Grid>
-            </Grid>
-            <Grid item md={12}>
-              <Grid container justify={"space-evenly"} spacing={4}>
-                <Grid item md={4}>
-                  <TextField
-                    required
-                    margin="dense"
-                    id="Phone"
-                    label="Phone number"
-                    type="tel"
-                    fullwidth="true"
-                    onChange={handlePhone}
-                  />
-                </Grid>
-                <Grid item md={4}>
-                  <TextField
-                    margin="dense"
-                    id="studentId"
-                    label="Student ID"
-                    type="text"
-                    fullwidth="true"
-                    onChange={handleStudentId}
-                  />
-                </Grid>
-              </Grid>
-            </Grid>
-            <Grid item md={12}>
-              <Grid container justify={"space-evenly"} spacing={4}>
-                <Grid item md={4}>
-                  <Grid
-                    container
-                    justify={"space-evenly"}
-                    spacing={4}
-                    direction={"column"}
-                  >
-                    <Grid item md={12}>
-                      <FormControl required component="fieldset">
-                        <FormLabel component="legend">University</FormLabel>
-                        <RadioGroup
-                          aria-label="University"
-                          name="University"
-                          value={university}
-                          onChange={handleUniversity}
-                        >
-                          <FormControlLabel
-                            value="UNITEC"
-                            control={<Radio />}
-                            label="UNITEC"
-                          />
-                          <FormControlLabel
-                            value="AUT"
-                            control={<Radio />}
-                            label="AUT"
-                          />
-                          <FormControlLabel
-                            value="MasseyUniversity"
-                            control={<Radio />}
-                            label="Massey University"
-                          />
-                          <FormControlLabel
-                            value="UoA"
-                            control={<Radio />}
-                            label="UoA"
-                          />
-                          <RadioInputBtn setOther={setUniversity} />
-                        </RadioGroup>
-                      </FormControl>
-                    </Grid>
-                    <Grid item md={12}>
-                      <TextField
-                        required
-                        label="Major/Specialisation"
-                        type="Text"
-                        onChange={handleMajor}
-                      />
-                    </Grid>
-                    <Grid item md={12}>
-                      <TextField
-                        required
-                        label="Year of Study"
-                        type="text"
-                        helperText={yearError}
-                        error={!!yearError}
-                        onChange={handleYear}
-                      />
-                    </Grid>
+                  </Grid>
+                  <Grid item md={4}>
+                    <FormControl
+                      required
+                      component="fieldset"
+                      value={gender}
+                      onChange={handleGender}
+                    >
+                      <FormLabel component="legend">Gender</FormLabel>
+                      <RadioGroup aria-label="gender" name="gender1" row>
+                        <FormControlLabel
+                          value="female"
+                          control={<Radio />}
+                          label="Female"
+                        />
+                        <FormControlLabel
+                          value="male"
+                          control={<Radio />}
+                          label="Male"
+                        />
+                        <FormControlLabel
+                          value="Prefer not say"
+                          control={<Radio />}
+                          label="Other"
+                        />
+                      </RadioGroup>
+                    </FormControl>
                   </Grid>
                 </Grid>
-                <Grid item md={4}>
-                  <FormControl
-                    required
-                    component="fieldset"
-                    className={classes.formControl}
-                  >
-                    <FormLabel component="legend">Faculty</FormLabel>
-                    <FormGroup>
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            checked={Arts}
-                            o
-                            onChange={handleFaculty}
-                            name="Arts"
-                          />
-                        }
-                        label="Arts"
+              </Grid>
+              <Grid item md={12}>
+                <Grid container justify={"space-evenly"} spacing={4}>
+                  <Grid item md={4}>
+                    <TextField
+                      margin="dense"
+                      id="name"
+                      label="Wechat ID"
+                      type="text"
+                      fullwidth="true"
+                      onChange={handleWecahtId}
+                    />
+                  </Grid>
+                  <Grid item md={4}>
+                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                      <KeyboardDatePicker
+                        required
+                        disableFuture={true}
+                        disableToolbar
+                        variant="inline"
+                        format="dd/MM/yyyy"
+                        margin="normal"
+                        id="date-picker-inline"
+                        label="Birthday"
+                        value={birthday}
+                        onChange={handleBirthdayChange}
+                        KeyboardButtonProps={{
+                          "aria-label": "change date",
+                        }}
                       />
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            checked={BussinessSchool}
-                            name="BussinessSchool"
-                            onChange={handleFaculty}
-                          />
-                        }
-                        label="Bussiness School"
-                      />
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            checked={Science}
-                            name="Science"
-                            onChange={handleFaculty}
-                          />
-                        }
-                        label="Science"
-                      />
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            checked={NICAI}
-                            name="NICAI"
-                            onChange={handleFaculty}
-                          />
-                        }
-                        label="NICAI"
-                      />
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            checked={Engineering}
-                            name="Engineering"
-                            onChange={handleFaculty}
-                          />
-                        }
-                        label="Engineering"
-                      />
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            checked={Law}
-                            name="Law"
-                            onChange={handleFaculty}
-                          />
-                        }
-                        label="Law"
-                      />
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            checked={Medicine}
-                            name="Medicine"
-                            onChange={handleFaculty}
-                          />
-                        }
-                        label="Medicine"
-                      />
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            checked={Architecture}
-                            name="Architecture"
-                            onChange={handleFaculty}
-                          />
-                        }
-                        label="Architecture"
-                      />
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            checked={CollegeOfFoundation}
-                            name="CollegeOfFoundation"
-                            onChange={handleFaculty}
-                          />
-                        }
-                        label="College of Foundation"
-                      />
-                      <CheckboxInputBtn
-                        options={faculty}
-                        setOption={setFaculty}
-                        setOtherOption={setOtherFculty}
-                      />
-                    </FormGroup>
-                  </FormControl>
+                    </MuiPickersUtilsProvider>
+                  </Grid>
+                </Grid>
+              </Grid>
+              <Grid item md={12}>
+                <Grid container justify={"space-evenly"} spacing={4}>
+                  <Grid item md={4}>
+                    <TextField
+                      required
+                      margin="dense"
+                      id="Phone"
+                      label="Phone number"
+                      type="tel"
+                      fullwidth="true"
+                      onChange={handlePhone}
+                    />
+                  </Grid>
+                  <Grid item md={4}>
+                    <TextField
+                      margin="dense"
+                      id="studentId"
+                      label="Student ID"
+                      type="text"
+                      fullwidth="true"
+                      onChange={handleStudentId}
+                    />
+                  </Grid>
+                </Grid>
+              </Grid>
+              <Grid item md={12}>
+                <Grid container justify={"space-evenly"} spacing={4}>
+                  <Grid item md={4}>
+                    <Grid
+                      container
+                      justify={"space-evenly"}
+                      spacing={4}
+                      direction={"column"}
+                    >
+                      <Grid item md={12}>
+                        <FormControl required component="fieldset">
+                          <FormLabel component="legend">University</FormLabel>
+                          <RadioGroup
+                            aria-label="University"
+                            name="University"
+                            value={university}
+                            onChange={handleUniversity}
+                          >
+                            <FormControlLabel
+                              value="UNITEC"
+                              control={<Radio />}
+                              label="UNITEC"
+                            />
+                            <FormControlLabel
+                              value="AUT"
+                              control={<Radio />}
+                              label="AUT"
+                            />
+                            <FormControlLabel
+                              value="MasseyUniversity"
+                              control={<Radio />}
+                              label="Massey University"
+                            />
+                            <FormControlLabel
+                              value="UoA"
+                              control={<Radio />}
+                              label="UoA"
+                            />
+                            <RadioInputBtn setOther={setUniversity} />
+                          </RadioGroup>
+                        </FormControl>
+                      </Grid>
+                      <Grid item md={12}>
+                        <TextField
+                          required
+                          label="Major/Specialisation"
+                          type="Text"
+                          onChange={handleMajor}
+                        />
+                      </Grid>
+                      <Grid item md={12}>
+                        <TextField
+                          required
+                          label="Year of Study"
+                          type="text"
+                          helperText={yearError}
+                          error={!!yearError}
+                          onChange={handleYear}
+                        />
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                  <Grid item md={4}>
+                    <FormControl
+                      required
+                      component="fieldset"
+                      className={classes.formControl}
+                    >
+                      <FormLabel component="legend">Faculty</FormLabel>
+                      <FormGroup>
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              checked={Arts}
+                              o
+                              onChange={handleFaculty}
+                              name="Arts"
+                            />
+                          }
+                          label="Arts"
+                        />
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              checked={BussinessSchool}
+                              name="BussinessSchool"
+                              onChange={handleFaculty}
+                            />
+                          }
+                          label="Bussiness School"
+                        />
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              checked={Science}
+                              name="Science"
+                              onChange={handleFaculty}
+                            />
+                          }
+                          label="Science"
+                        />
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              checked={NICAI}
+                              name="NICAI"
+                              onChange={handleFaculty}
+                            />
+                          }
+                          label="NICAI"
+                        />
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              checked={Engineering}
+                              name="Engineering"
+                              onChange={handleFaculty}
+                            />
+                          }
+                          label="Engineering"
+                        />
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              checked={Law}
+                              name="Law"
+                              onChange={handleFaculty}
+                            />
+                          }
+                          label="Law"
+                        />
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              checked={Medicine}
+                              name="Medicine"
+                              onChange={handleFaculty}
+                            />
+                          }
+                          label="Medicine"
+                        />
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              checked={Architecture}
+                              name="Architecture"
+                              onChange={handleFaculty}
+                            />
+                          }
+                          label="Architecture"
+                        />
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              checked={CollegeOfFoundation}
+                              name="CollegeOfFoundation"
+                              onChange={handleFaculty}
+                            />
+                          }
+                          label="College of Foundation"
+                        />
+                        <CheckboxInputBtn
+                          options={faculty}
+                          setOption={setFaculty}
+                          setOtherOption={setOtherFculty}
+                        />
+                      </FormGroup>
+                    </FormControl>
+                  </Grid>
+                </Grid>
+              </Grid>
+              <Grid item md={12}>
+                <Grid container justify={"space-evenly"} spacing={4}>
+                  <Grid item align={"center"} md={10} className={classes.consent}>
+                    <h2>Consent Of Membership</h2>
+                    <p>
+                      I have read and understand the regulation and constitution
+                      of NZCSA. I have had the opportunity to ask questions and
+                      have them answered to my satisfaction:
+                      <br />
+                      1. I agree to take part in this students' association.
+                      <br />
+                      2. I understand that I am free to discontinue participating
+                      at any time, and to withdraw my data any time without giving
+                      a reason, however, the membership fee will not be refunded.
+                      <br />
+                      3. I understand that all information provided to the NZCSA:{" "}
+                      <br />
+                      (1) will remain confidential, <br />
+                      (2) will only be used internally within NZCSA.
+                      <br />
+                      4. I understand that personal information will be stored for
+                      a period of three years, after which they will be securely
+                      destroyed.
+                    </p>
+                  </Grid>
+                </Grid>
+              </Grid>
+              <Grid item md={12}>
+                <Grid container justify={"space-evenly"} spacing={4}>
+                  <Grid item align={"center"} md={10}>
+                    <FormControl
+                      required
+                      component="fieldset"
+                      className={classes.formControl}
+                    >
+                      <FormLabel component="legend">
+                        This form will be held for a period of 3 years.
+                      </FormLabel>
+                      <FormGroup>
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              checked={understand}
+                              onChange={handleUnderstand}
+                              name="understand"
+                            />
+                          }
+                          label="I understand"
+                          align={"center"}
+                        />
+                      </FormGroup>
+                    </FormControl>
+                  </Grid>
                 </Grid>
               </Grid>
             </Grid>
-            <Grid item md={12}>
-              <Grid container justify={"space-evenly"} spacing={4}>
-                <Grid item align={"center"} md={10} className={classes.consent}>
-                  <h2>Consent Of Membership</h2>
-                  <p>
-                    I have read and understand the regulation and constitution
-                    of NZCSA. I have had the opportunity to ask questions and
-                    have them answered to my satisfaction:
-                    <br />
-                    1. I agree to take part in this students' association.
-                    <br />
-                    2. I understand that I am free to discontinue participating
-                    at any time, and to withdraw my data any time without giving
-                    a reason, however, the membership fee will not be refunded.
-                    <br />
-                    3. I understand that all information provided to the NZCSA:{" "}
-                    <br />
-                    (1) will remain confidential, <br />
-                    (2) will only be used internally within NZCSA.
-                    <br />
-                    4. I understand that personal information will be stored for
-                    a period of three years, after which they will be securely
-                    destroyed.
-                  </p>
-                </Grid>
-              </Grid>
+            <Grid container justify={"center"}>
+              <Button disabled={!understand} onClick={handleSubmitUpgradeForm}>
+                Submit
+              </Button>
             </Grid>
-            <Grid item md={12}>
-              <Grid container justify={"space-evenly"} spacing={4}>
-                <Grid item align={"center"} md={10}>
-                  <FormControl
-                    required
-                    component="fieldset"
-                    className={classes.formControl}
-                  >
-                    <FormLabel component="legend">
-                      This form will be held for a period of 3 years.
-                    </FormLabel>
-                    <FormGroup>
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            checked={understand}
-                            onChange={handleUnderstand}
-                            name="understand"
-                          />
-                        }
-                        label="I understand"
-                        align={"center"}
-                      />
-                    </FormGroup>
-                  </FormControl>
-                </Grid>
-              </Grid>
-            </Grid>
-          </Grid>
-
-          <Grid container justify={"center"}>
-            <Button disabled={!understand} onClick={handleSubmitUpgradeForm}>
-              Submit
-            </Button>
-          </Grid>
-        </form>
+          </form>
+        </DialogContent>
   );
 }

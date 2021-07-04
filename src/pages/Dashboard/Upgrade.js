@@ -1,15 +1,30 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Dialog, DialogTitle, DialogContent } from "@material-ui/core";
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  Grid,
+  Button,
+  IconButton,
+  Typography,
+} from "@material-ui/core";
 import UpgradeForm from "./UpgradeForm";
 import PaymentForm from "./PaymentForm";
+import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 
-const useStyles = makeStyles((theme) => ({}));
+const useStyles = makeStyles((theme) => ({
+  title: {
+    display: "flex",
+    flexFlow: "row wrap",
+  },
+}));
 
-// const steps = ["upgrade form", "payment form", "payment result"];
+const steps = ["Register for membership", "Payment Details", ""];
 
 export default function Upgrade(props) {
   const classes = useStyles();
+  const [maxWidth, setMaxWidth] = React.useState("md");
   const [activeStep, setActiveStep] = React.useState(0);
 
   const handleNext = () => {
@@ -46,10 +61,12 @@ export default function Upgrade(props) {
       onClose={handlecloseUpgradeForm}
       aria-labelledby="form-dialog-title"
       fullWidth={true}
+      maxWidth={maxWidth}
     >
-      <DialogTitle>Registration Form</DialogTitle>
+      <DialogTitle disableTypography>
+        <Typography variant="h5">{steps[activeStep]}</Typography>
+      </DialogTitle>
       <DialogContent>{getStepContent(activeStep)}</DialogContent>
     </Dialog>
-    // <div>hi</div>
   );
 }

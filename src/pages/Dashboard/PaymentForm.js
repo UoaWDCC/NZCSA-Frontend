@@ -39,9 +39,6 @@ export default function UpgradeForm(props) {
   return (
     <form>
       <Grid container>
-        <CssBaseline />
-        <Grid item xs={false} sm={4} md={7} />
-        <Grid item xs={12} sm={8} md={5} />
       </Grid>
     </form>
   );
