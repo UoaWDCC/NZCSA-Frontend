@@ -41,9 +41,7 @@ import {
   Link as RouterLink,
 } from "react-router-dom";
 import EventDetail from "./EventDetail";
-import UpgradeForm from "./UpgradeForm";
-import PaymentForm from "./PaymentForm";
-import PaymentResult from "./PaymentResult";
+import Upgrade from "./Upgrade";
 
 function Copyright() {
   return (
@@ -184,8 +182,7 @@ export default function Dashboard() {
   const classes = useStyles();
   const [open, setOpen] = useState(true);
   const [anchorEl, setAnchorEl] = useState(null);
-  const [upgradeFormOpen, setUpgradeFormOpen] = useState(false);
-  const [paymentFormOpen, setPaymentFormOpen] = useState(false);
+  const [upgradeOpen, setUpgradeOpen] = useState(false);
 
   const isMenuOpen = Boolean(anchorEl);
 
@@ -204,12 +201,8 @@ export default function Dashboard() {
     setAnchorEl(null);
   };
 
-  const handleUpgradeFormOpen = () => {
-    setUpgradeFormOpen(!upgradeFormOpen);
-  };
-
-  const handlePaymentForm = () => {
-    setPaymentFormOpen(!paymentFormOpen);
+  const handleUpgradeOpen = () => {
+    setUpgradeOpen(!upgradeOpen);
   };
 
   const menuId = "primary-search-account-menu";
@@ -351,7 +344,7 @@ export default function Dashboard() {
                 <Button
                   variant="outlined"
                   color="secondary"
-                  onClick={handleUpgradeFormOpen}
+                  onClick={handleUpgradeOpen}
                 >
                   Upgrade
                 </Button>
@@ -360,13 +353,7 @@ export default function Dashboard() {
           )}
         </List>
       </Drawer>
-      <UpgradeForm
-        open={upgradeFormOpen}
-        close={setUpgradeFormOpen}
-        togglePayment={setPaymentFormOpen}
-      />
-      <PaymentForm open={paymentFormOpen} togglePaymentForm={setPaymentFormOpen}/>
-      {/* <PaymentResult open={true} success={true}/> */}
+      <Upgrade open={upgradeOpen} close={handleUpgradeOpen} />
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>

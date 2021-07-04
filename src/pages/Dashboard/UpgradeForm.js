@@ -130,17 +130,8 @@ export default function UpgradeForm(props) {
     setUniversity(e.target.value);
   };
 
-  const handlecloseUpgradeForm = () => {
-    if (window.confirm("All your inputs will be discarded")) {
-      props.close(false);
-    } else {
-      props.close(true);
-    }
-  };
-
   const handleSubmitUpgradeForm = () => {
-    props.close(false);
-    props.togglePayment(true);
+      props.handleNext();
   };
 
   const {
@@ -159,15 +150,6 @@ export default function UpgradeForm(props) {
   console.log(faculty);
 
   return (
-    <Dialog
-      open={props.open}
-      onClose={handlecloseUpgradeForm}
-      aria-labelledby="form-dialog-title"
-      maxWidth={maxWidth}
-      fullWidth={true}
-    >
-      <DialogTitle align={"center"}>Registration Form</DialogTitle>
-      <DialogContent>
         <form>
           <Grid container spacing={4} justify={"center"}>
             <Grid item md={12}>
@@ -505,8 +487,5 @@ export default function UpgradeForm(props) {
             </Button>
           </Grid>
         </form>
-      </DialogContent>
-    </Dialog>
-    // <div>hi</div>
   );
 }
