@@ -36,9 +36,11 @@ const useStyles = makeStyles((theme) => ({
 export default function UpgradeForm(props) {
     // const [gender, setGender]=useState()
     // const [selectedDate, setSelectedDate] = React.useState(new Date('2014-08-18T21:11:54'));
-    const [email, setEmail] = useState()
+    const [name, setName] = useState()
     const [gender, setGender] = useState()
     const [wechatId, setWechaId] = useState()
+    const [phone, setPhone] = useState()
+    const [stdentId, setStudentId] = useState()
     const [birthday, setBirthday] = useState()
     const [maxWidth, setMaxWidth] = React.useState('md');
     const [yearError, setYearError] = useState("");
@@ -53,33 +55,68 @@ export default function UpgradeForm(props) {
         Medicine: false,
         Architecture: false,
         CollegeOfFoundation: false,
-        Others:false
+        Others: false
     })
     // When others is true, you need to add this into the list of faculty too
-    const [otherFaculty,setOtherFculty]=useState('')
-    const [facultyList,setFacultyList]=useState();
+    const [otherFaculty, setOtherFculty] = useState('')
+    const [major, setMajor] = useState('');
+    const [year, setYear] = useState('')
+    const [understand, setUnderstand] = useState(false)
+    // const [facultyList,setFacultyList]=useState();
 
     const handleBirthdayChange = (date) => {
         console.log(date)
         setBirthday(date);
     };
 
-    const handleFaculty=(event)=>{
-        setFaculty({...faculty,[event.target.name]:event.target.checked})
-        
+    const handleFaculty = (event) => {
+        setFaculty({ ...faculty, [event.target.name]: event.target.checked })
     }
 
-    const getAllFaculty=()=>{
-        const list=Object.keys(faculty).map((key,index)=>{
-            if(faculty[key] && key!=="Others"){
+    const handleGender = (event) => {
+        setGender(event.target.value)
+    }
+
+    const handlePhone = (event) => {
+        setPhone(event.target.value)
+    }
+
+    const handleStudentId = (event) => {
+        setStudentId(event.target.value)
+    }
+
+    const handleWecahtId = (event) => {
+        setWechaId(event.target.value)
+    }
+
+    const handleMajor = (event) => {
+        setMajor(event.target.value)
+    }
+
+    const handleYear = (event) => {
+        yearCheck(event)
+        setYear(event.target.value)
+    }
+
+    const handleName = (event) => {
+        setName(event.target.value)
+    }
+
+    const handleUnderstand = (event) => {
+        setUnderstand(event.target.checked )
+    }
+
+    const getAllFaculty = () => {
+        const list = Object.keys(faculty).map((key, index) => {
+            if (faculty[key] && key !== "Others") {
                 return key
-            }else if(key==="Others" && faculty[key]===true){
+            } else if (key === "Others" && faculty[key] === true) {
                 return otherFaculty;
             }
             return null
-         }).filter((el)=>{
-             return el!=null
-         })
+        }).filter((el) => {
+            return el != null
+        })
         console.log(list)
     }
 
@@ -97,29 +134,30 @@ export default function UpgradeForm(props) {
         setUniversity(e.target.value);
     }
 
-    const {Arts,BussinessSchool,Science,NICAI,Engineering,Law,Medicine,Architecture,CollegeOfFoundation,Others}=faculty
+    const { Arts, BussinessSchool, Science, NICAI, Engineering, Law, Medicine, Architecture, CollegeOfFoundation, Others } = faculty
     const classes = useStyles();
     console.log(faculty)
 
     return (
-        <Dialog open={props.open} onClose={props.close} aria-labelledby="form-dialog-title" maxWidth={maxWidth} fullWidth={true}>
-            <DialogTitle>Registration Form</DialogTitle>
+        <Dialog open={props.open} onClose={props.close}  aria-labelledby="form-dialog-title" maxWidth={maxWidth} fullWidth={true}>
+            <DialogTitle align={"center"}>Registration Form</DialogTitle>
             <DialogContent>
                 <form >
-                    <Grid container spacing={4}>
+                    <Grid container spacing={4} justify={"center"}>
                         <Grid item md={12}>
                             <Grid container justify={"space-evenly"} spacing={4}>
                                 <Grid item md={4}>
                                     <TextField required autoFocus
                                         margin="dense"
                                         id="name"
-                                        label="Email Address"
-                                        type="email"
+                                        label="Chinese Name"
+                                        type="name"
                                         fullwidth="true"
+                                        onChange={handleName}
                                     />
                                 </Grid>
                                 <Grid item md={4}>
-                                    <FormControl required component="fieldset">
+                                    <FormControl required component="fieldset" value={gender} onChange={handleGender}>
                                         <FormLabel component="legend">Gender</FormLabel>
                                         <RadioGroup aria-label="gender" name="gender1" row>
                                             <FormControlLabel value="female" control={<Radio />} label="Female" />
@@ -138,7 +176,8 @@ export default function UpgradeForm(props) {
                                         id="name"
                                         label="Wechat ID"
                                         type="text"
-                                        fullwidth="true" />
+                                        fullwidth="true"
+                                        onChange={handleWecahtId} />
                                 </Grid>
                                 <Grid item md={4}>
                                     <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -166,25 +205,27 @@ export default function UpgradeForm(props) {
                                 <Grid item md={4}>
                                     <TextField required
                                         margin="dense"
-                                        id="name"
+                                        id="Phone"
                                         label="Phone number"
                                         type="tel"
-                                        fullwidth="true" />
+                                        fullwidth="true"
+                                        onChange={handlePhone} />
                                 </Grid>
                                 <Grid item md={4}>
                                     <TextField
                                         margin="dense"
-                                        id="id"
+                                        id="studentId"
                                         label="Student ID"
                                         type="text"
-                                        fullwidth="true" />
+                                        fullwidth="true"
+                                        onChange={handleStudentId} />
                                 </Grid>
                             </Grid>
                         </Grid>
                         <Grid item md={12}>
                             <Grid container justify={"space-evenly"} spacing={4}>
                                 <Grid item md={4}>
-                                    <Grid container justify={"space-evenly"} spacing={4}>
+                                    <Grid container justify={"space-evenly"} spacing={4} direction={"column"}>
                                         <Grid item md={12}>
                                             <FormControl required component="fieldset">
                                                 <FormLabel component="legend">University</FormLabel>
@@ -198,7 +239,11 @@ export default function UpgradeForm(props) {
                                             </FormControl>
                                         </Grid>
                                         <Grid item md={12}>
-                                            <TextField required label="Major/Specialisation" type="Text" />
+                                            <TextField
+                                                required
+                                                label="Major/Specialisation"
+                                                type="Text"
+                                                onChange={handleMajor} />
                                         </Grid>
                                         <Grid item md={12}>
                                             <TextField
@@ -207,54 +252,51 @@ export default function UpgradeForm(props) {
                                                 type="number"
                                                 helperText={yearError}
                                                 error={!!yearError}
-                                                onChange={yearCheck} />
-
+                                                onChange={handleYear} />
                                         </Grid>
                                     </Grid>
-
-
                                 </Grid>
                                 <Grid item md={4}>
                                     <FormControl required component="fieldset" className={classes.formControl}>
                                         <FormLabel component="legend">Faculty</FormLabel>
                                         <FormGroup>
                                             <FormControlLabel
-                                                control={<Checkbox checked={Arts}o onChange={handleFaculty} name="Arts" />}
+                                                control={<Checkbox checked={Arts} o onChange={handleFaculty} name="Arts" />}
                                                 label="Arts"
                                             />
                                             <FormControlLabel
-                                                control={<Checkbox 
-                                                    checked={BussinessSchool} 
-                                                    name="BussinessSchool" 
-                                                    onChange={handleFaculty}/>}
+                                                control={<Checkbox
+                                                    checked={BussinessSchool}
+                                                    name="BussinessSchool"
+                                                    onChange={handleFaculty} />}
                                                 label="Bussiness School"
                                             />
                                             <FormControlLabel
                                                 control={<Checkbox
                                                     checked={Science}
-                                                    name="Science" 
-                                                    onChange={handleFaculty}/>}
+                                                    name="Science"
+                                                    onChange={handleFaculty} />}
                                                 label="Science"
                                             />
                                             <FormControlLabel
                                                 control={<Checkbox
                                                     checked={NICAI}
-                                                    name="NICAI" 
-                                                    onChange={handleFaculty}/>}
+                                                    name="NICAI"
+                                                    onChange={handleFaculty} />}
                                                 label="NICAI"
                                             />
                                             <FormControlLabel
                                                 control={<Checkbox
                                                     checked={Engineering}
-                                                    name="Engineering" 
-                                                    onChange={handleFaculty}/>}
+                                                    name="Engineering"
+                                                    onChange={handleFaculty} />}
                                                 label="Engineering"
                                             />
                                             <FormControlLabel
                                                 control={<Checkbox
                                                     checked={Law}
-                                                    name="Law" 
-                                                    onChange={handleFaculty}/>}
+                                                    name="Law"
+                                                    onChange={handleFaculty} />}
                                                 label="Law"
                                             />
                                             <FormControlLabel
@@ -267,18 +309,18 @@ export default function UpgradeForm(props) {
                                             <FormControlLabel
                                                 control={<Checkbox
                                                     checked={Architecture}
-                                                    name="Architecture" 
-                                                    onChange={handleFaculty}/>}
+                                                    name="Architecture"
+                                                    onChange={handleFaculty} />}
                                                 label="Architecture"
                                             />
                                             <FormControlLabel
                                                 control={<Checkbox
                                                     checked={CollegeOfFoundation}
-                                                    name="CollegeOfFoundation" 
-                                                    onChange={handleFaculty}/>}
+                                                    name="CollegeOfFoundation"
+                                                    onChange={handleFaculty} />}
                                                 label="College of Foundation"
                                             />
-                                            <CheckboxInputBtn options={faculty} setOption={setFaculty} setOtherOption={setOtherFculty}/>
+                                            <CheckboxInputBtn options={faculty} setOption={setFaculty} setOtherOption={setOtherFculty} />
                                         </FormGroup>
                                     </FormControl>
                                 </Grid>
@@ -303,8 +345,12 @@ export default function UpgradeForm(props) {
                                         <FormLabel component="legend">This form will be held for a period of 3 years.</FormLabel>
                                         <FormGroup>
                                             <FormControlLabel
-                                                control={<Checkbox name="understand" />}
+                                                control={<Checkbox
+                                                    checked={understand}
+                                                    onChange={handleUnderstand}
+                                                    name="understand" />}
                                                 label="I understand"
+                                                align={"center"}
                                             />
                                         </FormGroup>
                                     </FormControl>
