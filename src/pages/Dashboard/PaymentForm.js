@@ -82,7 +82,7 @@ export default function UpgradeForm(props) {
                                     </ListItemIcon>
                                     <ListItemText>Alipay</ListItemText>
                                     <ListItemIcon>
-                                        <img width="64px" height="auto" src="./alipay-logo.svg" alt="alipay" />
+                                        <img width="64px" height="auto" src="./alipay.svg" alt="alipay" />
                                     </ListItemIcon>
                                 </ListItem>
                                 <ListItem className={classes.listItem} button>
