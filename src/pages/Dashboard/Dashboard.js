@@ -42,6 +42,7 @@ import {
 } from "react-router-dom";
 import EventDetail from "./EventDetail"
 import UpgradeForm from "./UpgradeForm"
+import PaymentForm from "./PaymentForm"
 
 function Copyright() {
   return (
@@ -347,6 +348,7 @@ export default function Dashboard() {
 
       </Drawer>
       <UpgradeForm open={upgradeFormOpen} close={setUpgradeFormOpen} />
+      <PaymentForm open={true} />
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
