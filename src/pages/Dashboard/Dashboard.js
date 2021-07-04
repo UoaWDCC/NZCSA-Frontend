@@ -185,6 +185,7 @@ export default function Dashboard() {
   const [open, setOpen] = useState(true);
   const [anchorEl, setAnchorEl] = useState(null);
   const [upgradeFormOpen, setUpgradeFormOpen] = useState(false);
+  const [paymentFormOpen, setPaymentFormOpen] = useState(false);
 
   const isMenuOpen = Boolean(anchorEl);
 
@@ -205,6 +206,10 @@ export default function Dashboard() {
 
   const handleUpgradeFormOpen = () => {
     setUpgradeFormOpen(!upgradeFormOpen);
+  };
+
+  const handlePaymentForm = () => {
+    setPaymentFormOpen(!paymentFormOpen);
   };
 
   const menuId = "primary-search-account-menu";
@@ -355,9 +360,13 @@ export default function Dashboard() {
           )}
         </List>
       </Drawer>
-      <UpgradeForm open={upgradeFormOpen} close={setUpgradeFormOpen} />
-      {/* <PaymentForm open={true} /> */}
-      <PaymentResult open={true} success={true}/>
+      <UpgradeForm
+        open={upgradeFormOpen}
+        close={setUpgradeFormOpen}
+        togglePayment={setPaymentFormOpen}
+      />
+      <PaymentForm open={paymentFormOpen} togglePaymentForm={setPaymentFormOpen}/>
+      {/* <PaymentResult open={true} success={true}/> */}
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
