@@ -6,6 +6,7 @@ import Drawer from "@material-ui/core/Drawer";
 import Box from "@material-ui/core/Box";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
+import Button from "@material-ui/core/Button";
 import List from "@material-ui/core/List";
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
@@ -40,6 +41,7 @@ import {
   Link as RouterLink
 } from "react-router-dom";
 import EventDetail from "./EventDetail"
+import UpgradeForm from "./UpgradeForm"
 
 function Copyright() {
   return (
@@ -180,6 +182,7 @@ export default function Dashboard() {
   const classes = useStyles();
   const [open, setOpen] = useState(true);
   const [anchorEl, setAnchorEl] = useState(null);
+  const [upgradeFormOpen, setUpgradeFormOpen] = useState(false);
 
   const isMenuOpen = Boolean(anchorEl);
 
@@ -187,6 +190,7 @@ export default function Dashboard() {
 
   const handleDrawerOpen = () => {
     setOpen(!open);
+    console.log(open)
   };
 
   const handleProfileMenuOpen = (event) => {
@@ -196,6 +200,10 @@ export default function Dashboard() {
   const handleMenuClose = () => {
     setAnchorEl(null);
   };
+
+  const handleUpgradeFormOpen = () => {
+      setUpgradeFormOpen(!upgradeFormOpen);
+  }
 
   const menuId = "primary-search-account-menu";
   const renderMenu = (
@@ -318,8 +326,27 @@ export default function Dashboard() {
         <Divider />
         <List>{mainListItems}</List>
         <Divider variant="middle" />
-        <List>{open && secondaryListItems}</List>
+        {/* <List>{open && secondaryListItems}</List> */}
+        <List>{open && <div>
+          <ListItem alignItems="flex-start">
+            <ListItemText
+              secondary={
+                <div>
+                  <div>Become a member to join events</div>
+                  <div>and enjoy discounts</div>
+                </div>
+              }
+            />
+          </ListItem>
+          <ListItem>
+            <Button variant="outlined" color="secondary" onClick={handleUpgradeFormOpen}>
+              Upgrade
+            </Button>
+          </ListItem>
+        </div>}</List>
+
       </Drawer>
+      <UpgradeForm open={upgradeFormOpen} close={setUpgradeFormOpen} />
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
@@ -353,7 +380,7 @@ export default function Dashboard() {
             </Grid>
           ) : (
             // Event details
-            <EventDetail/>
+            <EventDetail />
           )}
           <Box pt={4}>
             <Copyright />
