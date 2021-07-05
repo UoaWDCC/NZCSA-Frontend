@@ -38,10 +38,10 @@ import EventGrid from "./EventGrid";
 import {
   BrowserRouter as Router,
   useParams,
-  Link as RouterLink
+  Link as RouterLink,
 } from "react-router-dom";
-import EventDetail from "./EventDetail"
-import UpgradeForm from "./UpgradeForm"
+import EventDetail from "./EventDetail";
+import Upgrade from "./Upgrade";
 
 function Copyright() {
   return (
@@ -182,7 +182,7 @@ export default function Dashboard() {
   const classes = useStyles();
   const [open, setOpen] = useState(true);
   const [anchorEl, setAnchorEl] = useState(null);
-  const [upgradeFormOpen, setUpgradeFormOpen] = useState(false);
+  const [upgradeOpen, setUpgradeOpen] = useState(false);
 
   const isMenuOpen = Boolean(anchorEl);
 
@@ -190,7 +190,7 @@ export default function Dashboard() {
 
   const handleDrawerOpen = () => {
     setOpen(!open);
-    console.log(open)
+    console.log(open);
   };
 
   const handleProfileMenuOpen = (event) => {
@@ -201,9 +201,9 @@ export default function Dashboard() {
     setAnchorEl(null);
   };
 
-  const handleUpgradeFormOpen = () => {
-      setUpgradeFormOpen(!upgradeFormOpen);
-  }
+  const handleUpgradeOpen = () => {
+    setUpgradeOpen(!upgradeOpen);
+  };
 
   const menuId = "primary-search-account-menu";
   const renderMenu = (
@@ -327,26 +327,33 @@ export default function Dashboard() {
         <List>{mainListItems}</List>
         <Divider variant="middle" />
         {/* <List>{open && secondaryListItems}</List> */}
-        <List>{open && <div>
-          <ListItem alignItems="flex-start">
-            <ListItemText
-              secondary={
-                <div>
-                  <div>Become a member to join events</div>
-                  <div>and enjoy discounts</div>
-                </div>
-              }
-            />
-          </ListItem>
-          <ListItem>
-            <Button variant="outlined" color="secondary" onClick={handleUpgradeFormOpen}>
-              Upgrade
-            </Button>
-          </ListItem>
-        </div>}</List>
-
+        <List>
+          {open && (
+            <div>
+              <ListItem alignItems="flex-start">
+                <ListItemText
+                  secondary={
+                    <div>
+                      <div>Become a member to join events</div>
+                      <div>and enjoy discounts</div>
+                    </div>
+                  }
+                />
+              </ListItem>
+              <ListItem>
+                <Button
+                  variant="outlined"
+                  color="secondary"
+                  onClick={handleUpgradeOpen}
+                >
+                  Upgrade
+                </Button>
+              </ListItem>
+            </div>
+          )}
+        </List>
       </Drawer>
-      <UpgradeForm open={upgradeFormOpen} close={setUpgradeFormOpen} />
+      <Upgrade open={upgradeOpen} close={setUpgradeOpen} />
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
