@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
   payBtn: {
     minWidth: "136px",
     height: "56px",
-    borderWidth: 2,
+    borderWidth: 3,
     textTransform: "none",
   },
   selectedBtn: {
@@ -43,9 +43,9 @@ export default function UpgradeForm(props) {
   const classes = useStyles();
   const [value, setValue] = React.useState("wechat"); // Possible states are "wechat", "alipay" and "polipay"
 
-  function handlePay() {
+  const handleSumbitPaymentForm = () => {
     props.handleNext();
-  }
+};
 
   return (
     <Fade in={true} timeout={1000}>
@@ -173,7 +173,7 @@ export default function UpgradeForm(props) {
                   color="secondary"
                   variant="contained"
                   size="large"
-                  onClick={() => handlePay()}
+                  onClick={() => handleSumbitPaymentForm()}
                 >
                   Pay
                 </Button>

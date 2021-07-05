@@ -8,7 +8,7 @@ import {
 } from "@material-ui/core";
 import UpgradeForm from "./UpgradeForm";
 import PaymentForm from "./PaymentForm";
-import PaymentResult from "./PaymentResult";
+import PaymentResultForm from "./PaymentResultForm";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import CloseIcon from "@material-ui/icons/Close";
 import MuiDialogTitle from "@material-ui/core/DialogTitle";
@@ -54,14 +54,19 @@ export default function Upgrade(props) {
     if (activeStep === 2) {
       return null;
     }
-    
-    if (window.confirm("All your inputs will be discarded")) {
+    else if (window.confirm("All your inputs will be discarded")) {
       props.close(false);
       setActiveStep(0);
-    } else {
+    }
+    else {
       props.close(true);
     }
   };
+
+  const finishPayment = () => {
+    props.close(false);
+    setActiveStep(0);
+  }
 
   function getStepContent(step) {
     switch (step) {
@@ -70,7 +75,7 @@ export default function Upgrade(props) {
       case 1:
         return <PaymentForm handleNext={handleNext} />;
       case 2:
-        return <PaymentResult />;
+        return <PaymentResultForm close={finishPayment} />;
       default:
         throw new Error("unknown step");
     }
