@@ -1,67 +1,83 @@
-import React, { useState } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import {
-  Dialog,
-  DialogTitle,
-  Typography,
-  List,
-  ListItem,
-  Radio,
-  Grid,
-  Button,
-  ListItemIcon,
-  ListItemText,
-  Divider,
-  Paper,
-} from "@material-ui/core";
-import { DialogContent } from "@material-ui/core";
-import CheckCircleIcon from "@material-ui/icons/CheckCircle";
+import { Grid, Fade, Typography, Button } from "@material-ui/core";
 import CancelIcon from "@material-ui/icons/Cancel";
 import { teal } from "@material-ui/core/colors";
 
 const useStyles = makeStyles((theme) => ({
-  consent: {
-    backgroundColor: "#D8D8D8",
+  root: {
+    height: "100%",
+    display: "flex",
+    flexFlow: "column wrap",
+    alignItems: "center",
+    justifyContent: "center",
   },
-  payBtn: {
-    minWidth: "120px",
+  loadingImg: {
+    maxWidth: 280,
+    [theme.breakpoints.up("sm")]: {
+      maxWidth: 560,
+      height: "auto",
+    },
+  },
+  indicatorText: {
+    position: "absolute",
+    top: "20%",
   },
 }));
 
 export default function PaymentResult(props) {
   const classes = useStyles();
-  const [selectedValue, setSelectedValue] = React.useState("wechat");
+  const [loading, setLoading] = React.useState(true);
   const success = props.success;
 
-  const handleChange = (event) => {
-    setSelectedValue(event.target.value);
-  };
+  React.useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+  }, []);
+
+  if (loading) {
+    return (
+      <Fade in timeOut={1000}>
+        <div className={classes.root}>
+          <img
+            className={classes.loadingImg}
+            src="./images/loading.gif"
+            alt="loading"
+          />
+          <Typography variant="h6">Processing your transaction...</Typography>
+        </div>
+      </Fade>
+    );
+  }
 
   return (
-    <Dialog className={classes.root} open={props.open} fullWidth={true}>
-      <DialogContent>
-        <form style={{ marginTop: 50, marginBottom: 50 }}>
-          <Grid container align="center" className={classes.root}>
-            <Grid item xs={12} justify="center">
-              {success ? (
-                <CheckCircleIcon style={{ fontSize: 96, color: teal[400] }} />
-              ) : (
-                <CancelIcon style={{ fontSize: 96, color: "red" }} />
-              )}
-            </Grid>
-            <Grid item xs={12}>
-              <Typography variant="h4">
-                {success ? "Thank you!" : "Sorry..."}
-              </Typography>
-              <Typography variant="subtitle2" gutterBottom>
-                {success
-                  ? "Your payment is successful."
-                  : "Your payment failed."}
-              </Typography>
-            </Grid>
-          </Grid>
-        </form>
-      </DialogContent>
-    </Dialog>
+    <Fade in timeOut={1000}>
+      {success ? (
+        <div className={classes.root}>
+          <img
+            className={classes.loadingImg}
+            src="./images/loading.gif"
+            alt="loading"
+          />
+          <Typography variant="h6">Processing your transaction...</Typography>
+        </div>
+      ) : (
+        <div className={classes.root}>
+          <img
+            className={classes.loadingImg}
+            src="./images/error.gif"
+            alt="loading"
+          />
+          <div className={classes.indicatorText}>
+            <Typography color="primary" variant="h3" align="center">Payment failed...</Typography>
+            <Typography variant="h6" align="center">Please Try Again</Typography>
+          </div>
+          <div className={classes.continueBtn}>
+            <Button variant="contained">Continue</Button>
+          </div>
+        </div>
+      )}
+    </Fade>
   );
 }

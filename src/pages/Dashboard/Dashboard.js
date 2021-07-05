@@ -353,7 +353,7 @@ export default function Dashboard() {
           )}
         </List>
       </Drawer>
-      <Upgrade open={upgradeOpen} close={handleUpgradeOpen} />
+      <Upgrade open={upgradeOpen} close={setUpgradeOpen} />
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
