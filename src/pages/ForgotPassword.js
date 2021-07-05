@@ -46,6 +46,9 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  eMessage: {
+    marginBottom: theme.spacing(2),
+  }
 }));
 
 // TODO: Modify to match figma design
@@ -54,14 +57,25 @@ export default function ForgotPassword() {
   const [email, setEmail] = useState('');
   const [emailSent, setEmailSent] = useState(false);
   const [hasErrors, setHasErrors] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   const isError = (condition) => hasErrors && condition;
 
  async function handleSubmit() {
     setHasErrors(true);
     // TODO: Check the email address & format here
     if(email.length>0){
-      setEmailSent(true);
-      const res =  await forgetPassword(email);
+      //setEmailSent(true);
+      try {
+        const res =  await forgetPassword(email);
+        if (res.status === 200){
+          setEmailSent(true);
+        }
+      } catch (e) {
+        setErrorMessage(e.response.data.error);
+        setTimeout(() => {
+          setErrorMessage('');
+        }, 8000);
+      }
     }
   }
   function backtoLogin(){
@@ -87,6 +101,9 @@ export default function ForgotPassword() {
           </Typography>
         </Box>
         <div className={classes.form} noValidate >
+          <Typography color='error' className={classes.eMessage}>
+            {errorMessage}
+          </Typography>
           {!emailSent && (
             <Grid container spacing={2}>
               <Grid item xs={12}>
