@@ -8,11 +8,12 @@ import Checkbox from "@material-ui/core/Checkbox";
 import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
+import CircularProgress from '@material-ui/core/CircularProgress';
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import {forgetPassword} from "../api/connectBackend";
+import { forgetPassword } from "../api/connectBackend";
 
 function Copyright() {
   return (
@@ -46,6 +47,9 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  eMessage: {
+    marginBottom: theme.spacing(2),
+  }
 }));
 
 // TODO: Modify to match figma design
@@ -54,19 +58,34 @@ export default function ForgotPassword() {
   const [email, setEmail] = useState('');
   const [emailSent, setEmailSent] = useState(false);
   const [hasErrors, setHasErrors] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [loading, setLoading] = useState(false);
   const isError = (condition) => hasErrors && condition;
 
- async function handleSubmit() {
+  async function handleSubmit() {
     setHasErrors(true);
     // TODO: Check the email address & format here
-    if(email.length>0){
-      setEmailSent(true);
-      const res =  await forgetPassword(email);
+    if (email.length > 0) {
+      //setEmailSent(true);
+      try {
+        setLoading(true);
+        const res = await forgetPassword(email);
+        if (res.status === 200) {
+          setLoading(false);
+          setEmailSent(true);
+        }
+      } catch (e) {
+        setLoading(false);
+        setErrorMessage(e.response.data.error);
+        setTimeout(() => {
+          setErrorMessage('');
+        }, 8000);
+      }
     }
   }
-  function backtoLogin(){
+  function backtoLogin() {
     //this.props.history.push('/login')
-    window.location.href="/login"
+    window.location.href = "/login"
   }
 
   return (
@@ -87,6 +106,9 @@ export default function ForgotPassword() {
           </Typography>
         </Box>
         <div className={classes.form} noValidate >
+          <Typography color='error' className={classes.eMessage}>
+            {errorMessage}
+          </Typography>
           {!emailSent && (
             <Grid container spacing={2}>
               <Grid item xs={12}>
@@ -114,7 +136,11 @@ export default function ForgotPassword() {
             className={classes.submit}
             onClick={emailSent ? backtoLogin : handleSubmit}
           >
-            {emailSent ? `Done` : `Continue`}
+            {loading ? (
+              <CircularProgress color="inherit" size="2rem" />
+            ) : (
+              <>{emailSent ? `Done` : `Continue`}</>
+            )}
           </Button>
           <Grid container>
             <Link href="/login" variant="body2" color="primary">
