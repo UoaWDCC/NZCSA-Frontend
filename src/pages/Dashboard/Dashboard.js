@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import clsx from "clsx";
 import { makeStyles, fade } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -42,6 +42,7 @@ import {
 } from "react-router-dom";
 import EventDetail from "./EventDetail";
 import Upgrade from "./Upgrade";
+import axios from "axios";
 
 function Copyright() {
   return (
@@ -183,6 +184,8 @@ export default function Dashboard() {
   const [open, setOpen] = useState(true);
   const [anchorEl, setAnchorEl] = useState(null);
   const [upgradeOpen, setUpgradeOpen] = useState(false);
+  const [eventData, setEventData] = useState({});
+  const [userData, setUserData] = useState({});
 
   const isMenuOpen = Boolean(anchorEl);
 
@@ -205,6 +208,41 @@ export default function Dashboard() {
     setUpgradeOpen(!upgradeOpen);
   };
 
+  useEffect(() => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        // Authorization: `Bearer ${localStorage.getItem('authToken')}`
+        Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwZTJiNDQwMzM0MjBjZWExYmQ0ZGRiYyIsImlhdCI6MTYyNTU1MzMyNn0.O7wqQZ2JfGihrqt4QkTW1Kh2ZK-j5FWg1zBewYMasyU'
+      }
+    }
+    console.log(config)
+    const fetchData = async () => {
+      axios.get('https://nzcsa-backend.herokuapp.com/api/private/get-user-info', config)
+        .then((res) => {
+          setUserData(res.data.data)
+          console.log(res.data.data)
+        }).catch((e) => {
+          console.log(e)
+        })
+    };
+    fetchData()
+  }, [anchorEl])
+
+  useEffect(() => {
+    const fetchData = async () => {
+      axios.get('https://nzcsa-backend.herokuapp.com/api/private/get-events-info')
+        .then((res) => {
+          setEventData(res.data)
+          console.log(res.data)
+        }).catch((e) => {
+          console.log(e)
+        })
+    }
+    fetchData();
+  }, [])
+
+
   const menuId = "primary-search-account-menu";
   const renderMenu = (
     <Menu
@@ -222,7 +260,7 @@ export default function Dashboard() {
             <Avatar alt="Cindy Baker" src="/static/images/avatar/3.jpg" />
           </ListItemAvatar>
           <ListItemText
-            primary="Name"
+            primary={userData.firstname}
             secondary={
               <React.Fragment>
                 <Typography
@@ -231,7 +269,7 @@ export default function Dashboard() {
                   className={classes.inline}
                   color="textSecondary"
                 >
-                  YourEmail@gmail.com
+                  {userData.email}
                 </Typography>
               </React.Fragment>
             }
@@ -378,7 +416,7 @@ export default function Dashboard() {
                 />
               </Grid>
               {/* List of Events */}
-              <EventGrid />
+              <EventGrid data={eventData} />
               {/* Recent Deposits */}
               <Grid item xs={12} md={4} lg={3}>
                 <Paper className={fixedHeightPaper}>{id}</Paper>
