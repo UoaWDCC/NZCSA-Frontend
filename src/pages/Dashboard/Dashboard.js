@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import clsx from "clsx";
 import { makeStyles, fade } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -38,10 +38,11 @@ import EventGrid from "./EventGrid";
 import {
   BrowserRouter as Router,
   useParams,
-  Link as RouterLink
+  Link as RouterLink,
 } from "react-router-dom";
-import EventDetail from "./EventDetail"
-import UpgradeForm from "./UpgradeForm"
+import EventDetail from "./EventDetail";
+import Upgrade from "./Upgrade";
+import axios from "axios";
 
 function Copyright() {
   return (
@@ -182,7 +183,9 @@ export default function Dashboard() {
   const classes = useStyles();
   const [open, setOpen] = useState(true);
   const [anchorEl, setAnchorEl] = useState(null);
-  const [upgradeFormOpen, setUpgradeFormOpen] = useState(false);
+  const [upgradeOpen, setUpgradeOpen] = useState(false);
+  const [eventData, setEventData] = useState({});
+  const [userData, setUserData] = useState({});
 
   const isMenuOpen = Boolean(anchorEl);
 
@@ -190,7 +193,7 @@ export default function Dashboard() {
 
   const handleDrawerOpen = () => {
     setOpen(!open);
-    console.log(open)
+    console.log(open);
   };
 
   const handleProfileMenuOpen = (event) => {
@@ -201,9 +204,44 @@ export default function Dashboard() {
     setAnchorEl(null);
   };
 
-  const handleUpgradeFormOpen = () => {
-      setUpgradeFormOpen(!upgradeFormOpen);
-  }
+  const handleUpgradeOpen = () => {
+    setUpgradeOpen(!upgradeOpen);
+  };
+
+  useEffect(() => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        // Authorization: `Bearer ${localStorage.getItem('authToken')}`
+        Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwZTJiNDQwMzM0MjBjZWExYmQ0ZGRiYyIsImlhdCI6MTYyNTU1MzMyNn0.O7wqQZ2JfGihrqt4QkTW1Kh2ZK-j5FWg1zBewYMasyU'
+      }
+    }
+    console.log(config)
+    const fetchData = async () => {
+      axios.get('https://nzcsa-backend.herokuapp.com/api/private/get-user-info', config)
+        .then((res) => {
+          setUserData(res.data.data)
+          console.log(res.data.data)
+        }).catch((e) => {
+          console.log(e)
+        })
+    };
+    fetchData()
+  }, [anchorEl])
+
+  useEffect(() => {
+    const fetchData = async () => {
+      axios.get('https://nzcsa-backend.herokuapp.com/api/private/get-events-info')
+        .then((res) => {
+          setEventData(res.data)
+          console.log(res.data)
+        }).catch((e) => {
+          console.log(e)
+        })
+    }
+    fetchData();
+  }, [])
+
 
   const menuId = "primary-search-account-menu";
   const renderMenu = (
@@ -222,7 +260,7 @@ export default function Dashboard() {
             <Avatar alt="Cindy Baker" src="/static/images/avatar/3.jpg" />
           </ListItemAvatar>
           <ListItemText
-            primary="Name"
+            primary={userData.firstname}
             secondary={
               <React.Fragment>
                 <Typography
@@ -231,7 +269,7 @@ export default function Dashboard() {
                   className={classes.inline}
                   color="textSecondary"
                 >
-                  YourEmail@gmail.com
+                  {userData.email}
                 </Typography>
               </React.Fragment>
             }
@@ -327,26 +365,33 @@ export default function Dashboard() {
         <List>{mainListItems}</List>
         <Divider variant="middle" />
         {/* <List>{open && secondaryListItems}</List> */}
-        <List>{open && <div>
-          <ListItem alignItems="flex-start">
-            <ListItemText
-              secondary={
-                <div>
-                  <div>Become a member to join events</div>
-                  <div>and enjoy discounts</div>
-                </div>
-              }
-            />
-          </ListItem>
-          <ListItem>
-            <Button variant="outlined" color="secondary" onClick={handleUpgradeFormOpen}>
-              Upgrade
-            </Button>
-          </ListItem>
-        </div>}</List>
-
+        <List>
+          {open && (
+            <div>
+              <ListItem alignItems="flex-start">
+                <ListItemText
+                  secondary={
+                    <div>
+                      <div>Become a member to join events</div>
+                      <div>and enjoy discounts</div>
+                    </div>
+                  }
+                />
+              </ListItem>
+              <ListItem>
+                <Button
+                  variant="outlined"
+                  color="secondary"
+                  onClick={handleUpgradeOpen}
+                >
+                  Upgrade
+                </Button>
+              </ListItem>
+            </div>
+          )}
+        </List>
       </Drawer>
-      <UpgradeForm open={upgradeFormOpen} close={setUpgradeFormOpen} />
+      <Upgrade open={upgradeOpen} close={setUpgradeOpen} />
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
@@ -371,7 +416,7 @@ export default function Dashboard() {
                 />
               </Grid>
               {/* List of Events */}
-              <EventGrid />
+              <EventGrid data={eventData} />
               {/* Recent Deposits */}
               <Grid item xs={12} md={4} lg={3}>
                 <Paper className={fixedHeightPaper}>{id}</Paper>

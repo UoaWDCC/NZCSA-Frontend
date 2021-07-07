@@ -59,12 +59,15 @@ export default function ForgotPassword() {
   const [emailSent, setEmailSent] = useState(false);
   const [hasErrors, setHasErrors] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+
   const [loading, setLoading] = useState(false);
+
   const isError = (condition) => hasErrors && condition;
 
   async function handleSubmit() {
     setHasErrors(true);
     // TODO: Check the email address & format here
+
     if (email.length > 0) {
       //setEmailSent(true);
       try {

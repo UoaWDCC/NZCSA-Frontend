@@ -16,8 +16,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import NZCSABackground from '../assets/bg.png'
 import logo from '../assets/logo.png'
 import { Container } from '@material-ui/core';
+
 import { useState, useEffect } from 'react';
 import { login } from '../api/connectBackend';
+
 import { red } from '@material-ui/core/colors';
 
 function Copyright() {
@@ -72,10 +74,12 @@ const useStyles = makeStyles((theme) => ({
     // align-item:'center'
     alignContent: 'center'
   },
+
   logoNCopyright: {
     marginTop: "50%"
   },
   errorMessage: {
+
     color: red
   }
 
@@ -88,7 +92,9 @@ export default function SignInSide(props) {
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [hasErrors, setHasErrors] = useState(false);
+
   const [loading, setLoading] = useState(false);
+
   const isError = (condition) => hasErrors && condition;
 
   useEffect(() => {
@@ -98,11 +104,13 @@ export default function SignInSide(props) {
   async function handleSignIn() {
     setHasErrors(true);
     const loginInfo = { email, password }
+
     if (email.length > 0 && password.length > 0) {
       try {
         setLoading(true);
         const response = await login(loginInfo);
         if (response.status === 200) {
+
           window.location.href = '/';
         }
         //console.log(response.data);
@@ -112,7 +120,9 @@ export default function SignInSide(props) {
           setErrorMessage('');
         }, 8000);
         setErrorMessage(e.response.data.error);
+
         setLoading(false);
+
         //console.log(e.response.data.error);
       }
     }
@@ -146,6 +156,7 @@ export default function SignInSide(props) {
               <Typography color='error'>
                 {errorMessage}
               </Typography>
+
               <TextField variant="outlined"
                 margin="normal"
                 required
@@ -206,6 +217,7 @@ export default function SignInSide(props) {
               <Container className={classes.logoNCopyright}>
                 <Grid container justify="center" alignItems="center">
                   <img alt="" src={logo} className={classes.logo} />
+
                 </Grid>
                 <Box mt={5}>
                   <Copyright />

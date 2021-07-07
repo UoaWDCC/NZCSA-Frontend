@@ -78,7 +78,9 @@ export default function ResetPassword() {
   const [hasErrors, setHasErrors] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [success, setSuccess] = useState(false);
+
   const [loading, setLoading] = useState(false);
+
   const [values, setValues] = React.useState({
     showPassword: false,
     showConfirm: false,
@@ -116,8 +118,10 @@ export default function ResetPassword() {
   };
 
   async function handleSubmitButton() {
+
     // setPassReset(true);
     const res = await resetPassword(window.location.pathname, password);
+
 
   }
 
@@ -125,15 +129,18 @@ export default function ResetPassword() {
     setHasErrors(true);
     if (password.length > 0 && isPasswordSame) {
       try {
+
         setLoading(true);
         const res = await resetPassword(window.location.pathname, password);
         if (res.status === 200) {
           setLoading(false);
+
           setSuccess(true);
           setPassword('');
           setConfirmPassword('');
           setHasErrors(false);
           setErrorMessage('');
+
           setValues({
             showPassword: false,
             showConfirm: false,
@@ -151,11 +158,14 @@ export default function ResetPassword() {
     window.location.href = '/login';
   }
 
+
   const isError = (condition) => hasErrors && condition;
 
   return (
     <Grid>
+
       {success && <Alert onClose={() => { setSuccess(false) }}> Your password has been successfully reset. Please <a className={classes.signin} onClick={redirectToLogin}>log in</a>.</Alert>}
+
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <div className={classes.paper}>
@@ -176,7 +186,9 @@ export default function ResetPassword() {
             className={classes.form}
             href="#"
           >
+
             {/* <div> */}
+
             <Typography color='error' className={classes.eMessage}>
               {errorMessage}
             </Typography>
@@ -194,10 +206,12 @@ export default function ResetPassword() {
                     name="password"
                     control={control}
                     defaultValue=""
+
                     rules={{
                       required: true, minLength: 6, pattern:
                         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/
                     }}
+
                     render={({ field }) => (
                       <TextField
                         {...field}
@@ -249,10 +263,12 @@ export default function ResetPassword() {
                     name="confirm"
                     control={control}
                     defaultValue=""
+
                     rules={{
                       required: true, minLength: 6, pattern:
                         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/
                     }}
+
                     render={({ field }) => (
                       <TextField
                         {...field}
@@ -283,6 +299,7 @@ export default function ResetPassword() {
               color="primary"
               className={classes.submit}
               onClick={handleSubmit}
+
             // onClick={passReset ? backtoLogin : handleSubmitButton}
             >
               {loading ? (
@@ -290,6 +307,7 @@ export default function ResetPassword() {
               ) : (
                 <>{passReset ? `Continue` : `Submit`}</>
               )}
+
             </Button>
             <Grid container>
               <Link href="/login" variant="body2" color="primary">
