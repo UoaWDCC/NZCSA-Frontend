@@ -37,7 +37,7 @@ export default function AltCard(props) {
             >
                 {Object.keys(props.data).map((elem, i) => (
                     <Grid item xs={12} sm={6} md={3} key={props.data[elem].id}>
-                        <EventCard id={props.data[elem].id} title={props.data[elem].eventName} date={props.data[elem].eventTime} location={props.data[elem].eventLocation} />
+                        <EventCard id={props.data[elem].id} title={props.data[elem].eventName} date={props.data[elem].eventTime} location={props.data[elem].eventLocation} image={props.data[elem].eventImgUrl} />
                     </Grid>
                 ))}
             </Grid>

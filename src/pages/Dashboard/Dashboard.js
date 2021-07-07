@@ -234,7 +234,7 @@ export default function Dashboard() {
       axios.get('https://nzcsa-backend.herokuapp.com/api/private/get-events-info')
         .then((res) => {
           setEventData(res.data)
-          // console.log(res.data)
+          console.log(res.data)
         }).catch((e) => {
           console.log(e)
         })
