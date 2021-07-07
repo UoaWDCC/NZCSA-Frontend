@@ -12,6 +12,7 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+import CircularProgress from '@material-ui/core/CircularProgress';
 import InputAdornment from "@material-ui/core/InputAdornment";
 import { useForm, Controller, useWatch } from "react-hook-form";
 import Visibility from "@material-ui/icons/Visibility";
@@ -20,7 +21,7 @@ import IconButton from "@material-ui/core/IconButton";
 import Alert from '@material-ui/lab/Alert';
 import PasswordStrengthIndicator from "../components/PasswordStrengthIndicator";
 import checkPasswordStrength from "../components/PasswordChecker";
-import {resetPassword} from "../api/connectBackend";
+import { resetPassword } from "../api/connectBackend";
 
 
 function Copyright() {
@@ -77,6 +78,9 @@ export default function ResetPassword() {
   const [hasErrors, setHasErrors] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [success, setSuccess] = useState(false);
+
+  const [loading, setLoading] = useState(false);
+
   const [values, setValues] = React.useState({
     showPassword: false,
     showConfirm: false,
@@ -91,7 +95,7 @@ export default function ResetPassword() {
   const onSubmit = (data) => {
     setHasErrors(true);
     console.log(data);
-    if (data.password == data.confirm){
+    if (data.password == data.confirm) {
       setPassReset(true);
       handleSubmitButton()
     }
@@ -114,29 +118,38 @@ export default function ResetPassword() {
   };
 
   async function handleSubmitButton() {
-      // setPassReset(true);
-    const res =  await resetPassword(window.location.pathname,password);
-    
+
+    // setPassReset(true);
+    const res = await resetPassword(window.location.pathname, password);
+
+
   }
 
   async function handleSubmit() {
     setHasErrors(true);
     if (password.length > 0 && isPasswordSame) {
       try {
-        const res = await resetPassword(window.location.pathname,password);
-        if (res.status === 200){
+
+        setLoading(true);
+        const res = await resetPassword(window.location.pathname, password);
+        if (res.status === 200) {
+          setLoading(false);
+
           setSuccess(true);
           setPassword('');
           setConfirmPassword('');
           setHasErrors(false);
           setErrorMessage('');
-          setValues({ 
+
+          setValues({
             showPassword: false,
             showConfirm: false,
-            passStrength: "" });
+            passStrength: ""
+          });
         }
       } catch (e) {
-        setErrorMessage(e.response.data.error);
+        setLoading(false);
+        setErrorMessage('Sorry, your password cannot be reset');
       }
     }
   }
@@ -145,11 +158,14 @@ export default function ResetPassword() {
     window.location.href = '/login';
   }
 
+
   const isError = (condition) => hasErrors && condition;
 
   return (
     <Grid>
-      {success && <Alert onClose={() => {setSuccess(false)}}> Your password has been successfully reset. Please <a className={classes.signin} onClick={redirectToLogin}>log in</a>.</Alert>}
+
+      {success && <Alert onClose={() => { setSuccess(false) }}> Your password has been successfully reset. Please <a className={classes.signin} onClick={redirectToLogin}>log in</a>.</Alert>}
+
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <div className={classes.paper}>
@@ -170,7 +186,9 @@ export default function ResetPassword() {
             className={classes.form}
             href="#"
           >
-          {/* <div> */}
+
+            {/* <div> */}
+
             <Typography color='error' className={classes.eMessage}>
               {errorMessage}
             </Typography>
@@ -188,8 +206,12 @@ export default function ResetPassword() {
                     name="password"
                     control={control}
                     defaultValue=""
-                    rules={{ required: true, minLength: 6, pattern:
-                      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/}}
+
+                    rules={{
+                      required: true, minLength: 6, pattern:
+                        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/
+                    }}
+
                     render={({ field }) => (
                       <TextField
                         {...field}
@@ -241,8 +263,12 @@ export default function ResetPassword() {
                     name="confirm"
                     control={control}
                     defaultValue=""
-                    rules={{ required: true, minLength: 6 ,pattern:
-                      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/}}
+
+                    rules={{
+                      required: true, minLength: 6, pattern:
+                        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/
+                    }}
+
                     render={({ field }) => (
                       <TextField
                         {...field}
@@ -273,9 +299,15 @@ export default function ResetPassword() {
               color="primary"
               className={classes.submit}
               onClick={handleSubmit}
-              // onClick={passReset ? backtoLogin : handleSubmitButton}
+
+            // onClick={passReset ? backtoLogin : handleSubmitButton}
             >
-              {passReset ? `Continue` : `Submit`}
+              {loading ? (
+                <CircularProgress color="inherit" size="2rem" />
+              ) : (
+                <>{passReset ? `Continue` : `Submit`}</>
+              )}
+
             </Button>
             <Grid container>
               <Link href="/login" variant="body2" color="primary">

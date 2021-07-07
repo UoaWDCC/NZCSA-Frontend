@@ -8,6 +8,7 @@ import Checkbox from "@material-ui/core/Checkbox";
 import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 //import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
@@ -87,6 +88,7 @@ const useStyles = makeStyles((theme) => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
+    opacity: 1,
   },
   message: {
     marginBottom: theme.spacing(2),
@@ -114,6 +116,9 @@ export default function SignUp(props) {
   const [isPasswordSame, setPasswordSame] = useState(true);
   const [message, setMessage] = useState('');
   const [success, setSuccess] = useState(false);
+
+  const [loading, setLoading] = useState(false);
+
   const [values, setValues] = React.useState({
     showPassword: false,
     showConfirm: false,
@@ -164,8 +169,12 @@ export default function SignUp(props) {
     const signInfo = { firstname: firstName, lastname: lastName, email: email, password: password }
     if (firstName.length > 0 && lastName.length > 0 && email.length > 0 && password.length > 0 && isPasswordSame) {
       try {
+
+        setLoading(true);
         const response = await signUp(signInfo);
-        if (response.status === 201){
+        if (response.status === 201) {
+          setLoading(false);
+
           setFirstName('');
           setLastName('');
           setEmail('');
@@ -174,19 +183,25 @@ export default function SignUp(props) {
           setHasErrors(false);
           setSuccess(true);
           setMessage('');
-          setValues({ 
+
+          setValues({
             showPassword: false,
             showConfirm: false,
-            passStrength: "" });
-          }
-        
+            passStrength: ""
+          });
+        }
+
+
         console.log(response);
       } catch (e) {
         //console.log(e.response.data.info);
         //console.log(e.response.data);
+
+        setLoading(false);
         if (e.response.data.info === 'User validation failed: email: Please provide a valid email') {
           setMessage('The email that you provided is invalid, please provide a valid email.');
-        }else {
+        } else {
+
           setMessage('Email is already registered, please sign in.')
         }
       }
@@ -197,7 +212,9 @@ export default function SignUp(props) {
 
     <Grid container component="main" className={classes.root}>
       <Grid item xs={12} className={classes.image}>
-      {success && <Alert variant="filled" onClose={() => {setSuccess(false)}}> Registered successfully. Please <a className={classes.signin} onClick={redirectToLogin}>sign in</a>.</Alert>}
+
+        {success && <Alert variant="filled" onClose={() => { setSuccess(false) }}> Registered successfully. Please <a className={classes.signin} onClick={redirectToLogin}>sign in</a>.</Alert>}
+
         <Container maxWidth="sm">
           <CssBaseline />
           <div className={classes.paper}>
@@ -261,15 +278,21 @@ export default function SignUp(props) {
                   />
                 </Grid>
                 <Grid item xs={12}>
-                <Typography component="p" variant="body1" className={classes.pStrength}>
+
+                  <Typography component="p" variant="body1" className={classes.pStrength}>
+
                     {`Password Strength: ` + values.passStrength}
                   </Typography>
                   <Controller
                     name="password"
                     control={control}
                     defaultValue=""
-                    rules={{ required: true, minLength: 6, pattern:
-                      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/}}
+
+                    rules={{
+                      required: true, minLength: 6, pattern:
+                        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/
+                    }}
+
                     render={({ field }) => (
                       <TextField
                         {...field}
@@ -368,7 +391,11 @@ export default function SignUp(props) {
                 onClick={() => handleRegister()}
                 className={classes.submit}
               >
-                Sign Up
+                {loading ? (
+                  <CircularProgress color="inherit" size="2rem" />
+                ) : (
+                  <>Sign Up</>
+                )}
               </Button>
               <Grid container justify="flex-end">
                 <Grid item>
