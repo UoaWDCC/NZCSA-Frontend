@@ -179,13 +179,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Dashboard() {
+export default function Dashboard(props) {
   const classes = useStyles();
   const [open, setOpen] = useState(true);
   const [anchorEl, setAnchorEl] = useState(null);
   const [upgradeOpen, setUpgradeOpen] = useState(false);
   const [eventData, setEventData] = useState({});
   const [userData, setUserData] = useState({});
+  const [yourEventsData, setYoursEventData] = useState({});
+  const [yourEventsBtn, setYourEventBtn] = useState(false);
 
   const isMenuOpen = Boolean(anchorEl);
 
@@ -208,6 +210,21 @@ export default function Dashboard() {
     setUpgradeOpen(!upgradeOpen);
   };
 
+  // const handleYourEvent = (data) => {
+  //   console.log(data)
+  //   const event = {}
+  //   if (Object.keys(eventData) !== 0) {
+  //     data.map((el) => {
+  //       event[el] = eventData[el]
+  //       return null;
+  //     })
+  //   }
+
+  //   console.log(eventData)
+  //   setYoursEventData(event);
+  // }
+
+
   useEffect(() => {
     const config = {
       headers: {
@@ -221,7 +238,8 @@ export default function Dashboard() {
       axios.get('https://nzcsa-backend.herokuapp.com/api/private/get-user-info', config)
         .then((res) => {
           setUserData(res.data.data)
-          console.log(res.data.data)
+          console.log(res)
+          // handleYourEvent(res.data.data.attendedEvents)
         }).catch((e) => {
           console.log(e)
         })
@@ -234,6 +252,7 @@ export default function Dashboard() {
       axios.get('https://nzcsa-backend.herokuapp.com/api/private/get-events-info')
         .then((res) => {
           setEventData(res.data)
+          // handleYourEvent()
           console.log(res.data)
         }).catch((e) => {
           console.log(e)
@@ -299,6 +318,44 @@ export default function Dashboard() {
   );
 
   let { id } = useParams();
+  console.log(props.yourEvents)
+
+  const home = (
+    <Grid container spacing={3}>
+      {/* Chart */}
+      <Grid item xs={12}>
+        <Paper className={classes.paper}>
+          <Typography variant="h6">Browse Events</Typography>
+        </Paper>
+      </Grid>
+      {/* Main Events Section */}
+      <Grid item xs={12}>
+        <MainCard
+          img="/bg.png"
+          title="Professional Networking"
+          date="Thursday, 5 August 2021"
+          location="303-G20, City Campus, University of Auckland"
+          id="0"
+          btn
+          darken
+        />
+      </Grid>
+      {/* List of Events */}
+      <EventGrid data={eventData} />
+    </Grid>);
+
+  console.log(yourEventsData)
+  const yourEvents = (
+    <Grid container spacing={3}>
+      <Grid item xs={12}>
+        <Paper className={classes.paper}>
+          <Typography variant="h6">Browse Your Events</Typography>
+        </Paper>
+      </Grid>
+      <EventGrid data={eventData} userData={userData} />
+    </Grid>
+
+  )
 
   return (
     <div className={classes.root}>
@@ -395,38 +452,15 @@ export default function Dashboard() {
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
-          {!id ? (
-            <Grid container spacing={3}>
-              {/* Chart */}
-              <Grid item xs={12}>
-                <Paper className={classes.paper}>
-                  <Typography variant="h6">Browse Events</Typography>
-                </Paper>
-              </Grid>
-              {/* Main Events Section */}
-              <Grid item xs={12}>
-                <MainCard
-                  img="/bg.png"
-                  title="Professional Networking"
-                  date="Thursday, 5 August 2021"
-                  location="303-G20, City Campus, University of Auckland"
-                  id="0"
-                  btn
-                  darken
-                />
-              </Grid>
-              {/* List of Events */}
-              <EventGrid data={eventData} />
-              {/* Recent Deposits */}
-              <Grid item xs={12} md={4} lg={3}>
-                <Paper className={fixedHeightPaper}>{id}</Paper>
-              </Grid>
-              {/* Recent Orders */}
-            </Grid>
+          {props.yourEvents ? (
+            yourEvents
+          ) : !id ? (
+            home
           ) : (
             // Event details
             <EventDetail />
           )}
+
           <Box pt={4}>
             <Copyright />
           </Box>{" "}
