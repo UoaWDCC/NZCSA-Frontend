@@ -1,4 +1,5 @@
 import React from "react";
+import { withStyles } from "@material-ui/core/styles";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
@@ -7,27 +8,41 @@ import PeopleIcon from "@material-ui/icons/People";
 import Button from "@material-ui/core/Button";
 import { EventNote } from "@material-ui/icons";
 import { BrowserRouter as Router, Link } from "react-router-dom";
+import MenuItem from "@material-ui/core/MenuItem";
+
+
+const StyledListItem = withStyles((theme) => ({
+  root: {
+    "&:focus": {
+      backgroundColor: theme.palette.primary.main,
+      "& .MuiListItemIcon-root, & .MuiListItemText-primary": {
+        color: theme.palette.common.white
+      }
+    }
+  }
+}))(ListItem);
 
 export const mainListItems = (
+
   <div>
-    <ListItem button to="/" component={Link}>
+    <StyledListItem button to="/" component={Link} >
       <ListItemIcon>
         <DashboardIcon />
       </ListItemIcon>
       <ListItemText primary="Home" />
-    </ListItem>
-    <ListItem button to="/yourEvents" component={Link}>
+    </StyledListItem>
+    <StyledListItem button to="/yourEvents" component={Link}>
       <ListItemIcon>
         <EventNote />
       </ListItemIcon>
       <ListItemText primary="Your Events" />
-    </ListItem>
-    <ListItem button>
+    </StyledListItem>
+    <StyledListItem button>
       <ListItemIcon>
         <PeopleIcon />
       </ListItemIcon>
       <ListItemText primary="Sponsors" />
-    </ListItem>
+    </StyledListItem>
   </div>
 );
 
