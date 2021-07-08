@@ -7,6 +7,9 @@ import { useParams } from "react-router";
 import clsx from "clsx";
 import { Typography } from "@material-ui/core";
 import { Button } from "@material-ui/core";
+import { useHistory } from "react-router-dom";
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -19,17 +22,32 @@ const useStyles = makeStyles((theme) => ({
   fixedHeight: {
     height: 240,
   },
+  closeButton: {
+    position: "absolute",
+    right: theme.spacing(4),
+    top: theme.spacing(8),
+
+  }
 }));
 
 export default function EventDetail() {
   const classes = useStyles();
   let { id } = useParams();
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+  // let history
+  let history = useHistory();
+
+  const handleCloseBtn = () => {
+    history.goBack();
+  }
 
   return (
     <div>
       <Grid container spacing={3}>
         <Grid item xs={12}>
+          <IconButton aria-label="close" className={classes.closeButton} edge='start' size='small' onClick={handleCloseBtn}>
+            <CloseIcon />
+          </IconButton>
           <MainCard img="/pn.png" />
         </Grid>
         {/* List of Events */}
