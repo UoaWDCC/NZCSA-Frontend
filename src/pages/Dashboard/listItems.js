@@ -16,7 +16,7 @@ export const mainListItems = (
       </ListItemIcon>
       <ListItemText primary="Home" />
     </ListItem>
-    <ListItem button>
+    <ListItem button to="/yourEvents" component={Link} >
       <ListItemIcon>
         <EventNote />
       </ListItemIcon>

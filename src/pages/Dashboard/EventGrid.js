@@ -16,16 +16,27 @@ const useStyles = makeStyles(theme => ({
     }
 }))
 
-export default function AltCard() {
+export default function AltCard(props) {
     const classes = useStyles()
-    const data = [
-        { id: 1, date: "FRI, AUG 6 AT 7:30 PM UTC+12", name: "Event1", location: "UOA City Campus" },
-        { id: 2, date: "FRI, AUG 6 AT 7:30 PM UTC+12", name: "Event1", location: "UOA City Campus" },
-        { id: 3, date: "FRI, AUG 6 AT 7:30 PM UTC+12", name: "Event1", location: "UOA City Campus" },
-        { id: 4, date: "FRI, AUG 6 AT 7:30 PM UTC+12", name: "Event1", location: "UOA City Campus" },
-        { id: 5, date: "FRI, AUG 6 AT 7:30 PM UTC+12", name: "Event1", location: "UOA City Campus" },
-        { id: 6, date: "FRI, AUG 6 AT 7:30 PM UTC+12", name: "Event1", location: "UOA City Campus" },
-    ]
+
+    let userEventsDetail = {};
+    console.log(props)
+
+    if (props.userData) {
+        if (Object.keys(props.userData).length !== 0) {
+            for (let i = 0; i < props.userData.attendedEvents.length; i++) {
+                const eventId = props.userData.attendedEvents[i]
+                userEventsDetail[i] = props.data[eventId]
+                // console.log(props.userData.attendedEvents[i])
+
+            }
+        }
+
+    } else {
+        userEventsDetail = props.data
+    }
+
+    console.log(userEventsDetail)
     return (
         <div className={classes.root}>
             <Grid
@@ -35,10 +46,10 @@ export default function AltCard() {
                 justify="flex-start"
                 alignItems="flex-start"
             >
-                {data.map((elem, i) => (
-                    <Grid item xs={12} sm={6} md={3} key={elem.id.toString()}>
-                        <EventCard id={elem.id.toString()} title={elem.name} date={elem.date} location={elem.location}/>
-                     </Grid>
+                {Object.keys(userEventsDetail).map((elem, i) => (
+                    <Grid item xs={12} sm={6} md={3} key={userEventsDetail[elem].id}>
+                        <EventCard id={userEventsDetail[elem].id} title={userEventsDetail[elem].eventName} date={userEventsDetail[elem].eventTime} location={userEventsDetail[elem].eventLocation} image={userEventsDetail[elem].eventImgUrl} />
+                    </Grid>
                 ))}
             </Grid>
         </div>

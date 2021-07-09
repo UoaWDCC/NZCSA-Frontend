@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import clsx from "clsx";
 import { makeStyles, fade } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -42,6 +42,7 @@ import {
 } from "react-router-dom";
 import EventDetail from "./EventDetail";
 import Upgrade from "./Upgrade";
+import axios from "axios";
 
 function Copyright() {
   return (
@@ -178,11 +179,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Dashboard() {
+export default function Dashboard(props) {
   const classes = useStyles();
   const [open, setOpen] = useState(true);
   const [anchorEl, setAnchorEl] = useState(null);
   const [upgradeOpen, setUpgradeOpen] = useState(false);
+  const [eventData, setEventData] = useState({});
+  const [userData, setUserData] = useState({});
+  const [yourEventsData, setYoursEventData] = useState({});
+  const [yourEventsBtn, setYourEventBtn] = useState(false);
 
   const isMenuOpen = Boolean(anchorEl);
 
@@ -205,6 +210,58 @@ export default function Dashboard() {
     setUpgradeOpen(!upgradeOpen);
   };
 
+  // const handleYourEvent = (data) => {
+  //   console.log(data)
+  //   const event = {}
+  //   if (Object.keys(eventData) !== 0) {
+  //     data.map((el) => {
+  //       event[el] = eventData[el]
+  //       return null;
+  //     })
+  //   }
+
+  //   console.log(eventData)
+  //   setYoursEventData(event);
+  // }
+
+
+  useEffect(() => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        // Authorization: `Bearer ${localStorage.getItem('authToken')}`
+        Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwZTJiNDQwMzM0MjBjZWExYmQ0ZGRiYyIsImlhdCI6MTYyNTU1MzMyNn0.O7wqQZ2JfGihrqt4QkTW1Kh2ZK-j5FWg1zBewYMasyU'
+      }
+    }
+    console.log(config)
+    const fetchData = async () => {
+      axios.get('https://nzcsa-backend.herokuapp.com/api/private/get-user-info', config)
+        .then((res) => {
+          setUserData(res.data.data)
+          console.log(res)
+          // handleYourEvent(res.data.data.attendedEvents)
+        }).catch((e) => {
+          console.log(e)
+        })
+    };
+    fetchData()
+  }, [anchorEl])
+
+  useEffect(() => {
+    const fetchData = async () => {
+      axios.get('https://nzcsa-backend.herokuapp.com/api/private/get-events-info')
+        .then((res) => {
+          setEventData(res.data)
+          // handleYourEvent()
+          console.log(res.data)
+        }).catch((e) => {
+          console.log(e)
+        })
+    }
+    fetchData();
+  }, [])
+
+
   const menuId = "primary-search-account-menu";
   const renderMenu = (
     <Menu
@@ -222,7 +279,7 @@ export default function Dashboard() {
             <Avatar alt="Cindy Baker" src="/static/images/avatar/3.jpg" />
           </ListItemAvatar>
           <ListItemText
-            primary="Name"
+            primary={userData.firstname}
             secondary={
               <React.Fragment>
                 <Typography
@@ -231,7 +288,7 @@ export default function Dashboard() {
                   className={classes.inline}
                   color="textSecondary"
                 >
-                  YourEmail@gmail.com
+                  {userData.email}
                 </Typography>
               </React.Fragment>
             }
@@ -261,6 +318,44 @@ export default function Dashboard() {
   );
 
   let { id } = useParams();
+  console.log(props.yourEvents)
+
+  const home = (
+    <Grid container spacing={3}>
+      {/* Chart */}
+      <Grid item xs={12}>
+        <Paper className={classes.paper}>
+          <Typography variant="h6">Browse Events</Typography>
+        </Paper>
+      </Grid>
+      {/* Main Events Section */}
+      <Grid item xs={12}>
+        <MainCard
+          img="/bg.png"
+          title="Professional Networking"
+          date="Thursday, 5 August 2021"
+          location="303-G20, City Campus, University of Auckland"
+          id="0"
+          btn
+          darken
+        />
+      </Grid>
+      {/* List of Events */}
+      <EventGrid data={eventData} />
+    </Grid>);
+
+  console.log(yourEventsData)
+  const yourEvents = (
+    <Grid container spacing={3}>
+      <Grid item xs={12}>
+        <Paper className={classes.paper}>
+          <Typography variant="h6">Browse Your Events</Typography>
+        </Paper>
+      </Grid>
+      <EventGrid data={eventData} userData={userData} />
+    </Grid>
+
+  )
 
   return (
     <div className={classes.root}>
@@ -357,38 +452,15 @@ export default function Dashboard() {
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
-          {!id ? (
-            <Grid container spacing={3}>
-              {/* Chart */}
-              <Grid item xs={12}>
-                <Paper className={classes.paper}>
-                  <Typography variant="h6">Browse Events</Typography>
-                </Paper>
-              </Grid>
-              {/* Main Events Section */}
-              <Grid item xs={12}>
-                <MainCard
-                  img="/bg.png"
-                  title="Professional Networking"
-                  date="Thursday, 5 August 2021"
-                  location="303-G20, City Campus, University of Auckland"
-                  id="0"
-                  btn
-                  darken
-                />
-              </Grid>
-              {/* List of Events */}
-              <EventGrid />
-              {/* Recent Deposits */}
-              <Grid item xs={12} md={4} lg={3}>
-                <Paper className={fixedHeightPaper}>{id}</Paper>
-              </Grid>
-              {/* Recent Orders */}
-            </Grid>
+          {props.yourEvents ? (
+            yourEvents
+          ) : !id ? (
+            home
           ) : (
             // Event details
             <EventDetail />
           )}
+
           <Box pt={4}>
             <Copyright />
           </Box>{" "}
