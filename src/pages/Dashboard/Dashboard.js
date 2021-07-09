@@ -187,7 +187,6 @@ export default function Dashboard(props) {
   const [eventData, setEventData] = useState({});
   const [userData, setUserData] = useState({});
   const [yourEventsData, setYoursEventData] = useState({});
-  const [yourEventsBtn, setYourEventBtn] = useState(false);
 
   const isMenuOpen = Boolean(anchorEl);
 
@@ -210,21 +209,6 @@ export default function Dashboard(props) {
     setUpgradeOpen(!upgradeOpen);
   };
 
-  // const handleYourEvent = (data) => {
-  //   console.log(data)
-  //   const event = {}
-  //   if (Object.keys(eventData) !== 0) {
-  //     data.map((el) => {
-  //       event[el] = eventData[el]
-  //       return null;
-  //     })
-  //   }
-
-  //   console.log(eventData)
-  //   setYoursEventData(event);
-  // }
-
-
   useEffect(() => {
     const config = {
       headers: {
@@ -238,8 +222,6 @@ export default function Dashboard(props) {
       axios.get('https://nzcsa-backend.herokuapp.com/api/private/get-user-info', config)
         .then((res) => {
           setUserData(res.data.data)
-          console.log(res)
-          // handleYourEvent(res.data.data.attendedEvents)
         }).catch((e) => {
           console.log(e)
         })
@@ -252,7 +234,6 @@ export default function Dashboard(props) {
       axios.get('https://nzcsa-backend.herokuapp.com/api/private/get-events-info')
         .then((res) => {
           setEventData(res.data)
-          // handleYourEvent()
           console.log(res.data)
         }).catch((e) => {
           console.log(e)

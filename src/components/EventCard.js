@@ -22,6 +22,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function EventCard(props) {
+  // console.log(props)
   const classes = useStyles({
     root: {
       Width: "100%",
@@ -62,7 +63,7 @@ export default function EventCard(props) {
             component="img"
             alt="Contemplative Reptile"
             height="140"
-            image="./bg.png"
+            image={props.image}
             title="Contemplative Reptile"
           />
           <CardContent>

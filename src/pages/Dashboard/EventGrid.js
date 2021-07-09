@@ -37,6 +37,7 @@ export default function AltCard(props) {
     }
 
     console.log(userEventsDetail)
+
     return (
         <div className={classes.root}>
             <Grid
@@ -49,6 +50,7 @@ export default function AltCard(props) {
                 {Object.keys(userEventsDetail).map((elem, i) => (
                     <Grid item xs={12} sm={6} md={3} key={userEventsDetail[elem].id}>
                         <EventCard id={userEventsDetail[elem].id} title={userEventsDetail[elem].eventName} date={userEventsDetail[elem].eventTime} location={userEventsDetail[elem].eventLocation} image={userEventsDetail[elem].eventImgUrl} />
+
                     </Grid>
                 ))}
             </Grid>
