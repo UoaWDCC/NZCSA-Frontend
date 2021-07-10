@@ -51,9 +51,24 @@ async function resetPassword(pathname, password){
     return response;
 }
 
+async function signUpEvent(registerInfo){
+    const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+        },
+      };
+    const response = await axios.post('https://nzcsa-backend.herokuapp.com/api/private/sign-up-event',
+        registerInfo,
+        config);
+
+    return response;
+}
+
 export {
     signUp,
     login,
     forgetPassword,
-    resetPassword
+    resetPassword,
+    signUpEvent,
 }

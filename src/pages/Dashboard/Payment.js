@@ -17,11 +17,10 @@ import { useTheme } from "@material-ui/core/styles";
 
 const styles = (theme) => ({
   root: {
-    margin: 0,
-    padding: theme.spacing(2),
     display: "flex",
     alignItems: "center",
-    height: 73,
+    marginTop: theme.spacing(1),
+    marginBottom: 0,
   },
   closeButton: {
     position: "absolute",
@@ -29,13 +28,17 @@ const styles = (theme) => ({
     padding: theme.spacing(2),
     right: 0,
   },
+  form: {
+    marginTop: 0,
+    padding: 0,
+  }
 });
 
 const useStyles = makeStyles((theme) => ({}));
 
-const steps = ["Register for membership", "Checkout", "Payment"];
+const steps = ["Checkout", "Payment"];
 
-export default function Upgrade(props) {
+export default function Payment(props) {
   const classes = useStyles();
   const [maxWidth, setMaxWidth] = React.useState("md");
   const [activeStep, setActiveStep] = React.useState(0);
@@ -46,12 +49,8 @@ export default function Upgrade(props) {
     setActiveStep(activeStep + 1); // redirect to next step in payment process
   };
 
-  const handleBack = () => {
-    setActiveStep(activeStep - 1); // redirect to previous step in payment process
-  };
-
-  const handlecloseUpgradeForm = () => {
-    if (activeStep === 2) {
+  const handleclosePaymentForm = () => {
+    if (activeStep === 1) {
       return null;
     }
     else if (window.confirm("All your inputs will be discarded")) {
@@ -71,10 +70,8 @@ export default function Upgrade(props) {
   function getStepContent(step) {
     switch (step) {
       case 0:
-        return <UpgradeForm handleNext={handleNext} />;
+        return <PaymentForm price={props.price} handleNext={handleNext} />;
       case 1:
-        return <PaymentForm price={5} handleNext={handleNext} />;
-      case 2:
         return <PaymentResultForm close={finishPayment} />;
       default:
         throw new Error("unknown step");
@@ -90,16 +87,11 @@ export default function Upgrade(props) {
 
     return (
       <MuiDialogTitle disableTypography className={classes.root} {...other}>
-        {activeStep !== 0 && activeStep !== 2 && (
-          <IconButton onClick={handleBack} size="small" aria-label="back">
-            <ChevronLeftIcon fontSize="large" />
-          </IconButton>
-        )}
 
-        <Typography p={5} variant="h5">
+        <Typography p={5} variant="h4">
           {children}
         </Typography>
-        {onClose && activeStep !== 2 ? (
+        {onClose && activeStep !== 1 ? (
           <IconButton
             aria-label="close"
             className={classes.closeButton}
@@ -115,18 +107,17 @@ export default function Upgrade(props) {
   return (
     <Dialog
       open={props.open}
-      onClose={handlecloseUpgradeForm}
-      aria-labelledby="form-dialog-title"
+      onClose={handleclosePaymentForm}
       fullWidth={true}
       maxWidth={maxWidth}
       fullScreen={fullScreen}
     >
-      <DialogTitle onClose={handlecloseUpgradeForm}>
+      <DialogTitle onClose={handleclosePaymentForm} >
         {steps[activeStep]}
       </DialogTitle>
-      <DialogContent style={{ height: "80vh" }}>
+      <div style={{ height: "80vh" }} className={classes.form}>
         {getStepContent(activeStep)}
-      </DialogContent>
+      </div>
     </Dialog>
   );
 }

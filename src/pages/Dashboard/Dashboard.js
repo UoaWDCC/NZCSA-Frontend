@@ -202,6 +202,7 @@ export default function Dashboard() {
 
   const handleMenuClose = () => {
     setAnchorEl(null);
+    localStorage.removeItem("authToken");
   };
 
   const handleUpgradeOpen = () => {
@@ -212,11 +213,11 @@ export default function Dashboard() {
     const config = {
       headers: {
         'Content-Type': 'application/json',
-        // Authorization: `Bearer ${localStorage.getItem('authToken')}`
-        Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwZTJiNDQwMzM0MjBjZWExYmQ0ZGRiYyIsImlhdCI6MTYyNTU1MzMyNn0.O7wqQZ2JfGihrqt4QkTW1Kh2ZK-j5FWg1zBewYMasyU'
+        Authorization: `Bearer ${localStorage.getItem('authToken')}`
+        //Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwZTJiNDQwMzM0MjBjZWExYmQ0ZGRiYyIsImlhdCI6MTYyNTU1MzMyNn0.O7wqQZ2JfGihrqt4QkTW1Kh2ZK-j5FWg1zBewYMasyU'
       }
     }
-    console.log(config)
+    //console.log(config)
     const fetchData = async () => {
       axios.get('https://nzcsa-backend.herokuapp.com/api/private/get-user-info', config)
         .then((res) => {
@@ -236,7 +237,7 @@ export default function Dashboard() {
           setEventData(res.data)
           console.log(res.data)
         }).catch((e) => {
-          console.log(e)
+          //console.log(e)
         })
     }
     fetchData();
@@ -299,6 +300,7 @@ export default function Dashboard() {
   );
 
   let { id } = useParams();
+  console.log(id);
 
   return (
     <div className={classes.root}>
@@ -366,7 +368,7 @@ export default function Dashboard() {
         <Divider variant="middle" />
         {/* <List>{open && secondaryListItems}</List> */}
         <List>
-          {open && (
+          {!userData.isMembership && (
             <div>
               <ListItem alignItems="flex-start">
                 <ListItemText
@@ -416,7 +418,7 @@ export default function Dashboard() {
                 />
               </Grid>
               {/* List of Events */}
-              <EventGrid data={eventData} />
+              <EventGrid data={eventData} isMember={userData.isMembership} attendedEvents={userData.attendedEvents}/>
               {/* Recent Deposits */}
               <Grid item xs={12} md={4} lg={3}>
                 <Paper className={fixedHeightPaper}>{id}</Paper>
@@ -425,7 +427,7 @@ export default function Dashboard() {
             </Grid>
           ) : (
             // Event details
-            <EventDetail />
+            <EventDetail id={id} isMember={userData.isMembership} attendedEvents={userData.attendedEvents}/>
           )}
           <Box pt={4}>
             <Copyright />
