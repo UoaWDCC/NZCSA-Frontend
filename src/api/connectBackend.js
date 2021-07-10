@@ -4,7 +4,7 @@ import axios from 'axios';
 async function signUp(signUpInfo){
     
     const body = signUpInfo
-    const response = await axios('https://nzcsa-backend.herokuapp.com/api/auth/register', {
+    const response = await axios('http://localhost:5000/api/auth/register', {
         headers: {
             "Content-type": "application/json"
           },

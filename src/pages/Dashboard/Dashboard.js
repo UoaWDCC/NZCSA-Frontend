@@ -235,7 +235,7 @@ export default function Dashboard(props) {
       axios.get('https://nzcsa-backend.herokuapp.com/api/private/get-events-info')
         .then((res) => {
           setEventData(res.data)
-          console.log(res.data)
+          //console.log(res.data)
         }).catch((e) => {
           //console.log(e)
         })
@@ -300,7 +300,7 @@ export default function Dashboard(props) {
   );
 
   let { id } = useParams();
-  console.log(props.yourEvents)
+  //console.log(props.yourEvents)
 
   const home = (
     <Grid container spacing={3}>
@@ -326,7 +326,7 @@ export default function Dashboard(props) {
       <EventGrid data={eventData} isMember={userData.isMembership} attendedEvents={userData.attendedEvents}/>
     </Grid>);
 
-  console.log(yourEventsData)
+  //console.log(yourEventsData)
   const yourEvents = (
     <Grid container spacing={3}>
       <Grid item xs={12}>
@@ -440,7 +440,7 @@ export default function Dashboard(props) {
             home
           ) : (
             // Event details
-            <EventDetail id={id} isMember={userData.isMembership} attendedEvents={userData.attendedEvents}/>
+            <EventDetail id={id} isMember={userData.isMembership} attendedEvents={userData.attendedEvents} data={eventData}/>
           )}
 
           <Box pt={4}>

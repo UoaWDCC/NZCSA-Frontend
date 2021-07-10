@@ -174,11 +174,14 @@ export default function EventCard(props) {
             </Typography>
           </CardContent>
         </Link>
-        <CardActions>
-          <Button variant="contained" size="medium" onClick={ () => handleOnClick(props.id, props.price)} disableElevation>
-            Register
-          </Button>
-        </CardActions>
+        {props.isYourPage ?
+          null: (
+            <CardActions>
+              <Button variant="contained" size="medium" onClick={ () => handleOnClick(props.id, props.price)} disableElevation>
+                Register
+              </Button>
+            </CardActions>
+          )}
       </Card>
       <Upgrade open={upgradeOpen} close={setUpgradeOpen} />
       <Payment open={paymentOpen} close={setPaymentOpen} price={price} /> 

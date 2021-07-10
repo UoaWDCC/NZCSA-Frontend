@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Grid } from "@material-ui/core";
 import { Paper } from "@material-ui/core";
 import MainCard from "../../components/MainCard";
@@ -16,6 +16,7 @@ import { signUpEvent } from '../../api/connectBackend';
 import Upgrade from "../Dashboard/Upgrade";
 import Payment from "../Dashboard/Payment";
 import Notification from "../../components/Notification";
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -36,20 +37,25 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function EventDetail(props) {
+export default function EventDetail({ isMember, attendedEvents, data, ...rest }) {
   const classes = useStyles();
   const [loading, setLoading] = useState(false);
   const [upgradeOpen, setUpgradeOpen] = useState(false);
   const [paymentOpen, setPaymentOpen] = useState(false);
   const [price, setPrice] = useState(0);
   const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
-
-  const isMember = props.isMember;
-  const attendedEvents = props.attendedEvents;
+  const [event, setEvent] = useState({});
 
   let { id } = useParams();
-  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
-  // let history
+   useEffect(() => {
+      if (data) {
+         console.log(data);
+         setEvent(data[id]);
+      }
+   }, [data,id]);
+
+  //console.log(event.eventPrice);
+
   let history = useHistory();
 
   const handleCloseBtn = () => {
@@ -179,7 +185,7 @@ export default function EventDetail(props) {
             <Typography variant="h4" gutterBottom>
               Tickets
             </Typography>
-            <Button variant="contained" size="large" color="secondary" onClick={() => handleOnClick(props.id, props.price)} disableElevation>
+            <Button variant="contained" size="large" color="secondary" onClick={() => handleOnClick()} disableElevation>
               Register
             </Button>
           </Paper>
