@@ -203,8 +203,11 @@ export default function Dashboard(props) {
 
   const handleMenuClose = () => {
     setAnchorEl(null);
-    localStorage.removeItem("authToken");
   };
+  const handleSignOut = () => {
+    setAnchorEl(null);
+    localStorage.removeItem("authToken");
+  }
 
   const handleUpgradeOpen = () => {
     setUpgradeOpen(!upgradeOpen);
@@ -223,6 +226,7 @@ export default function Dashboard(props) {
       axios.get('https://nzcsa-backend.herokuapp.com/api/private/get-user-info', config)
         .then((res) => {
           setUserData(res.data.data)
+          //console.log(res.data.data);
         }).catch((e) => {
           console.log(e)
         })
@@ -290,7 +294,7 @@ export default function Dashboard(props) {
         </ListItemIcon>
         <Typography>Dark Mode</Typography>
       </MenuItem>
-      <MenuItem onClick={handleMenuClose} component={RouterLink} to="/login">
+      <MenuItem onClick={handleSignOut} component={RouterLink} to="/login">
         <ListItemIcon>
           <ExitToAppTwoToneIcon fontSize="medium" />
         </ListItemIcon>
@@ -300,7 +304,7 @@ export default function Dashboard(props) {
   );
 
   let { id } = useParams();
-  //console.log(props.yourEvents)
+  //console.log(evnetData)
 
   const home = (
     <Grid container spacing={3}>

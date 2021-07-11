@@ -7,6 +7,7 @@ import {
     Typography,
     CardHeader
 } from '@material-ui/core/';
+import { useEffect, useState } from 'react';
 import EventCard from "../../components/EventCard";
 
 const useStyles = makeStyles(theme => ({
@@ -19,23 +20,29 @@ const useStyles = makeStyles(theme => ({
 export default function AltCard(props) {
     const classes = useStyles()
 
-    let userEventsDetail = {};
-    //console.log(props)
-
-    if (props.userData) {
-        if (Object.keys(props.userData).length !== 0) {
-            for (let i = 0; i < props.userData.attendedEvents.length; i++) {
-                const eventId = props.userData.attendedEvents[i]
-                userEventsDetail[i] = props.data[eventId]
-                // console.log(props.userData.attendedEvents[i])
-
+    const [userEventsDetail, setUserEventsDetail] = useState({});
+    
+    useEffect(() => {
+        if (props.userData == undefined) {
+            setUserEventsDetail(props.data);
+        }else{
+            if ((!!props.data) && (Object.keys(props.data).length != 0) && (!!props.userData) && (Object.keys(props.userData).length != 0)) {
+                let userEvents = {}
+                if (Object.keys(props.userData).length !== 0) {
+                    for (let i = 0; i < props.userData.attendedEvents.length; i++) {
+                        const eventId = props.userData.attendedEvents[i]
+                        userEvents[i] = props.data[eventId]
+                        // console.log(props.userData.attendedEvents[i])
+    
+                    }
+                }
+                //console.log(userEvents);
+                setUserEventsDetail(userEvents);
             }
-        }
-
-    } else {
-        userEventsDetail = props.data
-    }
-
+        }  
+    },[props.data, props.userData])
+    
+   
     //console.log(userEventsDetail)
 
     return (

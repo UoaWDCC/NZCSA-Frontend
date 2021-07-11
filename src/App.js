@@ -72,7 +72,7 @@ function App() {
   });
 
   theme = responsiveFontSizes(theme);
-  console.log(localStorage.getItem("authToken"));
+  //console.log(localStorage.getItem("authToken"));
 
   return (
     <ThemeProvider theme={theme}>

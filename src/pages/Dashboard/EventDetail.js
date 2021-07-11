@@ -42,19 +42,18 @@ export default function EventDetail({ isMember, attendedEvents, data, ...rest })
   const [loading, setLoading] = useState(false);
   const [upgradeOpen, setUpgradeOpen] = useState(false);
   const [paymentOpen, setPaymentOpen] = useState(false);
-  const [price, setPrice] = useState(0);
   const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
   const [event, setEvent] = useState({});
 
   let { id } = useParams();
-   useEffect(() => {
-      if (data) {
-         console.log(data);
-         setEvent(data[id]);
+  //console.log(data[id]);
+  useEffect(() => {
+    if (!!data[id]){
+      setEvent(data[id]);
+      //console.log(data[id]);
       }
-   }, [data,id]);
+  },[data])
 
-  //console.log(event.eventPrice);
 
   let history = useHistory();
 
@@ -62,7 +61,8 @@ export default function EventDetail({ isMember, attendedEvents, data, ...rest })
     history.goBack();
   }
 
-  const handleOnClick = (eventId, price) => {
+  const handleOnClick = () => {
+
     if (!isMember) {
       confirmAlert({
         message: 'You have to be a member to join this event.',
@@ -78,9 +78,8 @@ export default function EventDetail({ isMember, attendedEvents, data, ...rest })
         ]
       });
     } else {
-      if (!attendedEvents.includes(eventId)) {
-        setPrice(price);
-        if (price > 0) {
+      if (!attendedEvents.includes(id)) {
+        if (event.eventPrice > 0) {
           setPaymentOpen(true);
         } else {
           confirmAlert({
@@ -92,7 +91,7 @@ export default function EventDetail({ isMember, attendedEvents, data, ...rest })
               },
               {
                 label: 'Yes',
-                onClick: () => handleRegister(eventId)
+                onClick: () => handleRegister(id)
               }
             ]
           });
@@ -144,19 +143,19 @@ export default function EventDetail({ isMember, attendedEvents, data, ...rest })
           <IconButton aria-label="close" className={classes.closeButton} edge='start' size='small' onClick={handleCloseBtn}>
             <CloseIcon />
           </IconButton>
-          <MainCard img="/pn.png" />
+          <MainCard img={event.eventImgUrl} />
         </Grid>
         {/* List of Events */}
         <Grid item xs={12}>
           <Paper className={classes.paper}>
             <Typography variant="subtitle2" color="primary">
-              AUG 8 AT 4 AM UTC+12 – AUG 8 AT 9 AM UTC+12
+              {event.startTime} – {event.endTime}
             </Typography>
             <Typography variant="h3">
-              2021 Professional Networking 职业链接
+              {event.eventName}
             </Typography>
             <Typography variant="h6" color="textSecondary">
-              303-G20, City Campus, University of Auckland
+              {event.eventLocation}
             </Typography>
           </Paper>
         </Grid>
@@ -167,16 +166,7 @@ export default function EventDetail({ isMember, attendedEvents, data, ...rest })
               Details
             </Typography>
             <Typography variant="body1" component="p">
-              NZCSA’s Networking event series was first held in 2015 and has
-              become one of our annual flagship events. It has attracted
-              positive response from more than 400 participants every year for
-              its effectiveness in helping students and businesses connect with
-              each other and producing positive outcomes for all stakeholders.
-              In response to the demand from Chinese students who are also
-              interested in Chinese job market, we decided to launch the 1st
-              Online Chinese Networking Event, and it is proud to say that we
-              are the first student association who operates an online
-              networking event particularly for Chinese students.
+              {event.eventDescription}
             </Typography>
           </Paper>
         </Grid>
@@ -185,6 +175,13 @@ export default function EventDetail({ isMember, attendedEvents, data, ...rest })
             <Typography variant="h4" gutterBottom>
               Tickets
             </Typography>
+            {event.eventPrice > 0 ?
+              (<Typography variant="h5" gutterBottom>
+                ${event.eventPrice}.00
+              </Typography>) :
+              (<Typography variant="h5" gutterBottom>
+                &nbsp;Free Event!
+            </Typography>)}
             <Button variant="contained" size="large" color="secondary" onClick={() => handleOnClick()} disableElevation>
               Register
             </Button>
@@ -193,7 +190,7 @@ export default function EventDetail({ isMember, attendedEvents, data, ...rest })
         {/* Recent Orders */}
       </Grid>
       <Upgrade open={upgradeOpen} close={setUpgradeOpen} />
-      <Payment open={paymentOpen} close={setPaymentOpen} price={price} /> 
+      <Payment open={paymentOpen} close={setPaymentOpen} price={event.eventPrice} /> 
     </div>
   );
 }
