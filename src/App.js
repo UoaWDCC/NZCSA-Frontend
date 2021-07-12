@@ -33,21 +33,21 @@ const fakeAuth = {
 };
 
 // DO NOT CHANGE
-function PrivateRoute({ children, ...rest }) {
+const PrivateRoute = ({ children, ...rest }) => {
   // Function for protected routes, eg.Dashboard, do not change anything in this section
   return (
     <Route
       {...rest}
-      render={() => {
-        return fakeAuth.isAuthenticated === true ? (
+      render={() => 
+        localStorage.getItem("authToken") ? (
           children
         ) : (
           <Redirect to="/login" />
-        );
-      }}
+        )
+      }
     />
   );
-}
+};
 
 function App() {
   const [darkMode, setDarkMode] = useState(false); // Currently dark mode is enabled by default, will change in the future
@@ -72,6 +72,7 @@ function App() {
   });
 
   theme = responsiveFontSizes(theme);
+  //console.log(localStorage.getItem("authToken"));
 
   return (
     <ThemeProvider theme={theme}>

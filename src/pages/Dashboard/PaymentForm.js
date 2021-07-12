@@ -136,7 +136,7 @@ export default function UpgradeForm(props) {
                       </div>
                       <div>
                         <Typography variant="h6" component="h2">
-                          $5.00
+                          ${props.price}.00
                         </Typography>
                         <Typography
                           className={classes.pos}
@@ -158,7 +158,7 @@ export default function UpgradeForm(props) {
                         <Box style={{ fontSize: 32 }} display="inline">
                           $
                         </Box>
-                        5.00
+                        {props.price}.00
                       </Typography>
                     </Grid>
                   </CardContent>

@@ -110,7 +110,7 @@ export default function SignInSide(props) {
         setLoading(true);
         const response = await login(loginInfo);
         if (response.status === 200) {
-
+          localStorage.setItem('authToken', response.data.token);
           window.location.href = '/';
         }
         //console.log(response.data);
@@ -119,10 +119,8 @@ export default function SignInSide(props) {
         setTimeout(() => {
           setErrorMessage('');
         }, 8000);
-        setErrorMessage(e.response.data.error);
-
         setLoading(false);
-
+        console.log(localStorage.getItem("authToken"));
         //console.log(e.response.data.error);
       }
     }

@@ -204,6 +204,10 @@ export default function Dashboard(props) {
   const handleMenuClose = () => {
     setAnchorEl(null);
   };
+  const handleSignOut = () => {
+    setAnchorEl(null);
+    localStorage.removeItem("authToken");
+  }
 
   const handleUpgradeOpen = () => {
     setUpgradeOpen(!upgradeOpen);
@@ -213,15 +217,16 @@ export default function Dashboard(props) {
     const config = {
       headers: {
         'Content-Type': 'application/json',
-        // Authorization: `Bearer ${localStorage.getItem('authToken')}`
-        Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwZTJiNDQwMzM0MjBjZWExYmQ0ZGRiYyIsImlhdCI6MTYyNTU1MzMyNn0.O7wqQZ2JfGihrqt4QkTW1Kh2ZK-j5FWg1zBewYMasyU'
+        Authorization: `Bearer ${localStorage.getItem('authToken')}`
+        //Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwZTJiNDQwMzM0MjBjZWExYmQ0ZGRiYyIsImlhdCI6MTYyNTU1MzMyNn0.O7wqQZ2JfGihrqt4QkTW1Kh2ZK-j5FWg1zBewYMasyU'
       }
     }
-    console.log(config)
+    //console.log(config)
     const fetchData = async () => {
       axios.get('https://nzcsa-backend.herokuapp.com/api/private/get-user-info', config)
         .then((res) => {
           setUserData(res.data.data)
+          //console.log(res.data.data);
         }).catch((e) => {
           console.log(e)
         })
@@ -234,9 +239,9 @@ export default function Dashboard(props) {
       axios.get('https://nzcsa-backend.herokuapp.com/api/private/get-events-info')
         .then((res) => {
           setEventData(res.data)
-          console.log(res.data)
+          //console.log(res.data)
         }).catch((e) => {
-          console.log(e)
+          //console.log(e)
         })
     }
     fetchData();
@@ -289,7 +294,7 @@ export default function Dashboard(props) {
         </ListItemIcon>
         <Typography>Dark Mode</Typography>
       </MenuItem>
-      <MenuItem onClick={handleMenuClose} component={RouterLink} to="/login">
+      <MenuItem onClick={handleSignOut} component={RouterLink} to="/login">
         <ListItemIcon>
           <ExitToAppTwoToneIcon fontSize="medium" />
         </ListItemIcon>
@@ -299,7 +304,7 @@ export default function Dashboard(props) {
   );
 
   let { id } = useParams();
-  console.log(props.yourEvents)
+  //console.log(evnetData)
 
   const home = (
     <Grid container spacing={3}>
@@ -322,10 +327,10 @@ export default function Dashboard(props) {
         />
       </Grid>
       {/* List of Events */}
-      <EventGrid data={eventData} />
+      <EventGrid data={eventData} isMember={userData.isMembership} attendedEvents={userData.attendedEvents}/>
     </Grid>);
 
-  console.log(yourEventsData)
+  //console.log(yourEventsData)
   const yourEvents = (
     <Grid container spacing={3}>
       <Grid item xs={12}>
@@ -404,7 +409,7 @@ export default function Dashboard(props) {
         <Divider variant="middle" />
         {/* <List>{open && secondaryListItems}</List> */}
         <List>
-          {open && (
+          {!userData.isMembership && (
             <div>
               <ListItem alignItems="flex-start">
                 <ListItemText
@@ -439,7 +444,7 @@ export default function Dashboard(props) {
             home
           ) : (
             // Event details
-            <EventDetail />
+            <EventDetail id={id} isMember={userData.isMembership} attendedEvents={userData.attendedEvents} data={eventData}/>
           )}
 
           <Box pt={4}>
