@@ -10,8 +10,10 @@ import {
   Container,
   Box,
   Fade,
+  CircularProgress,
 } from "@material-ui/core";
 import clsx from "clsx";
+import { makePayment } from "../../api/connectBackend";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -41,11 +43,28 @@ const useStyles = makeStyles((theme) => ({
 
 export default function UpgradeForm(props) {
   const classes = useStyles();
-  const [value, setValue] = React.useState("wechat"); // Possible states are "wechat", "alipay" and "polipay"
+  const [method, setMethod] = React.useState("polipay"); // Possible states are "wechat", "alipay" and "polipay"
+  const [loading, setLoading] = React.useState(false);
+  const price = props.price;
+
+  const handlePayment = async () => {
+    try {
+      const response = await makePayment(method, price);
+      if (response.status === 200) {
+        console.log(response.data.data.payment_url);
+        window.location.href = response.data.data.payment_url;
+      } else {
+        console.log("error");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleSumbitPaymentForm = () => {
-    props.handleNext();
-};
+    setLoading(true);
+    handlePayment();
+  };
 
   return (
     <Fade in={true} timeout={1000}>
@@ -62,10 +81,10 @@ export default function UpgradeForm(props) {
                     fullWidth
                     className={clsx(
                       classes.payBtn,
-                      value === "wechat" && classes.selectedBtn
+                      method === "wechat" && classes.selectedBtn
                     )}
                     variant="outlined"
-                    onClick={() => setValue("wechat")}
+                    onClick={() => setMethod("wechat")}
                   >
                     <img
                       alt="wechat"
@@ -80,10 +99,10 @@ export default function UpgradeForm(props) {
                     fullWidth
                     className={clsx(
                       classes.payBtn,
-                      value === "alipay" && classes.selectedBtn
+                      method === "alipay" && classes.selectedBtn
                     )}
                     variant="outlined"
-                    onClick={() => setValue("alipay")}
+                    onClick={() => setMethod("alipay")}
                   >
                     <img
                       alt="alipay"
@@ -98,10 +117,10 @@ export default function UpgradeForm(props) {
                     fullWidth
                     className={clsx(
                       classes.payBtn,
-                      value === "polipay" && classes.selectedBtn
+                      method === "polipay" && classes.selectedBtn
                     )}
                     variant="outlined"
-                    onClick={() => setValue("polipay")}
+                    onClick={() => setMethod("polipay")}
                   >
                     <img
                       src="https://resources.apac.paywithpoli.com/mobile/mobile4.png"
@@ -136,7 +155,7 @@ export default function UpgradeForm(props) {
                       </div>
                       <div>
                         <Typography variant="h6" component="h2">
-                          ${props.price}.00
+                          ${props.price}
                         </Typography>
                         <Typography
                           className={classes.pos}
@@ -158,7 +177,7 @@ export default function UpgradeForm(props) {
                         <Box style={{ fontSize: 32 }} display="inline">
                           $
                         </Box>
-                        {props.price}.00
+                        {props.price}
                       </Typography>
                     </Grid>
                   </CardContent>
@@ -174,8 +193,13 @@ export default function UpgradeForm(props) {
                   variant="contained"
                   size="large"
                   onClick={() => handleSumbitPaymentForm()}
+                  disabled={loading}
                 >
-                  Pay
+                  {loading ? (
+                    <CircularProgress color="inherit" size="2rem" />
+                  ) : (
+                    <>Pay</>
+                  )}
                 </Button>
               </div>
             </Grid>

@@ -1,6 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Fade, Typography, Button } from "@material-ui/core";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -32,17 +33,29 @@ const useStyles = makeStyles((theme) => ({
 export default function PaymentResultForm(props) {
   const classes = useStyles();
   const [loading, setLoading] = React.useState(true);
-  const success = false;
+  const [success, setSuccess] = React.useState(false);
 
   React.useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 2000);
-  }, []);
+    const urlSearchParams = new URLSearchParams(window.location.search);
+    const params = Object.fromEntries(urlSearchParams.entries());
+    const {
+      status,
+      merchant_reference,
+      payment_method,
+      currency,
+      amount,
+      signature,
+    } = params;
 
-  const handleFinishPayment = () => {
-    props.close();
-  }
+    const authToken = localStorage.getItem("authToken");
+
+    if (status === "paid" && authToken) {
+      setSuccess(true);
+      setLoading(false);
+    } else {
+      setLoading(false);
+    }
+  }, []);
 
   if (loading) {
     return (
@@ -62,16 +75,20 @@ export default function PaymentResultForm(props) {
   return (
     <Fade in timeOut={1000}>
       <div className={classes.root}>
-        {success ? <img
-          className={classes.successImg}
-          src="./images/success.gif"
-          alt="loading"
-        /> :
+        <h1></h1>
+        {success ? (
+          <img
+            className={classes.successImg}
+            src="./images/success.gif"
+            alt="loading"
+          />
+        ) : (
           <img
             className={classes.loadingImg}
             src="./images/error.gif"
             alt="loading"
-          />}
+          />
+        )}
         <Grid
           container
           direction="row"
@@ -80,11 +97,26 @@ export default function PaymentResultForm(props) {
           spacing={2}
         >
           <Grid item xs={12}>
-            <Typography variant="h4" align="center">{success ? "Success!" : "Payment failed..."}</Typography>
-            <Typography variant="body1" align="center">{success ? "You are now a member." : "Please Try Again"}</Typography>
+            <Typography variant="h4" align="center">
+              {success ? "Success!" : "Payment failed..."}
+            </Typography>
+            <Typography variant="body1" align="center">
+              {success ? "You are now a member." : "Please Try Again"}
+            </Typography>
           </Grid>
           <Grid item xs={12} style={{ maxWidth: 480 }}>
-            <Button onClick={handleFinishPayment} variant="outlined" fullWidth size="large" color={success ? "secondary" : "primary"} className={classes.continueBtn}>Continue</Button>
+            <Link
+              to="/"
+              // onClick={handleFinishPayment}
+              variant="outlined"
+              fullWidth
+              size="large"
+              color={success ? "secondary" : "primary"}
+              className={classes.continueBtn}
+              component={Button}
+            >
+              Continue
+            </Link>
           </Grid>
         </Grid>
       </div>

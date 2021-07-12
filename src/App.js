@@ -38,12 +38,8 @@ const PrivateRoute = ({ children, ...rest }) => {
   return (
     <Route
       {...rest}
-      render={() => 
-        localStorage.getItem("authToken") ? (
-          children
-        ) : (
-          <Redirect to="/login" />
-        )
+      render={() =>
+        localStorage.getItem("authToken") ? children : <Redirect to="/login" />
       }
     />
   );
@@ -80,6 +76,9 @@ function App() {
         <header className="App-header">
           <Router>
             <Switch>
+              <PrivateRoute exact path="/checkout">
+                <Dashboard checkout={true}/>
+              </PrivateRoute>
               <PrivateRoute exact path="/">
                 <Dashboard />
               </PrivateRoute>
