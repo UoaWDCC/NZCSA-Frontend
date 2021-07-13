@@ -44,19 +44,8 @@ import EventDetail from "./EventDetail";
 import Upgrade from "./Upgrade";
 import axios from "axios";
 import SponsorsLogoLayout from "../Sponsors/SponsorsLogoLayout";
+import Copyright from '../../components/Copyright';
 
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {"Copyright © "}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
 
 const drawerWidth = 240;
 

@@ -13,27 +13,15 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import NZCSABackground from '../assets/bg.png'
-import logo from '../assets/logo.png'
 import { Container } from '@material-ui/core';
 
 import { useState, useEffect } from 'react';
 import { login } from '../api/connectBackend';
 
 import { red } from '@material-ui/core/colors';
+import RandomImagePicker from '../components/RandomImagePicker';
+import Copyright from '../components/Copyright';
 
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
 
 // TODO: Modify to match figma design
 const useStyles = makeStyles((theme) => ({
@@ -41,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
     height: '100vh',
   },
   image: {
-    backgroundImage: `url(${NZCSABackground})`,
+    backgroundImage: `url(${RandomImagePicker()})`,
     backgroundRepeat: 'no-repeat',
     backgroundColor:
       theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
@@ -67,26 +55,22 @@ const useStyles = makeStyles((theme) => ({
   },
 
   backPanel: {
-    backgroundColor: 'black',
-    opacity: 0.8,
-  },
-  logo: {
-    // align-item:'center'
-    alignContent: 'center'
+    // backgroundColor: 'black', 
+    // opacity: 0.8,
   },
 
   logoNCopyright: {
-    marginTop: "50%"
+    marginTop: "20%"
   },
   errorMessage: {
-
     color: red
   }
 
 }));
 
 // TODO: Modify to match figma design
-export default function SignInSide(props) {
+export default function SignInSide() {
+
   const classes = useStyles();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -97,9 +81,9 @@ export default function SignInSide(props) {
 
   const isError = (condition) => hasErrors && condition;
 
-  useEffect(() => {
-    props.changeDarkMode(true);
-  }, [])
+  // useEffect(() => {
+  //   props.changeDarkMode(true);
+  // }, [])
 
   async function handleSignIn() {
     setHasErrors(true);
@@ -213,13 +197,7 @@ export default function SignInSide(props) {
                 </Grid>
               </Grid>
               <Container className={classes.logoNCopyright}>
-                <Grid container justify="center" alignItems="center">
-                  <img alt="" src={logo} className={classes.logo} />
-
-                </Grid>
-                <Box mt={5}>
                   <Copyright />
-                </Box>
               </Container>
               {/* </form> */}
             </div>

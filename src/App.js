@@ -29,7 +29,7 @@ function App() {
 
   let theme = createMuiTheme({
     palette: {
-      type: darkMode ? "dark" : "light",
+      // type: darkMode ? "dark" : "light",
       primary: red,
       secondary: {
         main: "#7d2ae8",
@@ -61,17 +61,17 @@ function App() {
                 <Dashboard sponsors={true} />
               </PrivateRoute>
               <Route path="/login">
-                <SignInSide changeDarkMode={changeDarkMode} />
+                <SignInSide />
               </Route>
               <Route path="/signup">
-                <SignUp changeDarkMode={changeDarkMode} />
+                <SignUp />
               </Route>
               <Route path="/forgotPassword">
                 <ForgotPassword />
               </Route>
-              <PrivateRoute path="/resetPassword">
+              <Route path="/resetPassword">
                 <ResetPassword />
-              </PrivateRoute>
+              </Route>
               <PrivateRoute path="/:id">
                 <Dashboard />
               </PrivateRoute>

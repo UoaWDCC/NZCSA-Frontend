@@ -7,6 +7,7 @@ import {
 } from '@material-ui/core/';
 import images from './SponsorsLogoList';
 
+
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
@@ -45,6 +46,7 @@ export default function SponsorsLogoLayout() {
 
 
             </Grid>
+
         </div >
     )
 }

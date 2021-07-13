@@ -22,20 +22,9 @@ import Alert from '@material-ui/lab/Alert';
 import PasswordStrengthIndicator from "../components/PasswordStrengthIndicator";
 import checkPasswordStrength from "../components/PasswordChecker";
 import { resetPassword } from "../api/connectBackend";
+import Copyright from '../components/Copyright';
 
 
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {"Copyright © "}
-      <Link color="inherit" href="https://material-ui.com/">
-        NZCSA
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
 
 // TODO: Modify to match figma design
 const useStyles = makeStyles((theme) => ({
