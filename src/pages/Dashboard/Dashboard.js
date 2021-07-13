@@ -20,7 +20,7 @@ import SearchIcon from "@material-ui/icons/Search";
 import InputBase from "@material-ui/core/InputBase";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import { mainListItems, secondaryListItems } from "./listItems";
-import navLogo from "../../assets/NavLogo.png";
+// import navLogo from "./images/logo_black.png";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import AccountBoxIcon from "@material-ui/icons/AccountBox";
@@ -95,6 +95,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up("sm")]: {
       display: "block",
     },
+    width: '180px'
   },
   drawerPaper: {
     position: "relative",
@@ -328,7 +329,7 @@ export default function Dashboard(props) {
         />
       </Grid>
       {/* List of Events */}
-      <EventGrid data={eventData} isMember={userData.isMembership} attendedEvents={userData.attendedEvents}/>
+      <EventGrid data={eventData} isMember={userData.isMembership} attendedEvents={userData.attendedEvents} />
     </Grid>);
 
   //console.log(yourEventsData)
@@ -351,7 +352,7 @@ export default function Dashboard(props) {
           <Typography variant="h6">Sponsors</Typography>
         </Paper>
       </Grid>
-      <SponsorsLogoLayout/>
+      <SponsorsLogoLayout />
     </Grid>
 
   )
@@ -373,7 +374,7 @@ export default function Dashboard(props) {
           >
             <MenuIcon />
           </IconButton>
-          <img src={navLogo} alt="logo" className={classes.title} />
+          <img src={'/logo_black.png'} alt="logo" className={classes.title} />
           <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />
@@ -457,9 +458,9 @@ export default function Dashboard(props) {
             Sponsor
           ) : !id ? (
             home
-          ):(
-            <EventDetail id={id} isMember={userData.isMembership} attendedEvents={userData.attendedEvents} data={eventData}/>
-          )}
+          ) : (
+                  <EventDetail id={id} isMember={userData.isMembership} attendedEvents={userData.attendedEvents} data={eventData} />
+                )}
 
           <Box pt={4}>
             <Copyright />
