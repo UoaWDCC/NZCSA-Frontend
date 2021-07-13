@@ -50,6 +50,7 @@ export default function PaymentResultForm(props) {
     const authToken = localStorage.getItem("authToken");
 
     if (status === "paid" && authToken) {
+      
       setSuccess(true);
       setLoading(false);
     } else {

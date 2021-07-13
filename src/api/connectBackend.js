@@ -93,6 +93,29 @@ async function makePayment(paymentMethod, paymentAmount) {
   return response;
 }
 
+async function createOrder(merchantReference, userId, paymentMethod) {
+  const body = {
+    merchantReference,
+    userId,
+    paymentMethod,
+  };
+
+  const config = {
+    headers: {
+      "Content-Type": "application/json;charset=UTF-8",
+      Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+    },
+  };
+
+  const response = await axios.post(
+    "http://localhost:5000/api/payment/create-order",
+    body,
+    config
+  );
+
+  return response;
+}
+
 async function validateRedirect(body) {
   const config = {
     headers: {

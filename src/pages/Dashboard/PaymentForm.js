@@ -13,7 +13,7 @@ import {
   CircularProgress,
 } from "@material-ui/core";
 import clsx from "clsx";
-import { makePayment } from "../../api/connectBackend";
+import { makePayment, createOrder } from "../../api/connectBackend";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -61,9 +61,27 @@ export default function UpgradeForm(props) {
     }
   };
 
+  const handleOrder = async () => {
+    try {
+      const response = await createOrder();
+      // merchantReference,
+      // userId,
+      // paymentMethod
+      if (response.status === 200) {
+        console.log(response.data.data.payment_url);
+        window.location.href = response.data.data.payment_url;
+      } else {
+        console.log("error");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const handleSumbitPaymentForm = () => {
     setLoading(true);
     handlePayment();
+    // handleOrder();
   };
 
   return (
