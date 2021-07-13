@@ -43,6 +43,7 @@ import {
 import EventDetail from "./EventDetail";
 import Upgrade from "./Upgrade";
 import axios from "axios";
+import SponsorsLogoLayout from "../Sponsors/SponsorsLogoLayout";
 
 function Copyright() {
   return (
@@ -343,6 +344,18 @@ export default function Dashboard(props) {
 
   )
 
+  const Sponsor = (
+    <Grid container spacing={3}>
+      <Grid item xs={12}>
+        <Paper className={classes.paper}>
+          <Typography variant="h6">Sponsors</Typography>
+        </Paper>
+      </Grid>
+      <SponsorsLogoLayout/>
+    </Grid>
+
+  )
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -440,10 +453,11 @@ export default function Dashboard(props) {
         <Container maxWidth="lg" className={classes.container}>
           {props.yourEvents ? (
             yourEvents
+          ) : props.sponsors ? (
+            Sponsor
           ) : !id ? (
             home
-          ) : (
-            // Event details
+          ):(
             <EventDetail id={id} isMember={userData.isMembership} attendedEvents={userData.attendedEvents} data={eventData}/>
           )}
 

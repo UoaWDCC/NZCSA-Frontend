@@ -86,6 +86,9 @@ function App() {
               <PrivateRoute path="/yourEvents">
                 <Dashboard yourEvents={true} />
               </PrivateRoute>
+              <PrivateRoute path="/sponsors">
+                <Dashboard sponsors={true} />
+              </PrivateRoute>
               <Route path="/login">
                 <SignInSide changeDarkMode={changeDarkMode} />
               </Route>
