@@ -255,7 +255,7 @@ export default function Dashboard(props) {
   }, []);
 
   // console.log(userData)
-  // console.log(localStorage.getItem("authToken"));
+  console.log(localStorage.getItem("authToken"));
 
   const menuId = "primary-search-account-menu";
   const renderMenu = (
