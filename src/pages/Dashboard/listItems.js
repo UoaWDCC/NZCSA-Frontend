@@ -37,7 +37,7 @@ export const mainListItems = (
       </ListItemIcon>
       <ListItemText primary="Your Events" />
     </StyledListItem>
-    <StyledListItem button>
+    <StyledListItem button to="/sponsors" component={Link}>
       <ListItemIcon>
         <PeopleIcon />
       </ListItemIcon>

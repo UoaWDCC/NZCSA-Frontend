@@ -20,7 +20,7 @@ import SearchIcon from "@material-ui/icons/Search";
 import InputBase from "@material-ui/core/InputBase";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import { mainListItems, secondaryListItems } from "./listItems";
-import navLogo from "../../assets/NavLogo.png";
+// import navLogo from "./images/logo_black.png";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import AccountBoxIcon from "@material-ui/icons/AccountBox";
@@ -43,19 +43,9 @@ import {
 import EventDetail from "./EventDetail";
 import Upgrade from "./Upgrade";
 import axios from "axios";
+import SponsorsLogoLayout from "../Sponsors/SponsorsLogoLayout";
+import Copyright from '../../components/Copyright';
 
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {"Copyright © "}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
 
 const drawerWidth = 240;
 
@@ -94,6 +84,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up("sm")]: {
       display: "block",
     },
+    width: '180px'
   },
   drawerPaper: {
     position: "relative",
@@ -327,7 +318,7 @@ export default function Dashboard(props) {
         />
       </Grid>
       {/* List of Events */}
-      <EventGrid data={eventData} isMember={userData.isMembership} attendedEvents={userData.attendedEvents}/>
+      <EventGrid data={eventData} isMember={userData.isMembership} attendedEvents={userData.attendedEvents} />
     </Grid>);
 
   //console.log(yourEventsData)
@@ -339,6 +330,18 @@ export default function Dashboard(props) {
         </Paper>
       </Grid>
       <EventGrid data={eventData} userData={userData} />
+    </Grid>
+
+  )
+
+  const Sponsor = (
+    <Grid container spacing={3}>
+      <Grid item xs={12}>
+        <Paper className={classes.paper}>
+          <Typography variant="h6">Sponsors</Typography>
+        </Paper>
+      </Grid>
+      <SponsorsLogoLayout />
     </Grid>
 
   )
@@ -360,7 +363,7 @@ export default function Dashboard(props) {
           >
             <MenuIcon />
           </IconButton>
-          <img src={navLogo} alt="logo" className={classes.title} />
+          <img src={'/logo_black.png'} alt="logo" className={classes.title} />
           <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />
@@ -440,12 +443,13 @@ export default function Dashboard(props) {
         <Container maxWidth="lg" className={classes.container}>
           {props.yourEvents ? (
             yourEvents
+          ) : props.sponsors ? (
+            Sponsor
           ) : !id ? (
             home
           ) : (
-            // Event details
-            <EventDetail id={id} isMember={userData.isMembership} attendedEvents={userData.attendedEvents} data={eventData}/>
-          )}
+                  <EventDetail id={id} isMember={userData.isMembership} attendedEvents={userData.attendedEvents} data={eventData} />
+                )}
 
           <Box pt={4}>
             <Copyright />

@@ -14,40 +14,11 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Redirect,
 } from "react-router-dom";
 import red from "@material-ui/core/colors/red";
+import PrivateRoute from './components/routing/PrivateRoute';
 
-// DO NOT CHANGE
-const fakeAuth = {
-  // This function sets the authentication state, will connect to backend in future
-  isAuthenticated: true,
-  authenticate(cb) {
-    this.isAuthenticated = true;
-    setTimeout(cb, 100);
-  },
-  signOut(cb) {
-    this.isAuthenticated = false;
-    setTimeout(cb, 100);
-  },
-};
 
-// DO NOT CHANGE
-const PrivateRoute = ({ children, ...rest }) => {
-  // Function for protected routes, eg.Dashboard, do not change anything in this section
-  return (
-    <Route
-      {...rest}
-      render={() => 
-        localStorage.getItem("authToken") ? (
-          children
-        ) : (
-          <Redirect to="/login" />
-        )
-      }
-    />
-  );
-};
 
 function App() {
   const [darkMode, setDarkMode] = useState(false); // Currently dark mode is enabled by default, will change in the future
@@ -58,7 +29,7 @@ function App() {
 
   let theme = createMuiTheme({
     palette: {
-      type: darkMode ? "dark" : "light",
+      // type: darkMode ? "dark" : "light",
       primary: red,
       secondary: {
         main: "#7d2ae8",
@@ -86,18 +57,21 @@ function App() {
               <PrivateRoute path="/yourEvents">
                 <Dashboard yourEvents={true} />
               </PrivateRoute>
+              <PrivateRoute path="/sponsors">
+                <Dashboard sponsors={true} />
+              </PrivateRoute>
               <Route path="/login">
-                <SignInSide changeDarkMode={changeDarkMode} />
+                <SignInSide />
               </Route>
               <Route path="/signup">
-                <SignUp changeDarkMode={changeDarkMode} />
+                <SignUp />
               </Route>
               <Route path="/forgotPassword">
                 <ForgotPassword />
               </Route>
-              <PrivateRoute path="/resetPassword">
+              <Route path="/resetPassword">
                 <ResetPassword />
-              </PrivateRoute>
+              </Route>
               <PrivateRoute path="/:id">
                 <Dashboard />
               </PrivateRoute>
