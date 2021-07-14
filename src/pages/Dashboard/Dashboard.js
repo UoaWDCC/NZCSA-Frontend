@@ -45,6 +45,7 @@ import Upgrade from "./Upgrade";
 import axios from "axios";
 import SponsorsLogoLayout from "../Sponsors/SponsorsLogoLayout";
 import Copyright from '../../components/Copyright';
+import UserInforDialog from './UserInforDialog'
 
 
 const drawerWidth = 240;
@@ -178,6 +179,7 @@ export default function Dashboard(props) {
   const [eventData, setEventData] = useState({});
   const [userData, setUserData] = useState({});
   const [yourEventsData, setYoursEventData] = useState({});
+  const [userInforDialog, seUserInforDialog] = useState(false);
 
   const isMenuOpen = Boolean(anchorEl);
 
@@ -204,6 +206,11 @@ export default function Dashboard(props) {
     setUpgradeOpen(!upgradeOpen);
   };
 
+  const handleUserInformationDialog = () => {
+    seUserInforDialog(!userInforDialog)
+    console.log("hi")
+  }
+
   useEffect(() => {
     const config = {
       headers: {
@@ -219,6 +226,7 @@ export default function Dashboard(props) {
           setUserData(res.data.data)
           //console.log(res.data.data);
         }).catch((e) => {
+          console.log(localStorage.getItem('authToken'))
           console.log(e)
         })
     };
@@ -277,7 +285,7 @@ export default function Dashboard(props) {
         <ListItemIcon>
           <AccountBoxIcon fontSize="medium" />
         </ListItemIcon>
-        <Typography>Account</Typography>
+        <Typography onClick={handleUserInformationDialog}>Account</Typography>
       </MenuItem>
       <MenuItem onClick={handleMenuClose}>
         <ListItemIcon>
@@ -438,6 +446,7 @@ export default function Dashboard(props) {
         </List>
       </Drawer>
       <Upgrade open={upgradeOpen} close={setUpgradeOpen} />
+      <UserInforDialog open={userInforDialog} close={handleUserInformationDialog} />
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
@@ -448,8 +457,8 @@ export default function Dashboard(props) {
           ) : !id ? (
             home
           ) : (
-                  <EventDetail id={id} isMember={userData.isMembership} attendedEvents={userData.attendedEvents} data={eventData} />
-                )}
+            <EventDetail id={id} isMember={userData.isMembership} attendedEvents={userData.attendedEvents} data={eventData} />
+          )}
 
           <Box pt={4}>
             <Copyright />
