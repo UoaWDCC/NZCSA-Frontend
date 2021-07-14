@@ -2,14 +2,13 @@ import React from "react";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import {
   Dialog,
-  DialogContent,
   IconButton,
   Typography,
 } from "@material-ui/core";
-import UpgradeForm from "./UpgradeForm";
+// import UpgradeForm from "./UpgradeForm";
 import PaymentForm from "./PaymentForm";
 import PaymentResultForm from "./PaymentResultForm";
-import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
+// import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import CloseIcon from "@material-ui/icons/Close";
 import MuiDialogTitle from "@material-ui/core/DialogTitle";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
@@ -40,7 +39,7 @@ const steps = ["Checkout", "Payment"];
 
 export default function Payment(props) {
   const classes = useStyles();
-  const [maxWidth, setMaxWidth] = React.useState("md");
+  // const [maxWidth, setMaxWidth] = React.useState("md");
   const [activeStep, setActiveStep] = React.useState(0);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("xs"));
@@ -109,7 +108,7 @@ export default function Payment(props) {
       open={props.open}
       onClose={handleclosePaymentForm}
       fullWidth={true}
-      maxWidth={maxWidth}
+      maxWidth="md"
       fullScreen={fullScreen}
     >
       <DialogTitle onClose={handleclosePaymentForm} >

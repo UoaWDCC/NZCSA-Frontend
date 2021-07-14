@@ -14,7 +14,7 @@ import {
 } from "@material-ui/core";
 import clsx from "clsx";
 import { makePayment, createOrder } from "../../api/connectBackend";
-import { useHistory } from "react-router-dom";
+// import { useHistory } from "react-router-dom";
 import { useAuth } from "../../context/auth.context";
 
 const useStyles = makeStyles((theme) => ({
