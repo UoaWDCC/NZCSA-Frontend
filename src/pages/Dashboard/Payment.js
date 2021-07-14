@@ -65,6 +65,7 @@ export default function Payment(props) {
       case 0:
         return (
           <PaymentForm
+            eventId={props.eventId}
             price={props.price}
             orderType="event payment"
             handleNext={handleNext}
