@@ -28,23 +28,11 @@ import IconButton from "@material-ui/core/IconButton";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import { Controller, useForm } from "react-hook-form";
 import Alert from '@material-ui/lab/Alert';
+import LockOpenIcon from '@material-ui/icons/LockOpen';
+import Copyright from '../components/Copyright';
 //import emailSymbol from "../assets/email symbol.png"
 
 
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {"Copyright © "}
-      <Link color="inherit" href="https://material-ui.com/">
-
-        NZCSA
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {""}
-
-    </Typography>
-  );
-}
 
 // TODO: Modify to match figma design
 
@@ -54,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
     height: "100vh",
   },
   image: {
-    backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 2.6)),url(${backgroundImage})`,
+    // backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 2.6)),url(${backgroundImage})`,
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
     backgroundPosition: "center",
@@ -68,9 +56,8 @@ const useStyles = makeStyles((theme) => ({
   },
   avatar: {
 
-    //marginTop: theme.spacing(11),
-    marginTop: "2%",
-    backgroundColor: "primary",
+    marginTop: theme.spacing(1),
+    backgroundColor: theme.palette.primary.main,
   },
   form: {
     width: "100%", // Fix IE 11 issue.
@@ -95,7 +82,7 @@ const useStyles = makeStyles((theme) => ({
   },
   pStrength: {
     marginBottom: theme.spacing(1),
-    color: 'lightgrey'
+    // color: 'lightgrey'
   },
   signin: {
     fontStyle: 'italic',
@@ -104,7 +91,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 // TODO: Modify to match figma design
-export default function SignUp(props) {
+export default function SignUp() {
   const classes = useStyles();
 
   const [firstName, setFirstName] = useState('');
@@ -132,9 +119,9 @@ export default function SignUp(props) {
 
   const isError = (condition) => hasErrors && condition;
 
-  useEffect(() => {
-    props.changeDarkMode(true);
-  }, [])
+  // useEffect(() => {
+  //   props.changeDarkMode(true);
+  // }, [])
 
   function handlePasswordError() {
     if (confirmPassword !== password) {
@@ -218,7 +205,9 @@ export default function SignUp(props) {
         <Container maxWidth="sm">
           <CssBaseline />
           <div className={classes.paper}>
-            <Avatar src={signInSymbol} className={classes.avatar}></Avatar>
+            <Avatar className={classes.avatar}>
+              <LockOpenIcon/>
+            </Avatar>
             <Typography component="h1" variant="h5">
               Sign up
             </Typography>
@@ -327,8 +316,8 @@ export default function SignUp(props) {
                                 {values.showPassword ? (
                                   <Visibility />
                                 ) : (
-                                  <VisibilityOff />
-                                )}
+                                    <VisibilityOff />
+                                  )}
                               </IconButton>
                             </InputAdornment>
                           ),
@@ -365,8 +354,8 @@ export default function SignUp(props) {
                             {values.showConfirm ? (
                               <Visibility />
                             ) : (
-                              <VisibilityOff />
-                            )}
+                                <VisibilityOff />
+                              )}
                           </IconButton>
                         </InputAdornment>
                       ),
@@ -374,13 +363,13 @@ export default function SignUp(props) {
                   />
                 </Grid>
                 <Grid item xs={12}>
-                  <FormControlLabel
+                  {/* <FormControlLabel
                     control={
                       <Checkbox value="allowExtraEmails" color="primary" />
                     }
                     label="I want to receive inspiration, marketing promotions and updates via email."
                     labelPlacement="end"
-                  />
+                  /> */}
                 </Grid>
               </Grid>
               <Button
@@ -394,12 +383,12 @@ export default function SignUp(props) {
                 {loading ? (
                   <CircularProgress color="inherit" size="2rem" />
                 ) : (
-                  <>Sign Up</>
-                )}
+                    <>Sign Up</>
+                  )}
               </Button>
               <Grid container justify="flex-end">
                 <Grid item>
-                  <Link href="/" variant="body2" style={{ color: "#fff" }}>
+                  <Link href="/" variant="body2" >
                     Already have an account? Sign in
                   </Link>
                 </Grid>
@@ -408,7 +397,6 @@ export default function SignUp(props) {
             </div>
           </div>
           <Box mt={5} align="center">
-            <img className={classes.logo} src={logo} alt="cur" align="center" />
             <Copyright />
           </Box>
         </Container>

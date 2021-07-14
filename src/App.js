@@ -14,24 +14,14 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Redirect,
 } from "react-router-dom";
 import red from "@material-ui/core/colors/red";
 import axios from "axios";
 import { AuthProvider } from "./context/auth.context";
 
-// DO NOT CHANGEs
-const PrivateRoute = ({ children, ...rest }) => {
-  // Function for protected routes, eg.Dashboard, do not change anything in this section
-  return (
-    <Route
-      {...rest}
-      render={() =>
-        localStorage.getItem("authToken") ? children : <Redirect to="/login" />
-      }
-    />
-  );
-};
+import PrivateRoute from './components/routing/PrivateRoute';
+
+
 
 function App() {
   const [darkMode, setDarkMode] = useState(false); // Currently dark mode is enabled by default, will change in the future
@@ -42,7 +32,7 @@ function App() {
 
   let theme = createMuiTheme({
     palette: {
-      type: darkMode ? "dark" : "light",
+      // type: darkMode ? "dark" : "light",
       primary: red,
       secondary: {
         main: "#7d2ae8",
