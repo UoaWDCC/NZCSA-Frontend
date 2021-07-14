@@ -208,6 +208,7 @@ export default function Dashboard(props) {
 
   const handleUserInformationDialog = () => {
     seUserInforDialog(!userInforDialog)
+    handleMenuClose();
     console.log("hi")
   }
 
@@ -281,11 +282,11 @@ export default function Dashboard(props) {
         </ListItem>
       </MenuItem>
       <Divider variant="middle" />
-      <MenuItem onClick={handleMenuClose}>
+      <MenuItem onClick={handleUserInformationDialog}>
         <ListItemIcon>
           <AccountBoxIcon fontSize="medium" />
         </ListItemIcon>
-        <Typography onClick={handleUserInformationDialog}>Account</Typography>
+        <Typography >Account</Typography>
       </MenuItem>
       <MenuItem onClick={handleMenuClose}>
         <ListItemIcon>
@@ -446,7 +447,7 @@ export default function Dashboard(props) {
         </List>
       </Drawer>
       <Upgrade open={upgradeOpen} close={setUpgradeOpen} />
-      <UserInforDialog open={userInforDialog} close={handleUserInformationDialog} />
+      <UserInforDialog open={userInforDialog} close={seUserInforDialog} />
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>

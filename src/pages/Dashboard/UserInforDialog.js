@@ -6,10 +6,14 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
 export default function UserInforDialog(props) {
+    const handleDialogClose = () => {
+        props.close(false)
+    }
+
     return (
         <Dialog
             open={props.open}
-            onClose={props.close}
+            onClose={handleDialogClose}
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
         >
