@@ -93,13 +93,7 @@ async function makePayment(paymentMethod, paymentAmount) {
   return response;
 }
 
-async function createOrder(merchantReference, userId, paymentMethod) {
-  const body = {
-    merchantReference,
-    userId,
-    paymentMethod,
-  };
-
+async function createOrder(body) {
   const config = {
     headers: {
       "Content-Type": "application/json;charset=UTF-8",
@@ -139,4 +133,5 @@ export {
   signUpEvent,
   makePayment,
   validateRedirect,
+  createOrder,
 };

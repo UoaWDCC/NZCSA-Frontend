@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
 import SignInSide from "./pages/SignInSide";
 import SignUp from "./pages/SignUp";
@@ -17,22 +17,10 @@ import {
   Redirect,
 } from "react-router-dom";
 import red from "@material-ui/core/colors/red";
+import axios from "axios";
+import { AuthProvider } from "./context/auth.context";
 
-// DO NOT CHANGE
-const fakeAuth = {
-  // This function sets the authentication state, will connect to backend in future
-  isAuthenticated: true,
-  authenticate(cb) {
-    this.isAuthenticated = true;
-    setTimeout(cb, 100);
-  },
-  signOut(cb) {
-    this.isAuthenticated = false;
-    setTimeout(cb, 100);
-  },
-};
-
-// DO NOT CHANGE
+// DO NOT CHANGEs
 const PrivateRoute = ({ children, ...rest }) => {
   // Function for protected routes, eg.Dashboard, do not change anything in this section
   return (
@@ -71,40 +59,42 @@ function App() {
   //console.log(localStorage.getItem("authToken"));
 
   return (
-    <ThemeProvider theme={theme}>
-      <div className="App">
-        <header className="App-header">
-          <Router>
-            <Switch>
-              <PrivateRoute exact path="/checkout">
-                <Dashboard checkout={true}/>
-              </PrivateRoute>
-              <PrivateRoute exact path="/">
-                <Dashboard />
-              </PrivateRoute>
-              <PrivateRoute path="/yourEvents">
-                <Dashboard yourEvents={true} />
-              </PrivateRoute>
-              <Route path="/login">
-                <SignInSide changeDarkMode={changeDarkMode} />
-              </Route>
-              <Route path="/signup">
-                <SignUp changeDarkMode={changeDarkMode} />
-              </Route>
-              <Route path="/forgotPassword">
-                <ForgotPassword />
-              </Route>
-              <PrivateRoute path="/resetPassword">
-                <ResetPassword />
-              </PrivateRoute>
-              <PrivateRoute path="/:id">
-                <Dashboard />
-              </PrivateRoute>
-            </Switch>
-          </Router>
-        </header>
-      </div>
-    </ThemeProvider>
+    <AuthProvider user={null}>
+      <ThemeProvider theme={theme}>
+        <div className="App">
+          <header className="App-header">
+            <Router>
+              <Switch>
+                <PrivateRoute exact path="/checkout">
+                  <Dashboard checkout={true} />
+                </PrivateRoute>
+                <PrivateRoute exact path="/">
+                  <Dashboard />
+                </PrivateRoute>
+                <PrivateRoute path="/yourEvents">
+                  <Dashboard yourEvents={true} />
+                </PrivateRoute>
+                <Route path="/login">
+                  <SignInSide changeDarkMode={changeDarkMode} />
+                </Route>
+                <Route path="/signup">
+                  <SignUp changeDarkMode={changeDarkMode} />
+                </Route>
+                <Route path="/forgotPassword">
+                  <ForgotPassword />
+                </Route>
+                <PrivateRoute path="/resetPassword">
+                  <ResetPassword />
+                </PrivateRoute>
+                <PrivateRoute path="/:id">
+                  <Dashboard />
+                </PrivateRoute>
+              </Switch>
+            </Router>
+          </header>
+        </div>
+      </ThemeProvider>
+    </AuthProvider>
   );
 }
 

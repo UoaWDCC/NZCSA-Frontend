@@ -43,6 +43,7 @@ import {
 import EventDetail from "./EventDetail";
 import Upgrade from "./Upgrade";
 import axios from "axios";
+import { useAuth } from "../../context/auth.context";
 
 function Copyright() {
   return (
@@ -187,6 +188,7 @@ export default function Dashboard(props) {
   const [eventData, setEventData] = useState({});
   const [userData, setUserData] = useState({});
   const [yourEventsData, setYoursEventData] = useState({});
+  const { setCurrentUser } = useAuth();
 
   const isMenuOpen = Boolean(anchorEl);
 
@@ -230,6 +232,7 @@ export default function Dashboard(props) {
         )
         .then((res) => {
           setUserData(res.data.data);
+          setCurrentUser(res.data.data);
           //console.log(res.data.data);
         })
         .catch((e) => {
@@ -255,7 +258,7 @@ export default function Dashboard(props) {
   }, []);
 
   // console.log(userData)
-  console.log(localStorage.getItem("authToken"));
+  // console.log(localStorage.getItem("authToken"));
 
   const menuId = "primary-search-account-menu";
   const renderMenu = (

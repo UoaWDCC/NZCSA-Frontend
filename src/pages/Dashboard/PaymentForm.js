@@ -14,6 +14,8 @@ import {
 } from "@material-ui/core";
 import clsx from "clsx";
 import { makePayment, createOrder } from "../../api/connectBackend";
+import { useHistory } from "react-router-dom";
+import { useAuth } from "../../context/auth.context";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -42,34 +44,46 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function UpgradeForm(props) {
+  const { currentUser } = useAuth();
   const classes = useStyles();
   const [method, setMethod] = React.useState("polipay"); // Possible states are "wechat", "alipay" and "polipay"
   const [loading, setLoading] = React.useState(false);
   const price = props.price;
 
+  console.log(currentUser);
+
   const handlePayment = async () => {
     try {
       const response = await makePayment(method, price);
       if (response.status === 200) {
-        console.log(response.data.data.payment_url);
-        window.location.href = response.data.data.payment_url;
+        // console.log(response.data);
+        const { merchantReference } = response.data;
+        const userId = currentUser._id;
+        handleOrder(merchantReference, userId, method);
+        window.location.href = response.data.payment_url;
       } else {
         console.log("error");
+        window.location.href = "/checkout";
       }
     } catch (error) {
       console.log(error);
+      window.location.href = "/checkout";
     }
   };
 
-  const handleOrder = async () => {
+  const handleOrder = async (merchantReference, userId, paymentMethod) => {
+    console.log(merchantReference, userId, paymentMethod);
     try {
-      const response = await createOrder();
+      const response = await createOrder({
+        merchantReference,
+        userId,
+        paymentMethod,
+      });
       // merchantReference,
       // userId,
       // paymentMethod
       if (response.status === 200) {
-        console.log(response.data.data.payment_url);
-        window.location.href = response.data.data.payment_url;
+        console.log("order created!");
       } else {
         console.log("error");
       }
