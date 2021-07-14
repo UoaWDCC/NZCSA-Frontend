@@ -10,7 +10,7 @@ import Typography from "@material-ui/core/Typography";
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import { useState } from 'react';
 import { confirmAlert } from 'react-confirm-alert';
-import CircularProgress from '@material-ui/core/CircularProgress';
+// import CircularProgress from '@material-ui/core/CircularProgress';
 import {
   BrowserRouter as Router,
   Link,
@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function EventCard(props) {
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const [upgradeOpen, setUpgradeOpen] = useState(false);
   const [paymentOpen, setPaymentOpen] = useState(false);
   const [price, setPrice] = useState(0);
@@ -51,9 +51,9 @@ export default function EventCard(props) {
     },
   });
 
-  const handleUpgradeOpen = () => {
-    setUpgradeOpen(true);
-  };
+  // const handleUpgradeOpen = () => {
+  //   setUpgradeOpen(true);
+  // };
 
   const handleOnClick = (eventId, price) => {
     if (!isMember) {
@@ -105,7 +105,7 @@ export default function EventCard(props) {
     console.log(eventId);
     const registerInfo = { eventId };
     try {
-      setLoading(true);
+      // setLoading(true);
       const response = await signUpEvent(registerInfo);
       if (response.status === 200) {
         setNotify({
@@ -116,7 +116,7 @@ export default function EventCard(props) {
       }
       //console.log(response.data);
     } catch (e) {
-      setLoading(false);
+      // setLoading(false);
       console.log(e.response.data.error);
       setNotify({
         isOpen: true,

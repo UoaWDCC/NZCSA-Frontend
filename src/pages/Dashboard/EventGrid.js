@@ -2,10 +2,6 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles'
 import {
     Grid,
-    Card,
-    CardContent,
-    Typography,
-    CardHeader
 } from '@material-ui/core/';
 import { useEffect, useState } from 'react';
 import EventCard from "../../components/EventCard";

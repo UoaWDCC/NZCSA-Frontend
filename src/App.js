@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./App.css";
 import SignInSide from "./pages/SignInSide";
 import SignUp from "./pages/SignUp";
@@ -12,7 +12,7 @@ import {
 } from "@material-ui/core/styles";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import red from "@material-ui/core/colors/red";
-import axios from "axios";
+// import axios from "axios";
 import { AuthProvider } from "./context/auth.context";
 
 import PrivateRoute from "./components/routing/PrivateRoute";
@@ -26,7 +26,7 @@ function App() {
 
   let theme = createMuiTheme({
     palette: {
-      // type: darkMode ? "dark" : "light",
+      type: darkMode ? "dark" : "light",
       primary: red,
       secondary: {
         main: "#7d2ae8",

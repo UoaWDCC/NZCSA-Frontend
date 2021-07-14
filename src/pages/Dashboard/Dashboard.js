@@ -14,12 +14,12 @@ import IconButton from "@material-ui/core/IconButton";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
-import Link from "@material-ui/core/Link";
+// import Link from "@material-ui/core/Link";
 import MenuIcon from "@material-ui/icons/Menu";
 import SearchIcon from "@material-ui/icons/Search";
 import InputBase from "@material-ui/core/InputBase";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import { mainListItems, secondaryListItems } from "./listItems";
+import { mainListItems} from "./listItems";
 // import navLogo from "./images/logo_black.png";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -36,7 +36,6 @@ import {
 import MainCard from "../../components/MainCard";
 import EventGrid from "./EventGrid";
 import {
-  BrowserRouter as Router,
   useParams,
   Link as RouterLink,
 } from "react-router-dom";
@@ -178,12 +177,12 @@ export default function Dashboard(props) {
   const [upgradeOpen, setUpgradeOpen] = useState(props.checkout ? true : false);
   const [eventData, setEventData] = useState({});
   const [userData, setUserData] = useState({});
-  const [yourEventsData, setYoursEventData] = useState({});
+  // const [yourEventsData, setYoursEventData] = useState({});
   const { setCurrentUser } = useAuth();
 
   const isMenuOpen = Boolean(anchorEl);
 
-  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+  // const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   const handleDrawerOpen = () => {
     setOpen(!open);
@@ -231,7 +230,7 @@ export default function Dashboard(props) {
         });
     };
     fetchData();
-  }, [anchorEl]);
+  }, [anchorEl, setCurrentUser]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -265,7 +264,7 @@ export default function Dashboard(props) {
       <MenuItem>
         <ListItem alignItems="flex-start">
           <ListItemAvatar>
-            <Avatar alt="Cindy Baker" src="/static/images/avatar/3.jpg" />
+            <Avatar alt="Cindy Baker"/>
           </ListItemAvatar>
           <ListItemText
             primary={userData.firstname}
@@ -404,7 +403,6 @@ export default function Dashboard(props) {
           >
             <Avatar
               alt="Remy Sharp"
-              src="/static/images/avatar/1.jpg"
               className={classes.large}
             />
           </IconButton>
