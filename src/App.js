@@ -10,18 +10,12 @@ import {
   ThemeProvider,
   responsiveFontSizes,
 } from "@material-ui/core/styles";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import red from "@material-ui/core/colors/red";
 import axios from "axios";
 import { AuthProvider } from "./context/auth.context";
 
-import PrivateRoute from './components/routing/PrivateRoute';
-
-
+import PrivateRoute from "./components/routing/PrivateRoute";
 
 function App() {
   const [darkMode, setDarkMode] = useState(false); // Currently dark mode is enabled by default, will change in the future
@@ -65,8 +59,8 @@ function App() {
                   <Dashboard yourEvents={true} />
                 </PrivateRoute>
                 <PrivateRoute path="/sponsors">
-                <Dashboard sponsors={true} />
-              </PrivateRoute>
+                  <Dashboard sponsors={true} />
+                </PrivateRoute>
                 <Route path="/login">
                   <SignInSide changeDarkMode={changeDarkMode} />
                 </Route>
