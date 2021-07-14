@@ -61,7 +61,7 @@ export default function PaymentForm({ orderType, price, eventId }) {
         const { merchantReference } = response.data;
         const userId = currentUser._id;
         handleOrder(merchantReference, userId, method, eventId);
-        // window.location.href = response.data.payment_url;
+        window.location.href = response.data.payment_url;
       } else {
         console.log("error");
         window.location.href = "/checkout";
