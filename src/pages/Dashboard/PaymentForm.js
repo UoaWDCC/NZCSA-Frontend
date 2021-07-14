@@ -54,7 +54,7 @@ export default function UpgradeForm(props) {
 
   const handlePayment = async () => {
     try {
-      const response = await makePayment(method, price);
+      const response = await makePayment(method, price, props.orderType);
       if (response.status === 200) {
         // console.log(response.data);
         const { merchantReference } = response.data;
@@ -78,6 +78,7 @@ export default function UpgradeForm(props) {
         merchantReference,
         userId,
         paymentMethod,
+        orderType: props.orderType,
       });
       // merchantReference,
       // userId,

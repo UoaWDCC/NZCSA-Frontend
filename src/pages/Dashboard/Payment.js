@@ -1,10 +1,6 @@
 import React from "react";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
-import {
-  Dialog,
-  IconButton,
-  Typography,
-} from "@material-ui/core";
+import { Dialog, IconButton, Typography } from "@material-ui/core";
 // import UpgradeForm from "./UpgradeForm";
 import PaymentForm from "./PaymentForm";
 import PaymentResultForm from "./PaymentResultForm";
@@ -30,7 +26,7 @@ const styles = (theme) => ({
   form: {
     marginTop: 0,
     padding: 0,
-  }
+  },
 });
 
 const useStyles = makeStyles((theme) => ({}));
@@ -51,12 +47,10 @@ export default function Payment(props) {
   const handleclosePaymentForm = () => {
     if (activeStep === 1) {
       return null;
-    }
-    else if (window.confirm("All your inputs will be discarded")) {
+    } else if (window.confirm("All your inputs will be discarded")) {
       props.close(false);
       setActiveStep(0);
-    }
-    else {
+    } else {
       props.close(true);
     }
   };
@@ -64,12 +58,18 @@ export default function Payment(props) {
   const finishPayment = () => {
     props.close(false);
     setActiveStep(0);
-  }
+  };
 
   function getStepContent(step) {
     switch (step) {
       case 0:
-        return <PaymentForm price={props.price} handleNext={handleNext} />;
+        return (
+          <PaymentForm
+            price={props.price}
+            orderType="event payment"
+            handleNext={handleNext}
+          />
+        );
       case 1:
         return <PaymentResultForm close={finishPayment} />;
       default:
@@ -86,7 +86,6 @@ export default function Payment(props) {
 
     return (
       <MuiDialogTitle disableTypography className={classes.root} {...other}>
-
         <Typography p={5} variant="h4">
           {children}
         </Typography>
@@ -111,7 +110,7 @@ export default function Payment(props) {
       maxWidth="md"
       fullScreen={fullScreen}
     >
-      <DialogTitle onClose={handleclosePaymentForm} >
+      <DialogTitle onClose={handleclosePaymentForm}>
         {steps[activeStep]}
       </DialogTitle>
       <div style={{ height: "80vh" }} className={classes.form}>
