@@ -43,6 +43,7 @@ import {
 import EventDetail from "./EventDetail";
 import Upgrade from "./Upgrade";
 import axios from "axios";
+import { useAuth } from "../../context/auth.context";
 import SponsorsLogoLayout from "../Sponsors/SponsorsLogoLayout";
 import Copyright from '../../components/Copyright';
 
@@ -174,10 +175,11 @@ export default function Dashboard(props) {
   const classes = useStyles();
   const [open, setOpen] = useState(true);
   const [anchorEl, setAnchorEl] = useState(null);
-  const [upgradeOpen, setUpgradeOpen] = useState(false);
+  const [upgradeOpen, setUpgradeOpen] = useState(props.checkout ? true : false);
   const [eventData, setEventData] = useState({});
   const [userData, setUserData] = useState({});
   const [yourEventsData, setYoursEventData] = useState({});
+  const { setCurrentUser } = useAuth();
 
   const isMenuOpen = Boolean(anchorEl);
 
@@ -198,7 +200,7 @@ export default function Dashboard(props) {
   const handleSignOut = () => {
     setAnchorEl(null);
     localStorage.removeItem("authToken");
-  }
+  };
 
   const handleUpgradeOpen = () => {
     setUpgradeOpen(!upgradeOpen);
@@ -207,37 +209,47 @@ export default function Dashboard(props) {
   useEffect(() => {
     const config = {
       headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('authToken')}`
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("authToken")}`,
         //Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwZTJiNDQwMzM0MjBjZWExYmQ0ZGRiYyIsImlhdCI6MTYyNTU1MzMyNn0.O7wqQZ2JfGihrqt4QkTW1Kh2ZK-j5FWg1zBewYMasyU'
-      }
-    }
+      },
+    };
     //console.log(config)
     const fetchData = async () => {
-      axios.get('https://nzcsa-backend.herokuapp.com/api/private/get-user-info', config)
+      axios
+        .get(
+          "https://nzcsa-backend.herokuapp.com/api/private/get-user-info",
+          config
+        )
         .then((res) => {
-          setUserData(res.data.data)
+          setUserData(res.data.data);
+          setCurrentUser(res.data.data);
           //console.log(res.data.data);
-        }).catch((e) => {
-          console.log(e)
         })
+        .catch((e) => {
+          console.log(e);
+        });
     };
-    fetchData()
-  }, [anchorEl])
+    fetchData();
+  }, [anchorEl]);
 
   useEffect(() => {
     const fetchData = async () => {
-      axios.get('https://nzcsa-backend.herokuapp.com/api/private/get-events-info')
+      axios
+        .get("https://nzcsa-backend.herokuapp.com/api/private/get-events-info")
         .then((res) => {
-          setEventData(res.data)
+          setEventData(res.data);
           //console.log(res.data)
-        }).catch((e) => {
-          //console.log(e)
         })
-    }
+        .catch((e) => {
+          //console.log(e)
+        });
+    };
     fetchData();
-  }, [])
+  }, []);
 
+  // console.log(userData)
+  // console.log(localStorage.getItem("authToken"));
 
   const menuId = "primary-search-account-menu";
   const renderMenu = (
@@ -318,8 +330,13 @@ export default function Dashboard(props) {
         />
       </Grid>
       {/* List of Events */}
-      <EventGrid data={eventData} isMember={userData.isMembership} attendedEvents={userData.attendedEvents} />
-    </Grid>);
+      <EventGrid
+        data={eventData}
+        isMember={userData.isMembership}
+        attendedEvents={userData.attendedEvents}
+      />
+    </Grid>
+  );
 
   //console.log(yourEventsData)
   const yourEvents = (
@@ -331,8 +348,7 @@ export default function Dashboard(props) {
       </Grid>
       <EventGrid data={eventData} userData={userData} />
     </Grid>
-
-  )
+  );
 
   const Sponsor = (
     <Grid container spacing={3}>
@@ -437,7 +453,11 @@ export default function Dashboard(props) {
           )}
         </List>
       </Drawer>
-      <Upgrade open={upgradeOpen} close={setUpgradeOpen} />
+      <Upgrade
+        checkout={props.checkout}
+        open={upgradeOpen}
+        close={setUpgradeOpen}
+      />
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
@@ -448,9 +468,14 @@ export default function Dashboard(props) {
           ) : !id ? (
             home
           ) : (
-                  <EventDetail id={id} isMember={userData.isMembership} attendedEvents={userData.attendedEvents} data={eventData} />
-                )}
-
+            // Event details
+            <EventDetail
+              id={id}
+              isMember={userData.isMembership}
+              attendedEvents={userData.attendedEvents}
+              data={eventData}
+            />
+          )}
           <Box pt={4}>
             <Copyright />
           </Box>{" "}
