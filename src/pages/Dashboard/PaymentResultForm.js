@@ -102,7 +102,7 @@ export default function PaymentResultForm(props) {
               {success ? "Success!" : "Payment failed..."}
             </Typography>
             <Typography variant="body1" align="center">
-              {success ? "You are now a member." : "Please Try Again"}
+              {success ? "Your payment was successful." : "Please Try Again."}
             </Typography>
           </Grid>
           <Grid item xs={12} style={{ maxWidth: 480 }}>

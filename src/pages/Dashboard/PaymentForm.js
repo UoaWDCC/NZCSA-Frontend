@@ -87,6 +87,7 @@ export default function PaymentForm({ orderType, price, eventId }) {
         paymentMethod,
         eventId,
         orderType,
+        price
       });
       // merchantReference,
       // userId,
@@ -190,7 +191,9 @@ export default function PaymentForm({ orderType, price, eventId }) {
                         />
                         <Box mx={2}>
                           <Typography variant="h6" component="h2">
-                            NZCSA Membership Fee
+                            {orderType === "membership-payment"
+                              ? "NZCSA membership payment"
+                              : "Event payment"}
                           </Typography>
                         </Box>
                       </div>
@@ -202,7 +205,9 @@ export default function PaymentForm({ orderType, price, eventId }) {
                           className={classes.pos}
                           color="textSecondary"
                         >
-                          per year
+                          {orderType === "membership-payment"
+                            ? "per year"
+                            : null}
                         </Typography>
                       </div>
                     </Grid>
