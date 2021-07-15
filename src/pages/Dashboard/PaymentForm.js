@@ -192,8 +192,8 @@ export default function PaymentForm({ orderType, price, eventId }) {
                         <Box mx={2}>
                           <Typography variant="h6" component="h2">
                             {orderType === "membership-payment"
-                              ? "NZCSA membership payment"
-                              : "Event payment"}
+                              ? "NZCSA Membership Fee"
+                              : "Event Fee"}
                           </Typography>
                         </Box>
                       </div>
