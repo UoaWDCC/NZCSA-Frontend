@@ -15,7 +15,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function AltCard(props) {
     const classes = useStyles()
-
+    //console.log(props.data);
     const [userEventsDetail, setUserEventsDetail] = useState({});
     
     useEffect(() => {
@@ -29,7 +29,6 @@ export default function AltCard(props) {
                         const eventId = props.userData.attendedEvents[i]
                         userEvents[i] = props.data[eventId]
                         // console.log(props.userData.attendedEvents[i])
-    
                     }
                 }
                 //console.log(userEvents);
@@ -38,9 +37,6 @@ export default function AltCard(props) {
         }  
     },[props.data, props.userData])
     
-   
-    //console.log(userEventsDetail)
-
     return (
         <div className={classes.root}>
             <Grid
@@ -51,9 +47,8 @@ export default function AltCard(props) {
                 alignItems="flex-start"
             >
                 {Object.keys(userEventsDetail).map((elem, i) => (
-                    <Grid item xs={12} sm={6} md={3} key={userEventsDetail[elem].id}>
+                    <Grid item xs={12} sm={6} md={3} key={userEventsDetail[elem]._id}>
                         <EventCard id={userEventsDetail[elem]._id} title={userEventsDetail[elem].eventName} date={userEventsDetail[elem].eventTime} location={userEventsDetail[elem].eventLocation} image={userEventsDetail[elem].eventImgUrl} isMember={props.isMember} price={userEventsDetail[elem].eventPrice} attendedEvents={props.attendedEvents} isYourPage={props.userData}/>
-
                     </Grid>
                 ))}
             </Grid>
