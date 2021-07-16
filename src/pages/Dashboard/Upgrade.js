@@ -38,7 +38,7 @@ const steps = ["Register for membership", "Checkout", "Payment"];
 export default function Upgrade(props) {
   const classes = useStyles();
   const [maxWidth, setMaxWidth] = React.useState("md");
-  const [activeStep, setActiveStep] = React.useState(0);
+  const [activeStep, setActiveStep] = React.useState(props.checkout ? 2 : 0);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("xs"));
 
@@ -53,12 +53,10 @@ export default function Upgrade(props) {
   const handlecloseUpgradeForm = () => {
     if (activeStep === 2) {
       return null;
-    }
-    else if (window.confirm("All your inputs will be discarded")) {
+    } else if (window.confirm("All your inputs will be discarded")) {
       props.close(false);
       setActiveStep(0);
-    }
-    else {
+    } else {
       props.close(true);
     }
   };
@@ -66,14 +64,20 @@ export default function Upgrade(props) {
   const finishPayment = () => {
     props.close(false);
     setActiveStep(0);
-  }
+  };
 
   function getStepContent(step) {
     switch (step) {
       case 0:
         return <UpgradeForm handleNext={handleNext} />;
       case 1:
-        return <PaymentForm price={5} handleNext={handleNext} />;
+        return (
+          <PaymentForm
+            price={0.01}
+            handleNext={handleNext}
+            orderType="membership-payment"
+          />
+        );
       case 2:
         return <PaymentResultForm close={finishPayment} />;
       default:

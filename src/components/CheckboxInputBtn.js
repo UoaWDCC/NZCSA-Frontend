@@ -1,10 +1,10 @@
-import React, { useState, useRef } from 'react';
+import React from 'react';
 import Checkbox from '@material-ui/core/Checkbox';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 export default function CheckboxInputBtn(props) {
-    const [other,setOther]=useState("Others")
+    // const [other,setOther]=useState("Others")
     const handleOther=(e)=>{
         props.setOtherOption(e.target.value)
     }

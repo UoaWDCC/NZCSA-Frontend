@@ -14,12 +14,12 @@ import IconButton from "@material-ui/core/IconButton";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
-import Link from "@material-ui/core/Link";
+// import Link from "@material-ui/core/Link";
 import MenuIcon from "@material-ui/icons/Menu";
 import SearchIcon from "@material-ui/icons/Search";
 import InputBase from "@material-ui/core/InputBase";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import { mainListItems, secondaryListItems } from "./listItems";
+import { mainListItems} from "./listItems";
 // import navLogo from "./images/logo_black.png";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -36,13 +36,13 @@ import {
 import MainCard from "../../components/MainCard";
 import EventGrid from "./EventGrid";
 import {
-  BrowserRouter as Router,
   useParams,
   Link as RouterLink,
 } from "react-router-dom";
 import EventDetail from "./EventDetail";
 import Upgrade from "./Upgrade";
 import axios from "axios";
+import { useAuth } from "../../context/auth.context";
 import SponsorsLogoLayout from "../Sponsors/SponsorsLogoLayout";
 import Copyright from '../../components/Copyright';
 import UserInforDialog from './UserInforDialog'
@@ -175,15 +175,19 @@ export default function Dashboard(props) {
   const classes = useStyles();
   const [open, setOpen] = useState(true);
   const [anchorEl, setAnchorEl] = useState(null);
-  const [upgradeOpen, setUpgradeOpen] = useState(false);
+  const [upgradeOpen, setUpgradeOpen] = useState(props.checkout ? true : false);
   const [eventData, setEventData] = useState({});
   const [userData, setUserData] = useState({});
+
   const [yourEventsData, setYoursEventData] = useState({});
   const [userInforDialog, seUserInforDialog] = useState(false);
+  // const [yourEventsData, setYoursEventData] = useState({});
+  const { setCurrentUser } = useAuth();
+
 
   const isMenuOpen = Boolean(anchorEl);
 
-  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+  // const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   const handleDrawerOpen = () => {
     setOpen(!open);
@@ -200,7 +204,7 @@ export default function Dashboard(props) {
   const handleSignOut = () => {
     setAnchorEl(null);
     localStorage.removeItem("authToken");
-  }
+  };
 
   const handleUpgradeOpen = () => {
     setUpgradeOpen(!upgradeOpen);
@@ -215,38 +219,47 @@ export default function Dashboard(props) {
   useEffect(() => {
     const config = {
       headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('authToken')}`
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("authToken")}`,
         //Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwZTJiNDQwMzM0MjBjZWExYmQ0ZGRiYyIsImlhdCI6MTYyNTU1MzMyNn0.O7wqQZ2JfGihrqt4QkTW1Kh2ZK-j5FWg1zBewYMasyU'
-      }
-    }
+      },
+    };
     //console.log(config)
     const fetchData = async () => {
-      axios.get('https://nzcsa-backend.herokuapp.com/api/private/get-user-info', config)
+      axios
+        .get(
+          "https://nzcsa-backend.herokuapp.com/api/private/get-user-info",
+          config
+        )
         .then((res) => {
-          setUserData(res.data.data)
-          console.log(res.data.data);
-        }).catch((e) => {
-          console.log(localStorage.getItem('authToken'))
-          console.log(e)
+          setUserData(res.data.data);
+          setCurrentUser(res.data.data);
+          //console.log(res.data.data);
         })
+        .catch((e) => {
+          console.log(e);
+        });
     };
-    fetchData()
-  }, [anchorEl])
+    fetchData();
+  }, [anchorEl, setCurrentUser]);
 
   useEffect(() => {
     const fetchData = async () => {
-      axios.get('https://nzcsa-backend.herokuapp.com/api/private/get-events-info')
+      axios
+        .get("https://nzcsa-backend.herokuapp.com/api/private/get-events-info")
         .then((res) => {
-          setEventData(res.data)
+          setEventData(res.data);
           //console.log(res.data)
-        }).catch((e) => {
-          //console.log(e)
         })
-    }
+        .catch((e) => {
+          //console.log(e)
+        });
+    };
     fetchData();
-  }, [])
+  }, []);
 
+  // console.log(userData)
+  // console.log(localStorage.getItem("authToken"));
 
   const menuId = "primary-search-account-menu";
   const renderMenu = (
@@ -262,7 +275,7 @@ export default function Dashboard(props) {
       <MenuItem>
         <ListItem alignItems="flex-start">
           <ListItemAvatar>
-            <Avatar alt="Cindy Baker" src="/static/images/avatar/3.jpg" />
+            <Avatar alt="Cindy Baker"/>
           </ListItemAvatar>
           <ListItemText
             primary={userData.firstname}
@@ -327,8 +340,13 @@ export default function Dashboard(props) {
         />
       </Grid>
       {/* List of Events */}
-      <EventGrid data={eventData} isMember={userData.isMembership} attendedEvents={userData.attendedEvents} />
-    </Grid>);
+      <EventGrid
+        data={eventData}
+        isMember={userData.isMembership}
+        attendedEvents={userData.attendedEvents}
+      />
+    </Grid>
+  );
 
   //console.log(yourEventsData)
   const yourEvents = (
@@ -340,8 +358,7 @@ export default function Dashboard(props) {
       </Grid>
       <EventGrid data={eventData} userData={userData} />
     </Grid>
-
-  )
+  );
 
   const Sponsor = (
     <Grid container spacing={3}>
@@ -397,7 +414,6 @@ export default function Dashboard(props) {
           >
             <Avatar
               alt="Remy Sharp"
-              src="/static/images/avatar/1.jpg"
               className={classes.large}
             />
           </IconButton>
@@ -458,9 +474,14 @@ export default function Dashboard(props) {
           ) : !id ? (
             home
           ) : (
-            <EventDetail id={id} isMember={userData.isMembership} attendedEvents={userData.attendedEvents} data={eventData} />
+            // Event details
+            <EventDetail
+              id={id}
+              isMember={userData.isMembership}
+              attendedEvents={userData.attendedEvents}
+              data={eventData}
+            />
           )}
-
           <Box pt={4}>
             <Copyright />
           </Box>{" "}

@@ -7,19 +7,15 @@ import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
-import 'react-confirm-alert/src/react-confirm-alert.css';
-import { useState } from 'react';
-import { confirmAlert } from 'react-confirm-alert';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import {
-  BrowserRouter as Router,
-  Link,
-} from "react-router-dom";
-import { signUpEvent } from '../api/connectBackend';
+import "react-confirm-alert/src/react-confirm-alert.css";
+import { useState } from "react";
+import { confirmAlert } from "react-confirm-alert";
+// import CircularProgress from '@material-ui/core/CircularProgress';
+import { BrowserRouter as Router, Link } from "react-router-dom";
+import { signUpEvent } from "../api/connectBackend";
 import Upgrade from "../pages/Dashboard/Upgrade";
 import Payment from "../pages/Dashboard/Payment";
 import Notification from "./Notification";
-
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,11 +27,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function EventCard(props) {
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const [upgradeOpen, setUpgradeOpen] = useState(false);
   const [paymentOpen, setPaymentOpen] = useState(false);
   const [price, setPrice] = useState(0);
-  const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
+  const [notify, setNotify] = useState({
+    isOpen: false,
+    message: "",
+    type: "",
+  });
 
   const isMember = props.isMember;
   const attendedEvents = props.attendedEvents;
@@ -51,24 +51,24 @@ export default function EventCard(props) {
     },
   });
 
-  const handleUpgradeOpen = () => {
-    setUpgradeOpen(true);
-  };
+  // const handleUpgradeOpen = () => {
+  //   setUpgradeOpen(true);
+  // };
 
   const handleOnClick = (eventId, price) => {
     if (!isMember) {
       confirmAlert({
-        message: 'You have to be a member to join this event.',
+        message: "You have to be a member to join this event.",
         buttons: [
           {
-            label: 'Cancel',
-            onClick: () => console.log('')
+            label: "Cancel",
+            onClick: () => console.log(""),
           },
           {
-            label: 'Upgrade',
-            onClick: () => setUpgradeOpen(true)
-          }
-        ]
+            label: "Upgrade",
+            onClick: () => setUpgradeOpen(true),
+          },
+        ],
       });
     } else {
       if (!attendedEvents.includes(eventId)) {
@@ -77,51 +77,50 @@ export default function EventCard(props) {
           setPaymentOpen(true);
         } else {
           confirmAlert({
-            message: 'Do you want to join this event?',
+            message: "Do you want to join this event?",
             buttons: [
               {
-                label: 'No',
-                onClick: () => console.log('')
+                label: "No",
+                onClick: () => console.log(""),
               },
               {
-                label: 'Yes',
-                onClick: () => handleRegister(eventId)
-              }
-            ]
+                label: "Yes",
+                onClick: () => handleRegister(eventId),
+              },
+            ],
           });
         }
       } else {
         setNotify({
           isOpen: true,
-          message: 'You have already signed up for this event',
-          type: 'warning'
+          message: "You have already signed up for this event",
+          type: "warning",
         });
       }
     }
-    
   };
 
   async function handleRegister(eventId) {
     console.log(eventId);
     const registerInfo = { eventId };
     try {
-      setLoading(true);
+      // setLoading(true);
       const response = await signUpEvent(registerInfo);
       if (response.status === 200) {
         setNotify({
           isOpen: true,
-          message: 'Successfully signed up for this event!',
-          type: 'success'
+          message: "Successfully signed up for this event!",
+          type: "success",
         });
       }
       //console.log(response.data);
     } catch (e) {
-      setLoading(false);
+      // setLoading(false);
       console.log(e.response.data.error);
       setNotify({
         isOpen: true,
         message: e.response.data.error,
-        type: 'error'
+        type: "error",
       });
     }
   }
@@ -148,10 +147,7 @@ export default function EventCard(props) {
     // </Card>
 
     <Router>
-      <Notification
-        notify={notify}
-        setNotify={setNotify}
-      />
+      <Notification notify={notify} setNotify={setNotify} />
       <Card className={classes.root}>
         <Link to={`${props.id}`} component={CardActionArea}>
           <CardMedia
@@ -174,17 +170,26 @@ export default function EventCard(props) {
             </Typography>
           </CardContent>
         </Link>
-        {props.isYourPage ?
-          null: (
-            <CardActions>
-              <Button variant="contained" size="medium" onClick={ () => handleOnClick(props.id, props.price)} disableElevation>
-                Register
-              </Button>
-            </CardActions>
-          )}
+        {props.isYourPage ? null : (
+          <CardActions>
+            <Button
+              variant="contained"
+              size="medium"
+              onClick={() => handleOnClick(props.id, props.price)}
+              disableElevation
+            >
+              Register
+            </Button>
+          </CardActions>
+        )}
       </Card>
       <Upgrade open={upgradeOpen} close={setUpgradeOpen} />
-      <Payment open={paymentOpen} close={setPaymentOpen} price={price} /> 
+      <Payment
+        open={paymentOpen}
+        close={setPaymentOpen}
+        price={price}
+        eventId={props.id}
+      />
     </Router>
   );
 }

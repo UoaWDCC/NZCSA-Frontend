@@ -5,7 +5,7 @@ import { Paper } from "@material-ui/core";
 import MainCard from "../../components/MainCard";
 import { makeStyles } from "@material-ui/core";
 import { useParams } from "react-router";
-import clsx from "clsx";
+// import clsx from "clsx";
 import { Typography } from "@material-ui/core";
 import { Button } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
@@ -16,7 +16,7 @@ import { signUpEvent } from '../../api/connectBackend';
 import Upgrade from "../Dashboard/Upgrade";
 import Payment from "../Dashboard/Payment";
 import Notification from "../../components/Notification";
-import axios from "axios";
+// import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function EventDetail({ isMember, attendedEvents, data, ...rest }) {
   const classes = useStyles();
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const [upgradeOpen, setUpgradeOpen] = useState(false);
   const [paymentOpen, setPaymentOpen] = useState(false);
   const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
@@ -52,7 +52,7 @@ export default function EventDetail({ isMember, attendedEvents, data, ...rest })
       setEvent(data[id]);
       //console.log(data[id]);
       }
-  },[data])
+  },[data, id])
 
 
   let history = useHistory();
@@ -111,7 +111,7 @@ export default function EventDetail({ isMember, attendedEvents, data, ...rest })
     console.log(eventId);
     const registerInfo = { eventId };
     try {
-      setLoading(true);
+      // setLoading(true);
       const response = await signUpEvent(registerInfo);
       if (response.status === 200) {
         setNotify({
@@ -122,7 +122,7 @@ export default function EventDetail({ isMember, attendedEvents, data, ...rest })
       }
       //console.log(response.data);
     } catch (e) {
-      setLoading(false);
+      // setLoading(false);
       console.log(e.response.data.error);
       setNotify({
         isOpen: true,
