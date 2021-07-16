@@ -475,8 +475,6 @@ export default function Dashboard(props) {
           <List disablePadding >{bottomListItems}</List>
         </Box>
       </Drawer>
-
-
       <Upgrade
         checkout={props.checkout}
         open={upgradeOpen}
