@@ -43,23 +43,24 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function UpgradeForm(props) {
+export default function PaymentForm({ orderType, price, eventId }) {
   const { currentUser } = useAuth();
   const classes = useStyles();
   const [method, setMethod] = React.useState("polipay"); // Possible states are "wechat", "alipay" and "polipay"
   const [loading, setLoading] = React.useState(false);
-  const price = props.price;
 
   console.log(currentUser);
 
   const handlePayment = async () => {
     try {
-      const response = await makePayment(method, price);
+      console.log("payment details");
+      console.log(method, price, orderType);
+      const response = await makePayment(method, price, orderType);
       if (response.status === 200) {
         // console.log(response.data);
         const { merchantReference } = response.data;
         const userId = currentUser._id;
-        handleOrder(merchantReference, userId, method);
+        handleOrder(merchantReference, userId, method, eventId);
         window.location.href = response.data.payment_url;
       } else {
         console.log("error");
@@ -71,13 +72,22 @@ export default function UpgradeForm(props) {
     }
   };
 
-  const handleOrder = async (merchantReference, userId, paymentMethod) => {
-    console.log(merchantReference, userId, paymentMethod);
+  const handleOrder = async (
+    merchantReference,
+    userId,
+    paymentMethod,
+    eventId
+  ) => {
+    console.log("order details");
+    console.log(merchantReference, userId, paymentMethod, eventId);
     try {
       const response = await createOrder({
         merchantReference,
         userId,
         paymentMethod,
+        eventId,
+        orderType,
+        price
       });
       // merchantReference,
       // userId,
@@ -181,19 +191,23 @@ export default function UpgradeForm(props) {
                         />
                         <Box mx={2}>
                           <Typography variant="h6" component="h2">
-                            NZCSA Membership Fee
+                            {orderType === "membership-payment"
+                              ? "NZCSA Membership Fee"
+                              : "Event Fee"}
                           </Typography>
                         </Box>
                       </div>
                       <div>
                         <Typography variant="h6" component="h2">
-                          ${props.price}
+                          ${price}
                         </Typography>
                         <Typography
                           className={classes.pos}
                           color="textSecondary"
                         >
-                          per year
+                          {orderType === "membership-payment"
+                            ? "per year"
+                            : null}
                         </Typography>
                       </div>
                     </Grid>
@@ -209,7 +223,7 @@ export default function UpgradeForm(props) {
                         <Box style={{ fontSize: 32 }} display="inline">
                           $
                         </Box>
-                        {props.price}
+                        {price}
                       </Typography>
                     </Grid>
                   </CardContent>
