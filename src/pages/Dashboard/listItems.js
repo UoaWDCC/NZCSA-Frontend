@@ -9,6 +9,7 @@ import Button from "@material-ui/core/Button";
 import { EventNote } from "@material-ui/icons";
 import { BrowserRouter as Router, Link } from "react-router-dom";
 import MenuItem from "@material-ui/core/MenuItem";
+import InfoIcon from '@material-ui/icons/Info';
 
 
 const StyledListItem = withStyles((theme) => ({
@@ -63,5 +64,16 @@ export const secondaryListItems = (
         Upgrade
       </Button>
     </ListItem>
+  </div>
+);
+
+export const bottomListItems = (
+  <div>
+      <StyledListItem button to="/about" component={Link}>
+        <ListItemIcon>
+          <InfoIcon />
+        </ListItemIcon>
+        <ListItemText primary="About" />
+      </StyledListItem>
   </div>
 );

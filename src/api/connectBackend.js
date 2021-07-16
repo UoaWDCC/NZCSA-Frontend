@@ -2,7 +2,7 @@ import axios from "axios";
 
 async function signUp(signUpInfo) {
   const body = signUpInfo;
-  const response = await axios("http://localhost:5000/api/auth/register", {
+  const response = await axios("https://nzcsa-backend.herokuapp.com/api/auth/register", {
     headers: {
       "Content-type": "application/json",
     },
@@ -86,7 +86,7 @@ async function makePayment(paymentMethod, paymentAmount, productName) {
     },
   };
   const response = await axios.post(
-    "http://localhost:5000/api/payment/make-payment",
+    "https://nzcsa-backend.herokuapp.com/api/payment/make-payment",
     body,
     config
   );
@@ -103,7 +103,7 @@ async function createOrder(body) {
   };
 
   const response = await axios.post(
-    "http://localhost:5000/api/payment/create-order",
+    "https://nzcsa-backend.herokuapp.com/api/payment/create-order",
     body,
     config
   );
@@ -118,7 +118,7 @@ async function validateRedirect(body) {
     },
   };
   const response = await axios.post(
-    "http://localhost:5000/api/payment/make-payment",
+    "https://nzcsa-backend.herokuapp.com/api/payment/make-payment",
     body,
     config
   );
