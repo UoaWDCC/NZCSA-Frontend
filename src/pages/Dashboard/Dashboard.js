@@ -225,7 +225,7 @@ export default function Dashboard(props) {
       axios.get('https://nzcsa-backend.herokuapp.com/api/private/get-user-info', config)
         .then((res) => {
           setUserData(res.data.data)
-          //console.log(res.data.data);
+          console.log(res.data.data);
         }).catch((e) => {
           console.log(localStorage.getItem('authToken'))
           console.log(e)
@@ -447,7 +447,7 @@ export default function Dashboard(props) {
         </List>
       </Drawer>
       <Upgrade open={upgradeOpen} close={setUpgradeOpen} />
-      <UserInforDialog open={userInforDialog} close={seUserInforDialog} />
+      <UserInforDialog open={userInforDialog} close={seUserInforDialog} userInfo={userData} />
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
