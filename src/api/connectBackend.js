@@ -73,10 +73,11 @@ async function signUpEvent(registerInfo) {
   return response;
 }
 
-async function makePayment(paymentMethod, paymentAmount) {
+async function makePayment(paymentMethod, paymentAmount, productName) {
   const body = {
-    paymentMethod: paymentMethod,
-    paymentAmount: paymentAmount,
+    paymentMethod,
+    paymentAmount,
+    productName,
   };
   const config = {
     headers: {
