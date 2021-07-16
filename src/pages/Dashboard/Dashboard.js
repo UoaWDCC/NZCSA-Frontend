@@ -19,7 +19,7 @@ import MenuIcon from "@material-ui/icons/Menu";
 import SearchIcon from "@material-ui/icons/Search";
 import InputBase from "@material-ui/core/InputBase";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import { mainListItems} from "./listItems";
+import { mainListItems, bottomListItems } from "./listItems";
 // import navLogo from "./images/logo_black.png";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -45,6 +45,7 @@ import axios from "axios";
 import { useAuth } from "../../context/auth.context";
 import SponsorsLogoLayout from "../Sponsors/SponsorsLogoLayout";
 import Copyright from '../../components/Copyright';
+import AboutLayout from "../About/AboutLayout";
 
 
 const drawerWidth = 240;
@@ -168,6 +169,9 @@ const useStyles = makeStyles((theme) => ({
   grow: {
     flexGrow: 1,
   },
+  about: {
+    marginTop: "auto"
+  }
 }));
 
 export default function Dashboard(props) {
@@ -264,7 +268,7 @@ export default function Dashboard(props) {
       <MenuItem>
         <ListItem alignItems="flex-start">
           <ListItemAvatar>
-            <Avatar alt="Cindy Baker"/>
+            <Avatar alt="Cindy Baker" />
           </ListItemAvatar>
           <ListItemText
             primary={userData.firstname}
@@ -361,6 +365,11 @@ export default function Dashboard(props) {
 
   )
 
+  const About = (
+    <AboutLayout />
+
+  )
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -424,7 +433,6 @@ export default function Dashboard(props) {
         <Divider />
         <List>{mainListItems}</List>
         <Divider variant="middle" />
-        {/* <List>{open && secondaryListItems}</List> */}
         <List>
           {!userData.isMembership && (
             <div>
@@ -450,7 +458,13 @@ export default function Dashboard(props) {
             </div>
           )}
         </List>
+        <Box className={classes.about} >
+
+          <Divider variant="middle" />
+          <List disablePadding >{bottomListItems}</List>
+        </Box>
       </Drawer>
+
       <Upgrade
         checkout={props.checkout}
         open={upgradeOpen}
@@ -463,17 +477,19 @@ export default function Dashboard(props) {
             yourEvents
           ) : props.sponsors ? (
             Sponsor
+          ) : props.about ? (
+            About
           ) : !id ? (
             home
           ) : (
-            // Event details
-            <EventDetail
-              id={id}
-              isMember={userData.isMembership}
-              attendedEvents={userData.attendedEvents}
-              data={eventData}
-            />
-          )}
+                    // Event details
+                    <EventDetail
+                      id={id}
+                      isMember={userData.isMembership}
+                      attendedEvents={userData.attendedEvents}
+                      data={eventData}
+                    />
+                  )}
           <Box pt={4}>
             <Copyright />
           </Box>{" "}
