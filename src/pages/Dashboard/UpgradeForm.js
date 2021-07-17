@@ -30,14 +30,14 @@ const useStyles = makeStyles((theme) => ({
 export default function UpgradeForm(props) {
   // const [gender, setGender]=useState()
   // const [selectedDate, setSelectedDate] = React.useState(new Date('2014-08-18T21:11:54'));
-  const [name, setName] = useState();
-  const [gender, setGender] = useState();
-  const [wechatId, setWechaId] = useState();
-  const [phone, setPhone] = useState();
-  const [stdentId, setStudentId] = useState();
+  const [name, setName] = useState("");
+  const [gender, setGender] = useState("");
+  const [wechatId, setWechatId] = useState("");
+  const [phone, setPhone] = useState("");
+  const [stdentId, setStudentId] = useState("");
   const [birthday, setBirthday] = useState();
   const [yearError, setYearError] = useState("");
-  const [university, setUniversity] = useState("UNITEC");
+  const [university, setUniversity] = useState("");
   const [faculty, setFaculty] = useState({
     Arts: false,
     BussinessSchool: false,
@@ -52,10 +52,13 @@ export default function UpgradeForm(props) {
   });
   // When others is true, you need to add this into the list of faculty too
   const [otherFaculty, setOtherFculty] = useState("");
+  const [faculties, setFaculties] = useState([]);
   const [major, setMajor] = useState("");
   const [year, setYear] = useState("");
   const [understand, setUnderstand] = useState(false);
   // const [facultyList,setFacultyList]=useState();
+  const [hasErrors, setHasErrors] = useState(false);
+  const isError = (condition) => hasErrors && condition;
 
   const handleBirthdayChange = (date) => {
     console.log(date);
@@ -67,31 +70,49 @@ export default function UpgradeForm(props) {
   };
 
   const handleGender = (event) => {
+    console.log(event.target.value)
     setGender(event.target.value);
   };
 
   const handlePhone = (event) => {
+    console.log(event.target.value)
     setPhone(event.target.value);
   };
 
   const handleStudentId = (event) => {
+    console.log(event.target.value)
     setStudentId(event.target.value);
   };
 
-  const handleWecahtId = (event) => {
-    setWechaId(event.target.value);
+  const handleWechatId = (event) => {
+    console.log(event.target.value)
+    setWechatId(event.target.value);
   };
 
   const handleMajor = (event) => {
+    console.log(event.target.value)
     setMajor(event.target.value);
   };
 
   const handleYear = (event) => {
-    yearCheck(event);
+    console.log(event.target.value)
+    //yearCheck(event);
     setYear(event.target.value);
+    try {
+      let y = parseInt(event.target.value)
+      if (y >= 1 && y <= 15){
+        setYearError("")
+      } else {
+        setYearError("Please enter a valid year of study")
+        //setYear("")
+      }
+    } catch(e) {
+      setYearError("Please enter a valid year of study")
+    }
   };
 
   const handleName = (event) => {
+    console.log(event.target.value)
     setName(event.target.value);
   };
 
@@ -99,21 +120,18 @@ export default function UpgradeForm(props) {
     setUnderstand(event.target.checked);
   };
 
-  const getAllFaculty = () => {
-    const list = Object.keys(faculty)
-      .map((key, index) => {
-        if (faculty[key] && key !== "Others") {
-          return key;
-        } else if (key === "Others" && faculty[key] === true) {
-          return otherFaculty;
-        }
-        return null;
-      })
-      .filter((el) => {
-        return el != null;
-      });
-    console.log(list);
-  };
+  const getFaculties = () => {
+    let arr = []
+    const list = Object.keys(faculty);
+    for (let i = 0; i < list.length; i++){
+      if (faculty[list[i]] && list[i] !== "Others") {
+        arr.push(list[i]);
+      } else if (list[i] === "Others" && faculty[list[i]] === true) {
+        arr.push(otherFaculty)
+      }
+    }
+    setFaculties(arr);
+  }
 
   const yearCheck = (e) => {
     const newValue = e.target.value;
@@ -126,11 +144,23 @@ export default function UpgradeForm(props) {
   };
 
   const handleUniversity = (e) => {
+    console.log(e.target.value)
     setUniversity(e.target.value);
   };
 
   const handleSubmitUpgradeForm = () => {
-      props.handleNext();
+      setHasErrors(true);
+      getFaculties();
+      let userInfo = { name: name, gender: gender, university: university, major: major, year: year, faculty: faculties, dateofbirth: birthday, wechatid: wechatId };
+      console.log(props)
+      props.parentCallback(userInfo)
+
+      if (name.length != 0 && gender.length != 0 && wechatId.length != 0 && phone.length!= 0 && birthday != undefined) {
+        if (major.length != 0 && year.length != 0 && faculties.length != 0 && university.length != 0) {
+          props.handleNext();
+        }
+      }
+      //props.handleNext();
   };
 
   const {
@@ -146,12 +176,12 @@ export default function UpgradeForm(props) {
     Others,
   } = faculty;
   const classes = useStyles();
-  console.log(faculty);
+  //console.log(faculty);
 
   return (
         <DialogContent>
           <form>
-            <Grid container spacing={4} justify={"center"}>
+            <Grid container spacing={4} justify={"space-between"}>
               <Grid item md={12}>
                 <Grid container justify={"space-evenly"} spacing={4}>
                   <Grid item md={4}>
@@ -163,7 +193,10 @@ export default function UpgradeForm(props) {
                       label="Chinese Name"
                       type="name"
                       fullwidth="true"
-                      onChange={handleName}
+                      value={name}
+                      onChange={e => setName(e.target.value)}
+                      error={isError(name.length === 0)}
+                      helperText={isError(name.length === 0) && "Please enter your last name"}
                     />
                   </Grid>
                   <Grid item md={4}>
@@ -171,7 +204,8 @@ export default function UpgradeForm(props) {
                       required
                       component="fieldset"
                       value={gender}
-                      onChange={handleGender}
+                      onChange={(e) => setGender(e.target.value)}
+                      error={isError(gender.length === 0)}
                     >
                       <FormLabel component="legend">Gender</FormLabel>
                       <RadioGroup aria-label="gender" name="gender1" row>
@@ -204,7 +238,11 @@ export default function UpgradeForm(props) {
                       label="Wechat ID"
                       type="text"
                       fullwidth="true"
-                      onChange={handleWecahtId}
+                      required
+                      value={wechatId}
+                      onChange={e => setWechatId(e.target.value)}
+                      error={isError(wechatId.length === 0)}
+                      helperText={isError(wechatId.length === 0) && "Please enter your WeChat ID"}
                     />
                   </Grid>
                   <Grid item md={4}>
@@ -219,7 +257,9 @@ export default function UpgradeForm(props) {
                         id="date-picker-inline"
                         label="Birthday"
                         value={birthday}
-                        onChange={handleBirthdayChange}
+                        onChange={(e) => setBirthday(e)}
+                        error={isError(birthday == undefined)}
+                        helperText={isError(birthday == undefined) && "Please select your birthday"}
                         KeyboardButtonProps={{
                           "aria-label": "change date",
                         }}
@@ -238,7 +278,10 @@ export default function UpgradeForm(props) {
                       label="Phone number"
                       type="tel"
                       fullwidth="true"
-                      onChange={handlePhone}
+                      value={phone}
+                      onChange={e => setPhone(e.target.value)}
+                      error={isError(phone.length === 0)}
+                      helperText={isError(phone.length === 0) && "Please enter your phone number"}
                     />
                   </Grid>
                   <Grid item md={4}>
@@ -248,7 +291,7 @@ export default function UpgradeForm(props) {
                       label="Student ID"
                       type="text"
                       fullwidth="true"
-                      onChange={handleStudentId}
+                      onChange={e => setStudentId(e.target.value)}
                     />
                   </Grid>
                 </Grid>
@@ -264,12 +307,12 @@ export default function UpgradeForm(props) {
                     >
                       <Grid item md={12}>
                         <FormControl required component="fieldset">
-                          <FormLabel component="legend">University</FormLabel>
+                          <FormLabel component="legend" error={isError(university.length === 0)}>University</FormLabel>
                           <RadioGroup
                             aria-label="University"
                             name="University"
                             value={university}
-                            onChange={handleUniversity}
+                            onChange={(e) => setUniversity(e.target.value)}
                           >
                             <FormControlLabel
                               value="UNITEC"
@@ -300,7 +343,10 @@ export default function UpgradeForm(props) {
                           required
                           label="Major/Specialisation"
                           type="Text"
-                          onChange={handleMajor}
+                          value={major}
+                          onChange={e => setMajor(e.target.value)}
+                          error={isError(major.length === 0)}
+                          helperText={isError(major.length === 0) && "Please enter your major or specialisation"}
                         />
                       </Grid>
                       <Grid item md={12}>
@@ -308,9 +354,10 @@ export default function UpgradeForm(props) {
                           required
                           label="Year of Study"
                           type="text"
-                          helperText={yearError}
-                          error={!!yearError}
-                          onChange={handleYear}
+                          value={year}
+                          onChange={e => setYear(e.target.value)}
+                          error={isError(year.length === 0) || !!yearError}
+                          helperText={(isError(year.length === 0) && "Please enter your year of study") || (!!yearError && yearError)}
                         />
                       </Grid>
                     </Grid>
@@ -320,6 +367,7 @@ export default function UpgradeForm(props) {
                       required
                       component="fieldset"
                       className={classes.formControl}
+                      error={isError(faculties.length === 0)}
                     >
                       <FormLabel component="legend">Faculty</FormLabel>
                       <FormGroup>
@@ -327,8 +375,7 @@ export default function UpgradeForm(props) {
                           control={
                             <Checkbox
                               checked={Arts}
-                              o
-                              onChange={handleFaculty}
+                              onChange={(e) => handleFaculty(e)}
                               name="Arts"
                             />
                           }
@@ -339,7 +386,7 @@ export default function UpgradeForm(props) {
                             <Checkbox
                               checked={BussinessSchool}
                               name="BussinessSchool"
-                              onChange={handleFaculty}
+                              onChange={(e) => handleFaculty(e)}
                             />
                           }
                           label="Bussiness School"
@@ -349,7 +396,7 @@ export default function UpgradeForm(props) {
                             <Checkbox
                               checked={Science}
                               name="Science"
-                              onChange={handleFaculty}
+                              onChange={(e) => handleFaculty(e)}
                             />
                           }
                           label="Science"
@@ -359,7 +406,7 @@ export default function UpgradeForm(props) {
                             <Checkbox
                               checked={NICAI}
                               name="NICAI"
-                              onChange={handleFaculty}
+                              onChange={(e) => handleFaculty(e)}
                             />
                           }
                           label="NICAI"
@@ -369,7 +416,7 @@ export default function UpgradeForm(props) {
                             <Checkbox
                               checked={Engineering}
                               name="Engineering"
-                              onChange={handleFaculty}
+                              onChange={(e) => handleFaculty(e)}
                             />
                           }
                           label="Engineering"
@@ -379,7 +426,7 @@ export default function UpgradeForm(props) {
                             <Checkbox
                               checked={Law}
                               name="Law"
-                              onChange={handleFaculty}
+                              onChange={(e) => handleFaculty(e)}
                             />
                           }
                           label="Law"
@@ -389,7 +436,7 @@ export default function UpgradeForm(props) {
                             <Checkbox
                               checked={Medicine}
                               name="Medicine"
-                              onChange={handleFaculty}
+                              onChange={(e) => handleFaculty(e)}
                             />
                           }
                           label="Medicine"
@@ -399,7 +446,7 @@ export default function UpgradeForm(props) {
                             <Checkbox
                               checked={Architecture}
                               name="Architecture"
-                              onChange={handleFaculty}
+                              onChange={(e) => handleFaculty(e)}
                             />
                           }
                           label="Architecture"
@@ -409,15 +456,15 @@ export default function UpgradeForm(props) {
                             <Checkbox
                               checked={CollegeOfFoundation}
                               name="CollegeOfFoundation"
-                              onChange={handleFaculty}
+                              onChange={(e) => handleFaculty(e)}
                             />
                           }
                           label="College of Foundation"
                         />
                         <CheckboxInputBtn
                           options={faculty}
-                          setOption={setFaculty}
-                          setOtherOption={setOtherFculty}
+                          setOption={(e) => handleFaculty(e)}
+                          setOtherOption={(e) => handleFaculty(e)}
                         />
                       </FormGroup>
                     </FormControl>
@@ -426,7 +473,7 @@ export default function UpgradeForm(props) {
               </Grid>
               <Grid item md={12}>
                 <Grid container justify={"space-evenly"} spacing={4}>
-                  <Grid item align={"center"} md={10} className={classes.consent}>
+                  <Grid item align={"left"} md={10} className={classes.consent}>
                     <h2>Consent Of Membership</h2>
                     <p>
                       I have read and understand the regulation and constitution
@@ -481,7 +528,7 @@ export default function UpgradeForm(props) {
               </Grid>
             </Grid>
             <Grid container justify={"center"}>
-              <Button disabled={!understand} onClick={handleSubmitUpgradeForm}>
+              <Button disabled={!understand} variant="outlined" onClick={handleSubmitUpgradeForm}>
                 Submit
               </Button>
             </Grid>

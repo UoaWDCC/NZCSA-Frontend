@@ -20,14 +20,30 @@ export default function AltCard(props) {
     
     useEffect(() => {
         if (props.userData == undefined) {
-            setUserEventsDetail(props.data);
+            let events = {}
+            if ((!!props.data) && (Object.keys(props.data).length != 0)) {
+                let i = 0;
+                if (Object.keys(props.data).length !== 0) {
+                    for (let event in props.data) {
+                        if (props.data[event].isActive){
+                            events[i] = props.data[event];
+                            i++;
+                        }
+                        // console.log(props.userData.attendedEvents[i])
+                    }
+                }
+            }
+            setUserEventsDetail(events);
         }else{
             if ((!!props.data) && (Object.keys(props.data).length != 0) && (!!props.userData) && (Object.keys(props.userData).length != 0)) {
                 let userEvents = {}
                 if (Object.keys(props.userData).length !== 0) {
                     for (let i = 0; i < props.userData.attendedEvents.length; i++) {
                         const eventId = props.userData.attendedEvents[i]
-                        userEvents[i] = props.data[eventId]
+                        if (props.data[eventId] != undefined) {
+                            userEvents[i] = props.data[eventId]
+                        }
+                        //userEvents[i] = props.data[eventId]
                         // console.log(props.userData.attendedEvents[i])
     
                     }
@@ -37,8 +53,7 @@ export default function AltCard(props) {
             }
         }  
     },[props.data, props.userData])
-    
-   
+     
     //console.log(userEventsDetail)
 
     return (

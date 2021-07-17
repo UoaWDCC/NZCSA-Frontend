@@ -190,7 +190,7 @@ export default function Dashboard(props) {
 
   const handleDrawerOpen = () => {
     setOpen(!open);
-    console.log(open);
+    //console.log(open);
   };
 
   const handleProfileMenuOpen = (event) => {
@@ -227,7 +227,7 @@ export default function Dashboard(props) {
         .then((res) => {
           setUserData(res.data.data);
           setCurrentUser(res.data.data);
-          //console.log(res.data.data);
+          console.log(res.data.data);
         })
         .catch((e) => {
           console.log(e);
@@ -242,7 +242,7 @@ export default function Dashboard(props) {
         .get("https://nzcsa-backend.herokuapp.com/api/private/get-events-info")
         .then((res) => {
           setEventData(res.data);
-          //console.log(res.data)
+          console.log(res.data)
         })
         .catch((e) => {
           //console.log(e)

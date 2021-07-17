@@ -10,12 +10,8 @@ import {
   Container,
   Box,
   Fade,
-  CircularProgress,
 } from "@material-ui/core";
 import clsx from "clsx";
-import { makePayment, createOrder } from "../../api/connectBackend";
-// import { useHistory } from "react-router-dom";
-import { useAuth } from "../../context/auth.context";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
   customRadioBtn: {
     display: "flex",
     justifyContent: "start",
-    paddingTop: 36,
+    paddingTop: 3,
     paddingBottom: 36,
   },
   detailCard: {
@@ -43,70 +39,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function PaymentForm({ orderType, price, eventId }) {
-  const { currentUser } = useAuth();
+export default function UpgradeForm(props) {
   const classes = useStyles();
-  const [method, setMethod] = React.useState("polipay"); // Possible states are "wechat", "alipay" and "polipay"
-  const [loading, setLoading] = React.useState(false);
-
-  console.log(currentUser);
-
-  const handlePayment = async () => {
-    try {
-      console.log("payment details");
-      console.log(method, price, orderType);
-      const response = await makePayment(method, price, orderType);
-      if (response.status === 200) {
-        // console.log(response.data);
-        const { merchantReference } = response.data;
-        const userId = currentUser._id;
-        handleOrder(merchantReference, userId, method, eventId);
-        window.location.href = response.data.payment_url;
-      } else {
-        console.log("error");
-        window.location.href = "/checkout";
-      }
-    } catch (error) {
-      console.log(error);
-      window.location.href = "/checkout";
-    }
-  };
-
-  const handleOrder = async (
-    merchantReference,
-    userId,
-    paymentMethod,
-    eventId
-  ) => {
-    console.log("order details");
-    console.log(merchantReference, userId, paymentMethod, eventId);
-    try {
-      const response = await createOrder({
-        merchantReference,
-        userId,
-        paymentMethod,
-        eventId,
-        orderType,
-        price
-      });
-      // merchantReference,
-      // userId,
-      // paymentMethod
-      if (response.status === 200) {
-        console.log("order created!");
-      } else {
-        console.log("error");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const [value, setValue] = React.useState("wechat"); // Possible states are "wechat", "alipay" and "polipay"
 
   const handleSumbitPaymentForm = () => {
-    setLoading(true);
-    handlePayment();
-    // handleOrder();
-  };
+    props.handleNext();
+};
 
   return (
     <Fade in={true} timeout={1000}>
@@ -123,10 +62,10 @@ export default function PaymentForm({ orderType, price, eventId }) {
                     fullWidth
                     className={clsx(
                       classes.payBtn,
-                      method === "wechat" && classes.selectedBtn
+                      value === "wechat" && classes.selectedBtn
                     )}
                     variant="outlined"
-                    onClick={() => setMethod("wechat")}
+                    onClick={() => setValue("wechat")}
                   >
                     <img
                       alt="wechat"
@@ -141,10 +80,10 @@ export default function PaymentForm({ orderType, price, eventId }) {
                     fullWidth
                     className={clsx(
                       classes.payBtn,
-                      method === "alipay" && classes.selectedBtn
+                      value === "alipay" && classes.selectedBtn
                     )}
                     variant="outlined"
-                    onClick={() => setMethod("alipay")}
+                    onClick={() => setValue("alipay")}
                   >
                     <img
                       alt="alipay"
@@ -159,10 +98,10 @@ export default function PaymentForm({ orderType, price, eventId }) {
                     fullWidth
                     className={clsx(
                       classes.payBtn,
-                      method === "polipay" && classes.selectedBtn
+                      value === "polipay" && classes.selectedBtn
                     )}
                     variant="outlined"
-                    onClick={() => setMethod("polipay")}
+                    onClick={() => setValue("polipay")}
                   >
                     <img
                       src="https://resources.apac.paywithpoli.com/mobile/mobile4.png"
@@ -191,23 +130,19 @@ export default function PaymentForm({ orderType, price, eventId }) {
                         />
                         <Box mx={2}>
                           <Typography variant="h6" component="h2">
-                            {orderType === "membership-payment"
-                              ? "NZCSA Membership Fee"
-                              : "Event Fee"}
+                            NZCSA Membership Fee
                           </Typography>
                         </Box>
                       </div>
                       <div>
                         <Typography variant="h6" component="h2">
-                          ${price}
+                          ${props.price}
                         </Typography>
                         <Typography
                           className={classes.pos}
                           color="textSecondary"
                         >
-                          {orderType === "membership-payment"
-                            ? "per year"
-                            : null}
+                          per year
                         </Typography>
                       </div>
                     </Grid>
@@ -223,7 +158,7 @@ export default function PaymentForm({ orderType, price, eventId }) {
                         <Box style={{ fontSize: 32 }} display="inline">
                           $
                         </Box>
-                        {price}
+                        {props.price}
                       </Typography>
                     </Grid>
                   </CardContent>
@@ -239,13 +174,8 @@ export default function PaymentForm({ orderType, price, eventId }) {
                   variant="contained"
                   size="large"
                   onClick={() => handleSumbitPaymentForm()}
-                  disabled={loading}
                 >
-                  {loading ? (
-                    <CircularProgress color="inherit" size="2rem" />
-                  ) : (
-                    <>Pay</>
-                  )}
+                  Pay
                 </Button>
               </div>
             </Grid>

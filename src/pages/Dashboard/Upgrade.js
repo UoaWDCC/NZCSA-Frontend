@@ -38,6 +38,7 @@ const steps = ["Register for membership", "Checkout", "Payment"];
 export default function Upgrade(props) {
   const classes = useStyles();
   const [maxWidth, setMaxWidth] = React.useState("md");
+  const [userInfo, setUserInfo] = React.useState({});
   const [activeStep, setActiveStep] = React.useState(props.checkout ? 2 : 0);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("xs"));
@@ -49,6 +50,10 @@ export default function Upgrade(props) {
   const handleBack = () => {
     setActiveStep(activeStep - 1); // redirect to previous step in payment process
   };
+
+  const handleCallback = (upgradeformData) =>{
+    setUserInfo(upgradeformData);
+  }
 
   const handlecloseUpgradeForm = () => {
     if (activeStep === 2) {
@@ -69,7 +74,7 @@ export default function Upgrade(props) {
   function getStepContent(step) {
     switch (step) {
       case 0:
-        return <UpgradeForm handleNext={handleNext} />;
+        return <UpgradeForm handleNext={handleNext} parentCallback={handleCallback}/>;
       case 1:
         return (
           <PaymentForm
@@ -79,7 +84,7 @@ export default function Upgrade(props) {
           />
         );
       case 2:
-        return <PaymentResultForm close={finishPayment} />;
+        return <PaymentResultForm close={finishPayment}/>;
       default:
         throw new Error("unknown step");
     }
