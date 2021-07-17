@@ -60,7 +60,7 @@ export default function PaymentForm({ orderType, price, eventId }) {
         // console.log(response.data);
         const { merchantReference } = response.data;
         const userId = currentUser._id;
-        handleOrder(merchantReference, userId, method, eventId);
+        await handleOrder(merchantReference, userId, method, eventId);
         window.location.href = response.data.payment_url;
       } else {
         console.log("error");
