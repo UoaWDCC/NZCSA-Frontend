@@ -15,7 +15,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function AltCard(props) {
     const classes = useStyles()
-
+    //console.log(props.data);
     const [userEventsDetail, setUserEventsDetail] = useState({});
     const [activeEventsDetail, setActiveEventsDetail] = useState({});
 
@@ -37,7 +37,6 @@ export default function AltCard(props) {
                         const eventId = props.userData.attendedEvents[i]
                         userEvents[i] = props.data[eventId]
                         // console.log(props.userData.attendedEvents[i])
-
                     }
                 }
                 //console.log(userEvents);
