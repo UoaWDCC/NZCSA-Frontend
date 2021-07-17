@@ -36,7 +36,7 @@ export default function UpgradeForm(props) {
   // const [selectedDate, setSelectedDate] = React.useState(new Date('2014-08-18T21:11:54'));
   const [loading, setLoading] = useState(false);
   const [gender, setGender] = useState();
-  const [wechatid, setWechaId] = useState();
+  // const [wechatid, setWechaId] = useState();
   const [phone, setPhone] = useState();
   const [stdentId, setStudentId] = useState();
   const [birthday, setBirthday] = useState();
@@ -131,7 +131,7 @@ export default function UpgradeForm(props) {
   const handleSubmitUpgradeForm = async () => {
     setLoading(true);
     const selectedFaculty = returnFaculty();
-    const info = {gender, university, selectedFaculty, birthday, wechatid, phone, stdentId}
+    const info = {gender, university, selectedFaculty, birthday, phone, stdentId}
     try {
       console.log(info);
       const response = await signUpMembership(info);
@@ -198,13 +198,13 @@ export default function UpgradeForm(props) {
                 </FormControl>
               </Grid>
               <Grid item md={4}>
-                <TextField
+              <TextField
                   margin="dense"
-                  id="name"
-                  label="Wechat ID"
+                  id="studentId"
+                  label="Student ID"
                   type="text"
                   fullwidth="true"
-                  onChange={handleWecahtId}
+                  onChange={handleStudentId}
                 />
               </Grid>
             </Grid>
@@ -246,14 +246,7 @@ export default function UpgradeForm(props) {
           <Grid item md={12}>
             <Grid container justify={"space-evenly"} spacing={4}>
               <Grid item md={4}>
-                <TextField
-                  margin="dense"
-                  id="studentId"
-                  label="Student ID"
-                  type="text"
-                  fullwidth="true"
-                  onChange={handleStudentId}
-                />
+                
               </Grid>
               <Grid item md={4}>
 

@@ -48,6 +48,8 @@ import Copyright from '../../components/Copyright';
 import UserInforDialog from './UserInforDialog'
 import AboutLayout from "../About/AboutLayout";
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { isMobile } from 'react-device-detect';
+import SupervisedUserCircleIcon from '@material-ui/icons/SupervisedUserCircle';
 
 
 const drawerWidth = 240;
@@ -176,8 +178,8 @@ const useStyles = makeStyles((theme) => ({
   },
   loading: {
     left: '55%',
-    position: 'absolute', 
-    top: '44vh', 
+    position: 'absolute',
+    top: '44vh',
   },
 }));
 
@@ -252,6 +254,9 @@ export default function Dashboard(props) {
         });
     };
     fetchData();
+    if (isMobile) {
+      setOpen(!open);
+    }
   }, [anchorEl, setCurrentUser]);
 
   useEffect(() => {
@@ -457,25 +462,39 @@ export default function Dashboard(props) {
         <List>
           {!userData.isMembership && (
             <div>
-              <ListItem alignItems="flex-start">
-                <ListItemText
-                  secondary={
-                    <div>
-                      <div>Become a member to join events</div>
-                      <div>and enjoy discounts</div>
-                    </div>
-                  }
-                />
-              </ListItem>
-              <ListItem>
-                <Button
-                  variant="outlined"
-                  color="secondary"
-                  onClick={handleUpgradeOpen}
-                >
-                  Upgrade
+              {open ? (
+                <ListItem alignItems="flex-start">
+                  <ListItemText
+                    secondary={
+                      <div>
+                        <div>Become a member to join events</div>
+                        <div>and enjoy discounts</div>
+                      </div>
+                    }
+                  />
+                </ListItem>) : (
+                  null
+                )}
+              {open ? (
+                <ListItem alignItems="flex-start">
+                  <Button
+                    variant="outlined"
+                    color="secondary"
+                    onClick={handleUpgradeOpen}
+                  >
+                    Upgrade
                 </Button>
-              </ListItem>
+                </ListItem>
+              ) : (
+                  <List>
+                    <ListItem button onClick={handleUpgradeOpen}>
+                      <ListItemIcon>
+                        <SupervisedUserCircleIcon color="secondary" />
+                      </ListItemIcon>
+                    </ListItem>
+                  </List>
+                )}
+
             </div>
           )}
         </List>
