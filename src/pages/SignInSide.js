@@ -148,7 +148,7 @@ export default function SignInSide() {
                 name="email"
                 autoComplete="email"
                 autoFocus
-                onChange={e => setEmail(e.target.value.trim())}
+                onChange={e => setEmail(e.target.value.trim().toLowerCase())}
                 error={isError(email.length === 0)}
                 helperText={isError(email.length === 0) && "Please enter your email!"}
               />
