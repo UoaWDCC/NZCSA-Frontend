@@ -44,16 +44,26 @@ export default function EventDetail({ isMember, attendedEvents, data, ...rest })
   const [paymentOpen, setPaymentOpen] = useState(false);
   const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
   const [event, setEvent] = useState({});
+  const [time, setTime] = useState("");
+  const [paymentSuccess, setPaymentSuccess] = useState(false);
 
   let { id } = useParams();
   //console.log(data[id]);
   useEffect(() => {
     if (!!data[id]){
       setEvent(data[id]);
-      //console.log(data[id]);
+      let startTime = data[id].startTime.replace('T', ' ');
+      startTime = startTime.slice(0, 16);
+      setTime(startTime);
       }
   },[data, id])
 
+  useEffect(() => {
+    if (paymentSuccess){
+      handleRegister(id);
+      //console.log(data[id]);
+      }
+  },[paymentSuccess])
 
   let history = useHistory();
 
@@ -132,6 +142,10 @@ export default function EventDetail({ isMember, attendedEvents, data, ...rest })
     }
   }
 
+  const changePaymentStatus = () =>{
+    setPaymentSuccess(true);
+  }
+
   return (
     <div>
       <Notification
@@ -149,7 +163,7 @@ export default function EventDetail({ isMember, attendedEvents, data, ...rest })
         <Grid item xs={12}>
           <Paper className={classes.paper}>
             <Typography variant="subtitle2" color="primary">
-              {event.startTime} – {event.endTime}
+              {time}
             </Typography>
             <Typography variant="h3">
               {event.eventName}
@@ -177,7 +191,7 @@ export default function EventDetail({ isMember, attendedEvents, data, ...rest })
             </Typography>
             {event.eventPrice > 0 ?
               (<Typography variant="h5" gutterBottom>
-                ${event.eventPrice}.00
+                ${event.eventPrice}
               </Typography>) :
               (<Typography variant="h5" gutterBottom>
                 &nbsp;Free Event!
@@ -190,7 +204,7 @@ export default function EventDetail({ isMember, attendedEvents, data, ...rest })
         {/* Recent Orders */}
       </Grid>
       <Upgrade open={upgradeOpen} close={setUpgradeOpen} />
-      <Payment open={paymentOpen} close={setPaymentOpen} price={event.eventPrice} /> 
+      <Payment open={paymentOpen} close={setPaymentOpen} price={event.eventPrice} parentCallback={changePaymentStatus}/> 
     </div>
   );
 }

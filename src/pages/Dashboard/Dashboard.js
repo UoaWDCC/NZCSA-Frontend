@@ -45,6 +45,7 @@ import axios from "axios";
 import { useAuth } from "../../context/auth.context";
 import SponsorsLogoLayout from "../Sponsors/SponsorsLogoLayout";
 import Copyright from '../../components/Copyright';
+import UserInforDialog from './UserInforDialog'
 import AboutLayout from "../About/AboutLayout";
 
 
@@ -181,8 +182,12 @@ export default function Dashboard(props) {
   const [upgradeOpen, setUpgradeOpen] = useState(props.checkout ? true : false);
   const [eventData, setEventData] = useState({});
   const [userData, setUserData] = useState({});
+
+  const [yourEventsData, setYoursEventData] = useState({});
+  const [userInforDialog, seUserInforDialog] = useState(false);
   // const [yourEventsData, setYoursEventData] = useState({});
   const { setCurrentUser } = useAuth();
+
 
   const isMenuOpen = Boolean(anchorEl);
 
@@ -209,6 +214,12 @@ export default function Dashboard(props) {
     setUpgradeOpen(!upgradeOpen);
   };
 
+  const handleUserInformationDialog = () => {
+    seUserInforDialog(!userInforDialog)
+    handleMenuClose();
+    console.log("hi")
+  }
+
   useEffect(() => {
     const config = {
       headers: {
@@ -227,7 +238,7 @@ export default function Dashboard(props) {
         .then((res) => {
           setUserData(res.data.data);
           setCurrentUser(res.data.data);
-          console.log(res.data.data);
+          //console.log(res.data.data);
         })
         .catch((e) => {
           console.log(e);
@@ -242,7 +253,7 @@ export default function Dashboard(props) {
         .get("https://nzcsa-backend.herokuapp.com/api/private/get-events-info")
         .then((res) => {
           setEventData(res.data);
-          console.log(res.data)
+          //console.log(res.data)
         })
         .catch((e) => {
           //console.log(e)
@@ -288,11 +299,11 @@ export default function Dashboard(props) {
         </ListItem>
       </MenuItem>
       <Divider variant="middle" />
-      <MenuItem onClick={handleMenuClose}>
+      <MenuItem onClick={handleUserInformationDialog}>
         <ListItemIcon>
           <AccountBoxIcon fontSize="medium" />
         </ListItemIcon>
-        <Typography>Account</Typography>
+        <Typography >Account</Typography>
       </MenuItem>
       <MenuItem onClick={handleMenuClose}>
         <ListItemIcon>
@@ -464,12 +475,12 @@ export default function Dashboard(props) {
           <List disablePadding >{bottomListItems}</List>
         </Box>
       </Drawer>
-
       <Upgrade
         checkout={props.checkout}
         open={upgradeOpen}
         close={setUpgradeOpen}
       />
+          <UserInforDialog open={userInforDialog} close={seUserInforDialog} userInfo={userData} />
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>

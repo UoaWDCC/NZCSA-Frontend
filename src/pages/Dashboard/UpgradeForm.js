@@ -66,6 +66,7 @@ export default function UpgradeForm(props) {
   };
 
   const handleFaculty = (event) => {
+    //getFaculties();
     setFaculty({ ...faculty, [event.target.name]: event.target.checked });
   };
 
@@ -130,7 +131,8 @@ export default function UpgradeForm(props) {
         arr.push(otherFaculty)
       }
     }
-    setFaculties(arr);
+    return arr;
+    //setFaculties(arr);
   }
 
   const yearCheck = (e) => {
@@ -150,17 +152,14 @@ export default function UpgradeForm(props) {
 
   const handleSubmitUpgradeForm = () => {
       setHasErrors(true);
-      getFaculties();
-      let userInfo = { name: name, gender: gender, university: university, major: major, year: year, faculty: faculties, dateofbirth: birthday, wechatid: wechatId };
-      console.log(props)
+      const facs = getFaculties();
+      let userInfo = { name: name, gender: gender, university: university, major: major, year: year, faculty: facs, dateofbirth: birthday, wechatid: wechatId, phone: phone };
       props.parentCallback(userInfo)
-
       if (name.length != 0 && gender.length != 0 && wechatId.length != 0 && phone.length!= 0 && birthday != undefined) {
-        if (major.length != 0 && year.length != 0 && faculties.length != 0 && university.length != 0) {
+        if (major.length != 0 && year.length != 0 && facs.length != 0 && university.length != 0) {
           props.handleNext();
         }
       }
-      //props.handleNext();
   };
 
   const {

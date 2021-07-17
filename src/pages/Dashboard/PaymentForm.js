@@ -129,21 +129,26 @@ export default function UpgradeForm(props) {
                           src="./images/logo.png"
                         />
                         <Box mx={2}>
-                          <Typography variant="h6" component="h2">
-                            NZCSA Membership Fee
-                          </Typography>
+                          {props.orderType == "membership-payment" ? 
+                            (<Typography variant="h6" component="h2">
+                                NZCSA Membership Fee
+                            </Typography>) :
+                            (<Typography variant="h6" component="h2">
+                              Event Price
+                            </Typography>)}
                         </Box>
                       </div>
                       <div>
                         <Typography variant="h6" component="h2">
                           ${props.price}
                         </Typography>
-                        <Typography
-                          className={classes.pos}
-                          color="textSecondary"
-                        >
-                          per year
-                        </Typography>
+                        {props.orderType == "membership-payment" ? (
+                          <Typography
+                            className={classes.pos}
+                            color="textSecondary"
+                          >
+                            per year
+                          </Typography>) : (null)}
                       </div>
                     </Grid>
                     <Divider />

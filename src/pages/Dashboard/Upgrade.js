@@ -42,6 +42,7 @@ export default function Upgrade(props) {
   const [activeStep, setActiveStep] = React.useState(props.checkout ? 2 : 0);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("xs"));
+  const [paymentSuccess, setPaymentSuccess] = React.useState(false);
 
   const handleNext = () => {
     setActiveStep(activeStep + 1); // redirect to next step in payment process
@@ -71,6 +72,33 @@ export default function Upgrade(props) {
     setActiveStep(0);
   };
 
+  async function upgradeUser() {
+    try {
+      // setLoading(true);
+      const response = await signUpMembership(userInfo);
+      if (response.status === 200) {
+        setNotify({
+          isOpen: true,
+          message: 'Great! Your are now a member of NZCSA.',
+          type: 'success'
+        });
+      }
+      //console.log(response.data);
+    } catch (e) {
+      // setLoading(false);
+      console.log(e.response.data.error);
+      setNotify({
+        isOpen: true,
+        message: e.response.data.error,
+        type: 'error'
+      });
+    }
+  }
+
+  const changePaymentStatus = () =>{
+    setPaymentSuccess(true);
+  }
+
   function getStepContent(step) {
     switch (step) {
       case 0:
@@ -81,6 +109,7 @@ export default function Upgrade(props) {
             price={0.01}
             handleNext={handleNext}
             orderType="membership-payment"
+            parentCallback={changePaymentStatus}
           />
         );
       case 2:
