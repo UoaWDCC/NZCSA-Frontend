@@ -6,7 +6,7 @@ import MainCard from "../../components/MainCard";
 import { makeStyles } from "@material-ui/core";
 import { useParams } from "react-router";
 // import clsx from "clsx";
-import { Typography } from "@material-ui/core";
+import { Typography, Avatar } from "@material-ui/core";
 import { Button } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 import IconButton from '@material-ui/core/IconButton';
@@ -16,6 +16,7 @@ import { signUpEvent } from '../../api/connectBackend';
 import Upgrade from "../Dashboard/Upgrade";
 import Payment from "../Dashboard/Payment";
 import Notification from "../../components/Notification";
+// import Image from "material-ui-image";
 // import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
@@ -184,7 +185,7 @@ export default function EventDetail({ isMember, attendedEvents, data, ...rest })
           <Paper className={classes.paper1}>
               {event.eventPrice > 0 ?
                 (<Typography variant="h5" gutterBottom>
-                  ${event.eventPrice}.00
+                  $ {(Math.round(event.eventPrice * 100) / 100).toFixed(2) }
                 </Typography>) :
                 (<Typography variant="h5" gutterBottom>
                   &nbsp;Free Event!
@@ -199,7 +200,7 @@ export default function EventDetail({ isMember, attendedEvents, data, ...rest })
             <Typography variant="h6" gutterBottom>
               WeChat Group
             </Typography>
-            <img src="https://i.postimg.cc/rFYG0wgk/321626397181-pic-hd.jpg"/>
+            <img src={event.wechatImgUrl}/>
           </Paper>
         </Grid>
         {/* Recent Orders */}

@@ -73,7 +73,7 @@ export default function Upgrade(props) {
       case 1:
         return (
           <PaymentForm
-            price={5}
+            price={0.01}
             handleNext={handleNext}
             orderType="membership-payment"
           />
