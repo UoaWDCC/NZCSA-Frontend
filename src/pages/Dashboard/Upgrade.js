@@ -71,7 +71,13 @@ export default function Upgrade(props) {
       case 0:
         return <UpgradeForm handleNext={handleNext} />;
       case 1:
-        return <PaymentForm price={0.01} handleNext={handleNext} />;
+        return (
+          <PaymentForm
+            price={5}
+            handleNext={handleNext}
+            orderType="membership-payment"
+          />
+        );
       case 2:
         return <PaymentResultForm close={finishPayment} />;
       default:

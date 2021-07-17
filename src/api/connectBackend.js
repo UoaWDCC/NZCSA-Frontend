@@ -2,7 +2,7 @@ import axios from "axios";
 
 async function signUp(signUpInfo) {
   const body = signUpInfo;
-  const response = await axios("http://localhost:5000/api/auth/register", {
+  const response = await axios("https://nzcsa-backend.herokuapp.com/api/auth/register", {
     headers: {
       "Content-type": "application/json",
     },
@@ -73,10 +73,27 @@ async function signUpEvent(registerInfo) {
   return response;
 }
 
-async function makePayment(paymentMethod, paymentAmount) {
+async function signUpMembership(userInfo) {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+    },
+  };
+  const response = await axios.post(
+    "https://nzcsa-backend.herokuapp.com/api/private/sign-up-membership",
+    userInfo,
+    config
+  );
+
+  return response;
+}
+
+async function makePayment(paymentMethod, paymentAmount, productName) {
   const body = {
-    paymentMethod: paymentMethod,
-    paymentAmount: paymentAmount,
+    paymentMethod,
+    paymentAmount,
+    productName,
   };
   const config = {
     headers: {
@@ -85,7 +102,7 @@ async function makePayment(paymentMethod, paymentAmount) {
     },
   };
   const response = await axios.post(
-    "http://localhost:5000/api/payment/make-payment",
+    "https://nzcsa-backend.herokuapp.com/api/payment/make-payment",
     body,
     config
   );
@@ -102,7 +119,7 @@ async function createOrder(body) {
   };
 
   const response = await axios.post(
-    "http://localhost:5000/api/payment/create-order",
+    "https://nzcsa-backend.herokuapp.com/api/payment/create-order",
     body,
     config
   );
@@ -117,7 +134,7 @@ async function validateRedirect(body) {
     },
   };
   const response = await axios.post(
-    "http://localhost:5000/api/payment/make-payment",
+    "https://nzcsa-backend.herokuapp.com/api/payment/make-payment",
     body,
     config
   );
@@ -134,4 +151,5 @@ export {
   makePayment,
   validateRedirect,
   createOrder,
+  signUpMembership
 };

@@ -19,7 +19,7 @@ import MenuIcon from "@material-ui/icons/Menu";
 import SearchIcon from "@material-ui/icons/Search";
 import InputBase from "@material-ui/core/InputBase";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import { mainListItems} from "./listItems";
+import { mainListItems, bottomListItems } from "./listItems";
 // import navLogo from "./images/logo_black.png";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -45,6 +45,9 @@ import axios from "axios";
 import { useAuth } from "../../context/auth.context";
 import SponsorsLogoLayout from "../Sponsors/SponsorsLogoLayout";
 import Copyright from '../../components/Copyright';
+import UserInforDialog from './UserInforDialog'
+import AboutLayout from "../About/AboutLayout";
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 
 const drawerWidth = 240;
@@ -168,6 +171,14 @@ const useStyles = makeStyles((theme) => ({
   grow: {
     flexGrow: 1,
   },
+  about: {
+    marginTop: "auto"
+  },
+  loading: {
+    left: '55%',
+    position: 'absolute', 
+    top: '44vh', 
+  },
 }));
 
 export default function Dashboard(props) {
@@ -177,8 +188,13 @@ export default function Dashboard(props) {
   const [upgradeOpen, setUpgradeOpen] = useState(props.checkout ? true : false);
   const [eventData, setEventData] = useState({});
   const [userData, setUserData] = useState({});
+  const [loading, setLoading] = useState(false);
+
+  const [yourEventsData, setYoursEventData] = useState({});
+  const [userInforDialog, seUserInforDialog] = useState(false);
   // const [yourEventsData, setYoursEventData] = useState({});
   const { setCurrentUser } = useAuth();
+
 
   const isMenuOpen = Boolean(anchorEl);
 
@@ -204,6 +220,12 @@ export default function Dashboard(props) {
   const handleUpgradeOpen = () => {
     setUpgradeOpen(!upgradeOpen);
   };
+
+  const handleUserInformationDialog = () => {
+    seUserInforDialog(!userInforDialog)
+    handleMenuClose();
+    console.log("hi")
+  }
 
   useEffect(() => {
     const config = {
@@ -234,13 +256,16 @@ export default function Dashboard(props) {
 
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true);
       axios
         .get("https://nzcsa-backend.herokuapp.com/api/private/get-events-info")
         .then((res) => {
+          setLoading(false);
           setEventData(res.data);
           //console.log(res.data)
         })
         .catch((e) => {
+          setLoading(false);
           //console.log(e)
         });
     };
@@ -264,7 +289,7 @@ export default function Dashboard(props) {
       <MenuItem>
         <ListItem alignItems="flex-start">
           <ListItemAvatar>
-            <Avatar alt="Cindy Baker"/>
+            <Avatar alt="Cindy Baker" />
           </ListItemAvatar>
           <ListItemText
             primary={userData.firstname}
@@ -284,11 +309,11 @@ export default function Dashboard(props) {
         </ListItem>
       </MenuItem>
       <Divider variant="middle" />
-      <MenuItem onClick={handleMenuClose}>
+      <MenuItem onClick={handleUserInformationDialog}>
         <ListItemIcon>
           <AccountBoxIcon fontSize="medium" />
         </ListItemIcon>
-        <Typography>Account</Typography>
+        <Typography >Account</Typography>
       </MenuItem>
       <MenuItem onClick={handleMenuClose}>
         <ListItemIcon>
@@ -361,6 +386,11 @@ export default function Dashboard(props) {
 
   )
 
+  const About = (
+    <AboutLayout />
+
+  )
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -424,7 +454,6 @@ export default function Dashboard(props) {
         <Divider />
         <List>{mainListItems}</List>
         <Divider variant="middle" />
-        {/* <List>{open && secondaryListItems}</List> */}
         <List>
           {!userData.isMembership && (
             <div>
@@ -450,34 +479,47 @@ export default function Dashboard(props) {
             </div>
           )}
         </List>
+        <Box className={classes.about} >
+
+          <Divider variant="middle" />
+          <List disablePadding >{bottomListItems}</List>
+        </Box>
       </Drawer>
       <Upgrade
         checkout={props.checkout}
         open={upgradeOpen}
         close={setUpgradeOpen}
       />
+      <UserInforDialog open={userInforDialog} close={seUserInforDialog} userInfo={userData} />
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
-        <Container maxWidth="lg" className={classes.container}>
-          {props.yourEvents ? (
-            yourEvents
-          ) : props.sponsors ? (
-            Sponsor
-          ) : !id ? (
-            home
-          ) : (
-            // Event details
-            <EventDetail
-              id={id}
-              isMember={userData.isMembership}
-              attendedEvents={userData.attendedEvents}
-              data={eventData}
-            />
+        {loading ? (
+          <CircularProgress color="inherit" size="4rem" className={classes.loading} />
+        ) : (
+            <Container maxWidth="lg" className={classes.container}>
+              {props.yourEvents ? (
+                yourEvents
+              ) : props.sponsors ? (
+                Sponsor
+              ) : props.about ? (
+                About
+              ) : !id ? (
+                home
+              ) : (
+                        // Event details
+                        <EventDetail
+                          id={id}
+                          isMember={userData.isMembership}
+                          attendedEvents={userData.attendedEvents}
+                          data={eventData}
+                        />
+                      )}
+              <Box pt={4}>
+                <Copyright />
+              </Box>{" "}
+            </Container>
           )}
-          <Box pt={4}>
-            <Copyright />
-          </Box>{" "}
-        </Container>
+
       </main>
     </div>
   );

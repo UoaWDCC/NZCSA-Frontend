@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from 'axios';
 import { makeStyles } from "@material-ui/core/styles";
 import { Dialog, DialogTitle } from "@material-ui/core";
 import { DialogContent } from "@material-ui/core";
@@ -19,6 +20,9 @@ import {
   KeyboardDatePicker,
 } from "@material-ui/pickers";
 import Grid from "@material-ui/core/Grid";
+import { signUpMembership } from '../../api/connectBackend';
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 import FormHelperText from "@material-ui/core/FormHelperText";
 
 const useStyles = makeStyles((theme) => ({
@@ -30,9 +34,9 @@ const useStyles = makeStyles((theme) => ({
 export default function UpgradeForm(props) {
   // const [gender, setGender]=useState()
   // const [selectedDate, setSelectedDate] = React.useState(new Date('2014-08-18T21:11:54'));
-  const [name, setName] = useState();
+  const [loading, setLoading] = useState(false);
   const [gender, setGender] = useState();
-  const [wechatId, setWechaId] = useState();
+  const [wechatid, setWechaId] = useState();
   const [phone, setPhone] = useState();
   const [stdentId, setStudentId] = useState();
   const [birthday, setBirthday] = useState();
@@ -52,13 +56,11 @@ export default function UpgradeForm(props) {
   });
   // When others is true, you need to add this into the list of faculty too
   const [otherFaculty, setOtherFculty] = useState("");
-  const [major, setMajor] = useState("");
-  const [year, setYear] = useState("");
   const [understand, setUnderstand] = useState(false);
+
   // const [facultyList,setFacultyList]=useState();
 
   const handleBirthdayChange = (date) => {
-    console.log(date);
     setBirthday(date);
   };
 
@@ -82,19 +84,6 @@ export default function UpgradeForm(props) {
     setWechaId(event.target.value);
   };
 
-  const handleMajor = (event) => {
-    setMajor(event.target.value);
-  };
-
-  const handleYear = (event) => {
-    yearCheck(event);
-    setYear(event.target.value);
-  };
-
-  const handleName = (event) => {
-    setName(event.target.value);
-  };
-
   const handleUnderstand = (event) => {
     setUnderstand(event.target.checked);
   };
@@ -112,7 +101,7 @@ export default function UpgradeForm(props) {
       .filter((el) => {
         return el != null;
       });
-    console.log(list);
+    // console.log(list);
   };
 
   const yearCheck = (e) => {
@@ -129,8 +118,35 @@ export default function UpgradeForm(props) {
     setUniversity(e.target.value);
   };
 
-  const handleSubmitUpgradeForm = () => {
-      props.handleNext();
+  const returnFaculty = () => {
+    let key1 = 'None'
+    Object.keys(faculty).forEach((key) => {
+      if (faculty[key]) {
+        key1 = key;
+      }
+    })
+    return key1;
+  }
+
+  const handleSubmitUpgradeForm = async () => {
+    setLoading(true);
+    const selectedFaculty = returnFaculty();
+    const info = {gender, university, selectedFaculty, birthday, wechatid, phone, stdentId}
+    try {
+      console.log(info);
+      const response = await signUpMembership(info);
+      if (response.status === 200) {
+        setLoading(false);
+        props.handleNext();
+      } else {
+        setLoading(false);
+        console.log("error");
+      }
+    } catch (error) {
+      setLoading(false);
+      console.log(error);
+    }
+    
   };
 
   const {
@@ -146,176 +162,114 @@ export default function UpgradeForm(props) {
     Others,
   } = faculty;
   const classes = useStyles();
-  console.log(faculty);
+  // console.log(faculty);
 
   return (
-        <DialogContent>
-          <form>
-            <Grid container spacing={4} justify={"center"}>
-              <Grid item md={12}>
-                <Grid container justify={"space-evenly"} spacing={4}>
-                  <Grid item md={4}>
-                    <TextField
-                      required
-                      autoFocus
-                      margin="dense"
-                      id="name"
-                      label="Chinese Name"
-                      type="name"
-                      fullwidth="true"
-                      onChange={handleName}
+    <DialogContent>
+      <form>
+        <Grid container spacing={4} justify={"center"}>
+          <Grid item md={12}>
+            <Grid container justify={"space-evenly"} spacing={4}>
+              <Grid item md={4}>
+                <FormControl
+                  required
+                  component="fieldset"
+                  value={gender}
+                  onChange={handleGender}
+                >
+                  <FormLabel component="legend">Gender</FormLabel>
+                  <RadioGroup aria-label="gender" name="gender1" row>
+                    <FormControlLabel
+                      value="female"
+                      control={<Radio />}
+                      label="Female"
                     />
-                  </Grid>
-                  <Grid item md={4}>
-                    <FormControl
-                      required
-                      component="fieldset"
-                      value={gender}
-                      onChange={handleGender}
-                    >
-                      <FormLabel component="legend">Gender</FormLabel>
-                      <RadioGroup aria-label="gender" name="gender1" row>
-                        <FormControlLabel
-                          value="female"
-                          control={<Radio />}
-                          label="Female"
-                        />
-                        <FormControlLabel
-                          value="male"
-                          control={<Radio />}
-                          label="Male"
-                        />
-                        <FormControlLabel
-                          value="Prefer not say"
-                          control={<Radio />}
-                          label="Other"
-                        />
-                      </RadioGroup>
-                    </FormControl>
-                  </Grid>
-                </Grid>
+                    <FormControlLabel
+                      value="male"
+                      control={<Radio />}
+                      label="Male"
+                    />
+                    <FormControlLabel
+                      value="Prefer not say"
+                      control={<Radio />}
+                      label="Other"
+                    />
+                  </RadioGroup>
+                </FormControl>
               </Grid>
-              <Grid item md={12}>
-                <Grid container justify={"space-evenly"} spacing={4}>
-                  <Grid item md={4}>
-                    <TextField
-                      margin="dense"
-                      id="name"
-                      label="Wechat ID"
-                      type="text"
-                      fullwidth="true"
-                      onChange={handleWecahtId}
-                    />
-                  </Grid>
-                  <Grid item md={4}>
-                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                      <KeyboardDatePicker
-                        required
-                        disableFuture={true}
-                        disableToolbar
-                        variant="inline"
-                        format="dd/MM/yyyy"
-                        margin="normal"
-                        id="date-picker-inline"
-                        label="Birthday"
-                        value={birthday}
-                        onChange={handleBirthdayChange}
-                        KeyboardButtonProps={{
-                          "aria-label": "change date",
-                        }}
-                      />
-                    </MuiPickersUtilsProvider>
-                  </Grid>
-                </Grid>
+              <Grid item md={4}>
+                <TextField
+                  margin="dense"
+                  id="name"
+                  label="Wechat ID"
+                  type="text"
+                  fullwidth="true"
+                  onChange={handleWecahtId}
+                />
               </Grid>
-              <Grid item md={12}>
-                <Grid container justify={"space-evenly"} spacing={4}>
-                  <Grid item md={4}>
-                    <TextField
-                      required
-                      margin="dense"
-                      id="Phone"
-                      label="Phone number"
-                      type="tel"
-                      fullwidth="true"
-                      onChange={handlePhone}
-                    />
-                  </Grid>
-                  <Grid item md={4}>
-                    <TextField
-                      margin="dense"
-                      id="studentId"
-                      label="Student ID"
-                      type="text"
-                      fullwidth="true"
-                      onChange={handleStudentId}
-                    />
-                  </Grid>
-                </Grid>
+            </Grid>
+          </Grid>
+          <Grid item md={12}>
+            <Grid container justify={"space-evenly"} spacing={4}>
+              <Grid item md={4}>
+                <TextField
+                  required
+                  margin="dense"
+                  id="Phone"
+                  label="Phone number"
+                  type="tel"
+                  fullwidth="true"
+                  onChange={handlePhone}
+                />
               </Grid>
-              <Grid item md={12}>
-                <Grid container justify={"space-evenly"} spacing={4}>
-                  <Grid item md={4}>
-                    <Grid
-                      container
-                      justify={"space-evenly"}
-                      spacing={4}
-                      direction={"column"}
-                    >
-                      <Grid item md={12}>
-                        <FormControl required component="fieldset">
-                          <FormLabel component="legend">University</FormLabel>
-                          <RadioGroup
-                            aria-label="University"
-                            name="University"
-                            value={university}
-                            onChange={handleUniversity}
-                          >
-                            <FormControlLabel
-                              value="UNITEC"
-                              control={<Radio />}
-                              label="UNITEC"
-                            />
-                            <FormControlLabel
-                              value="AUT"
-                              control={<Radio />}
-                              label="AUT"
-                            />
-                            <FormControlLabel
-                              value="MasseyUniversity"
-                              control={<Radio />}
-                              label="Massey University"
-                            />
-                            <FormControlLabel
-                              value="UoA"
-                              control={<Radio />}
-                              label="UoA"
-                            />
-                            <RadioInputBtn setOther={setUniversity} />
-                          </RadioGroup>
-                        </FormControl>
-                      </Grid>
-                      <Grid item md={12}>
-                        <TextField
-                          required
-                          label="Major/Specialisation"
-                          type="Text"
-                          onChange={handleMajor}
-                        />
-                      </Grid>
-                      <Grid item md={12}>
-                        <TextField
-                          required
-                          label="Year of Study"
-                          type="text"
-                          helperText={yearError}
-                          error={!!yearError}
-                          onChange={handleYear}
-                        />
-                      </Grid>
-                    </Grid>
-                  </Grid>
-                  <Grid item md={4}>
+              <Grid item md={4}>
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                  <KeyboardDatePicker
+                    required
+                    disableFuture={true}
+                    disableToolbar
+                    variant="inline"
+                    format="dd/MM/yyyy"
+                    margin="normal"
+                    id="date-picker-inline"
+                    label="Birthday"
+                    value={birthday}
+                    onChange={handleBirthdayChange}
+                    KeyboardButtonProps={{
+                      "aria-label": "change date",
+                    }}
+                  />
+                </MuiPickersUtilsProvider>
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item md={12}>
+            <Grid container justify={"space-evenly"} spacing={4}>
+              <Grid item md={4}>
+                <TextField
+                  margin="dense"
+                  id="studentId"
+                  label="Student ID"
+                  type="text"
+                  fullwidth="true"
+                  onChange={handleStudentId}
+                />
+              </Grid>
+              <Grid item md={4}>
+
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item md={12}>
+            <Grid container justify={"space-evenly"} spacing={4}>
+              <Grid item md={4}>
+                <Grid
+                  container
+                  justify={"space-evenly"}
+                  spacing={4}
+                  direction={"column"}
+                >
+                  <Grid item md={12}>
                     <FormControl
                       required
                       component="fieldset"
@@ -421,17 +375,71 @@ export default function UpgradeForm(props) {
                         />
                       </FormGroup>
                     </FormControl>
+
+                  </Grid>
+                  <Grid item md={12}>
+                    {/* <TextField
+                      required
+                      label="Major/Specialisation"
+                      type="Text"
+                      onChange={handleMajor}
+                    /> */}
+                  </Grid>
+                  <Grid item md={12}>
+                    {/* <TextField
+                      required
+                      label="Year of Study"
+                      type="text"
+                      helperText={yearError}
+                      error={!!yearError}
+                      onChange={handleYear}
+                    /> */}
                   </Grid>
                 </Grid>
               </Grid>
-              <Grid item md={12}>
-                <Grid container justify={"space-evenly"} spacing={4}>
-                  <Grid item align={"center"} md={10} className={classes.consent}>
-                    <h2>Consent Of Membership</h2>
-                    <p>
-                      I have read and understand the regulation and constitution
-                      of NZCSA. I have had the opportunity to ask questions and
-                      have them answered to my satisfaction:
+              <Grid item md={4}>
+                <FormControl required component="fieldset">
+                  <FormLabel component="legend">University</FormLabel>
+                  <RadioGroup
+                    aria-label="University"
+                    name="University"
+                    value={university}
+                    onChange={handleUniversity}
+                  >
+                    <FormControlLabel
+                      value="UNITEC"
+                      control={<Radio />}
+                      label="UNITEC"
+                    />
+                    <FormControlLabel
+                      value="AUT"
+                      control={<Radio />}
+                      label="AUT"
+                    />
+                    <FormControlLabel
+                      value="MasseyUniversity"
+                      control={<Radio />}
+                      label="Massey University"
+                    />
+                    <FormControlLabel
+                      value="UoA"
+                      control={<Radio />}
+                      label="UoA"
+                    />
+                    <RadioInputBtn setOther={setUniversity} />
+                  </RadioGroup>
+                </FormControl>
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item md={12}>
+            <Grid container justify={"space-evenly"} spacing={4}>
+              <Grid item align={"center"} md={10} className={classes.consent}>
+                <h2>Consent Of Membership</h2>
+                <p>
+                  I have read and understand the regulation and constitution
+                  of NZCSA. I have had the opportunity to ask questions and
+                  have them answered to my satisfaction:
                       <br />
                       1. I agree to take part in this students' association.
                       <br />
@@ -440,7 +448,7 @@ export default function UpgradeForm(props) {
                       a reason, however, the membership fee will not be refunded.
                       <br />
                       3. I understand that all information provided to the NZCSA:{" "}
-                      <br />
+                  <br />
                       (1) will remain confidential, <br />
                       (2) will only be used internally within NZCSA.
                       <br />
@@ -448,44 +456,49 @@ export default function UpgradeForm(props) {
                       a period of three years, after which they will be securely
                       destroyed.
                     </p>
-                  </Grid>
-                </Grid>
               </Grid>
-              <Grid item md={12}>
-                <Grid container justify={"space-evenly"} spacing={4}>
-                  <Grid item align={"center"} md={10}>
-                    <FormControl
-                      required
-                      component="fieldset"
-                      className={classes.formControl}
-                    >
-                      <FormLabel component="legend">
-                        This form will be held for a period of 3 years.
+            </Grid>
+          </Grid>
+          <Grid item md={12}>
+            <Grid container justify={"space-evenly"} spacing={4}>
+              <Grid item align={"center"} md={10}>
+                <FormControl
+                  required
+                  component="fieldset"
+                  className={classes.formControl}
+                >
+                  <FormLabel component="legend">
+                    This form will be held for a period of 3 years.
                       </FormLabel>
-                      <FormGroup>
-                        <FormControlLabel
-                          control={
-                            <Checkbox
-                              checked={understand}
-                              onChange={handleUnderstand}
-                              name="understand"
-                            />
-                          }
-                          label="I understand"
-                          align={"center"}
+                  <FormGroup>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={understand}
+                          onChange={handleUnderstand}
+                          name="understand"
                         />
-                      </FormGroup>
-                    </FormControl>
-                  </Grid>
-                </Grid>
+                      }
+                      label="I understand"
+                      align={"center"}
+                    />
+                  </FormGroup>
+                </FormControl>
               </Grid>
             </Grid>
-            <Grid container justify={"center"}>
-              <Button disabled={!understand} onClick={handleSubmitUpgradeForm}>
-                Submit
+          </Grid>
+        </Grid>
+        <Grid container justify={"center"}>
+          <Button disabled={!understand} onClick={handleSubmitUpgradeForm}>
+            
+            {loading ? (
+                  <CircularProgress color="inherit" size="2rem" />
+                ) : (
+                    <>Submit</>
+                  )}
               </Button>
-            </Grid>
-          </form>
-        </DialogContent>
+        </Grid>
+      </form>
+    </DialogContent>
   );
 }
