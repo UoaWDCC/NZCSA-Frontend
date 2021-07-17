@@ -49,7 +49,7 @@ export default function PaymentForm({ orderType, price, eventId }) {
   const [method, setMethod] = React.useState("polipay"); // Possible states are "wechat", "alipay" and "polipay"
   const [loading, setLoading] = React.useState(false);
 
-  console.log(currentUser);
+  // console.log(currentUser);
 
   const handlePayment = async () => {
     try {
