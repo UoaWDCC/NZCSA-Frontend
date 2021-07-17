@@ -73,6 +73,22 @@ async function signUpEvent(registerInfo) {
   return response;
 }
 
+async function signUpMembership(userInfo) {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+    },
+  };
+  const response = await axios.post(
+    "https://nzcsa-backend.herokuapp.com/api/private/sign-up-membership",
+    userInfo,
+    config
+  );
+
+  return response;
+}
+
 async function makePayment(paymentMethod, paymentAmount, productName) {
   const body = {
     paymentMethod,
@@ -135,4 +151,5 @@ export {
   makePayment,
   validateRedirect,
   createOrder,
+  signUpMembership
 };
