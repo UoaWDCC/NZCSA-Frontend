@@ -126,26 +126,6 @@ export default function EventCard(props) {
   }
 
   return (
-    // <Card className={classes.root}>
-    //     <CardActionArea>
-    //         <CardMedia className={classes.media} component="img" image={BackgroundImage} />
-    //     </CardActionArea>
-    //     <CardActionArea>
-    //         <CardContent>
-    //             <Typography variant="p">
-    //                 {props.date}
-    //             </Typography>
-    //             <Typography variant="h5">
-    //                 {props.name}
-    //             </Typography>
-    //             <Typography variant="p">
-    //                 {props.location}
-    //             </Typography>
-    //         </CardContent>
-    //         <Button variant="outlined">Register</Button>
-    //     </CardActionArea>
-    // </Card>
-
     <Router>
       <Notification notify={notify} setNotify={setNotify} />
       <Card className={classes.root}>

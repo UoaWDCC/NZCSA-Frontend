@@ -47,6 +47,7 @@ import SponsorsLogoLayout from "../Sponsors/SponsorsLogoLayout";
 import Copyright from '../../components/Copyright';
 import UserInforDialog from './UserInforDialog'
 import AboutLayout from "../About/AboutLayout";
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 
 const drawerWidth = 240;
@@ -172,7 +173,12 @@ const useStyles = makeStyles((theme) => ({
   },
   about: {
     marginTop: "auto"
-  }
+  },
+  loading: {
+    left: '55%',
+    position: 'absolute', 
+    top: '44vh', 
+  },
 }));
 
 export default function Dashboard(props) {
@@ -182,6 +188,7 @@ export default function Dashboard(props) {
   const [upgradeOpen, setUpgradeOpen] = useState(props.checkout ? true : false);
   const [eventData, setEventData] = useState({});
   const [userData, setUserData] = useState({});
+  const [loading, setLoading] = useState(false);
 
   const [yourEventsData, setYoursEventData] = useState({});
   const [userInforDialog, seUserInforDialog] = useState(false);
@@ -249,13 +256,16 @@ export default function Dashboard(props) {
 
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true);
       axios
         .get("https://nzcsa-backend.herokuapp.com/api/private/get-events-info")
         .then((res) => {
+          setLoading(false);
           setEventData(res.data);
           //console.log(res.data)
         })
         .catch((e) => {
+          setLoading(false);
           //console.log(e)
         });
     };
@@ -480,31 +490,36 @@ export default function Dashboard(props) {
         open={upgradeOpen}
         close={setUpgradeOpen}
       />
-          <UserInforDialog open={userInforDialog} close={seUserInforDialog} userInfo={userData} />
+      <UserInforDialog open={userInforDialog} close={seUserInforDialog} userInfo={userData} />
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
-        <Container maxWidth="lg" className={classes.container}>
-          {props.yourEvents ? (
-            yourEvents
-          ) : props.sponsors ? (
-            Sponsor
-          ) : props.about ? (
-            About
-          ) : !id ? (
-            home
-          ) : (
-                    // Event details
-                    <EventDetail
-                      id={id}
-                      isMember={userData.isMembership}
-                      attendedEvents={userData.attendedEvents}
-                      data={eventData}
-                    />
-                  )}
-          <Box pt={4}>
-            <Copyright />
-          </Box>{" "}
-        </Container>
+        {loading ? (
+          <CircularProgress color="inherit" size="4rem" className={classes.loading} />
+        ) : (
+            <Container maxWidth="lg" className={classes.container}>
+              {props.yourEvents ? (
+                yourEvents
+              ) : props.sponsors ? (
+                Sponsor
+              ) : props.about ? (
+                About
+              ) : !id ? (
+                home
+              ) : (
+                        // Event details
+                        <EventDetail
+                          id={id}
+                          isMember={userData.isMembership}
+                          attendedEvents={userData.attendedEvents}
+                          data={eventData}
+                        />
+                      )}
+              <Box pt={4}>
+                <Copyright />
+              </Box>{" "}
+            </Container>
+          )}
+
       </main>
     </div>
   );

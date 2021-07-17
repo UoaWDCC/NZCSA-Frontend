@@ -199,7 +199,7 @@ export default function PaymentForm({ orderType, price, eventId }) {
                       </div>
                       <div>
                         <Typography variant="h6" component="h2">
-                          ${price}
+                          ${(Math.round(price * 100) / 100).toFixed(2)}
                         </Typography>
                         <Typography
                           className={classes.pos}
@@ -223,7 +223,7 @@ export default function PaymentForm({ orderType, price, eventId }) {
                         <Box style={{ fontSize: 32 }} display="inline">
                           $
                         </Box>
-                        {price}
+                        {(Math.round(price * 100) / 100).toFixed(2) }
                       </Typography>
                     </Grid>
                   </CardContent>
