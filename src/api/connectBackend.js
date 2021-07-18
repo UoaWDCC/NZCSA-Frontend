@@ -146,12 +146,11 @@ async function validateRedirect(body) {
 }
 
 async function getOneOrder(merchantReference) {
-  const retries = 3;
   const config = {
     headers: {
       Authorization: `Bearer ${localStorage.getItem("authToken")}`,
     },
-    timeout: 100,
+    timeout: 1000,
   };
   const response = await axios.get(
     `https://nzcsa-backend.herokuapp.com/api/payment/orders/${merchantReference}`,
