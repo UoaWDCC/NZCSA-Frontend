@@ -226,6 +226,7 @@ export default function EventDetail({
         price={event.eventPrice}
         eventId={id}
       />
+
     </div>
   );
 }
