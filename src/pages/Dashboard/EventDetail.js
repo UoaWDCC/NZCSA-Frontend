@@ -206,7 +206,7 @@ export default function EventDetail({ isMember, attendedEvents, data, ...rest })
         {/* Recent Orders */}
       </Grid>
       <Upgrade open={upgradeOpen} close={setUpgradeOpen} />
-      <Payment open={paymentOpen} close={setPaymentOpen} price={event.eventPrice} /> 
+      <Payment open={paymentOpen} close={setPaymentOpen} price={event.eventPrice} eventId={id}/> 
     </div>
   );
 }
