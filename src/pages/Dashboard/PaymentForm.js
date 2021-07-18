@@ -54,14 +54,14 @@ export default function PaymentForm({ orderType, price, eventId }) {
   const handlePayment = async () => {
     try {
       console.log("payment details");
-      console.log(method, price, orderType);
+      console.log(method, price, orderType, eventId);
       const response = await makePayment(method, price, orderType);
       if (response.status === 200) {
-        // console.log(response.data);
+        console.log(response.data);
         const { merchantReference } = response.data;
         const userId = currentUser._id;
         await handleOrder(merchantReference, userId, method, eventId);
-        window.location.href = response.data.payment_url;
+        window.location.href = `${response.data.data.host_url}/${response.data.data.nonce}`;
       } else {
         console.log("error");
         window.location.href = "/checkout";
@@ -118,7 +118,7 @@ export default function PaymentForm({ orderType, price, eventId }) {
                 Payment method
               </Typography>
               <Grid container spacing={2}>
-                <Grid item xs>
+                {/* <Grid item xs>
                   <Button
                     fullWidth
                     className={clsx(
@@ -135,7 +135,7 @@ export default function PaymentForm({ orderType, price, eventId }) {
                       src="./images/wechat-pay.svg"
                     />
                   </Button>
-                </Grid>
+                </Grid> */}
                 <Grid item xs>
                   <Button
                     fullWidth

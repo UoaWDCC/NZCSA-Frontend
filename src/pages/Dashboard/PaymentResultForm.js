@@ -2,6 +2,7 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Fade, Typography, Button } from "@material-ui/core";
 import { Link } from "react-router-dom";
+import { getOneOrder } from "../../api/connectBackend";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,6 +36,32 @@ export default function PaymentResultForm(props) {
   const [loading, setLoading] = React.useState(true);
   const [success, setSuccess] = React.useState(false);
 
+  const validateOrder = async (reference) => {
+    try {
+      for (var i = 0; i < 25; i++) {
+        try {
+          const response = await getOneOrder(reference);
+          if (response.status == 200) {
+            setLoading(false);
+            setSuccess(true);
+            break;
+            console.log("paid");
+          } else {
+            console.log("not yet paid...");
+          }
+        } catch (error) {
+          console.log("not yet paid...");
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
+
+    // validateOrder();
+
+    setLoading(false);
+  };
+
   React.useEffect(() => {
     const urlSearchParams = new URLSearchParams(window.location.search);
     const params = Object.fromEntries(urlSearchParams.entries());
@@ -50,9 +77,7 @@ export default function PaymentResultForm(props) {
     const authToken = localStorage.getItem("authToken");
 
     if (status === "paid" && authToken) {
-      
-      setSuccess(true);
-      setLoading(false);
+      validateOrder(merchant_reference);
     } else {
       setLoading(false);
     }
