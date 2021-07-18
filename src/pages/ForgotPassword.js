@@ -113,7 +113,7 @@ export default function ForgotPassword() {
                   name="email"
                   autoComplete="email"
                   type="email"
-                  onChange={e => setEmail(e.target.value)}
+                  onChange={e => setEmail(e.target.value.toLowerCase())}
                   error={isError(email.length === 0)}
                   helperText={isError(email.length === 0) && "Please enter your email!"}
                 />
