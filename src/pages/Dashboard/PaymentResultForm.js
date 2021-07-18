@@ -38,7 +38,7 @@ export default function PaymentResultForm(props) {
 
   const validateOrder = async (reference) => {
     try {
-      for (var i = 0; i < 25; i++) {
+      for (var i = 0; i < 20; i++) {
         try {
           const response = await getOneOrder(reference);
           if (response.status == 200) {
@@ -57,7 +57,6 @@ export default function PaymentResultForm(props) {
       // console.log(error);
     }
 
-    // validateOrder();
 
     setLoading(false);
   };
