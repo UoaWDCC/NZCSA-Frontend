@@ -53,7 +53,7 @@ export default function Contributor() {
                     spacing={0}
                     direction="column"
                     alignItems="center"
-                // justify="center"
+                    justify="center"
                 >
 
                     <Grid item xs={3}>
