@@ -26,6 +26,7 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import DoneIcon from '@material-ui/icons/Done';
 import CreateIcon from '@material-ui/icons/Create';
 import EventIcon from '@material-ui/icons/Event';
+import Contributor from './Contributor';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -54,12 +55,12 @@ export default function AboutLayout() {
 
                 <Card className={classes.root}>
 
-                        <CardMedia
+                        {/* <CardMedia
                             className={classes.media}
                             component="img"
                             image={img}
                             title="Contemplative Reptile"
-                        />
+                        /> */}
                         <CardContent>
                             <Typography gutterBottom variant="h2" component="h2" align='center'>
                                 How to use
@@ -130,6 +131,9 @@ export default function AboutLayout() {
                                 </TimelineContent>
                             </TimelineItem>
                         </Timeline>
+
+
+                        <Contributor></Contributor>
 
                 </Card>
 
