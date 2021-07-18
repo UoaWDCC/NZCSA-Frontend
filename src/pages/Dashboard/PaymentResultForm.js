@@ -45,16 +45,16 @@ export default function PaymentResultForm(props) {
             setLoading(false);
             setSuccess(true);
             break;
-            console.log("paid");
+            // console.log("paid");
           } else {
-            console.log("not yet paid...");
+            // console.log("not yet paid...");
           }
         } catch (error) {
-          console.log("not yet paid...");
+          // console.log("not yet paid...");
         }
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
 
     // validateOrder();
