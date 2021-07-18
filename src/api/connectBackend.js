@@ -151,7 +151,7 @@ async function getOneOrder(merchantReference) {
     headers: {
       Authorization: `Bearer ${localStorage.getItem("authToken")}`,
     },
-    timeout: 100,
+    timeout: 1000,
   };
   const response = await axios.get(
     `https://nzcsa-backend.herokuapp.com/api/payment/orders/${merchantReference}`,
