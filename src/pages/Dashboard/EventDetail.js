@@ -9,10 +9,10 @@ import { useParams } from "react-router";
 import { Typography, Avatar } from "@material-ui/core";
 import { Button } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
-import IconButton from '@material-ui/core/IconButton';
-import CloseIcon from '@material-ui/icons/Close';
-import { confirmAlert } from 'react-confirm-alert';
-import { signUpEvent } from '../../api/connectBackend';
+import IconButton from "@material-ui/core/IconButton";
+import CloseIcon from "@material-ui/icons/Close";
+import { confirmAlert } from "react-confirm-alert";
+import { signUpEvent } from "../../api/connectBackend";
 import Upgrade from "../Dashboard/Upgrade";
 import Payment from "../Dashboard/Payment";
 import Notification from "../../components/Notification";
@@ -40,55 +40,61 @@ const useStyles = makeStyles((theme) => ({
     position: "absolute",
     right: theme.spacing(4),
     top: theme.spacing(8),
-
   },
   root: {
-    display: 'flex'
-  }
+    display: "flex",
+  },
 }));
 
-export default function EventDetail({ isMember, attendedEvents, data, ...rest }) {
+export default function EventDetail({
+  isMember,
+  attendedEvents,
+  data,
+  ...rest
+}) {
   const classes = useStyles();
   // const [loading, setLoading] = useState(false);
   const [upgradeOpen, setUpgradeOpen] = useState(false);
   const [paymentOpen, setPaymentOpen] = useState(false);
   const [time, setTime] = useState("");
-  const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
+  const [notify, setNotify] = useState({
+    isOpen: false,
+    message: "",
+    type: "",
+  });
   const [event, setEvent] = useState({});
 
   let { id } = useParams();
   //console.log(data[id]);
   useEffect(() => {
-    if (!!data[id]){
+    if (!!data[id]) {
       setEvent(data[id]);
-      let startTime = data[id].startTime.replace('T', ' ');
+      let startTime = data[id].startTime.replace("T", " ");
       startTime = startTime.slice(0, 16);
       setTime(startTime);
-      }
-  },[data, id])
-
+    }
+  }, [data, id]);
 
   let history = useHistory();
 
   const handleCloseBtn = () => {
     history.goBack();
-  }
+  };
 
   const handleOnClick = () => {
-
     if (!isMember) {
       confirmAlert({
-        message: 'You have to be a member to join this event.',
+        message: "You have to be a member to join this event.",
         buttons: [
           {
-            label: 'Cancel',
-            onClick: () => console.log('')
+            label: "Cancel",
+            onClick: () => console.log(""),
           },
           {
-            label: 'Upgrade',
-            onClick: () => setUpgradeOpen(true)
-          }
-        ]
+            label: "Upgrade",
+            onClick: () => setUpgradeOpen(true),
+          },
+        ],
       });
     } else {
       if (!attendedEvents.includes(id)) {
@@ -96,28 +102,27 @@ export default function EventDetail({ isMember, attendedEvents, data, ...rest })
           setPaymentOpen(true);
         } else {
           confirmAlert({
-            message: 'Do you want to join this event?',
+            message: "Do you want to join this event?",
             buttons: [
               {
-                label: 'No',
-                onClick: () => console.log('')
+                label: "No",
+                onClick: () => console.log(""),
               },
               {
-                label: 'Yes',
-                onClick: () => handleRegister(id)
-              }
-            ]
+                label: "Yes",
+                onClick: () => handleRegister(id),
+              },
+            ],
           });
         }
       } else {
         setNotify({
           isOpen: true,
-          message: 'You have already signed up for this event',
-          type: 'warning'
+          message: "You have already signed up for this event",
+          type: "warning",
         });
       }
     }
-    
   };
 
   async function handleRegister(eventId) {
@@ -129,8 +134,8 @@ export default function EventDetail({ isMember, attendedEvents, data, ...rest })
       if (response.status === 200) {
         setNotify({
           isOpen: true,
-          message: 'Successfully signed up for this event!',
-          type: 'success'
+          message: "Successfully signed up for this event!",
+          type: "success",
         });
       }
       //console.log(response.data);
@@ -140,20 +145,23 @@ export default function EventDetail({ isMember, attendedEvents, data, ...rest })
       setNotify({
         isOpen: true,
         message: e.response.data.error,
-        type: 'error'
+        type: "error",
       });
     }
   }
 
   return (
     <div>
-      <Notification
-        notify={notify}
-        setNotify={setNotify}
-      />
+      <Notification notify={notify} setNotify={setNotify} />
       <Grid container spacing={3}>
         <Grid item xs={12}>
-          <IconButton aria-label="close" className={classes.closeButton} edge='start' size='small' onClick={handleCloseBtn}>
+          <IconButton
+            aria-label="close"
+            className={classes.closeButton}
+            edge="start"
+            size="small"
+            onClick={handleCloseBtn}
+          >
             <CloseIcon />
           </IconButton>
           <MainCard img={event.eventImgUrl} />
@@ -164,9 +172,7 @@ export default function EventDetail({ isMember, attendedEvents, data, ...rest })
             <Typography variant="subtitle2" color="primary">
               {time}
             </Typography>
-            <Typography variant="h3">
-              {event.eventName}
-            </Typography>
+            <Typography variant="h3">{event.eventName}</Typography>
             <Typography variant="h6" color="textSecondary">
               {event.eventLocation}
             </Typography>
@@ -183,30 +189,43 @@ export default function EventDetail({ isMember, attendedEvents, data, ...rest })
             </Typography>
           </Paper>
           <Paper className={classes.paper1}>
-              {event.eventPrice > 0 ?
-                (<Typography variant="h5" gutterBottom>
-                  $ {(Math.round(event.eventPrice * 100) / 100).toFixed(2) }
-                </Typography>) :
-                (<Typography variant="h5" gutterBottom>
-                  &nbsp;Free Event!
-              </Typography>)}
-              <Button variant="contained" size="large" color="secondary" onClick={() => handleOnClick()} disableElevation>
-                Register
-              </Button>
-            </Paper>
+            {event.eventPrice > 0 ? (
+              <Typography variant="h5" gutterBottom>
+                $ {(Math.round(event.eventPrice * 100) / 100).toFixed(2)}
+              </Typography>
+            ) : (
+              <Typography variant="h5" gutterBottom>
+                &nbsp;Free Event!
+              </Typography>
+            )}
+            <Button
+              variant="contained"
+              size="large"
+              color="secondary"
+              onClick={() => handleOnClick()}
+              disableElevation
+            >
+              Register
+            </Button>
+          </Paper>
         </Grid>
         <Grid item xs={12} sm={6} md={3}>
           <Paper className={classes.paper}>
             <Typography variant="h6" gutterBottom>
               WeChat Group
             </Typography>
-            <img src={event.wechatImgUrl}/>
+            <img src={event.wechatImgUrl} />
           </Paper>
         </Grid>
         {/* Recent Orders */}
       </Grid>
       <Upgrade open={upgradeOpen} close={setUpgradeOpen} />
-      <Payment open={paymentOpen} close={setPaymentOpen} price={event.eventPrice} /> 
+      <Payment
+        open={paymentOpen}
+        close={setPaymentOpen}
+        price={event.eventPrice}
+        eventId={id}
+      />
     </div>
   );
 }
