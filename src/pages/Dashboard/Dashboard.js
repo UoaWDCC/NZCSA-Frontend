@@ -50,6 +50,7 @@ import AboutLayout from "../About/AboutLayout";
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { isMobile } from 'react-device-detect';
 import SupervisedUserCircleIcon from '@material-ui/icons/SupervisedUserCircle';
+import Qixi from "./Qixi";
 
 
 const drawerWidth = 240;
@@ -393,7 +394,10 @@ export default function Dashboard(props) {
 
   const About = (
     <AboutLayout />
+  )
 
+  const qixi = (
+    <Qixi></Qixi>
   )
 
   return (
@@ -522,6 +526,8 @@ export default function Dashboard(props) {
                 Sponsor
               ) : props.about ? (
                 About
+              ) : props.qixi ? (
+                qixi
               ) : !id ? (
                 home
               ) : (
