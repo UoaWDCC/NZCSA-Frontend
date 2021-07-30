@@ -1,5 +1,4 @@
 import React from 'react'
-import { makeStyles } from '@material-ui/core/styles'
 import {
     Grid,
     Paper,
@@ -8,9 +7,12 @@ import {
 import { Typography } from '@material-ui/core'
 import Card from '@material-ui/core/Card';
 
-export default function Qixi() {
+export default function Qixi({ userData }) {
+
+    const userAttendEventArray = userData.attendedEvents;
 
 
+    console.log(userAttendEventArray);
     return (
         <Grid container spacing={3}>
             <Grid item xs={12}>
@@ -21,8 +23,11 @@ export default function Qixi() {
                         justifyContent="center"
                         alignItems="center"
                         minHeight="30vh"
-                    >
-                        <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdMPe0FfRsWNF2iE6Sr6YJoTE4wxZ-UpWzRjtj2CQJUaC-FZA/viewform?embedded=true" width="640" height="3287" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
+                    >{!!(userAttendEventArray != undefined && userAttendEventArray.includes("1")) ? (
+                        <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSeArfuiBek5AomO-AjzyTQ4zP9pUbuhZurjnUcvej9G4SqnYA/viewform?embedded=true" width="640" height="1609" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
+                    ) : (
+                            <Typography variant="h3">You need register qixi</Typography>
+                        )}
 
                     </Box>
 

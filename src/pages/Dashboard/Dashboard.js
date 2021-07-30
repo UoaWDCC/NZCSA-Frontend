@@ -396,8 +396,10 @@ export default function Dashboard(props) {
     <AboutLayout />
   )
 
+  // console.log(userData.attendedEvents);
+
   const qixi = (
-    <Qixi></Qixi>
+    <Qixi userData ={userData}/>
   )
 
   return (
