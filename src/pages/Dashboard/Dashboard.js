@@ -51,6 +51,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { isMobile } from 'react-device-detect';
 import SupervisedUserCircleIcon from '@material-ui/icons/SupervisedUserCircle';
 import Qixi from "./Qixi";
+import img from '../../assets/basketball.png'
 
 
 const drawerWidth = 240;
@@ -350,8 +351,8 @@ export default function Dashboard(props) {
       {/* Main Events Section */}
       <Grid item xs={12}>
         <MainCard
-          img="/bg.png"
-          title="Professional Networking"
+          img={img}
+          title="NZCSA篮球杯"
           date="Thursday, 5 August 2021"
           location="303-G20, City Campus, University of Auckland"
           id="0"
