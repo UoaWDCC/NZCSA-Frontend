@@ -19,7 +19,7 @@ import Notification from "./Notification";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    maxWidth: 345,
+    maxWidth: 445,
   },
   media: {
     height: 140,
