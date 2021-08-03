@@ -10,13 +10,14 @@ import Typography from "@material-ui/core/Typography";
 import { Container } from "@material-ui/core";
 import { Link as RouterLink } from "react-router-dom";
 
+
 const useStyles = makeStyles((theme) => ({
   root: {
     // maxWidth: 345,
   },
   media: {
-    height: 240,
-    filter: props => props.darken ? "brightness(50%)" : null,
+    height: 340,
+    // filter: props => props.darken ? "brightness(80%)" : null,
   },
   overlay: {
     position: "absolute",
@@ -33,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up("sm")]: {
       display: "block",
     },
-  }
+  },
 }));
 
 export default function MainCard(props) {
@@ -41,7 +42,7 @@ export default function MainCard(props) {
 
   return (
     <Card className={classes.root}>
-      <CardActionArea component={RouterLink}  to={`${props.id}`}>
+      <CardActionArea component={RouterLink} >
         <CardMedia
           className={classes.media}
           component="img"
@@ -52,18 +53,21 @@ export default function MainCard(props) {
         />
         <CardContent className={classes.overlay}>
           <Container>
-            <Typography xs={0} variant="subtitle1" component="p">
+            {/* <Typography xs={0} variant="subtitle1" component="p">
               {props.date}
             </Typography>
-            <Typography className={classes.heading} gutterBottom variant="h3" component="h3">
+            <Typography className={classes.heading} gutterBottom variant="h2" component="h2">
               {props.title}
+            </Typography>
+            <Typography className={classes.heading} gutterBottom variant="h4" component="h3">
+              以少年之名，赴青春之约
             </Typography>
             <Typography className={classes.sub} gutterBottom variant="subtitle2" component="p">
               {props.location}
-            </Typography>
-            {props.btn && <Button variant="contained" size="medium" color="secondary" width="20px">
+            </Typography> */}
+            {/* {props.btn && <Button variant="contained" size="medium" color="secondary" width="20px" className={classes.but}>
               Find Out More
-            </Button>}
+            </Button>} */}
           </Container>
         </CardContent>
       </CardActionArea>

@@ -53,13 +53,13 @@ export default function AltCard(props) {
             (<div className={classes.root}>
                 <Grid
                     container
-                    spacing={2}
+                    spacing={3}
                     direction="row"
                     justify="flex-start"
                     alignItems="flex-start"
                 >
                     {Object.keys(activeEventsDetail).map((elem, i) => (
-                        <Grid item xs={12} sm={6} md={3} key={activeEventsDetail[elem].id}>
+                        <Grid item xs={12} sm={6} md={4} key={activeEventsDetail[elem].id}>
                             <EventCard id={activeEventsDetail[elem]._id} title={activeEventsDetail[elem].eventName} date={activeEventsDetail[elem].eventTime} location={activeEventsDetail[elem].eventLocation} image={activeEventsDetail[elem].eventImgUrl} isMember={props.isMember} price={activeEventsDetail[elem].eventPrice} attendedEvents={props.attendedEvents} isYourPage={props.userData} />
 
                         </Grid>

@@ -10,6 +10,7 @@ import { EventNote } from "@material-ui/icons";
 import { BrowserRouter as Router, Link } from "react-router-dom";
 import MenuItem from "@material-ui/core/MenuItem";
 import InfoIcon from '@material-ui/icons/Info';
+import FavoriteIcon from '@material-ui/icons/Favorite';
 
 
 const StyledListItem = withStyles((theme) => ({
@@ -37,6 +38,12 @@ export const mainListItems = (
         <EventNote />
       </ListItemIcon>
       <ListItemText primary="Your Events" />
+    </StyledListItem>
+    <StyledListItem button to="/qixi" component={Link}>
+      <ListItemIcon>
+        <FavoriteIcon />
+      </ListItemIcon>
+      <ListItemText primary="七夕活动" />
     </StyledListItem>
     <StyledListItem button to="/sponsors" component={Link}>
       <ListItemIcon>
