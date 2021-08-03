@@ -29,10 +29,14 @@ import ExitToAppTwoToneIcon from "@material-ui/icons/ExitToAppTwoTone";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import {
   Avatar,
+  Badge,
   ListItem,
   ListItemAvatar,
   ListItemText,
 } from "@material-ui/core";
+import VerifiedUserIcon from '@material-ui/icons/VerifiedUser';
+import VerifiedUserTwoToneIcon from '@material-ui/icons/VerifiedUserTwoTone';
+import VerifiedUserOutlinedIcon from '@material-ui/icons/VerifiedUserOutlined';
 import MainCard from "../../components/MainCard";
 import EventGrid from "./EventGrid";
 import {
@@ -52,6 +56,7 @@ import { isMobile } from 'react-device-detect';
 import SupervisedUserCircleIcon from '@material-ui/icons/SupervisedUserCircle';
 import Qixi from "./Qixi";
 import img from '../../assets/basketball.png'
+import { SmallAvatar, VipBadge } from "../../components/VipBadget";
 
 
 const drawerWidth = 240;
@@ -183,6 +188,9 @@ const useStyles = makeStyles((theme) => ({
     position: 'absolute',
     top: '44vh',
   },
+  badge: {
+    // filter: invert(0.5)
+  }
 }));
 
 export default function Dashboard(props) {
@@ -201,6 +209,8 @@ export default function Dashboard(props) {
 
 
   const isMenuOpen = Boolean(anchorEl);
+
+  // console.log(userData.isMembership)
 
   // const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
@@ -236,7 +246,7 @@ export default function Dashboard(props) {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-        //Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwZTJiNDQwMzM0MjBjZWExYmQ0ZGRiYyIsImlhdCI6MTYyNTU1MzMyNn0.O7wqQZ2JfGihrqt4QkTW1Kh2ZK-j5FWg1zBewYMasyU'
+        // Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwZTJiNDQwMzM0MjBjZWExYmQ0ZGRiYyIsImlhdCI6MTYyNTU1MzMyNn0.O7wqQZ2JfGihrqt4QkTW1Kh2ZK-j5FWg1zBewYMasyU'
       },
     };
     //console.log(config)
@@ -400,8 +410,29 @@ export default function Dashboard(props) {
   // console.log(userData.attendedEvents);
 
   const qixi = (
-    <Qixi userData ={userData}/>
+    <Qixi userData={userData} />
   )
+
+  const avatar = userData.isMembership ? (
+    <VipBadge
+      overlap="circle"
+      anchorOrigin={{
+        vertical: 'bottom',
+        horizontal: 'right',
+      }}
+      className={classes.badge}
+      badgeContent={<SmallAvatar alt="V" >V</SmallAvatar>}
+
+    >
+      <Avatar
+        alt="Remy Sharp"
+        className={classes.large}
+      />
+    </VipBadge>
+  ) : (<Avatar
+    alt="Remy Sharp"
+    className={classes.large}
+  />);
 
   return (
     <div className={classes.root}>
@@ -443,10 +474,8 @@ export default function Dashboard(props) {
             onClick={handleProfileMenuOpen}
             color="inherit"
           >
-            <Avatar
-              alt="Remy Sharp"
-              className={classes.large}
-            />
+            {avatar}
+
           </IconButton>
         </Toolbar>
       </AppBar>
@@ -480,8 +509,8 @@ export default function Dashboard(props) {
                     }
                   />
                 </ListItem>) : (
-                  null
-                )}
+                null
+              )}
               {open ? (
                 <ListItem alignItems="flex-start">
                   <Button
@@ -490,17 +519,17 @@ export default function Dashboard(props) {
                     onClick={handleUpgradeOpen}
                   >
                     Upgrade
-                </Button>
+                  </Button>
                 </ListItem>
               ) : (
-                  <List>
-                    <ListItem button onClick={handleUpgradeOpen}>
-                      <ListItemIcon>
-                        <SupervisedUserCircleIcon color="secondary" />
-                      </ListItemIcon>
-                    </ListItem>
-                  </List>
-                )}
+                <List>
+                  <ListItem button onClick={handleUpgradeOpen}>
+                    <ListItemIcon>
+                      <SupervisedUserCircleIcon color="secondary" />
+                    </ListItemIcon>
+                  </ListItem>
+                </List>
+              )}
 
             </div>
           )}
@@ -522,31 +551,31 @@ export default function Dashboard(props) {
         {loading ? (
           <CircularProgress color="inherit" size="4rem" className={classes.loading} />
         ) : (
-            <Container maxWidth="lg" className={classes.container}>
-              {props.yourEvents ? (
-                yourEvents
-              ) : props.sponsors ? (
-                Sponsor
-              ) : props.about ? (
-                About
-              ) : props.qixi ? (
-                qixi
-              ) : !id ? (
-                home
-              ) : (
-                        // Event details
-                        <EventDetail
-                          id={id}
-                          isMember={userData.isMembership}
-                          attendedEvents={userData.attendedEvents}
-                          data={eventData}
-                        />
-                      )}
-              <Box pt={4}>
-                <Copyright />
-              </Box>{" "}
-            </Container>
-          )}
+          <Container maxWidth="lg" className={classes.container}>
+            {props.yourEvents ? (
+              yourEvents
+            ) : props.sponsors ? (
+              Sponsor
+            ) : props.about ? (
+              About
+            ) : props.qixi ? (
+              qixi
+            ) : !id ? (
+              home
+            ) : (
+              // Event details
+              <EventDetail
+                id={id}
+                isMember={userData.isMembership}
+                attendedEvents={userData.attendedEvents}
+                data={eventData}
+              />
+            )}
+            <Box pt={4}>
+              <Copyright />
+            </Box>{" "}
+          </Container>
+        )}
 
       </main>
     </div>
