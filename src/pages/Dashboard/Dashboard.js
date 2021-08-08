@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import clsx from "clsx";
 import { makeStyles, fade } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -55,6 +55,7 @@ import Qixi from "./Qixi";
 import img from "../../assets/basketball.png";
 import { SmallAvatar, VipBadge } from "../../components/VipBadget";
 import DarkModeSwitch from "../../components/DarkModeSwitch";
+import { DarkModeContext } from "../../context/darkMode";
 
 const drawerWidth = 240;
 
@@ -79,7 +80,7 @@ const useStyles = makeStyles((theme) => ({
       duration: theme.transitions.duration.leavingScreen,
     }),
     color: theme.palette.text.primary,
-    background: "rgba(255, 255, 255, 0.9)",
+    background: theme.palette.type==="light" ? "rgba(255, 255, 255, 0.9)" : "rgba(60, 60, 60, 0.9)",
     backdropFilter: "blur(6px)",
   },
   menuButton: {
@@ -137,9 +138,9 @@ const useStyles = makeStyles((theme) => ({
   search: {
     position: "relative",
     borderRadius: theme.shape.borderRadius,
-    backgroundColor: fade(theme.palette.grey[800], 0.15),
+    backgroundColor: theme.palette.type==="light" ? fade(theme.palette.grey[800], 0.15) : fade(theme.palette.common.white, 0.15),
     "&:hover": {
-      backgroundColor: fade(theme.palette.grey[900], 0.25),
+      backgroundColor: theme.palette.type==="light" ? fade(theme.palette.grey[900], 0.25) : fade(theme.palette.common.white, 0.15),
     },
     marginRight: theme.spacing(2),
     marginLeft: 0,
@@ -192,6 +193,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Dashboard(props) {
   const classes = useStyles();
+  const { darkMode } = useContext(DarkModeContext);
   const [open, setOpen] = useState(true);
   const [anchorEl, setAnchorEl] = useState(null);
   const [upgradeOpen, setUpgradeOpen] = useState(props.checkout ? true : false);
@@ -326,13 +328,17 @@ export default function Dashboard(props) {
         <ListItemIcon>
           <AccountBoxIcon fontSize="medium" />
         </ListItemIcon>
-        <Typography>Account</Typography>
+        <ListItemText>
+          <Typography>Account</Typography>
+        </ListItemText>
       </MenuItem>
       <MenuItem >
         <ListItemIcon>
           <Brightness2Icon fontSize="medium" />
         </ListItemIcon>
-        <Typography>Dark Mode</Typography>
+        <ListItemText>
+          <Typography>Dark Mode</Typography>
+        </ListItemText>
         <DarkModeSwitch />
       </MenuItem>
       <MenuItem onClick={handleSignOut} component={RouterLink} to="/login">
@@ -438,7 +444,7 @@ export default function Dashboard(props) {
           >
             <MenuIcon />
           </IconButton>
-          <img src={"/logo_black.png"} alt="logo" className={classes.title} />
+          <img src={!darkMode ? "/logo_black.png" : "/logo_white.png"} alt="logo" className={classes.title} />
           <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />

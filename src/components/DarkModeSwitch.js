@@ -1,8 +1,7 @@
-import React from "react";
+import React, { useContext } from "react";
 import { withStyles } from "@material-ui/core/styles";
-import FormGroup from "@material-ui/core/FormGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
+import { DarkModeContext } from "../context/darkMode";
 
 const IOSSwitch = withStyles((theme) => ({
   root: {
@@ -17,13 +16,13 @@ const IOSSwitch = withStyles((theme) => ({
       transform: "translateX(16px)",
       color: theme.palette.common.white,
       "& + $track": {
-        backgroundColor: theme.palette.primary.secondary,
+        backgroundColor: theme.palette.secondary.main,
         opacity: 1,
         border: "none",
       },
     },
     "&$focusVisible $thumb": {
-      color: theme.palette.primary.secondary,
+      color: theme.palette.secondary.main,
       border: "6px solid #fff",
     },
   },
@@ -58,19 +57,23 @@ const IOSSwitch = withStyles((theme) => ({
 });
 
 export default function DarkModeSwitch() {
-  const [state, setState] = React.useState({
-    checkedB: true,
-  });
+  const { darkMode, setDarkMode } = useContext(DarkModeContext);
+
+  const toggleThemeChange = () => {
+    if (localStorage.getItem("theme") === "light") {
+      localStorage.setItem("theme", "dark");
+    } else {
+      localStorage.setItem("theme", "light");
+    }
+  };
 
   const handleChange = (event) => {
-    setState({ ...state, [event.target.name]: event.target.checked });
+    // setDarkMode(!darkMode);
+    setDarkMode;
+    toggleThemeChange();
   };
 
   return (
-    <IOSSwitch
-      checked={state.checkedB}
-      onChange={handleChange}
-      name="checkedB"
-    />
+    <IOSSwitch checked={darkMode} onChange={setDarkMode} name="checkedB" />
   );
 }
