@@ -128,41 +128,65 @@ export default function EventCard(props) {
   return (
     <Router>
       <Notification notify={notify} setNotify={setNotify} />
-      <Card className={classes.root}>
-        <Link to={`${props.id}`} component={CardActionArea}>
-          <CardMedia
-            className={classes.media}
-            component="img"
-            alt="Contemplative Reptile"
-            height="140"
-            image={props.image}
-            title="Contemplative Reptile"
-          />
-          <CardContent>
-            <Typography variant="p" component="p">
-              {props.date}
-            </Typography>
-            <Typography variant="h6" component="h5">
-              {props.title}
-            </Typography>
-            <Typography variant="subtitle2" color="textSecondary" component="p">
-              {props.location}
-            </Typography>
-          </CardContent>
-        </Link>
-        {props.isYourPage ? null : (
+      {props.isYourPage ? (
+        <Card className={classes.root}>
+          <Link to={`/yourEvents/${props.id}`} component={CardActionArea}>
+            <CardMedia
+              className={classes.media}
+              component="img"
+              alt="Contemplative Reptile"
+              height="140"
+              image={props.image}
+              title="Contemplative Reptile"
+            />
+            <CardContent>
+              <Typography variant="p" component="p">
+                {props.date}
+              </Typography>
+              <Typography variant="h6" component="h5">
+                {props.title}
+              </Typography>
+              <Typography variant="subtitle2" color="textSecondary" component="p">
+                {props.location}
+              </Typography>
+            </CardContent>
+          </Link>
+        </Card>)
+      : (
+        <Card className={classes.root}>
+          <Link to={`${props.id}`} component={CardActionArea}>
+            <CardMedia
+              className={classes.media}
+              component="img"
+              alt="Contemplative Reptile"
+              height="140"
+              image={props.image}
+              title="Contemplative Reptile"
+            />
+            <CardContent>
+              <Typography variant="p" component="p">
+                {props.date}
+              </Typography>
+              <Typography variant="h6" component="h5">
+                {props.title}
+              </Typography>
+              <Typography variant="subtitle2" color="textSecondary" component="p">
+                {props.location}
+              </Typography>
+            </CardContent>
+          </Link>
           <CardActions>
-            <Button
-              variant="contained"
-              size="medium"
-              onClick={() => handleOnClick(props.id, props.price)}
-              disableElevation
-            >
-              Register
-            </Button>
-          </CardActions>
+              <Button
+                variant="contained"
+                size="medium"
+                onClick={() => handleOnClick(props.id, props.price)}
+                disableElevation
+              >
+                Register
+              </Button>
+            </CardActions>
+        </Card>
         )}
-      </Card>
       <Upgrade open={upgradeOpen} close={setUpgradeOpen} />
       <Payment
         open={paymentOpen}
