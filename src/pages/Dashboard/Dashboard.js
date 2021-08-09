@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import clsx from "clsx";
 import { makeStyles, fade } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -34,31 +34,29 @@ import {
   ListItemAvatar,
   ListItemText,
 } from "@material-ui/core";
-import VerifiedUserIcon from '@material-ui/icons/VerifiedUser';
-import VerifiedUserTwoToneIcon from '@material-ui/icons/VerifiedUserTwoTone';
-import VerifiedUserOutlinedIcon from '@material-ui/icons/VerifiedUserOutlined';
+import VerifiedUserIcon from "@material-ui/icons/VerifiedUser";
+import VerifiedUserTwoToneIcon from "@material-ui/icons/VerifiedUserTwoTone";
+import VerifiedUserOutlinedIcon from "@material-ui/icons/VerifiedUserOutlined";
 import MainCard from "../../components/MainCard";
 import EventGrid from "./EventGrid";
-import {
-  useParams,
-  Link as RouterLink,
-} from "react-router-dom";
+import { useParams, Link as RouterLink } from "react-router-dom";
 import EventDetail from "./EventDetail";
 import YourEventDetail from "./YourEventDetail"
 import Upgrade from "./Upgrade";
 import axios from "axios";
 import { useAuth } from "../../context/auth.context";
 import SponsorsLogoLayout from "../Sponsors/SponsorsLogoLayout";
-import Copyright from '../../components/Copyright';
-import UserInforDialog from './UserInforDialog'
+import Copyright from "../../components/Copyright";
+import UserInforDialog from "./UserInforDialog";
 import AboutLayout from "../About/AboutLayout";
-import CircularProgress from '@material-ui/core/CircularProgress';
-import { isMobile } from 'react-device-detect';
-import SupervisedUserCircleIcon from '@material-ui/icons/SupervisedUserCircle';
+import CircularProgress from "@material-ui/core/CircularProgress";
+import { isMobile } from "react-device-detect";
+import SupervisedUserCircleIcon from "@material-ui/icons/SupervisedUserCircle";
 import Qixi from "./Qixi";
-import img from '../../assets/basketball.png'
+import img from "../../assets/basketball.png";
 import { SmallAvatar, VipBadge } from "../../components/VipBadget";
-
+import DarkModeSwitch from "../../components/DarkModeSwitch";
+import { DarkModeContext } from "../../context/darkMode";
 
 const drawerWidth = 240;
 
@@ -83,7 +81,7 @@ const useStyles = makeStyles((theme) => ({
       duration: theme.transitions.duration.leavingScreen,
     }),
     color: theme.palette.text.primary,
-    background: "rgba(255, 255, 255, 0.9)",
+    background: theme.palette.type==="light" ? "rgba(255, 255, 255, 0.9)" : "rgba(60, 60, 60, 0.9)",
     backdropFilter: "blur(6px)",
   },
   menuButton: {
@@ -97,7 +95,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up("sm")]: {
       display: "block",
     },
-    width: '180px'
+    width: "180px",
   },
   drawerPaper: {
     position: "relative",
@@ -141,9 +139,9 @@ const useStyles = makeStyles((theme) => ({
   search: {
     position: "relative",
     borderRadius: theme.shape.borderRadius,
-    backgroundColor: fade(theme.palette.grey[800], 0.15),
+    backgroundColor: theme.palette.type==="light" ? fade(theme.palette.grey[800], 0.15) : fade(theme.palette.common.white, 0.15),
     "&:hover": {
-      backgroundColor: fade(theme.palette.grey[900], 0.25),
+      backgroundColor: theme.palette.type==="light" ? fade(theme.palette.grey[900], 0.25) : fade(theme.palette.common.white, 0.15),
     },
     marginRight: theme.spacing(2),
     marginLeft: 0,
@@ -182,20 +180,21 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
   about: {
-    marginTop: "auto"
+    marginTop: "auto",
   },
   loading: {
-    left: '55%',
-    position: 'absolute',
-    top: '44vh',
+    left: "55%",
+    position: "absolute",
+    top: "44vh",
   },
   badge: {
     // filter: invert(0.5)
-  }
+  },
 }));
 
 export default function Dashboard(props) {
   const classes = useStyles();
+  const { darkMode } = useContext(DarkModeContext);
   const [open, setOpen] = useState(true);
   const [anchorEl, setAnchorEl] = useState(null);
   const [upgradeOpen, setUpgradeOpen] = useState(props.checkout ? true : false);
@@ -207,7 +206,6 @@ export default function Dashboard(props) {
   const [userInforDialog, seUserInforDialog] = useState(false);
   // const [yourEventsData, setYoursEventData] = useState({});
   const { setCurrentUser } = useAuth();
-
 
   const isMenuOpen = Boolean(anchorEl);
 
@@ -237,10 +235,10 @@ export default function Dashboard(props) {
   };
 
   const handleUserInformationDialog = () => {
-    seUserInforDialog(!userInforDialog)
+    seUserInforDialog(!userInforDialog);
     handleMenuClose();
-    console.log("hi")
-  }
+    console.log("hi");
+  };
 
   useEffect(() => {
     const config = {
@@ -331,13 +329,18 @@ export default function Dashboard(props) {
         <ListItemIcon>
           <AccountBoxIcon fontSize="medium" />
         </ListItemIcon>
-        <Typography >Account</Typography>
+        <ListItemText>
+          <Typography>Account</Typography>
+        </ListItemText>
       </MenuItem>
-      <MenuItem onClick={handleMenuClose}>
+      <MenuItem >
         <ListItemIcon>
           <Brightness2Icon fontSize="medium" />
         </ListItemIcon>
-        <Typography>Dark Mode</Typography>
+        <ListItemText>
+          <Typography>Dark Mode</Typography>
+        </ListItemText>
+        <DarkModeSwitch />
       </MenuItem>
       <MenuItem onClick={handleSignOut} component={RouterLink} to="/login">
         <ListItemIcon>
@@ -405,39 +408,29 @@ export default function Dashboard(props) {
       </Grid>
       <SponsorsLogoLayout />
     </Grid>
+  );
 
-  )
-
-  const About = (
-    <AboutLayout />
-  )
+  const About = <AboutLayout />;
 
   // console.log(userData.attendedEvents);
 
-  const qixi = (
-    <Qixi userData={userData} />
-  )
+  const qixi = <Qixi userData={userData} />;
 
   const avatar = userData.isMembership ? (
     <VipBadge
       overlap="circle"
       anchorOrigin={{
-        vertical: 'bottom',
-        horizontal: 'right',
+        vertical: "bottom",
+        horizontal: "right",
       }}
       className={classes.badge}
-      badgeContent={<SmallAvatar alt="V" >V</SmallAvatar>}
-
+      badgeContent={<SmallAvatar alt="V">V</SmallAvatar>}
     >
-      <Avatar
-        alt="Remy Sharp"
-        className={classes.large}
-      />
+      <Avatar alt="Remy Sharp" className={classes.large} />
     </VipBadge>
-  ) : (<Avatar
-    alt="Remy Sharp"
-    className={classes.large}
-  />);
+  ) : (
+    <Avatar alt="Remy Sharp" className={classes.large} />
+  );
 
   return (
     <div className={classes.root}>
@@ -456,7 +449,7 @@ export default function Dashboard(props) {
           >
             <MenuIcon />
           </IconButton>
-          <img src={'/logo_black.png'} alt="logo" className={classes.title} />
+          <img src={!darkMode ? "/logo_black.png" : "/logo_white.png"} alt="logo" className={classes.title} />
           <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />
@@ -480,7 +473,6 @@ export default function Dashboard(props) {
             color="inherit"
           >
             {avatar}
-
           </IconButton>
         </Toolbar>
       </AppBar>
@@ -513,9 +505,8 @@ export default function Dashboard(props) {
                       </div>
                     }
                   />
-                </ListItem>) : (
-                null
-              )}
+                </ListItem>
+              ) : null}
               {open ? (
                 <ListItem alignItems="flex-start">
                   <Button
@@ -535,14 +526,12 @@ export default function Dashboard(props) {
                   </ListItem>
                 </List>
               )}
-
             </div>
           )}
         </List>
-        <Box className={classes.about} >
-
+        <Box className={classes.about}>
           <Divider variant="middle" />
-          <List disablePadding >{bottomListItems}</List>
+          <List disablePadding>{bottomListItems}</List>
         </Box>
       </Drawer>
       <Upgrade
@@ -550,11 +539,19 @@ export default function Dashboard(props) {
         open={upgradeOpen}
         close={setUpgradeOpen}
       />
-      <UserInforDialog open={userInforDialog} close={seUserInforDialog} userInfo={userData} />
+      <UserInforDialog
+        open={userInforDialog}
+        close={seUserInforDialog}
+        userInfo={userData}
+      />
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         {loading ? (
-          <CircularProgress color="inherit" size="4rem" className={classes.loading} />
+          <CircularProgress
+            color="inherit"
+            size="4rem"
+            className={classes.loading}
+          />
         ) : (
             <Container maxWidth="lg" className={classes.container}>
               {props.yourEvents ? (
@@ -588,7 +585,6 @@ export default function Dashboard(props) {
               </Box>{" "}
             </Container>
           )}
-
       </main>
     </div>
   );
