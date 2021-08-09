@@ -55,6 +55,9 @@ function App() {
                 <PrivateRoute exact path="/">
                   <Dashboard />
                 </PrivateRoute>
+                <PrivateRoute path="yourEvents/:id">
+                  <Dashboard />
+                </PrivateRoute>
                 <PrivateRoute path="/yourEvents">
                   <Dashboard yourEvents={true} />
                 </PrivateRoute>
@@ -82,6 +85,7 @@ function App() {
                 <PrivateRoute path="/:id">
                   <Dashboard />
                 </PrivateRoute>
+                
               </Switch>
             </Router>
           </header>

@@ -44,6 +44,7 @@ import {
   Link as RouterLink,
 } from "react-router-dom";
 import EventDetail from "./EventDetail";
+import YourEventDetail from "./YourEventDetail"
 import Upgrade from "./Upgrade";
 import axios from "axios";
 import { useAuth } from "../../context/auth.context";
@@ -348,7 +349,11 @@ export default function Dashboard(props) {
   );
 
   let { id } = useParams();
-  //console.log(evnetData)
+  //console.log(id)
+ 
+  let pathname = window.location.pathname;
+  let index = pathname.lastIndexOf("/")
+  let yourEventsId = pathname.slice(index+1);
 
   const home = (
     <Grid container spacing={3}>
@@ -387,7 +392,7 @@ export default function Dashboard(props) {
           <Typography variant="h6">Browse Your Events</Typography>
         </Paper>
       </Grid>
-      <EventGrid data={eventData} userData={userData} />
+      <EventGrid data={eventData} userData={userData} yourEvents={true}/>
     </Grid>
   );
 
@@ -551,31 +556,38 @@ export default function Dashboard(props) {
         {loading ? (
           <CircularProgress color="inherit" size="4rem" className={classes.loading} />
         ) : (
-          <Container maxWidth="lg" className={classes.container}>
-            {props.yourEvents ? (
-              yourEvents
-            ) : props.sponsors ? (
-              Sponsor
-            ) : props.about ? (
-              About
-            ) : props.qixi ? (
-              qixi
-            ) : !id ? (
-              home
-            ) : (
-              // Event details
-              <EventDetail
-                id={id}
-                isMember={userData.isMembership}
-                attendedEvents={userData.attendedEvents}
-                data={eventData}
-              />
-            )}
-            <Box pt={4}>
-              <Copyright />
-            </Box>{" "}
-          </Container>
-        )}
+            <Container maxWidth="lg" className={classes.container}>
+              {props.yourEvents ? (
+                yourEventsId == "yourEvents" ? (
+                  yourEvents
+                ) : (
+                  <YourEventDetail
+                  id={yourEventsId}
+                  data={eventData}
+                />
+                )
+              ) : props.sponsors ? (
+                Sponsor
+              ) : props.about ? (
+                About
+              ) : props.qixi ? (
+                qixi
+              ) : !id ? (
+                home
+              ) : (
+                // Event details
+                <EventDetail
+                  id={id}
+                  isMember={userData.isMembership}
+                  attendedEvents={userData.attendedEvents}
+                  data={eventData}
+                />
+              )}
+              <Box pt={4}>
+                <Copyright />
+              </Box>{" "}
+            </Container>
+          )}
 
       </main>
     </div>
