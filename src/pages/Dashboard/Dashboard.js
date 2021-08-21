@@ -53,7 +53,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import { isMobile } from "react-device-detect";
 import SupervisedUserCircleIcon from "@material-ui/icons/SupervisedUserCircle";
 import Qixi from "./Qixi";
-import img from "../../assets/basketball.png";
+import img from "../../assets/yong.gif";
 import { SmallAvatar, VipBadge } from "../../components/VipBadget";
 import DarkModeSwitch from "../../components/DarkModeSwitch";
 import { DarkModeContext } from "../../context/darkMode";
@@ -202,7 +202,7 @@ export default function Dashboard(props) {
   const [userData, setUserData] = useState({});
   const [loading, setLoading] = useState(false);
 
-  const [yourEventsData, setYoursEventData] = useState({});
+  // const [yourEventsData, setYoursEventData] = useState({});
   const [userInforDialog, seUserInforDialog] = useState(false);
   // const [yourEventsData, setYoursEventData] = useState({});
   const { setCurrentUser } = useAuth();
@@ -370,10 +370,10 @@ export default function Dashboard(props) {
       <Grid item xs={12}>
         <MainCard
           img={img}
-          title="NZCSA篮球杯"
-          date="Thursday, 5 August 2021"
-          location="303-G20, City Campus, University of Auckland"
-          id="0"
+          title="永劫无间线上友谊赛"
+          date="24 August 2021"
+          location="ONLINE"
+          id={id}
           btn
           darken
         />
@@ -411,10 +411,6 @@ export default function Dashboard(props) {
   );
 
   const About = <AboutLayout />;
-
-  // console.log(userData.attendedEvents);
-
-  const qixi = <Qixi userData={userData} />;
 
   const avatar = userData.isMembership ? (
     <VipBadge
@@ -567,8 +563,6 @@ export default function Dashboard(props) {
                 Sponsor
               ) : props.about ? (
                 About
-              ) : props.qixi ? (
-                qixi
               ) : !id ? (
                 home
               ) : (
