@@ -59,9 +59,6 @@ export default function MainCard(props) {
             <Typography className={classes.heading} gutterBottom variant="h2" component="h2">
               {props.title}
             </Typography>
-            <Typography className={classes.heading} gutterBottom variant="h4" component="h3">
-              {props.title}
-            </Typography>
             <Typography className={classes.sub} gutterBottom variant="subtitle2" component="p">
               {props.location}
             </Typography>

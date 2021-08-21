@@ -52,17 +52,21 @@ import AboutLayout from "../About/AboutLayout";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { isMobile } from "react-device-detect";
 import SupervisedUserCircleIcon from "@material-ui/icons/SupervisedUserCircle";
-import Qixi from "./Qixi";
 import img from "../../assets/yong.gif";
 import { SmallAvatar, VipBadge } from "../../components/VipBadget";
 import DarkModeSwitch from "../../components/DarkModeSwitch";
 import { DarkModeContext } from "../../context/darkMode";
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
 
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
+  },
+  tab: {
+    flexGrow: 1,
   },
   toolbar: {
     paddingRight: 24, // keep right padding when drawer closed
@@ -81,7 +85,7 @@ const useStyles = makeStyles((theme) => ({
       duration: theme.transitions.duration.leavingScreen,
     }),
     color: theme.palette.text.primary,
-    background: theme.palette.type==="light" ? "rgba(255, 255, 255, 0.9)" : "rgba(60, 60, 60, 0.9)",
+    background: theme.palette.type === "light" ? "rgba(255, 255, 255, 0.9)" : "rgba(60, 60, 60, 0.9)",
     backdropFilter: "blur(6px)",
   },
   menuButton: {
@@ -139,9 +143,9 @@ const useStyles = makeStyles((theme) => ({
   search: {
     position: "relative",
     borderRadius: theme.shape.borderRadius,
-    backgroundColor: theme.palette.type==="light" ? fade(theme.palette.grey[800], 0.15) : fade(theme.palette.common.white, 0.15),
+    backgroundColor: theme.palette.type === "light" ? fade(theme.palette.grey[800], 0.15) : fade(theme.palette.common.white, 0.15),
     "&:hover": {
-      backgroundColor: theme.palette.type==="light" ? fade(theme.palette.grey[900], 0.25) : fade(theme.palette.common.white, 0.15),
+      backgroundColor: theme.palette.type === "light" ? fade(theme.palette.grey[900], 0.25) : fade(theme.palette.common.white, 0.15),
     },
     marginRight: theme.spacing(2),
     marginLeft: 0,
@@ -208,6 +212,12 @@ export default function Dashboard(props) {
   const { setCurrentUser } = useAuth();
 
   const isMenuOpen = Boolean(anchorEl);
+
+  const [value, setValue] = React.useState(1);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
 
   // console.log(userData.isMembership)
 
@@ -353,20 +363,26 @@ export default function Dashboard(props) {
 
   let { id } = useParams();
   //console.log(id)
- 
+
   let pathname = window.location.pathname;
   let index = pathname.lastIndexOf("/")
-  let yourEventsId = pathname.slice(index+1);
+  let yourEventsId = pathname.slice(index + 1);
+
+
 
   const home = (
     <Grid container spacing={3}>
       {/* Chart */}
-      <Grid item xs={12}>
+      {/* <Grid item xs={12}>
         <Paper className={classes.paper}>
           <Typography variant="h6">Browse Events</Typography>
         </Paper>
-      </Grid>
+      </Grid> */}
+
       {/* Main Events Section */}
+
+
+        
       <Grid item xs={12}>
         <MainCard
           img={img}
@@ -378,12 +394,29 @@ export default function Dashboard(props) {
           darken
         />
       </Grid>
+
+      <Grid item xs={12}>
+        <Paper className={classes.tab}>
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            indicatorColor="primary"
+            textColor="primary"
+            centered
+          >
+            <Tab label="Previous" />
+            <Tab label="Current" />
+            <Tab label="Comming soon" />
+          </Tabs>
+        </Paper>
+      </Grid>
       {/* List of Events */}
-      <EventGrid
+      {value === 1 && (<EventGrid
         data={eventData}
         isMember={userData.isMembership}
         attendedEvents={userData.attendedEvents}
-      />
+      />)}
+
     </Grid>
   );
 
@@ -395,7 +428,7 @@ export default function Dashboard(props) {
           <Typography variant="h6">Browse Your Events</Typography>
         </Paper>
       </Grid>
-      <EventGrid data={eventData} userData={userData} yourEvents={true}/>
+      <EventGrid data={eventData} userData={userData} yourEvents={true} />
     </Grid>
   );
 
@@ -549,36 +582,36 @@ export default function Dashboard(props) {
             className={classes.loading}
           />
         ) : (
-            <Container maxWidth="lg" className={classes.container}>
-              {props.yourEvents ? (
-                yourEventsId == "yourEvents" ? (
-                  yourEvents
-                ) : (
-                  <YourEventDetail
+          <Container maxWidth="lg" className={classes.container}>
+            {props.yourEvents ? (
+              yourEventsId == "yourEvents" ? (
+                yourEvents
+              ) : (
+                <YourEventDetail
                   id={yourEventsId}
                   data={eventData}
                 />
-                )
-              ) : props.sponsors ? (
-                Sponsor
-              ) : props.about ? (
-                About
-              ) : !id ? (
-                home
-              ) : (
-                // Event details
-                <EventDetail
-                  id={id}
-                  isMember={userData.isMembership}
-                  attendedEvents={userData.attendedEvents}
-                  data={eventData}
-                />
-              )}
-              <Box pt={4}>
-                <Copyright />
-              </Box>{" "}
-            </Container>
-          )}
+              )
+            ) : props.sponsors ? (
+              Sponsor
+            ) : props.about ? (
+              About
+            ) : !id ? (
+              home
+            ) : (
+              // Event details
+              <EventDetail
+                id={id}
+                isMember={userData.isMembership}
+                attendedEvents={userData.attendedEvents}
+                data={eventData}
+              />
+            )}
+            <Box pt={4}>
+              <Copyright />
+            </Box>{" "}
+          </Container>
+        )}
       </main>
     </div>
   );
