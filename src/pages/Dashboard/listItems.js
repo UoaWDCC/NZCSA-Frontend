@@ -39,12 +39,6 @@ export const mainListItems = (
       </ListItemIcon>
       <ListItemText primary="Your Events" />
     </StyledListItem>
-    <StyledListItem button to="/qixi" component={Link}>
-      <ListItemIcon>
-        <FavoriteIcon />
-      </ListItemIcon>
-      <ListItemText primary="七夕活动" />
-    </StyledListItem>
     <StyledListItem button to="/sponsors" component={Link}>
       <ListItemIcon>
         <PeopleIcon />

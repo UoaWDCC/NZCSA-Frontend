@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
   },
   media: {
     height: 340,
-    // filter: props => props.darken ? "brightness(80%)" : null,
+    filter: props => props.darken ? "brightness(70%)" : null,
   },
   overlay: {
     position: "absolute",
@@ -53,18 +53,15 @@ export default function MainCard(props) {
         />
         <CardContent className={classes.overlay}>
           <Container>
-            {/* <Typography xs={0} variant="subtitle1" component="p">
+            <Typography xs={0} variant="subtitle1" component="p">
               {props.date}
             </Typography>
             <Typography className={classes.heading} gutterBottom variant="h2" component="h2">
               {props.title}
             </Typography>
-            <Typography className={classes.heading} gutterBottom variant="h4" component="h3">
-              以少年之名，赴青春之约
-            </Typography>
             <Typography className={classes.sub} gutterBottom variant="subtitle2" component="p">
               {props.location}
-            </Typography> */}
+            </Typography>
             {/* {props.btn && <Button variant="contained" size="medium" color="secondary" width="20px" className={classes.but}>
               Find Out More
             </Button>} */}

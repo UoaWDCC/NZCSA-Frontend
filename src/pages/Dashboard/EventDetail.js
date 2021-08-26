@@ -214,7 +214,7 @@ export default function EventDetail({
             <Typography variant="h6" gutterBottom>
               WeChat Group
             </Typography>
-            <img src={event.wechatImgUrl} />
+            <img src={event.wechatImgUrl} width='100%'/>
           </Paper>
         </Grid>
         {/* Recent Orders */}

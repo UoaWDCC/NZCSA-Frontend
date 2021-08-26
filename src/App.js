@@ -59,9 +59,6 @@ function App() {
                   <PrivateRoute path="/yourEvents">
                     <Dashboard yourEvents={true} />
                   </PrivateRoute>
-                  <PrivateRoute path="/qixi">
-                    <Dashboard qixi={true} />
-                  </PrivateRoute>
                   <PrivateRoute path="/sponsors">
                     <Dashboard sponsors={true} />
                   </PrivateRoute>
