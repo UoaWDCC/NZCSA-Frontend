@@ -22,7 +22,7 @@ import DoneIcon from "@material-ui/icons/Done";
 import { SmallAvatar, VipBadge } from "../../components/VipBadget";
 
 const CardImage = styled(Image)({
-  borderRadius: 12,
+  borderRadius: 24,
   filter: "brightness(90%)",
 });
 
@@ -30,15 +30,15 @@ const ProfileBadge = styled(Avatar)(({ theme }) => ({
   color: theme.palette.getContrastText(deepPurple[500]),
   backgroundColor: theme.palette.secondary.main,
   fontSize: 48,
-  width: 72,
-  height: 72,
+  width: 84,
+  height: 84,
 }));
 
 const ProfileHeader = styled("div")(({ theme }) => ({
   display: "flex",
   flexFlow: "column wrap",
   alignItems: "center",
-  margin: theme.spacing(2),
+  margin: theme.spacing(3),
 }));
 
 const ProfileContent = styled("div")(({ theme }) => ({
@@ -97,7 +97,7 @@ export default function UserInforDialog(props) {
     <DialogContent id="alert-dialog-description" dividers>
       <Grid container xs={12} spacing={2}>
         <Grid item sm={12} md={12} xs={12}>
-          <CardImage aspectRatio={1.7} src={membershipCard} />
+          <CardImage aspectRatio={1.7} src={membershipCard} color="transparent" />
           <ProfileHeader>
             <VipBadge
               overlap="circle"
@@ -129,7 +129,7 @@ export default function UserInforDialog(props) {
             <DetailField
               id="filled-read-only-input"
               label="Email"
-              defaultValue={props.userInfo.email}
+              defaultValue={props.userInfo.email }
               InputProps={{
                 readOnly: true,
               }}
@@ -149,7 +149,7 @@ export default function UserInforDialog(props) {
             <DetailField
               id="filled-read-only-input"
               label="University"
-              defaultValue={props.userInfo.university}
+              defaultValue={props.userInfo.university || "Not specified"}
               InputProps={{
                 readOnly: true,
               }}
@@ -159,7 +159,7 @@ export default function UserInforDialog(props) {
             <DetailField
               id="filled-read-only-input"
               label="Faculty/Major"
-              defaultValue={props.userInfo.faculty}
+              defaultValue={props.userInfo.faculty || "Not specified"}
               InputProps={{
                 readOnly: true,
               }}
