@@ -458,7 +458,7 @@ export default function Dashboard(props) {
           <Typography variant="h6">Browse Your Events</Typography>
         </Paper>
       </Grid>
-      <EventGrid data={eventData} userData={userData} yourEvents={true} />
+      <EventGrid data={searchEventData} userData={userData} yourEvents={true} />
     </Grid>
   );
 
