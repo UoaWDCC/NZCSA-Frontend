@@ -20,10 +20,12 @@ import TimelineConnector from '@material-ui/lab/TimelineConnector';
 import TimelineContent from '@material-ui/lab/TimelineContent';
 import TimelineOppositeContent from '@material-ui/lab/TimelineOppositeContent';
 import TimelineDot from '@material-ui/lab/TimelineDot';
-import FastfoodIcon from '@material-ui/icons/Fastfood';
 import LaptopMacIcon from '@material-ui/icons/LaptopMac';
 import HotelIcon from '@material-ui/icons/Hotel';
-import RepeatIcon from '@material-ui/icons/Repeat';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import DoneIcon from '@material-ui/icons/Done';
+import CreateIcon from '@material-ui/icons/Create';
+import EventIcon from '@material-ui/icons/Event';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -51,7 +53,7 @@ export default function AboutLayout() {
             <Grid item xs={12}>
 
                 <Card className={classes.root}>
-                    <CardActionArea>
+
                         <CardMedia
                             className={classes.media}
                             component="img"
@@ -59,19 +61,7 @@ export default function AboutLayout() {
                             title="Contemplative Reptile"
                         />
                         <CardContent>
-                            <Typography gutterBottom variant="h5" component="h2" align='center'>
-                                About NZCSA
-          </Typography>
-                            <Typography variant="body1" color="textSecondary" component="p">
-                                The New Zealand Chinese Students’ Association (NZCSA) is a charitable student society.
-                                The aim of the Association is to serve Chinese students in New Zealand by way of promoting Chinese culture and
-                                to act as a bridge between the Chinese student community and the New Zealand mainstream community.
-          </Typography>
-                        </CardContent>
-                    </CardActionArea>
-                    <CardActionArea>
-                        <CardContent>
-                            <Typography gutterBottom variant="h5" component="h2" align='center'>
+                            <Typography gutterBottom variant="h2" component="h2" align='center'>
                                 How to use
           </Typography>
                         </CardContent>
@@ -79,68 +69,67 @@ export default function AboutLayout() {
                             <TimelineItem>
                                 <TimelineSeparator>
                                     <TimelineDot>
-                                        <FastfoodIcon />
+                                        <AccountCircleIcon />
                                     </TimelineDot>
                                     <TimelineConnector />
                                 </TimelineSeparator>
                                 <TimelineContent>
                                     <Paper elevation={3} className={classes.paper}>
                                         <Typography variant="h6" component="h1">
-                                            Eat
+                                            Upgrade
             </Typography>
-                                        <Typography>Because you need strength</Typography>
+                                        <Typography>Sign up our membership and be become our member</Typography>
                                     </Paper>
                                 </TimelineContent>
                             </TimelineItem>
                             <TimelineItem>
                                 <TimelineSeparator>
                                     <TimelineDot color="primary">
-                                        <LaptopMacIcon />
+                                        <CreateIcon />
                                     </TimelineDot>
                                     <TimelineConnector />
                                 </TimelineSeparator>
                                 <TimelineContent>
                                     <Paper elevation={3} className={classes.paper}>
                                         <Typography variant="h6" component="h1">
-                                            Code
+                                            Compelete Information form
             </Typography>
-                                        <Typography>Because it&apos;s awesome!</Typography>
+                                        <Typography>Fill out the form</Typography>
                                     </Paper>
                                 </TimelineContent>
                             </TimelineItem>
                             <TimelineItem>
                                 <TimelineSeparator>
                                     <TimelineDot color="primary" variant="outlined">
-                                        <HotelIcon />
+                                        <EventIcon />
                                     </TimelineDot>
                                     <TimelineConnector className={classes.secondaryTail} />
                                 </TimelineSeparator>
                                 <TimelineContent>
                                     <Paper elevation={3} className={classes.paper}>
                                         <Typography variant="h6" component="h1">
-                                            Sleep
+                                            Register for events
             </Typography>
-                                        <Typography>Because you need rest</Typography>
+                                        <Typography>Select the your event</Typography>
                                     </Paper>
                                 </TimelineContent>
                             </TimelineItem>
                             <TimelineItem>
                                 <TimelineSeparator>
                                     <TimelineDot color="secondary">
-                                        <RepeatIcon />
+                                        <DoneIcon />
                                     </TimelineDot>
                                 </TimelineSeparator>
                                 <TimelineContent>
                                     <Paper elevation={3} className={classes.paper}>
                                         <Typography variant="h6" component="h1">
-                                            Repeat
+                                            Done
             </Typography>
-                                        <Typography>Because this is the life you love!</Typography>
+                                        <Typography>We will see you there!</Typography>
                                     </Paper>
                                 </TimelineContent>
                             </TimelineItem>
                         </Timeline>
-                    </CardActionArea>
 
                 </Card>
 

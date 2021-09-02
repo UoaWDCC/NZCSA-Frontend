@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
     height: '100vh',
   },
   image: {
-    backgroundImage: `url(${RandomImagePicker()})`,
+    backgroundImage: `url(https://t4.ftcdn.net/jpg/01/77/75/75/360_F_177757559_tm1lwVmDUsksWAZlRS1n1MUWOW1ASn9B.jpg)`,
     backgroundRepeat: 'no-repeat',
     backgroundColor:
       theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],

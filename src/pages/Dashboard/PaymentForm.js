@@ -140,7 +140,15 @@ export default function UpgradeForm(props) {
                       </div>
                       <div>
                         <Typography variant="h6" component="h2">
-                          ${props.price}
+                          $ {(Math.round(price * 100) / 100).toFixed(2)}
+                        </Typography>
+                        <Typography
+                          className={classes.pos}
+                          color="textSecondary"
+                        >
+                          {orderType === "membership-payment"
+                            ? "per year"
+                            : null}
                         </Typography>
                         {props.orderType == "membership-payment" ? (
                           <Typography
@@ -163,7 +171,7 @@ export default function UpgradeForm(props) {
                         <Box style={{ fontSize: 32 }} display="inline">
                           $
                         </Box>
-                        {props.price}
+                        {(Math.round(price * 100) / 100).toFixed(2) }
                       </Typography>
                     </Grid>
                   </CardContent>

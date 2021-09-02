@@ -25,7 +25,13 @@ const useStyles = makeStyles((theme) => ({
     overflow: "auto",
     flexDirection: "column",
   },
-
+  paper1: {
+    padding: theme.spacing(2),
+    display: "flex",
+    overflow: "auto",
+    flexDirection: "column",
+    marginTop: theme.spacing(2),
+  },
   fixedHeight: {
     height: 240,
   },
@@ -34,6 +40,9 @@ const useStyles = makeStyles((theme) => ({
     right: theme.spacing(4),
     top: theme.spacing(8),
 
+  },
+  root: {
+    display: 'flex'
   }
 }));
 
@@ -42,9 +51,9 @@ export default function EventDetail({ isMember, attendedEvents, data, ...rest })
   // const [loading, setLoading] = useState(false);
   const [upgradeOpen, setUpgradeOpen] = useState(false);
   const [paymentOpen, setPaymentOpen] = useState(false);
+  const [time, setTime] = useState("");
   const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
   const [event, setEvent] = useState({});
-  const [time, setTime] = useState("");
   const [paymentSuccess, setPaymentSuccess] = useState(false);
 
   let { id } = useParams();
@@ -174,7 +183,7 @@ export default function EventDetail({ isMember, attendedEvents, data, ...rest })
           </Paper>
         </Grid>
         {/* Details */}
-        <Grid item xs={12} md={8}>
+        <Grid item xs={12} md={9}>
           <Paper className={classes.paper}>
             <Typography variant="h4" gutterBottom>
               Details
@@ -183,22 +192,25 @@ export default function EventDetail({ isMember, attendedEvents, data, ...rest })
               {event.eventDescription}
             </Typography>
           </Paper>
+          <Paper className={classes.paper1}>
+              {event.eventPrice > 0 ?
+                (<Typography variant="h5" gutterBottom>
+                  ${event.eventPrice}.00
+                </Typography>) :
+                (<Typography variant="h5" gutterBottom>
+                  &nbsp;Free Event!
+              </Typography>)}
+              <Button variant="contained" size="large" color="secondary" onClick={() => handleOnClick()} disableElevation>
+                Register
+              </Button>
+            </Paper>
         </Grid>
-        <Grid item xs={12} md={4}>
+        <Grid item xs={12} sm={6} md={3}>
           <Paper className={classes.paper}>
-            <Typography variant="h4" gutterBottom>
-              Tickets
+            <Typography variant="h6" gutterBottom>
+              WeChat Group
             </Typography>
-            {event.eventPrice > 0 ?
-              (<Typography variant="h5" gutterBottom>
-                ${event.eventPrice}
-              </Typography>) :
-              (<Typography variant="h5" gutterBottom>
-                &nbsp;Free Event!
-            </Typography>)}
-            <Button variant="contained" size="large" color="secondary" onClick={() => handleOnClick()} disableElevation>
-              Register
-            </Button>
+            <img src="https://i.postimg.cc/rFYG0wgk/321626397181-pic-hd.jpg"/>
           </Paper>
         </Grid>
         {/* Recent Orders */}

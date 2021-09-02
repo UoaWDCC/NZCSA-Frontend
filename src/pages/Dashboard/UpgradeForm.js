@@ -160,6 +160,7 @@ export default function UpgradeForm(props) {
           props.handleNext();
         }
       }
+      //props.handleNext();
   };
 
   const {
