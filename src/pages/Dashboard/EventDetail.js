@@ -81,6 +81,11 @@ export default function EventDetail({
     history.goBack();
   };
 
+  const openInNewTab = (url) => {
+    const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
+    if (newWindow) newWindow.opener = null
+  };
+
   const handleOnClick = () => {
     if (!isMember) {
       confirmAlert({
@@ -110,7 +115,14 @@ export default function EventDetail({
               },
               {
                 label: "Yes",
-                onClick: () => handleRegister(id),
+                onClick: () => {
+                  if (id == '612fe680fef8fa000437d192') {
+                    // window.location.href = 'https://docs.google.com/forms/d/10vAOJpLZ2CrLOy5pMgmYuqmj2TPqLaqyZaAiGSzlV44/edit';
+                    openInNewTab('https://docs.google.com/forms/d/10vAOJpLZ2CrLOy5pMgmYuqmj2TPqLaqyZaAiGSzlV44');
+                  } else {
+                    handleRegister(id)
+                  }
+                }
               },
             ],
           });
