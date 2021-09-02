@@ -32,11 +32,7 @@ import LockOpenIcon from '@material-ui/icons/LockOpen';
 import Copyright from '../components/Copyright';
 //import emailSymbol from "../assets/email symbol.png"
 
-
-
 // TODO: Modify to match figma design
-
-
 const useStyles = makeStyles((theme) => ({
   root: {
     height: "100vh",
@@ -147,19 +143,19 @@ export default function SignUp() {
     event.preventDefault();
   };
 
-  const redirectToLogin = () => {
-    window.location.href = '/login';
+  const redirectDashboard = () => {
+    window.location.href = '/';
   }
 
   async function handleRegister() {
     setHasErrors(true);
-    const signInfo = { firstname: firstName, lastname: lastName, email: email, password: password }
+    const signInfo = { firstname: firstName.toLowerCase(), lastname: lastName.toLowerCase(), email: email.toLowerCase(), password: password }
     if (firstName.length > 0 && lastName.length > 0 && email.length > 0 && password.length > 0 && isPasswordSame) {
       try {
-
         setLoading(true);
         const response = await signUp(signInfo);
         if (response.status === 201) {
+          localStorage.setItem("authToken", response.data.token);
           setLoading(false);
 
           setFirstName('');
@@ -176,9 +172,11 @@ export default function SignUp() {
             showConfirm: false,
             passStrength: ""
           });
+
+          setTimeout(() => {
+            redirectDashboard();
+          }, 2000);
         }
-
-
         console.log(response);
       } catch (e) {
         //console.log(e.response.data.info);
@@ -188,7 +186,6 @@ export default function SignUp() {
         if (e.response.data.info === 'User validation failed: email: Please provide a valid email') {
           setMessage('The email that you provided is invalid, please provide a valid email.');
         } else {
-
           setMessage('Email is already registered, please sign in.')
         }
       }
@@ -199,9 +196,7 @@ export default function SignUp() {
 
     <Grid container component="main" className={classes.root}>
       <Grid item xs={12} className={classes.image}>
-
-        {success && <Alert variant="filled" onClose={() => { setSuccess(false) }}> Registered successfully. Please <a className={classes.signin} onClick={redirectToLogin}>sign in</a>.</Alert>}
-
+        {success && <Alert variant="filled" timeout={1000}> Registered successfully. </Alert>}
         <Container maxWidth="sm">
           <CssBaseline />
           <div className={classes.paper}>

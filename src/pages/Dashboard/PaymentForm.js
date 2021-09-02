@@ -41,7 +41,61 @@ const useStyles = makeStyles((theme) => ({
 
 export default function UpgradeForm(props) {
   const classes = useStyles();
-  const [value, setValue] = React.useState("wechat"); // Possible states are "wechat", "alipay" and "polipay"
+  const [method, setMethod] = React.useState("polipay"); // Possible states are "wechat", "alipay" and "polipay"
+  const [loading, setLoading] = React.useState(false);
+
+  // console.log(currentUser);
+
+  const handlePayment = async () => {
+    try {
+      // console.log("payment details");
+      // console.log(method, price, orderType, eventId);
+      const response = await makePayment(method, price, orderType);
+      if (response.status === 200) {
+        // console.log(response.data);
+        const { merchantReference } = response.data;
+        const userId = currentUser._id;
+        await handleOrder(merchantReference, userId, method, eventId);
+        window.location.href = `${response.data.data.host_url}/${response.data.data.nonce}`;
+      } else {
+        // console.log("error");
+        window.location.href = "/checkout";
+      }
+    } catch (error) {
+      // console.log(error);
+      window.location.href = "/checkout";
+    }
+  };
+
+  const handleOrder = async (
+    merchantReference,
+    userId,
+    paymentMethod,
+    eventId
+  ) => {
+    // console.log("order details");
+    // console.log(merchantReference, userId, paymentMethod, eventId);
+    try {
+      const response = await createOrder({
+        merchantReference,
+        userId,
+        paymentMethod,
+        eventId,
+        orderType,
+        price
+      });
+      // merchantReference,
+      // userId,
+      // paymentMethod
+      if (response.status === 200) {
+        // console.log("order created!");
+      } else {
+        // console.log("error");
+      }
+    } catch (error) {
+      // console.log(error);
+    }
+  };
 
   const handleSumbitPaymentForm = () => {
     props.handleNext();
@@ -57,7 +111,7 @@ export default function UpgradeForm(props) {
                 Payment method
               </Typography>
               <Grid container spacing={2}>
-                <Grid item xs>
+                {/* <Grid item xs>
                   <Button
                     fullWidth
                     className={clsx(
@@ -74,7 +128,7 @@ export default function UpgradeForm(props) {
                       src="./images/wechat-pay.svg"
                     />
                   </Button>
-                </Grid>
+                </Grid> */}
                 <Grid item xs>
                   <Button
                     fullWidth

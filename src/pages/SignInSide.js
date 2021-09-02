@@ -85,6 +85,7 @@ export default function SignInSide() {
   //   props.changeDarkMode(true);
   // }, [])
 
+
   async function handleSignIn() {
     setHasErrors(true);
     const loginInfo = { email, password }
@@ -148,7 +149,7 @@ export default function SignInSide() {
                 name="email"
                 autoComplete="email"
                 autoFocus
-                onChange={e => setEmail(e.target.value)}
+                onChange={e => setEmail(e.target.value.trim().toLowerCase())}
                 error={isError(email.length === 0)}
                 helperText={isError(email.length === 0) && "Please enter your email!"}
               />
@@ -197,7 +198,7 @@ export default function SignInSide() {
                 </Grid>
               </Grid>
               <Container className={classes.logoNCopyright}>
-                  <Copyright />
+                <Copyright />
               </Container>
               {/* </form> */}
             </div>

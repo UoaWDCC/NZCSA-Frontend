@@ -2,13 +2,16 @@ import axios from "axios";
 
 async function signUp(signUpInfo) {
   const body = signUpInfo;
-  const response = await axios("https://nzcsa-backend.herokuapp.com/api/auth/register", {
-    headers: {
-      "Content-type": "application/json",
-    },
-    data: body,
-    method: "POST",
-  });
+  const response = await axios(
+    "https://nzcsa-backend.herokuapp.com/api/auth/register",
+    {
+      headers: {
+        "Content-type": "application/json",
+      },
+      data: body,
+      method: "POST",
+    }
+  );
 
   return response;
 }
@@ -142,6 +145,22 @@ async function validateRedirect(body) {
   return response;
 }
 
+async function getOneOrder(merchantReference) {
+  const retries = 3;
+  const config = {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+    },
+    timeout: 1000,
+  };
+  const response = await axios.get(
+    `https://nzcsa-backend.herokuapp.com/api/payment/orders/${merchantReference}`,
+    config
+  );
+
+  return response;
+}
+
 export {
   signUp,
   login,
@@ -152,4 +171,5 @@ export {
   validateRedirect,
   createOrder,
   signUpMembership,
+  getOneOrder,
 };

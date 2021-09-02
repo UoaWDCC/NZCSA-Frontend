@@ -10,6 +10,7 @@ import { EventNote } from "@material-ui/icons";
 import { BrowserRouter as Router, Link } from "react-router-dom";
 import MenuItem from "@material-ui/core/MenuItem";
 import InfoIcon from '@material-ui/icons/Info';
+import FavoriteIcon from '@material-ui/icons/Favorite';
 
 
 const StyledListItem = withStyles((theme) => ({

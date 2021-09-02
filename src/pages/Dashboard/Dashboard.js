@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import clsx from "clsx";
 import { makeStyles, fade } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -29,32 +29,44 @@ import ExitToAppTwoToneIcon from "@material-ui/icons/ExitToAppTwoTone";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import {
   Avatar,
+  Badge,
   ListItem,
   ListItemAvatar,
   ListItemText,
 } from "@material-ui/core";
+import VerifiedUserIcon from "@material-ui/icons/VerifiedUser";
+import VerifiedUserTwoToneIcon from "@material-ui/icons/VerifiedUserTwoTone";
+import VerifiedUserOutlinedIcon from "@material-ui/icons/VerifiedUserOutlined";
 import MainCard from "../../components/MainCard";
 import EventGrid from "./EventGrid";
-import {
-  useParams,
-  Link as RouterLink,
-} from "react-router-dom";
+import { useParams, Link as RouterLink } from "react-router-dom";
 import EventDetail from "./EventDetail";
+import YourEventDetail from "./YourEventDetail"
 import Upgrade from "./Upgrade";
 import axios from "axios";
 import { useAuth } from "../../context/auth.context";
 import SponsorsLogoLayout from "../Sponsors/SponsorsLogoLayout";
-import Copyright from '../../components/Copyright';
-import UserInforDialog from './UserInforDialog'
+import Copyright from "../../components/Copyright";
+import UserInforDialog from "./UserInforDialog";
 import AboutLayout from "../About/AboutLayout";
-import CircularProgress from '@material-ui/core/CircularProgress';
-
+import CircularProgress from "@material-ui/core/CircularProgress";
+import { isMobile } from "react-device-detect";
+import SupervisedUserCircleIcon from "@material-ui/icons/SupervisedUserCircle";
+import img from "../../assets/yong.gif";
+import { SmallAvatar, VipBadge } from "../../components/VipBadget";
+import DarkModeSwitch from "../../components/DarkModeSwitch";
+import { DarkModeContext } from "../../context/darkMode";
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
 
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
+  },
+  tab: {
+    flexGrow: 1,
   },
   toolbar: {
     paddingRight: 24, // keep right padding when drawer closed
@@ -73,7 +85,7 @@ const useStyles = makeStyles((theme) => ({
       duration: theme.transitions.duration.leavingScreen,
     }),
     color: theme.palette.text.primary,
-    background: "rgba(255, 255, 255, 0.9)",
+    background: theme.palette.type === "light" ? "rgba(255, 255, 255, 0.9)" : "rgba(60, 60, 60, 0.9)",
     backdropFilter: "blur(6px)",
   },
   menuButton: {
@@ -87,7 +99,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up("sm")]: {
       display: "block",
     },
-    width: '180px'
+    width: "180px",
   },
   drawerPaper: {
     position: "relative",
@@ -131,9 +143,9 @@ const useStyles = makeStyles((theme) => ({
   search: {
     position: "relative",
     borderRadius: theme.shape.borderRadius,
-    backgroundColor: fade(theme.palette.grey[800], 0.15),
+    backgroundColor: theme.palette.type === "light" ? fade(theme.palette.grey[800], 0.15) : fade(theme.palette.common.white, 0.15),
     "&:hover": {
-      backgroundColor: fade(theme.palette.grey[900], 0.25),
+      backgroundColor: theme.palette.type === "light" ? fade(theme.palette.grey[900], 0.25) : fade(theme.palette.common.white, 0.15),
     },
     marginRight: theme.spacing(2),
     marginLeft: 0,
@@ -172,17 +184,21 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
   about: {
-    marginTop: "auto"
+    marginTop: "auto",
   },
   loading: {
-    left: '55%',
-    position: 'absolute', 
-    top: '44vh', 
+    left: "55%",
+    position: "absolute",
+    top: "44vh",
+  },
+  badge: {
+    // filter: invert(0.5)
   },
 }));
 
 export default function Dashboard(props) {
   const classes = useStyles();
+  const { darkMode } = useContext(DarkModeContext);
   const [open, setOpen] = useState(true);
   const [anchorEl, setAnchorEl] = useState(null);
   const [upgradeOpen, setUpgradeOpen] = useState(props.checkout ? true : false);
@@ -190,13 +206,20 @@ export default function Dashboard(props) {
   const [userData, setUserData] = useState({});
   const [loading, setLoading] = useState(false);
 
-  const [yourEventsData, setYoursEventData] = useState({});
+  // const [yourEventsData, setYoursEventData] = useState({});
   const [userInforDialog, seUserInforDialog] = useState(false);
   // const [yourEventsData, setYoursEventData] = useState({});
   const { setCurrentUser } = useAuth();
 
-
   const isMenuOpen = Boolean(anchorEl);
+
+  const [value, setValue] = React.useState(1);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
+  // console.log(userData.isMembership)
 
   // const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
@@ -222,17 +245,17 @@ export default function Dashboard(props) {
   };
 
   const handleUserInformationDialog = () => {
-    seUserInforDialog(!userInforDialog)
+    seUserInforDialog(!userInforDialog);
     handleMenuClose();
-    console.log("hi")
-  }
+    console.log("hi");
+  };
 
   useEffect(() => {
     const config = {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-        //Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwZTJiNDQwMzM0MjBjZWExYmQ0ZGRiYyIsImlhdCI6MTYyNTU1MzMyNn0.O7wqQZ2JfGihrqt4QkTW1Kh2ZK-j5FWg1zBewYMasyU'
+        // Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwZTJiNDQwMzM0MjBjZWExYmQ0ZGRiYyIsImlhdCI6MTYyNTU1MzMyNn0.O7wqQZ2JfGihrqt4QkTW1Kh2ZK-j5FWg1zBewYMasyU'
       },
     };
     //console.log(config)
@@ -252,6 +275,9 @@ export default function Dashboard(props) {
         });
     };
     fetchData();
+    if (isMobile) {
+      setOpen(!open);
+    }
   }, [anchorEl, setCurrentUser]);
 
   useEffect(() => {
@@ -313,13 +339,18 @@ export default function Dashboard(props) {
         <ListItemIcon>
           <AccountBoxIcon fontSize="medium" />
         </ListItemIcon>
-        <Typography >Account</Typography>
+        <ListItemText>
+          <Typography>Account</Typography>
+        </ListItemText>
       </MenuItem>
-      <MenuItem onClick={handleMenuClose}>
+      <MenuItem >
         <ListItemIcon>
           <Brightness2Icon fontSize="medium" />
         </ListItemIcon>
-        <Typography>Dark Mode</Typography>
+        <ListItemText>
+          <Typography>Dark Mode</Typography>
+        </ListItemText>
+        <DarkModeSwitch />
       </MenuItem>
       <MenuItem onClick={handleSignOut} component={RouterLink} to="/login">
         <ListItemIcon>
@@ -331,34 +362,61 @@ export default function Dashboard(props) {
   );
 
   let { id } = useParams();
-  //console.log(evnetData)
+  //console.log(id)
+
+  let pathname = window.location.pathname;
+  let index = pathname.lastIndexOf("/")
+  let yourEventsId = pathname.slice(index + 1);
+
+
 
   const home = (
     <Grid container spacing={3}>
       {/* Chart */}
-      <Grid item xs={12}>
+      {/* <Grid item xs={12}>
         <Paper className={classes.paper}>
           <Typography variant="h6">Browse Events</Typography>
         </Paper>
-      </Grid>
+      </Grid> */}
+
       {/* Main Events Section */}
+
+
+        
       <Grid item xs={12}>
         <MainCard
-          img="/bg.png"
-          title="Professional Networking"
-          date="Thursday, 5 August 2021"
-          location="303-G20, City Campus, University of Auckland"
-          id="0"
+          img={img}
+          title="永劫无间线上友谊赛"
+          date="24 August 2021"
+          location="ONLINE"
+          id={id}
           btn
           darken
         />
       </Grid>
+
+      <Grid item xs={12}>
+        <Paper className={classes.tab}>
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            indicatorColor="primary"
+            textColor="primary"
+            centered
+          >
+            <Tab label="Previous" />
+            <Tab label="Current" />
+            <Tab label="Comming soon" />
+          </Tabs>
+        </Paper>
+      </Grid>
       {/* List of Events */}
-      <EventGrid
+      {value === 1 && (<EventGrid
         data={eventData}
         isMember={userData.isMembership}
         attendedEvents={userData.attendedEvents}
-      />
+      />)}
+
     </Grid>
   );
 
@@ -370,7 +428,7 @@ export default function Dashboard(props) {
           <Typography variant="h6">Browse Your Events</Typography>
         </Paper>
       </Grid>
-      <EventGrid data={eventData} userData={userData} />
+      <EventGrid data={eventData} userData={userData} yourEvents={true} />
     </Grid>
   );
 
@@ -383,13 +441,25 @@ export default function Dashboard(props) {
       </Grid>
       <SponsorsLogoLayout />
     </Grid>
+  );
 
-  )
+  const About = <AboutLayout />;
 
-  const About = (
-    <AboutLayout />
-
-  )
+  const avatar = userData.isMembership ? (
+    <VipBadge
+      overlap="circle"
+      anchorOrigin={{
+        vertical: "bottom",
+        horizontal: "right",
+      }}
+      className={classes.badge}
+      badgeContent={<SmallAvatar alt="V">V</SmallAvatar>}
+    >
+      <Avatar alt="Remy Sharp" className={classes.large} />
+    </VipBadge>
+  ) : (
+    <Avatar alt="Remy Sharp" className={classes.large} />
+  );
 
   return (
     <div className={classes.root}>
@@ -408,7 +478,7 @@ export default function Dashboard(props) {
           >
             <MenuIcon />
           </IconButton>
-          <img src={'/logo_black.png'} alt="logo" className={classes.title} />
+          <img src={!darkMode ? "/logo_black.png" : "/logo_white.png"} alt="logo" className={classes.title} />
           <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />
@@ -431,10 +501,7 @@ export default function Dashboard(props) {
             onClick={handleProfileMenuOpen}
             color="inherit"
           >
-            <Avatar
-              alt="Remy Sharp"
-              className={classes.large}
-            />
+            {avatar}
           </IconButton>
         </Toolbar>
       </AppBar>
@@ -457,32 +524,43 @@ export default function Dashboard(props) {
         <List>
           {!userData.isMembership && (
             <div>
-              <ListItem alignItems="flex-start">
-                <ListItemText
-                  secondary={
-                    <div>
-                      <div>Become a member to join events</div>
-                      <div>and enjoy discounts</div>
-                    </div>
-                  }
-                />
-              </ListItem>
-              <ListItem>
-                <Button
-                  variant="outlined"
-                  color="secondary"
-                  onClick={handleUpgradeOpen}
-                >
-                  Upgrade
-                </Button>
-              </ListItem>
+              {open ? (
+                <ListItem alignItems="flex-start">
+                  <ListItemText
+                    secondary={
+                      <div>
+                        <div>Become a member to join events</div>
+                        <div>and enjoy discounts</div>
+                      </div>
+                    }
+                  />
+                </ListItem>
+              ) : null}
+              {open ? (
+                <ListItem alignItems="flex-start">
+                  <Button
+                    variant="outlined"
+                    color="secondary"
+                    onClick={handleUpgradeOpen}
+                  >
+                    Upgrade
+                  </Button>
+                </ListItem>
+              ) : (
+                <List>
+                  <ListItem button onClick={handleUpgradeOpen}>
+                    <ListItemIcon>
+                      <SupervisedUserCircleIcon color="secondary" />
+                    </ListItemIcon>
+                  </ListItem>
+                </List>
+              )}
             </div>
           )}
         </List>
-        <Box className={classes.about} >
-
+        <Box className={classes.about}>
           <Divider variant="middle" />
-          <List disablePadding >{bottomListItems}</List>
+          <List disablePadding>{bottomListItems}</List>
         </Box>
       </Drawer>
       <Upgrade
@@ -490,36 +568,50 @@ export default function Dashboard(props) {
         open={upgradeOpen}
         close={setUpgradeOpen}
       />
-      <UserInforDialog open={userInforDialog} close={seUserInforDialog} userInfo={userData} />
+      <UserInforDialog
+        open={userInforDialog}
+        close={seUserInforDialog}
+        userInfo={userData}
+      />
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         {loading ? (
-          <CircularProgress color="inherit" size="4rem" className={classes.loading} />
+          <CircularProgress
+            color="inherit"
+            size="4rem"
+            className={classes.loading}
+          />
         ) : (
-            <Container maxWidth="lg" className={classes.container}>
-              {props.yourEvents ? (
+          <Container maxWidth="lg" className={classes.container}>
+            {props.yourEvents ? (
+              yourEventsId == "yourEvents" ? (
                 yourEvents
-              ) : props.sponsors ? (
-                Sponsor
-              ) : props.about ? (
-                About
-              ) : !id ? (
-                home
               ) : (
-                        // Event details
-                        <EventDetail
-                          id={id}
-                          isMember={userData.isMembership}
-                          attendedEvents={userData.attendedEvents}
-                          data={eventData}
-                        />
-                      )}
-              <Box pt={4}>
-                <Copyright />
-              </Box>{" "}
-            </Container>
-          )}
-
+                <YourEventDetail
+                  id={yourEventsId}
+                  data={eventData}
+                />
+              )
+            ) : props.sponsors ? (
+              Sponsor
+            ) : props.about ? (
+              About
+            ) : !id ? (
+              home
+            ) : (
+              // Event details
+              <EventDetail
+                id={id}
+                isMember={userData.isMembership}
+                attendedEvents={userData.attendedEvents}
+                data={eventData}
+              />
+            )}
+            <Box pt={4}>
+              <Copyright />
+            </Box>{" "}
+          </Container>
+        )}
       </main>
     </div>
   );
