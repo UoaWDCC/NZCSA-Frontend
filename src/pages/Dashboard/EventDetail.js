@@ -118,7 +118,8 @@ export default function EventDetail({
                 onClick: () => {
                   if (id == '612fe680fef8fa000437d192') {
                     // window.location.href = 'https://docs.google.com/forms/d/10vAOJpLZ2CrLOy5pMgmYuqmj2TPqLaqyZaAiGSzlV44/edit';
-                    openInNewTab('https://docs.google.com/forms/d/10vAOJpLZ2CrLOy5pMgmYuqmj2TPqLaqyZaAiGSzlV44')
+                    handleRegister(id)
+                    openInNewTab('https://docs.google.com/forms/d/e/1FAIpQLSehnjDttjQ6jwf8rAqBXQ3OFnvvNjlTYDPiY7m5Hr4U0aZ8kQ/viewform?edit_requested=true')
                   } else {
                     handleRegister(id)
                   }
