@@ -382,8 +382,9 @@ export default function Dashboard(props) {
       {/* Main Events Section */}
 
 
-        
+
       <Grid item xs={12}>
+
         <MainCard
           img={img}
           title="永劫无间线上友谊赛"
