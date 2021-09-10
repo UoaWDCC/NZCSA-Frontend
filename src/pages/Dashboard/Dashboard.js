@@ -58,6 +58,7 @@ import DarkModeSwitch from "../../components/DarkModeSwitch";
 import { DarkModeContext } from "../../context/darkMode";
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
+import SwipeCard from '../../components/SwiperCard';
 
 const drawerWidth = 240;
 
@@ -385,7 +386,7 @@ export default function Dashboard(props) {
 
       <Grid item xs={12}>
 
-        <MainCard
+        <SwipeCard
           img={img}
           title="永劫无间线上友谊赛"
           date="24 August 2021"
