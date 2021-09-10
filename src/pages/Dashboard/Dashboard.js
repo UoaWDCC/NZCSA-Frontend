@@ -41,7 +41,7 @@ import MainCard from "../../components/MainCard";
 import EventGrid from "./EventGrid";
 import { useParams, Link as RouterLink } from "react-router-dom";
 import EventDetail from "./EventDetail";
-import YourEventDetail from "./YourEventDetail"
+import YourEventDetail from "./YourEventDetail";
 import Upgrade from "./Upgrade";
 import axios from "axios";
 import { useAuth } from "../../context/auth.context";
@@ -56,8 +56,8 @@ import img from "../../assets/yong.gif";
 import { SmallAvatar, VipBadge } from "../../components/VipBadget";
 import DarkModeSwitch from "../../components/DarkModeSwitch";
 import { DarkModeContext } from "../../context/darkMode";
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
 
 const drawerWidth = 240;
 
@@ -85,7 +85,10 @@ const useStyles = makeStyles((theme) => ({
       duration: theme.transitions.duration.leavingScreen,
     }),
     color: theme.palette.text.primary,
-    background: theme.palette.type === "light" ? "rgba(255, 255, 255, 0.9)" : "rgba(60, 60, 60, 0.9)",
+    background:
+      theme.palette.type === "light"
+        ? "rgba(255, 255, 255, 0.9)"
+        : "rgba(60, 60, 60, 0.9)",
     backdropFilter: "blur(6px)",
   },
   menuButton: {
@@ -143,9 +146,15 @@ const useStyles = makeStyles((theme) => ({
   search: {
     position: "relative",
     borderRadius: theme.shape.borderRadius,
-    backgroundColor: theme.palette.type === "light" ? fade(theme.palette.grey[800], 0.15) : fade(theme.palette.common.white, 0.15),
+    backgroundColor:
+      theme.palette.type === "light"
+        ? fade(theme.palette.grey[800], 0.15)
+        : fade(theme.palette.common.white, 0.15),
     "&:hover": {
-      backgroundColor: theme.palette.type === "light" ? fade(theme.palette.grey[900], 0.25) : fade(theme.palette.common.white, 0.15),
+      backgroundColor:
+        theme.palette.type === "light"
+          ? fade(theme.palette.grey[900], 0.25)
+          : fade(theme.palette.common.white, 0.15),
     },
     marginRight: theme.spacing(2),
     marginLeft: 0,
@@ -202,9 +211,11 @@ export default function Dashboard(props) {
   const [open, setOpen] = useState(true);
   const [anchorEl, setAnchorEl] = useState(null);
   const [upgradeOpen, setUpgradeOpen] = useState(props.checkout ? true : false);
-  const [eventData, setEventData] = useState({});
+  const [eventData, setEventData] = useState([]);
   const [userData, setUserData] = useState({});
   const [loading, setLoading] = useState(false);
+  const [searchInfo, setSearchInfo] = useState("");
+  const [searchEventData, setSearchEventData] = useState([]);
 
   // const [yourEventsData, setYoursEventData] = useState({});
   const [userInforDialog, seUserInforDialog] = useState(false);
@@ -287,8 +298,14 @@ export default function Dashboard(props) {
         .get("https://nzcsa-backend.herokuapp.com/api/private/get-events-info")
         .then((res) => {
           setLoading(false);
-          setEventData(res.data);
-          //console.log(res.data)
+          // setEventData(res.data);
+          // console.log(res.data);
+          const products = [];
+          Object.entries(res.data).map(([key, product]) => {
+            products.push(product);
+            return 0;
+          });
+          setEventData(products.reverse());
         })
         .catch((e) => {
           setLoading(false);
@@ -298,8 +315,24 @@ export default function Dashboard(props) {
     fetchData();
   }, []);
 
-  // console.log(userData)
-  // console.log(localStorage.getItem("authToken"));
+  useEffect(() => {
+    if (searchInfo === "") {
+      setSearchEventData(eventData);
+    }
+  }, [searchInfo, eventData]);
+
+  const handleSearch = () => {
+    setSearchEventData(
+      eventData.filter((element) =>
+        element.eventName.toLowerCase().includes(searchInfo)
+      )
+    );
+  };
+  const handleOnKeyDown = (event) => {
+    if (event.code === "Enter") {
+      handleSearch();
+    }
+  };
 
   const menuId = "primary-search-account-menu";
   const renderMenu = (
@@ -343,7 +376,7 @@ export default function Dashboard(props) {
           <Typography>Account</Typography>
         </ListItemText>
       </MenuItem>
-      <MenuItem >
+      <MenuItem>
         <ListItemIcon>
           <Brightness2Icon fontSize="medium" />
         </ListItemIcon>
@@ -365,10 +398,8 @@ export default function Dashboard(props) {
   //console.log(id)
 
   let pathname = window.location.pathname;
-  let index = pathname.lastIndexOf("/")
+  let index = pathname.lastIndexOf("/");
   let yourEventsId = pathname.slice(index + 1);
-
-
 
   const home = (
     <Grid container spacing={3}>
@@ -380,8 +411,6 @@ export default function Dashboard(props) {
       </Grid> */}
 
       {/* Main Events Section */}
-
-
 
       <Grid item xs={12}>
 
@@ -412,12 +441,13 @@ export default function Dashboard(props) {
         </Paper>
       </Grid>
       {/* List of Events */}
-      {value === 1 && (<EventGrid
-        data={eventData}
-        isMember={userData.isMembership}
-        attendedEvents={userData.attendedEvents}
-      />)}
-
+      {value === 1 && (
+        <EventGrid
+          data={searchEventData}
+          isMember={userData.isMembership}
+          attendedEvents={userData.attendedEvents}
+        />
+      )}
     </Grid>
   );
 
@@ -429,7 +459,7 @@ export default function Dashboard(props) {
           <Typography variant="h6">Browse Your Events</Typography>
         </Paper>
       </Grid>
-      <EventGrid data={eventData} userData={userData} yourEvents={true} />
+      <EventGrid data={searchEventData} userData={userData} yourEvents={true} />
     </Grid>
   );
 
@@ -479,7 +509,11 @@ export default function Dashboard(props) {
           >
             <MenuIcon />
           </IconButton>
-          <img src={!darkMode ? "/logo_black.png" : "/logo_white.png"} alt="logo" className={classes.title} />
+          <img
+            src={!darkMode ? "/logo_black.png" : "/logo_white.png"}
+            alt="logo"
+            className={classes.title}
+          />
           <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />
@@ -491,6 +525,8 @@ export default function Dashboard(props) {
                 input: classes.inputInput,
               }}
               inputProps={{ "aria-label": "search" }}
+              onChange={(e) => setSearchInfo(e.target.value.toLowerCase())}
+              onKeyDown={handleOnKeyDown}
             />
           </div>
           <div className={classes.grow} />
@@ -588,10 +624,7 @@ export default function Dashboard(props) {
               yourEventsId == "yourEvents" ? (
                 yourEvents
               ) : (
-                <YourEventDetail
-                  id={yourEventsId}
-                  data={eventData}
-                />
+                <YourEventDetail id={yourEventsId} data={eventData} />
               )
             ) : props.sponsors ? (
               Sponsor
