@@ -15,17 +15,17 @@ SwiperCore.use([Autoplay, Pagination, Navigation]);
 
 const data = [
   {
-    img: img,
-    title: "永劫无间线上友谊赛",
-    date: "24 August 2021",
-    location: "ONLINE",
+    img: '/pn.png',
+    // title: "永劫无间线上友谊赛",
+    // date: "24 August 2021",
+    // location: "ONLINE",
     id: "11111"
   },
   {
     img: img,
     title: "永劫无间线上友谊赛",
-    date: "24 August 2021",
-    location: "ONLINE",
+    // date: "24 August 2021",
+    // location: "ONLINE",
     id: "11111"
   },
 ]
