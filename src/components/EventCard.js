@@ -93,7 +93,8 @@ export default function EventCard(props) {
                 onClick: () => {
                   if (eventId == '612fe680fef8fa000437d192') {
                     // window.location.href = 'https://docs.google.com/forms/d/10vAOJpLZ2CrLOy5pMgmYuqmj2TPqLaqyZaAiGSzlV44/edit';
-                    openInNewTab('https://docs.google.com/forms/d/10vAOJpLZ2CrLOy5pMgmYuqmj2TPqLaqyZaAiGSzlV44')
+                    handleRegister(eventId)
+                    openInNewTab('https://forms.gle/iDruVJQDwPYK5Cmq5')
                   } else {
                     handleRegister(eventId)
                   }
