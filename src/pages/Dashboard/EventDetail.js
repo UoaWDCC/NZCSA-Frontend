@@ -66,10 +66,12 @@ export default function EventDetail({
 
   let { id } = useParams();
   //console.log(data[id]);
+
   useEffect(() => {
-    if (!!data[id]) {
-      setEvent(data[id]);
-      let startTime = data[id].startTime.replace("T", " ");
+    const active = data.filter((event) => event._id == id)[0];
+    if (!!active) {
+      setEvent(active);
+      let startTime = active.startTime.replace("T", " ");
       startTime = startTime.slice(0, 16);
       setTime(startTime);
     }
@@ -82,8 +84,8 @@ export default function EventDetail({
   };
 
   const openInNewTab = (url) => {
-    const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
-    if (newWindow) newWindow.opener = null
+    const newWindow = window.open(url, "_blank", "noopener,noreferrer");
+    if (newWindow) newWindow.opener = null;
   };
 
   const handleOnClick = () => {
@@ -116,13 +118,15 @@ export default function EventDetail({
               {
                 label: "Yes",
                 onClick: () => {
-                  if (id == '612fe680fef8fa000437d192') {
+                  if (id == "612fe680fef8fa000437d192") {
                     // window.location.href = 'https://docs.google.com/forms/d/10vAOJpLZ2CrLOy5pMgmYuqmj2TPqLaqyZaAiGSzlV44/edit';
-                    openInNewTab('https://docs.google.com/forms/d/10vAOJpLZ2CrLOy5pMgmYuqmj2TPqLaqyZaAiGSzlV44')
+                    openInNewTab(
+                      "https://docs.google.com/forms/d/10vAOJpLZ2CrLOy5pMgmYuqmj2TPqLaqyZaAiGSzlV44"
+                    );
                   } else {
-                    handleRegister(id)
+                    handleRegister(id);
                   }
-                }
+                },
               },
             ],
           });
@@ -226,7 +230,7 @@ export default function EventDetail({
             <Typography variant="h6" gutterBottom>
               WeChat Group
             </Typography>
-            <img src={event.wechatImgUrl} width='100%'/>
+            <img src={event.wechatImgUrl} width="100%" />
           </Paper>
         </Grid>
         {/* Recent Orders */}
@@ -238,7 +242,6 @@ export default function EventDetail({
         price={event.eventPrice}
         eventId={id}
       />
-
     </div>
   );
 }
