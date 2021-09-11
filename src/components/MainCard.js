@@ -1,15 +1,16 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 // Import Swiper React components
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Container } from "@material-ui/core";
-import SliderImageCard from "./SliderImageCard";
-import img from "../assets/yong.gif"
+// import { Swiper, SwiperSlide } from 'swiper/react';
+import { Container, Card, CardActionArea, CardMedia, CardContent, Typography } from "@material-ui/core";
+import { Link as RouterLink } from "react-router-dom";
+// import SliderImageCard from "./SliderImageCard";
+// import img from "../assets/yong.gif"
 
 import "swiper/swiper.min.css";
 import "swiper/components/navigation";
 import SwiperCore, {
-  Autoplay, Pagination, Navigation
+    Autoplay, Pagination, Navigation
 } from 'swiper';
 SwiperCore.use([Autoplay, Pagination, Navigation]);
 
