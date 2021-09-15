@@ -1,18 +1,14 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-// Import Swiper React components
-// import { Swiper, SwiperSlide } from 'swiper/react';
-import { Container, Card, CardActionArea, CardMedia, CardContent, Typography } from "@material-ui/core";
+import Card from "@material-ui/core/Card";
+import CardActionArea from "@material-ui/core/CardActionArea";
+// import CardActions from "@material-ui/core/CardActions";
+import CardContent from "@material-ui/core/CardContent";
+import CardMedia from "@material-ui/core/CardMedia";
+import Button from "@material-ui/core/Button";
+import Typography from "@material-ui/core/Typography";
+import { Container } from "@material-ui/core";
 import { Link as RouterLink } from "react-router-dom";
-// import SliderImageCard from "./SliderImageCard";
-// import img from "../assets/yong.gif"
-
-import "swiper/swiper.min.css";
-import "swiper/components/navigation";
-import SwiperCore, {
-    Autoplay, Pagination, Navigation
-} from 'swiper';
-SwiperCore.use([Autoplay, Pagination, Navigation]);
 
 
 const useStyles = makeStyles((theme) => ({
@@ -41,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function MainCard(props) {
+export default function SliderImageCard(props) {
     const classes = useStyles(props);
 
     return (
@@ -75,5 +71,4 @@ export default function MainCard(props) {
         </Card>
 
     );
-
 }

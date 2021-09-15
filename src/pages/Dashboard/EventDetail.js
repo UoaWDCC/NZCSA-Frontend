@@ -75,10 +75,12 @@ export default function EventDetail({
 
   let { id } = useParams();
   //console.log(data[id]);
+
   useEffect(() => {
-    if (!!data[id]) {
-      setEvent(data[id]);
-      let startTime = data[id].startTime.replace("T", " ");
+    const active = data.filter((event) => event._id == id)[0];
+    if (!!active) {
+      setEvent(active);
+      let startTime = active.startTime.replace("T", " ");
       startTime = startTime.slice(0, 16);
       setTime(startTime);
     }

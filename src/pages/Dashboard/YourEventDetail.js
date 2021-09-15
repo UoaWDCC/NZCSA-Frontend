@@ -38,10 +38,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function YourEventDetail({
-data,
-  ...rest
-}) {
+export default function YourEventDetail({ data, ...rest }) {
   const classes = useStyles();
   // const [loading, setLoading] = useState(false);
   const [time, setTime] = useState("");
@@ -50,13 +47,14 @@ data,
   //let { id } = useParams();
   //console.log(data[id]);
   const pathname = window.location.pathname;
-  const index = pathname.lastIndexOf("/")
-  const id = pathname.slice(index+1);
+  const index = pathname.lastIndexOf("/");
+  const id = pathname.slice(index + 1);
 
   useEffect(() => {
-    if (!!data[id]) {
-      setEvent(data[id]);
-      let startTime = data[id].startTime.replace("T", " ");
+    const active = data.filter((event) => event._id == id)[0];
+    if (!!active) {
+      setEvent(active);
+      let startTime = active.startTime.replace("T", " ");
       startTime = startTime.slice(0, 16);
       setTime(startTime);
     }
@@ -116,7 +114,6 @@ data,
         </Grid>
         {/* Recent Orders */}
       </Grid>
-
     </div>
   );
 }
