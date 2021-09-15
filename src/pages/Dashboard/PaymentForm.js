@@ -10,8 +10,12 @@ import {
   Container,
   Box,
   Fade,
+  CircularProgress,
 } from "@material-ui/core";
 import clsx from "clsx";
+import { makePayment, createOrder } from "../../api/connectBackend";
+// import { useHistory } from "react-router-dom";
+import { useAuth } from "../../context/auth.context";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
   customRadioBtn: {
     display: "flex",
     justifyContent: "start",
-    paddingTop: 3,
+    paddingTop: 36,
     paddingBottom: 36,
   },
   detailCard: {
@@ -39,7 +43,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function UpgradeForm(props) {
+export default function PaymentForm({ orderType, price, eventId }) {
+  const { currentUser } = useAuth();
   const classes = useStyles();
   const [method, setMethod] = React.useState("polipay"); // Possible states are "wechat", "alipay" and "polipay"
   const [loading, setLoading] = React.useState(false);
@@ -98,8 +103,10 @@ export default function UpgradeForm(props) {
   };
 
   const handleSumbitPaymentForm = () => {
-    props.handleNext();
-};
+    setLoading(true);
+    handlePayment();
+    // handleOrder();
+  };
 
   return (
     <Fade in={true} timeout={1000}>
@@ -116,10 +123,10 @@ export default function UpgradeForm(props) {
                     fullWidth
                     className={clsx(
                       classes.payBtn,
-                      value === "wechat" && classes.selectedBtn
+                      method === "wechat" && classes.selectedBtn
                     )}
                     variant="outlined"
-                    onClick={() => setValue("wechat")}
+                    onClick={() => setMethod("wechat")}
                   >
                     <img
                       alt="wechat"
@@ -134,10 +141,10 @@ export default function UpgradeForm(props) {
                     fullWidth
                     className={clsx(
                       classes.payBtn,
-                      value === "alipay" && classes.selectedBtn
+                      method === "alipay" && classes.selectedBtn
                     )}
                     variant="outlined"
-                    onClick={() => setValue("alipay")}
+                    onClick={() => setMethod("alipay")}
                   >
                     <img
                       alt="alipay"
@@ -152,10 +159,10 @@ export default function UpgradeForm(props) {
                     fullWidth
                     className={clsx(
                       classes.payBtn,
-                      value === "polipay" && classes.selectedBtn
+                      method === "polipay" && classes.selectedBtn
                     )}
                     variant="outlined"
-                    onClick={() => setValue("polipay")}
+                    onClick={() => setMethod("polipay")}
                   >
                     <img
                       src="https://resources.apac.paywithpoli.com/mobile/mobile4.png"
@@ -183,18 +190,16 @@ export default function UpgradeForm(props) {
                           src="./images/logo.png"
                         />
                         <Box mx={2}>
-                          {props.orderType == "membership-payment" ? 
-                            (<Typography variant="h6" component="h2">
-                                NZCSA Membership Fee
-                            </Typography>) :
-                            (<Typography variant="h6" component="h2">
-                              Event Price
-                            </Typography>)}
+                          <Typography variant="h6" component="h2">
+                            {orderType === "membership-payment"
+                              ? "NZCSA Membership Fee"
+                              : "Event Fee"}
+                          </Typography>
                         </Box>
                       </div>
                       <div>
                         <Typography variant="h6" component="h2">
-                          $ {(Math.round(price * 100) / 100).toFixed(2)}
+                          ${(Math.round(price * 100) / 100).toFixed(2)}
                         </Typography>
                         <Typography
                           className={classes.pos}
@@ -204,13 +209,6 @@ export default function UpgradeForm(props) {
                             ? "per year"
                             : null}
                         </Typography>
-                        {props.orderType == "membership-payment" ? (
-                          <Typography
-                            className={classes.pos}
-                            color="textSecondary"
-                          >
-                            per year
-                          </Typography>) : (null)}
                       </div>
                     </Grid>
                     <Divider />
@@ -241,8 +239,13 @@ export default function UpgradeForm(props) {
                   variant="contained"
                   size="large"
                   onClick={() => handleSumbitPaymentForm()}
+                  disabled={loading}
                 >
-                  Pay
+                  {loading ? (
+                    <CircularProgress color="inherit" size="2rem" />
+                  ) : (
+                    <>Pay</>
+                  )}
                 </Button>
               </div>
             </Grid>

@@ -12,10 +12,15 @@ import { useHistory } from "react-router-dom";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import { confirmAlert } from "react-confirm-alert";
+import { Dialog, DialogTitle } from "@material-ui/core";
+import { DialogContent } from "@material-ui/core";
 import { signUpEvent } from "../../api/connectBackend";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
+import { useTheme } from "@material-ui/core/styles";
 import Upgrade from "../Dashboard/Upgrade";
 import Payment from "../Dashboard/Payment";
 import Notification from "../../components/Notification";
+import UserDetailForm from "./UserDetailForm";
 // import Image from "material-ui-image";
 // import axios from "axios";
 
@@ -50,12 +55,16 @@ export default function EventDetail({
   isMember,
   attendedEvents,
   data,
+  weChat,
   ...rest
 }) {
   const classes = useStyles();
   // const [loading, setLoading] = useState(false);
   const [upgradeOpen, setUpgradeOpen] = useState(false);
   const [paymentOpen, setPaymentOpen] = useState(false);
+  const [openUserDetailForm, setOpenUserDetailForm] = useState(false);
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down("xs"));
   const [time, setTime] = useState("");
   const [notify, setNotify] = useState({
     isOpen: false,
@@ -63,7 +72,6 @@ export default function EventDetail({
     type: "",
   });
   const [event, setEvent] = useState({});
-  const [paymentSuccess, setPaymentSuccess] = useState(false);
 
   let { id } = useParams();
   //console.log(data[id]);
@@ -80,6 +88,15 @@ export default function EventDetail({
 
   const handleCloseBtn = () => {
     history.goBack();
+  };
+
+  const openInNewTab = (url) => {
+    const newWindow = window.open(url, "_blank", "noopener,noreferrer");
+    if (newWindow) newWindow.opener = null;
+  };
+
+  const handleClose = () => {
+    setOpenUserDetailForm(false);
   };
 
   const handleOnClick = () => {
@@ -111,7 +128,23 @@ export default function EventDetail({
               },
               {
                 label: "Yes",
-                onClick: () => handleRegister(id),
+                onClick: () => {
+                  // if (id != "612fe680fef8fa000437d192") {
+                  if (false) {
+                    // window.location.href = 'https://docs.google.com/forms/d/10vAOJpLZ2CrLOy5pMgmYuqmj2TPqLaqyZaAiGSzlV44/edit';
+                    openInNewTab(
+                      "https://docs.google.com/forms/d/10vAOJpLZ2CrLOy5pMgmYuqmj2TPqLaqyZaAiGSzlV44"
+                    );
+                  } else {
+                    console.log(weChat);
+                    if (false) {
+                      handleRegister(id);
+                    } else {
+                      setOpenUserDetailForm(true);
+                      // handleRegister(id);
+                    }
+                  }
+                },
               },
             ],
           });
@@ -151,9 +184,9 @@ export default function EventDetail({
     }
   }
 
-  const changePaymentStatus = () =>{
+  const changePaymentStatus = () => {
     setPaymentSuccess(true);
-  }
+  };
 
   return (
     <div>
@@ -219,7 +252,7 @@ export default function EventDetail({
             <Typography variant="h6" gutterBottom>
               WeChat Group
             </Typography>
-            <img src={event.wechatImgUrl} width='100%'/>
+            <img src={event.wechatImgUrl} width="100%" />
           </Paper>
         </Grid>
         {/* Recent Orders */}
@@ -231,7 +264,26 @@ export default function EventDetail({
         price={event.eventPrice}
         eventId={id}
       />
-
+      <Dialog
+        open={openUserDetailForm}
+        onClose={handleClose}
+        aria-labelledby="form-dialog-title"
+        fullWidth={true}
+        maxWidth={"md"}
+        fullScreen={fullScreen}
+      >
+        <DialogTitle disableTypography justify="center" justifyContent="center">
+          <Typography variant="h5" display="inline">
+            Please provide you detail
+          </Typography>
+          <IconButton onClick={handleClose} style={{ float: "right" }}>
+            <CloseIcon />
+          </IconButton>
+        </DialogTitle>
+        <DialogContent style={{ height: "80vh" }}>
+          <UserDetailForm />
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

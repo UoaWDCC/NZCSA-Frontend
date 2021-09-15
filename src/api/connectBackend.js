@@ -77,6 +77,7 @@ async function signUpEvent(registerInfo) {
 }
 
 async function signUpMembership(userInfo) {
+  console.log(userInfo)
   const config = {
     headers: {
       "Content-Type": "application/json",
@@ -84,7 +85,7 @@ async function signUpMembership(userInfo) {
     },
   };
   const response = await axios.post(
-    "https://nzcsa-backend.herokuapp.com/api/private/sign-up-membership",
+    "http://localhost:5000/api/private/sign-up-membership",
     userInfo,
     config
   );

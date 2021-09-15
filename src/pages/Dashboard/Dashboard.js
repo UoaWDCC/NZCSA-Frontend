@@ -460,7 +460,7 @@ export default function Dashboard(props) {
   ) : (
     <Avatar alt="Remy Sharp" className={classes.large} />
   );
-
+  console.log(userData.wechatid);
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -605,6 +605,7 @@ export default function Dashboard(props) {
                 isMember={userData.isMembership}
                 attendedEvents={userData.attendedEvents}
                 data={eventData}
+                weChat={userData.wechatid}
               />
             )}
             <Box pt={4}>

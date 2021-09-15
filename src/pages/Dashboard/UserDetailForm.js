@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function UpgradeForm(props) {
+export default function UserDetailForm(props) {
   // const [gender, setGender]=useState()
   // const [selectedDate, setSelectedDate] = React.useState(new Date('2014-08-18T21:11:54'));
   const [loading, setLoading] = useState(false);
@@ -467,61 +467,7 @@ export default function UpgradeForm(props) {
               </Grid>
             </Grid>
           </Grid>
-          <Grid item md={12}>
-            <Grid container justify={"space-evenly"} spacing={4}>
-              <Grid item align={"left"} md={10} className={classes.consent}>
-                <h2>Consent Of Membership</h2>
-                <p>
-                  I have read and understand the regulation and constitution of
-                  NZCSA. I have had the opportunity to ask questions and have
-                  them answered to my satisfaction:
-                  <br />
-                  1. I agree to take part in this students' association.
-                  <br />
-                  2. I understand that I am free to discontinue participating at
-                  any time, and to withdraw my data any time without giving a
-                  reason, however, the membership fee will not be refunded.
-                  <br />
-                  3. I understand that all information provided to the NZCSA:{" "}
-                  <br />
-                  (1) will remain confidential, <br />
-                  (2) will only be used internally within NZCSA.
-                  <br />
-                  4. I understand that personal information will be stored for a
-                  period of three years, after which they will be securely
-                  destroyed.
-                </p>
-              </Grid>
-            </Grid>
-          </Grid>
-          <Grid item md={12}>
-            <Grid container justify={"space-evenly"} spacing={4}>
-              <Grid item align={"center"} md={10}>
-                <FormControl
-                  required
-                  component="fieldset"
-                  className={classes.formControl}
-                >
-                  <FormLabel component="legend">
-                    This form will be held for a period of 3 years.
-                  </FormLabel>
-                  <FormGroup>
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={understand}
-                          onChange={handleUnderstand}
-                          name="understand"
-                        />
-                      }
-                      label="I understand"
-                      align={"center"}
-                    />
-                  </FormGroup>
-                </FormControl>
-              </Grid>
-            </Grid>
-          </Grid>
+          
         </Grid>
         <Grid container justify={"center"}>
           <Button
