@@ -92,9 +92,11 @@ export default function EventCard(props) {
                 label: "Yes",
                 onClick: () => {
                   if (eventId == '612fe680fef8fa000437d192') {
-                    // window.location.href = 'https://docs.google.com/forms/d/10vAOJpLZ2CrLOy5pMgmYuqmj2TPqLaqyZaAiGSzlV44/edit';
-                    handleRegister(eventId)
-                    openInNewTab('https://forms.gle/iDruVJQDwPYK5Cmq5')
+                    setNotify({
+                      isOpen: true,
+                      message: "Sorry, this Event is now closed",
+                      type: "warning",
+                    });
                   } else {
                     handleRegister(eventId)
                   }
@@ -141,7 +143,7 @@ export default function EventCard(props) {
   return (
     <Router>
       <Notification notify={notify} setNotify={setNotify} />
-      {props.isYourPage ? (
+      {props.isYourPage || props.tab == "previous" ? (
         <Card className={classes.root}>
           <Link to={`/yourEvents/${props.id}`} component={CardActionArea}>
             <CardMedia

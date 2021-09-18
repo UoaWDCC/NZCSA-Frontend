@@ -20,11 +20,19 @@ export default function AltCard(props) {
   useEffect(() => {
     if (props.userData == undefined) {
       let eventBufferList = {};
-      Object.keys(props.data).forEach((key) => {
-        if (props.data[key].isActive) {
-          eventBufferList[key] = props.data[key];
-        }
-      });
+      if (props.tab == "current") {
+        Object.keys(props.data).forEach((key) => {
+          if (props.data[key].isActive) {
+            eventBufferList[key] = props.data[key];
+          }
+        });
+      } else {
+        Object.keys(props.data).forEach((key) => {
+          if (!props.data[key].isActive) {
+            eventBufferList[key] = props.data[key];
+          }
+        });
+      }
       setActiveEventsDetail(eventBufferList);
       setUserEventsDetail(props.data);
     } else {
@@ -35,7 +43,6 @@ export default function AltCard(props) {
         Object.keys(props.userData).length != 0
       ) {
         let userEvents = [];
-        console.log(props.data);
         if (Object.keys(props.userData).length !== 0) {
           for (let i = 0; i < props.userData.attendedEvents.length; i++) {
             const eventId = props.userData.attendedEvents[i];
@@ -76,7 +83,7 @@ export default function AltCard(props) {
               isMember={props.isMember}
               price={activeEventsDetail[elem].eventPrice}
               attendedEvents={props.attendedEvents}
-              isYourPage={props.userData}
+              tab={props.tab}
             />
           </Grid>
         ))}
