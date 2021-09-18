@@ -131,20 +131,20 @@ export default function EventDetail({
               {
                 label: "Yes",
                 onClick: () => {
-                  // if (id != "612fe680fef8fa000437d192") {
-                  if (false) {
-                    // window.location.href = 'https://docs.google.com/forms/d/10vAOJpLZ2CrLOy5pMgmYuqmj2TPqLaqyZaAiGSzlV44/edit';
-                    openInNewTab(
-                      "https://docs.google.com/forms/d/10vAOJpLZ2CrLOy5pMgmYuqmj2TPqLaqyZaAiGSzlV44"
-                    );
+                  if (id == "612fe680fef8fa000437d192") {
+                    setNotify({
+                      isOpen: true,
+                      message: "Sorry, this Event is now closed",
+                      type: "warning",
+                    });
                   } else {
-                    console.log(weChat);
-                    if (false) {
-                      handleRegister(id);
-                    } else {
-                      setOpenUserDetailForm(true);
-                      // handleRegister(id);
-                    }
+                    handleRegister(id);
+                    // console.log(weChat);
+                    // if (false) {
+                    //   handleRegister(id);
+                    // } else {
+                    //   setOpenUserDetailForm(true);
+                    // }
                   }
                 },
               },
@@ -160,7 +160,6 @@ export default function EventDetail({
       }
     }
   };
-
   async function handleRegister(eventId) {
     console.log(eventId);
     const registerInfo = { eventId };

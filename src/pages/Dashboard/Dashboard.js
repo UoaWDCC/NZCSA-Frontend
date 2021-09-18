@@ -228,8 +228,9 @@ export default function Dashboard(props) {
 
   const [value, setValue] = React.useState(1);
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
+  const handleChange = (event, value) => {
+    setValue(value);
+    console.log(value);
   };
 
   // console.log(userData.isMembership)
@@ -451,6 +452,15 @@ export default function Dashboard(props) {
           data={searchEventData}
           isMember={userData.isMembership}
           attendedEvents={userData.attendedEvents}
+          tab="current"
+        />
+      )}
+      {value === 0 && (
+        <EventGrid
+          data={searchEventData}
+          isMember={userData.isMembership}
+          attendedEvents={userData.attendedEvents}
+          tab="previous"
         />
       )}
     </Grid>
@@ -496,7 +506,7 @@ export default function Dashboard(props) {
   ) : (
     <Avatar alt="Remy Sharp" className={classes.large} />
   );
-  console.log(userData.wechatid);
+  // console.log(userData.wechatid);
   return (
     <div className={classes.root}>
       <CssBaseline />
