@@ -1,4 +1,10 @@
-import { FormControlLabel, RadioGroup, Radio } from "@material-ui/core";
+import {
+  FormControlLabel,
+  RadioGroup,
+  Radio,
+  FormControl,
+  FormLabel,
+} from "@material-ui/core";
 import React from "react";
 
 export default function RadioInput(props) {
@@ -12,12 +18,13 @@ export default function RadioInput(props) {
       >
         {props.fieldOption.length > 0 &&
           props.fieldOption.map((option, i) => {
-            <FormControlLabel
-              key={i}
-              value={option}
-              control={<Radio />}
-              label={option}
-            />;
+            return (
+              <FormControlLabel
+                value={option}
+                control={<Radio />}
+                label={option.optionLabel}
+              />
+            );
           })}
       </RadioGroup>
     </FormControl>

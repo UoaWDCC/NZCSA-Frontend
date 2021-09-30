@@ -16,6 +16,7 @@ import { signUpEvent } from "../api/connectBackend";
 import Upgrade from "../pages/Dashboard/Upgrade";
 import Payment from "../pages/Dashboard/Payment";
 import Notification from "./Notification";
+import AutoGenerateForm from "./formGenerator/AutoGenerateForm";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -36,6 +37,7 @@ export default function EventCard(props) {
     message: "",
     type: "",
   });
+  const [eventInfoDialogOpen, setEventInforDialogOpen] = useState(false);
 
   const isMember = props.isMember;
   const attendedEvents = props.attendedEvents;
@@ -56,11 +58,19 @@ export default function EventCard(props) {
   // };
 
   const openInNewTab = (url) => {
-    const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
-    if (newWindow) newWindow.opener = null
+    const newWindow = window.open(url, "_blank", "noopener,noreferrer");
+    if (newWindow) newWindow.opener = null;
   };
-  
+
+  const handleEventInformDialog = () => {
+    setEventInforDialogOpen(!eventInfoDialogOpen);
+  };
+
   const handleOnClick = (eventId, price) => {
+    console.log("IN");
+    // Need to change -testing
+    handleEventInformDialog();
+
     if (!isMember) {
       confirmAlert({
         message: "You have to be a member to join this event.",
@@ -91,16 +101,16 @@ export default function EventCard(props) {
               {
                 label: "Yes",
                 onClick: () => {
-                  if (eventId == '612fe680fef8fa000437d192') {
+                  if (eventId == "612fe680fef8fa000437d192") {
                     setNotify({
                       isOpen: true,
                       message: "Sorry, this Event is now closed",
                       type: "warning",
                     });
                   } else {
-                    handleRegister(eventId)
+                    handleRegister(eventId);
                   }
-                }
+                },
               },
             ],
           });
@@ -161,13 +171,17 @@ export default function EventCard(props) {
               <Typography variant="h6" component="h5">
                 {props.title}
               </Typography>
-              <Typography variant="subtitle2" color="textSecondary" component="p">
+              <Typography
+                variant="subtitle2"
+                color="textSecondary"
+                component="p"
+              >
                 {props.location}
               </Typography>
             </CardContent>
           </Link>
-        </Card>)
-      : (
+        </Card>
+      ) : (
         <Card className={classes.root}>
           <Link to={`${props.id}`} component={CardActionArea}>
             <CardMedia
@@ -185,24 +199,32 @@ export default function EventCard(props) {
               <Typography variant="h6" component="h5">
                 {props.title}
               </Typography>
-              <Typography variant="subtitle2" color="textSecondary" component="p">
+              <Typography
+                variant="subtitle2"
+                color="textSecondary"
+                component="p"
+              >
                 {props.location}
               </Typography>
             </CardContent>
           </Link>
           <CardActions>
-              <Button
-                variant="contained"
-                size="medium"
-                onClick={() => handleOnClick(props.id, props.price)}
-                disableElevation
-              >
-                Register
-              </Button>
-            </CardActions>
+            <Button
+              variant="contained"
+              size="medium"
+              onClick={() => handleOnClick(props.id, props.price)}
+              disableElevation
+            >
+              Register
+            </Button>
+          </CardActions>
         </Card>
-        )}
+      )}
       <Upgrade open={upgradeOpen} close={setUpgradeOpen} />
+      <AutoGenerateForm
+        open={eventInfoDialogOpen}
+        close={setEventInforDialogOpen}
+      />
       <Payment
         open={paymentOpen}
         close={setPaymentOpen}

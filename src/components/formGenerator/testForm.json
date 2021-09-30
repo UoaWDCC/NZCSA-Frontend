@@ -1,0 +1,61 @@
+[
+  {
+    "page_label": "Job Application Form",
+    "fields": [
+      {
+        "fieldId": "english_name",
+        "fieldLabel": "Name",
+        "fieldMandatory": "yes",
+        "fieldPlaceholder": "Enter name",
+        "fieldType": "text",
+        "fieldValue": "",
+        "fieldMultiline": false
+      },
+      {
+        "fieldId": "email",
+        "fieldLabel": "Email",
+        "fieldMandatory": "yes",
+        "fieldPlaceholder": "Enter email",
+        "fieldType": "text",
+        "fieldMultiline": false
+      },
+      {
+        "fieldId": "RadioGroup",
+        "fieldLabel": "Employment desired",
+        "fieldValue": "Part-Time",
+        "fieldMandatory": "yes",
+        "fieldOptions": [
+          {
+            "optionLabel": "Full-Time"
+          },
+          {
+            "optionLabel": "Part-Time"
+          }
+        ],
+        "fieldType": "radio"
+      },
+      {
+        "fieldId": "checkbox",
+        "fieldLabel": "I confirm to have driving license.",
+        "fieldType": "checkbox",
+        "fieldOptions": [
+          {
+            "optionLabel": "women"
+          },
+          {
+            "optionLabel": "man"
+          }
+        ],
+        "fieldValue": "checkbox"
+      },
+      {
+        "fieldId": "identity",
+        "fieldLabel": "Driving License No.",
+        "fieldMandatory": "yes",
+        "fieldPlaceholder": "e.g. 012 345 678",
+        "fieldType": "text",
+        "fieldMultiline": true
+      }
+    ]
+  }
+]

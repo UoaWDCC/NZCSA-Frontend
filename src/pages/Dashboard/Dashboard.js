@@ -56,10 +56,9 @@ import img from "../../assets/yong.gif";
 import { SmallAvatar, VipBadge } from "../../components/VipBadget";
 import DarkModeSwitch from "../../components/DarkModeSwitch";
 import { DarkModeContext } from "../../context/darkMode";
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import SwipeCard from '../../components/SwiperCard';
-
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
+import SwipeCard from "../../components/SwiperCard";
 
 const drawerWidth = 240;
 
@@ -218,6 +217,7 @@ export default function Dashboard(props) {
   const [loading, setLoading] = useState(false);
   const [searchInfo, setSearchInfo] = useState("");
   const [searchEventData, setSearchEventData] = useState([]);
+  // const [eventInfoDialogOpen,setEventInforDialogOpen]=useState(false);
 
   // const [yourEventsData, setYoursEventData] = useState({});
   const [userInforDialog, seUserInforDialog] = useState(false);
@@ -261,7 +261,6 @@ export default function Dashboard(props) {
   const handleUserInformationDialog = () => {
     seUserInforDialog(!userInforDialog);
     handleMenuClose();
-    console.log("hi");
   };
 
   useEffect(() => {
@@ -418,8 +417,6 @@ export default function Dashboard(props) {
       {/* Main Events Section */}
 
       <Grid item xs={12}>
-
-
         <SwipeCard
           img={img}
           title="永劫无间线上友谊赛"
