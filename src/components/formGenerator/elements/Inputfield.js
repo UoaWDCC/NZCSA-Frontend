@@ -1,7 +1,10 @@
 import { FormControlLabel, TextField } from "@material-ui/core";
-import React from "react";
+import React, { useContext } from "react";
+import { FormContext } from "../../../context/FormContext";
 
 export default function Inputfield(props) {
+  const { handleChange } = useContext(FormContext);
+
   return (
     <TextField
       id={props.id}
@@ -9,6 +12,7 @@ export default function Inputfield(props) {
       variant="outlined"
       multiline={props.multiline}
       placeholder={props.placeholder}
+      onChange={(event) => handleChange(props.id, event, null)}
     />
   );
 }

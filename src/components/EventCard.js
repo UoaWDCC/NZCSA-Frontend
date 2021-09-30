@@ -41,21 +41,15 @@ export default function EventCard(props) {
 
   const isMember = props.isMember;
   const attendedEvents = props.attendedEvents;
-  // console.log(props)
   const classes = useStyles({
     root: {
       Width: "100%",
       height: 300,
     },
     img: {
-      // height: 277,
       height: 180,
     },
   });
-
-  // const handleUpgradeOpen = () => {
-  //   setUpgradeOpen(true);
-  // };
 
   const openInNewTab = (url) => {
     const newWindow = window.open(url, "_blank", "noopener,noreferrer");
@@ -67,7 +61,6 @@ export default function EventCard(props) {
   };
 
   const handleOnClick = (eventId, price) => {
-    console.log("IN");
     // Need to change -testing
     handleEventInformDialog();
 

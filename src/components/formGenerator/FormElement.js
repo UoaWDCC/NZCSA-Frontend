@@ -21,6 +21,7 @@ export default function FormElement(props) {
     case "radio":
       return (
         <RadioInput
+          id={field.fieldId}
           optionName={field.fieldId}
           fieldOption={field.fieldOptions}
         />
@@ -28,6 +29,7 @@ export default function FormElement(props) {
     case "checkbox":
       return (
         <CheckboxInput
+          id={field.fieldId}
           optionName={field.fieldId}
           fieldOption={field.fieldOptions}
         />

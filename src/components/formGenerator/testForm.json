@@ -32,13 +32,13 @@
             "optionLabel": "Part-Time"
           },
           {
-            "optionLabel": "Full-Time"
+            "optionLabel": "Time"
           },
           {
-            "optionLabel": "Full-Time"
+            "optionLabel": "ll-Time"
           },
           {
-            "optionLabel": "Full-Time"
+            "optionLabel": "Full"
           }
         ],
         "fieldType": "radio"
@@ -55,7 +55,7 @@
             "optionLabel": "man"
           }
         ],
-        "fieldValue": "checkbox"
+        "fieldValue": []
       },
       {
         "fieldId": "identity",

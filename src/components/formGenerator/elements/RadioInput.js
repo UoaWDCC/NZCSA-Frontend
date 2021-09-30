@@ -5,27 +5,39 @@ import {
   FormControl,
   FormLabel,
 } from "@material-ui/core";
-import React from "react";
+import React, { useContext } from "react";
+import { FormContext } from "../../../context/FormContext";
 
 export default function RadioInput(props) {
+  const { handleChange } = useContext(FormContext);
+
   return (
     <FormControl>
       <FormLabel component="legend">{props.optionName}</FormLabel>
-      <RadioGroup
-        row
-        aria-label={props.optionName}
-        name="row-radio-buttons-group"
-      >
+      <RadioGroup row aria-label={props.optionName}>
         {props.fieldOption.length > 0 &&
           props.fieldOption.map((option, i) => {
             return (
               <FormControlLabel
-                value={option}
+                id={props.id}
+                value={option.optionLabel}
                 control={<Radio />}
                 label={option.optionLabel}
+                onChange={(event) =>
+                  handleChange(props.id, event, option.optionLabel)
+                }
               />
             );
           })}
+        <FormControlLabel
+          id={"hi"}
+          value={"hi"}
+          control={<Radio />}
+          label={"hi"}
+          // onChange={(event) =>
+          //   handleChange(props.id, event, option.optionLabel)
+          // }
+        />
       </RadioGroup>
     </FormControl>
   );
