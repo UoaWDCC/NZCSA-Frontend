@@ -5,9 +5,7 @@ import RadioInput from "./elements/RadioInput";
 
 export default function FormElement(props) {
   const field = props.field;
-  // console.log(field);
 
-  // console.log("element class");
   switch (field.fieldType) {
     case "text":
       return (

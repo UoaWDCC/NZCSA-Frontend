@@ -119,7 +119,6 @@ export default function EventCard(props) {
   };
 
   async function handleRegister(eventId) {
-    console.log(eventId);
     const registerInfo = { eventId };
     try {
       // setLoading(true);
@@ -131,10 +130,7 @@ export default function EventCard(props) {
           type: "success",
         });
       }
-      //console.log(response.data);
     } catch (e) {
-      // setLoading(false);
-      console.log(e.response.data.error);
       setNotify({
         isOpen: true,
         message: e.response.data.error,

@@ -230,16 +230,12 @@ export default function Dashboard(props) {
 
   const handleChange = (event, value) => {
     setValue(value);
-    console.log(value);
   };
-
-  // console.log(userData.isMembership)
 
   // const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   const handleDrawerOpen = () => {
     setOpen(!open);
-    //console.log(open);
   };
 
   const handleProfileMenuOpen = (event) => {
@@ -271,7 +267,6 @@ export default function Dashboard(props) {
         // Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwZTJiNDQwMzM0MjBjZWExYmQ0ZGRiYyIsImlhdCI6MTYyNTU1MzMyNn0.O7wqQZ2JfGihrqt4QkTW1Kh2ZK-j5FWg1zBewYMasyU'
       },
     };
-    //console.log(config)
     const fetchData = async () => {
       axios
         .get(
@@ -281,7 +276,6 @@ export default function Dashboard(props) {
         .then((res) => {
           setUserData(res.data.data);
           setCurrentUser(res.data.data);
-          //console.log(res.data.data);
         })
         .catch((e) => {
           console.log(e);
@@ -301,7 +295,6 @@ export default function Dashboard(props) {
         .then((res) => {
           setLoading(false);
           // setEventData(res.data);
-          //console.log(res.data)
           const products = [];
           Object.entries(res.data).map(([key, product]) => {
             products.push(product);
@@ -311,14 +304,11 @@ export default function Dashboard(props) {
         })
         .catch((e) => {
           setLoading(false);
-          //console.log(e)
         });
     };
     fetchData();
   }, []);
 
-  // console.log(userData)
-  // console.log(localStorage.getItem("authToken"));
   useEffect(() => {
     if (searchInfo === "") {
       setSearchEventData(eventData);
@@ -399,7 +389,6 @@ export default function Dashboard(props) {
   );
 
   let { id } = useParams();
-  //console.log(id)
 
   let pathname = window.location.pathname;
   let index = pathname.lastIndexOf("/");
@@ -407,15 +396,6 @@ export default function Dashboard(props) {
 
   const home = (
     <Grid container spacing={3}>
-      {/* Chart */}
-      {/* <Grid item xs={12}>
-        <Paper className={classes.paper}>
-          <Typography variant="h6">Browse Events</Typography>
-        </Paper>
-      </Grid> */}
-
-      {/* Main Events Section */}
-
       <Grid item xs={12}>
         <SwipeCard
           img={img}
@@ -463,7 +443,6 @@ export default function Dashboard(props) {
     </Grid>
   );
 
-  //console.log(yourEventsData)
   const yourEvents = (
     <Grid container spacing={3}>
       <Grid item xs={12}>
@@ -503,7 +482,6 @@ export default function Dashboard(props) {
   ) : (
     <Avatar alt="Remy Sharp" className={classes.large} />
   );
-  // console.log(userData.wechatid);
   return (
     <div className={classes.root}>
       <CssBaseline />

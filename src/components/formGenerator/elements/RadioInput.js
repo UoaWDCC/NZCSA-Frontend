@@ -34,9 +34,6 @@ export default function RadioInput(props) {
           value={"hi"}
           control={<Radio />}
           label={"hi"}
-          // onChange={(event) =>
-          //   handleChange(props.id, event, option.optionLabel)
-          // }
         />
       </RadioGroup>
     </FormControl>

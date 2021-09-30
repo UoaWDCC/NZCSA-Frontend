@@ -64,7 +64,6 @@ export default function AutoGenerateForm(props) {
       setElement(newElements);
     });
   };
-  console.log(element);
 
   return (
     <FormContext.Provider value={{ handleChange }}>
