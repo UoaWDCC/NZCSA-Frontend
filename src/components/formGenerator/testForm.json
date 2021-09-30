@@ -30,6 +30,15 @@
           },
           {
             "optionLabel": "Part-Time"
+          },
+          {
+            "optionLabel": "Full-Time"
+          },
+          {
+            "optionLabel": "Full-Time"
+          },
+          {
+            "optionLabel": "Full-Time"
           }
         ],
         "fieldType": "radio"

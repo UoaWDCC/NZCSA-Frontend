@@ -1,23 +1,20 @@
 import react, { useEffect, useState } from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  FormControl,
-  FormControlLabel,
-  FormGroup,
-  TextField,
-  Checkbox,
-  Radio,
-  RadioGroup,
-  FormLabel,
-  Typography,
-  Grid,
-} from "@material-ui/core";
+import { Dialog, DialogContent, DialogTitle, Grid } from "@material-ui/core";
 import testForm from "./testForm.json";
 import FormElement from "./FormElement";
+import { makeStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    padding: "2em",
+  },
+  component: {
+    margin: "1em",
+  },
+}));
 
 export default function AutoGenerateForm(props) {
+  const classes = useStyles();
   // Get form data
   const [element, setElement] = useState(null);
   useEffect(() => {
@@ -32,14 +29,14 @@ export default function AutoGenerateForm(props) {
   console.log(fields);
 
   return (
-    <Dialog open={props.open} onClose={handleDialogClose}>
+    <Dialog open={props.open} onClose={handleDialogClose} class={classes.root}>
       <DialogTitle>Some kind of form</DialogTitle>
       <DialogContent>
         <Grid container>
           <form>
             {fields
               ? fields.map((field, i) => (
-                  <Grid item>
+                  <Grid item class={classes.component}>
                     <FormElement key={i} field={field} />
                   </Grid>
                 ))
