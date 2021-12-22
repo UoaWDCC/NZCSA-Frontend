@@ -1,70 +1,74 @@
-# NZCSA Frontend
+<h1 align="center">
+NZCSA Frontend
+</h1>
+<p align="center">
+React/Redux, MUI
+</p>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+> New Zealand Chinese Students' Association
 
-In the project directory, you can run:
+The New Zealand Chinese Students’ Association (NZCSA) is an incorporated student society that aims to serve the Chinese students in New Zealand, promoting the Chinese Culture and act as a bridge between the Chinese student community and the local mainstream community
 
-### `npm start`
+## Clone or download
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+```terminal
+$ git clone https://github.com/UoaWDCC/NZCSA-Frontend.git
+```
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
 
-### `npm test`
+# Usage (run fullstack app on your machine)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Prerequirements
 
-### `npm run build`
+- [Node](https://nodejs.org/en/download/) ^10.0.0
+- [npm](https://nodejs.org/en/download/package-manager/)
+- [MUI](https://mui.com/)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Notice, you need client and server runs concurrently in different terminal session, in order to make them talk to each other
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Client-side(Frontend) usage(PORT: 3000)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```terminal
+$ cd NZCSA-Frontend   // go to client folder
+$ yarn i       // npm install pacakges
+$ yarn start // run it locally
 
-### `npm run eject`
+// deployment for client app
+$ yarn run build // this will compile the react code using webpack and generate a folder called docs in the root level
+$ yarn run start // this will run the files in docs, this behavior is exactly the same how gh-pages will run your static site
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## Server-side(Backend) usage(PORT: 5000)
+### [NZCSA-Backend](https://github.com/UoaWDCC/NZCSA-Backend)
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+# Dependencies
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+| Client-side                   | 
+| ----------------------------- |
+| axios: ^0.15.3                | 
+| babel-preset-stage-1: ^6.1.18 | 
+| lodash: ^3.10.1               | 
+| react: ^16.2.0                |
+| react-dom: ^16.2.0            | 
+| react-redux: ^4.0.0           | 
+| react-router-dom: ^4.2.2      | 
+| redux: ^3.7.2                 
+| redux-thunk: ^2.1.0           
+| axios: ^0.21.1    
+| swiper: ^6.8.4    
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+# Contributor
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+| Name     |
+| ---      |
+| Melo Guan |
+| Kirsty Gong     |
+| Zhiqing Guo     |
+| Tony Cui     |
+| Alex Liang     |
+| Linkun Gao     |
+| Garfield Wang     |
 
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
