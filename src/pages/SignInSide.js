@@ -98,15 +98,12 @@ export default function SignInSide() {
           localStorage.setItem('authToken', response.data.token);
           window.location.href = '/';
         }
-        //console.log(response.data);
       } catch (e) {
         setErrorMessage(e.response.data.error);
         setTimeout(() => {
           setErrorMessage('');
         }, 8000);
         setLoading(false);
-        console.log(localStorage.getItem("authToken"));
-        //console.log(e.response.data.error);
       }
     }
   }

@@ -91,7 +91,6 @@ export default function UserInforDialog(props) {
     props.close(false);
   };
 
-  console.log(props.userInfo);
 
   const content = props.userInfo.isMembership ? (
     <DialogContent id="alert-dialog-description" dividers>
@@ -129,7 +128,7 @@ export default function UserInforDialog(props) {
             <DetailField
               id="filled-read-only-input"
               label="Email"
-              defaultValue={props.userInfo.email }
+              defaultValue={props.userInfo.email}
               InputProps={{
                 readOnly: true,
               }}
@@ -194,7 +193,7 @@ export default function UserInforDialog(props) {
       aria-describedby="alert-dialog-description"
       fullWidth
       maxWidth="sm"
-      // className={classes.root}
+    // className={classes.root}
     >
       <DialogTitle id="alert-dialog-title" onClose={handleDialogClose}>
         {"User Information"}

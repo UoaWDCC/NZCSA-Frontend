@@ -230,16 +230,11 @@ export default function Dashboard(props) {
 
   const handleChange = (event, value) => {
     setValue(value);
-    console.log(value);
   };
 
-  // console.log(userData.isMembership)
-
-  // const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   const handleDrawerOpen = () => {
     setOpen(!open);
-    //console.log(open);
   };
 
   const handleProfileMenuOpen = (event) => {
