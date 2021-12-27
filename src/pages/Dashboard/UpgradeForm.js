@@ -131,22 +131,19 @@ export default function UpgradeForm(props) {
   const handleSubmitUpgradeForm = async () => {
     setLoading(true);
     const selectedFaculty = returnFaculty();
-    const info = {gender, university, selectedFaculty, birthday, phone, stdentId}
+    const info = { gender, university, selectedFaculty, birthday, phone, stdentId }
     try {
-      console.log(info);
       const response = await signUpMembership(info);
       if (response.status === 200) {
         setLoading(false);
         props.handleNext();
       } else {
         setLoading(false);
-        console.log("error");
       }
     } catch (error) {
       setLoading(false);
-      console.log(error);
     }
-    
+
   };
 
   const {
@@ -198,7 +195,7 @@ export default function UpgradeForm(props) {
                 </FormControl>
               </Grid>
               <Grid item md={4}>
-              <TextField
+                <TextField
                   margin="dense"
                   id="studentId"
                   label="Student ID"
@@ -246,7 +243,7 @@ export default function UpgradeForm(props) {
           <Grid item md={12}>
             <Grid container justify={"space-evenly"} spacing={4}>
               <Grid item md={4}>
-                
+
               </Grid>
               <Grid item md={4}>
 
@@ -433,22 +430,22 @@ export default function UpgradeForm(props) {
                   I have read and understand the regulation and constitution
                   of NZCSA. I have had the opportunity to ask questions and
                   have them answered to my satisfaction:
-                      <br />
-                      1. I agree to take part in this students' association.
-                      <br />
-                      2. I understand that I am free to discontinue participating
-                      at any time, and to withdraw my data any time without giving
-                      a reason, however, the membership fee will not be refunded.
-                      <br />
-                      3. I understand that all information provided to the NZCSA:{" "}
                   <br />
-                      (1) will remain confidential, <br />
-                      (2) will only be used internally within NZCSA.
-                      <br />
-                      4. I understand that personal information will be stored for
-                      a period of three years, after which they will be securely
-                      destroyed.
-                    </p>
+                  1. I agree to take part in this students' association.
+                  <br />
+                  2. I understand that I am free to discontinue participating
+                  at any time, and to withdraw my data any time without giving
+                  a reason, however, the membership fee will not be refunded.
+                  <br />
+                  3. I understand that all information provided to the NZCSA:{" "}
+                  <br />
+                  (1) will remain confidential, <br />
+                  (2) will only be used internally within NZCSA.
+                  <br />
+                  4. I understand that personal information will be stored for
+                  a period of three years, after which they will be securely
+                  destroyed.
+                </p>
               </Grid>
             </Grid>
           </Grid>
@@ -462,7 +459,7 @@ export default function UpgradeForm(props) {
                 >
                   <FormLabel component="legend">
                     This form will be held for a period of 3 years.
-                      </FormLabel>
+                  </FormLabel>
                   <FormGroup>
                     <FormControlLabel
                       control={
@@ -483,13 +480,13 @@ export default function UpgradeForm(props) {
         </Grid>
         <Grid container justify={"center"}>
           <Button disabled={!understand} onClick={handleSubmitUpgradeForm}>
-            
+
             {loading ? (
-                  <CircularProgress color="inherit" size="2rem" />
-                ) : (
-                    <>Submit</>
-                  )}
-              </Button>
+              <CircularProgress color="inherit" size="2rem" />
+            ) : (
+              <>Submit</>
+            )}
+          </Button>
         </Grid>
       </form>
     </DialogContent>

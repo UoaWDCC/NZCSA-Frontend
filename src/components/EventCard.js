@@ -39,7 +39,6 @@ export default function EventCard(props) {
 
   const isMember = props.isMember;
   const attendedEvents = props.attendedEvents;
-  // console.log(props)
   const classes = useStyles({
     root: {
       Width: "100%",
@@ -59,7 +58,7 @@ export default function EventCard(props) {
     const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
     if (newWindow) newWindow.opener = null
   };
-  
+
   const handleOnClick = (eventId, price) => {
     if (!isMember) {
       confirmAlert({
@@ -128,7 +127,6 @@ export default function EventCard(props) {
           type: "success",
         });
       }
-      //console.log(response.data);
     } catch (e) {
       // setLoading(false);
       console.log(e.response.data.error);
@@ -167,30 +165,30 @@ export default function EventCard(props) {
             </CardContent>
           </Link>
         </Card>)
-      : (
-        <Card className={classes.root}>
-          <Link to={`${props.id}`} component={CardActionArea}>
-            <CardMedia
-              className={classes.media}
-              component="img"
-              alt="Contemplative Reptile"
-              height="140"
-              image={props.image}
-              title="Contemplative Reptile"
-            />
-            <CardContent>
-              <Typography variant="p" component="p">
-                {props.date}
-              </Typography>
-              <Typography variant="h6" component="h5">
-                {props.title}
-              </Typography>
-              <Typography variant="subtitle2" color="textSecondary" component="p">
-                {props.location}
-              </Typography>
-            </CardContent>
-          </Link>
-          <CardActions>
+        : (
+          <Card className={classes.root}>
+            <Link to={`${props.id}`} component={CardActionArea}>
+              <CardMedia
+                className={classes.media}
+                component="img"
+                alt="Contemplative Reptile"
+                height="140"
+                image={props.image}
+                title="Contemplative Reptile"
+              />
+              <CardContent>
+                <Typography variant="p" component="p">
+                  {props.date}
+                </Typography>
+                <Typography variant="h6" component="h5">
+                  {props.title}
+                </Typography>
+                <Typography variant="subtitle2" color="textSecondary" component="p">
+                  {props.location}
+                </Typography>
+              </CardContent>
+            </Link>
+            <CardActions>
               <Button
                 variant="contained"
                 size="medium"
@@ -200,7 +198,7 @@ export default function EventCard(props) {
                 Register
               </Button>
             </CardActions>
-        </Card>
+          </Card>
         )}
       <Upgrade open={upgradeOpen} close={setUpgradeOpen} />
       <Payment
