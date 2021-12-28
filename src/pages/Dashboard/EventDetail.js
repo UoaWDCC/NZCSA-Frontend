@@ -11,18 +11,18 @@ import { Button } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
-import { confirmAlert } from "react-confirm-alert";
-import { Dialog, DialogTitle } from "@material-ui/core";
-import { DialogContent } from "@material-ui/core";
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+} from "@material-ui/core";
 import { signUpEvent } from "../../api/connectBackend";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { useTheme } from "@material-ui/core/styles";
 import Upgrade from "../Dashboard/Upgrade";
 import Payment from "../Dashboard/Payment";
 import Notification from "../../components/Notification";
-// import UserDetailForm from "./UserDetailForm";
-// import Image from "material-ui-image";
-// import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -49,6 +49,13 @@ const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
   },
+  dialog: {
+    paddingLeft: theme.spacing(3),
+    paddingRight: theme.spacing(3),
+  },
+  dialogAction: {
+    paddingRight: theme.spacing(2),
+  },
 }));
 
 export default function EventDetail({
@@ -72,9 +79,10 @@ export default function EventDetail({
     type: "",
   });
   const [event, setEvent] = useState({});
-
+  const [openNonMemberConfirmDialog, setOpenNonMemberConfirmDialog] =
+    useState(false);
+  const [openMemberConfirmDialog, setOpenMemberConfirmDialog] = useState(false);
   let { id } = useParams();
-  //console.log(data[id]);
 
   useEffect(() => {
     const active = data.filter((event) => event._id == id)[0];
@@ -97,59 +105,15 @@ export default function EventDetail({
     if (newWindow) newWindow.opener = null;
   };
 
-  // const handleClose = () => {
-  //   setOpenUserDetailForm(false);
-  // };
-
   const handleOnClick = () => {
     if (!isMember) {
-      confirmAlert({
-        message: "You have to be a member to join this event.",
-        buttons: [
-          {
-            label: "Cancel",
-            onClick: () => console.log(""),
-          },
-          {
-            label: "Upgrade",
-            onClick: () => setUpgradeOpen(true),
-          },
-        ],
-      });
+      setOpenNonMemberConfirmDialog(true);
     } else {
       if (!attendedEvents.includes(id)) {
         if (event.eventPrice > 0) {
           setPaymentOpen(true);
         } else {
-          confirmAlert({
-            message: "Do you want to join this event?",
-            buttons: [
-              {
-                label: "No",
-                onClick: () => console.log(""),
-              },
-              {
-                label: "Yes",
-                onClick: () => {
-                  if (id == "612fe680fef8fa000437d192") {
-                    setNotify({
-                      isOpen: true,
-                      message: "Sorry, this Event is now closed",
-                      type: "warning",
-                    });
-                  } else {
-                    handleRegister(id);
-                    // console.log(weChat);
-                    // if (false) {
-                    //   handleRegister(id);
-                    // } else {
-                    //   setOpenUserDetailForm(true);
-                    // }
-                  }
-                },
-              },
-            ],
-          });
+          setOpenMemberConfirmDialog(true);
         }
       } else {
         setNotify({
@@ -160,6 +124,7 @@ export default function EventDetail({
       }
     }
   };
+
   async function handleRegister(eventId) {
     console.log(eventId);
     const registerInfo = { eventId };
@@ -188,6 +153,46 @@ export default function EventDetail({
   const changePaymentStatus = () => {
     setPaymentSuccess(true);
   };
+
+  const memberConfirmDialog = (
+    <Dialog
+      open={openMemberConfirmDialog}
+      keepMounted
+      onClose={() => setOpenMemberConfirmDialog(false)}
+    >
+      <DialogContent>
+        <DialogContentText>Do you want to join this event?</DialogContentText>
+      </DialogContent>
+      <DialogActions className={classes.dialogAction}>
+        <Button onClick={() => setOpenMemberConfirmDialog(false)}>no</Button>
+        <Button color="secondary" onClick={() => handleRegister(id)}>
+          Yes!
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
+
+  const nonMemberConfirmDialog = (
+    <Dialog
+      open={openNonMemberConfirmDialog}
+      keepMounted
+      onClose={() => setOpenNonMemberConfirmDialog(false)}
+    >
+      <DialogContent className={classes.dialog}>
+        <DialogContentText>
+          You have to be a member to join this event.
+        </DialogContentText>
+      </DialogContent>
+      <DialogActions className={classes.dialogAction}>
+        <Button onClick={() => setOpenNonMemberConfirmDialog(false)}>
+          Cancel
+        </Button>
+        <Button color="secondary" onClick={() => setUpgradeOpen(true)}>
+          Upgrade
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
 
   return (
     <div>
@@ -246,6 +251,9 @@ export default function EventDetail({
             >
               Register
             </Button>
+            {/* confirm dialog - pops up when Register button is clicked */}
+            {memberConfirmDialog}
+            {nonMemberConfirmDialog}
           </Paper>
         </Grid>
         <Grid item xs={12} sm={6} md={3}>
