@@ -8,8 +8,8 @@ import { useParams } from "react-router";
 // import clsx from "clsx";
 import { Typography, Avatar } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
+import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import IconButton from "@material-ui/core/IconButton";
-import CloseIcon from "@material-ui/icons/Close";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -29,9 +29,7 @@ const useStyles = makeStyles((theme) => ({
     height: 240,
   },
   closeButton: {
-    position: "absolute",
-    right: theme.spacing(4),
-    top: theme.spacing(8),
+    marginBottom: theme.spacing(2),
   },
   root: {
     display: "flex",
@@ -68,17 +66,18 @@ export default function YourEventDetail({ data, ...rest }) {
 
   return (
     <div>
+      <IconButton
+        aria-label="close"
+        className={classes.closeButton}
+        edge="start"
+        size="small"
+        onClick={handleCloseBtn}
+      >
+        <ArrowBackIosIcon fontSize="small" />
+        <Typography variant="h6">Back</Typography>
+      </IconButton>
       <Grid container spacing={3}>
         <Grid item xs={12}>
-          <IconButton
-            aria-label="close"
-            className={classes.closeButton}
-            edge="start"
-            size="small"
-            onClick={handleCloseBtn}
-          >
-            <CloseIcon />
-          </IconButton>
           <MainCard img={event.eventImgUrl} />
         </Grid>
         {/* List of Events */}
