@@ -3,6 +3,12 @@
   "short_name": "NZCSA",
   "icons": [
     {
+      "src": "images/icons/maskable.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    },
+    {
       "src": "images/icons/favicon_192x192.png",
       "type": "image/png",
       "sizes": "192x192"
