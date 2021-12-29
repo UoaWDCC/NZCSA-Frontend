@@ -2,7 +2,6 @@
   "name": "nzcsa-frontend",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://127.0.0.1:5000",
   "dependencies": {
     "@date-io/date-fns": "^1.3.13",
     "@fortawesome/fontawesome-free": "^5.15.3",
