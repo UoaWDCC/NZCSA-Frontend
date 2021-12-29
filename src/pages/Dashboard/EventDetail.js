@@ -10,7 +10,6 @@ import { Typography, Avatar } from "@material-ui/core";
 import { Button } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 import IconButton from "@material-ui/core/IconButton";
-import CloseIcon from "@material-ui/icons/Close";
 import { confirmAlert } from "react-confirm-alert";
 import { Dialog, DialogTitle } from "@material-ui/core";
 import { DialogContent } from "@material-ui/core";
@@ -20,6 +19,7 @@ import { useTheme } from "@material-ui/core/styles";
 import Upgrade from "../Dashboard/Upgrade";
 import Payment from "../Dashboard/Payment";
 import Notification from "../../components/Notification";
+import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 // import UserDetailForm from "./UserDetailForm";
 // import Image from "material-ui-image";
 // import axios from "axios";
@@ -42,9 +42,7 @@ const useStyles = makeStyles((theme) => ({
     height: 240,
   },
   closeButton: {
-    position: "absolute",
-    right: theme.spacing(4),
-    top: theme.spacing(8),
+    marginBottom: theme.spacing(2),
   },
   root: {
     display: "flex",
@@ -192,17 +190,18 @@ export default function EventDetail({
   return (
     <div>
       <Notification notify={notify} setNotify={setNotify} />
+      <IconButton
+        aria-label="close"
+        className={classes.closeButton}
+        edge="start"
+        size="small"
+        onClick={handleCloseBtn}
+      >
+        <ArrowBackIosIcon fontSize="small" />
+        <Typography variant="h6">Back</Typography>
+      </IconButton>
       <Grid container spacing={3}>
         <Grid item xs={12}>
-          <IconButton
-            aria-label="close"
-            className={classes.closeButton}
-            edge="start"
-            size="small"
-            onClick={handleCloseBtn}
-          >
-            <CloseIcon />
-          </IconButton>
           <MainCard img={event.eventImgUrl} />
         </Grid>
         {/* List of Events */}
