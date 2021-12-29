@@ -20,7 +20,10 @@ const useStyles = makeStyles((theme) => ({
         // maxWidth: 345,
     },
     media: {
-        height: 340,
+        height: 140,
+        [theme.breakpoints.up("sm")]: {
+            height: 340,
+        },
         filter: props => props.darken ? "brightness(70%)" : null,
     },
     overlay: {
