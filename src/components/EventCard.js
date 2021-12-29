@@ -118,6 +118,11 @@ export default function EventCard(props) {
     }
   }
 
+  const handleOnClickYes = async (id) => {
+    await handleRegister(id);
+    setOpenMemberConfirmDialog(false);
+  };
+
   const memberConfirmDialog = (
     <Dialog
       open={openMemberConfirmDialog}
@@ -129,7 +134,7 @@ export default function EventCard(props) {
       </DialogContent>
       <DialogActions className={classes.dialogAction}>
         <Button onClick={() => setOpenMemberConfirmDialog(false)}>no</Button>
-        <Button color="secondary" onClick={() => handleRegister(id)}>
+        <Button color="secondary" onClick={() => handleOnClickYes(props.id)}>
           Yes!
         </Button>
       </DialogActions>

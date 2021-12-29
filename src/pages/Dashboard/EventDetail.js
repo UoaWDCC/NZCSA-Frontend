@@ -11,7 +11,7 @@ import { Button } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 import IconButton from "@material-ui/core/IconButton";
 import { confirmAlert } from "react-confirm-alert";
-import { Dialog, DialogTitle } from "@material-ui/core";
+import { Dialog, DialogContentText, DialogActions } from "@material-ui/core";
 import { DialogContent } from "@material-ui/core";
 import { signUpEvent } from "../../api/connectBackend";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
@@ -136,7 +136,6 @@ export default function EventDetail({
           type: "success",
         });
       }
-      //console.log(response.data);
     } catch (e) {
       // setLoading(false);
       console.log(e.response.data.error);
@@ -152,6 +151,11 @@ export default function EventDetail({
     setPaymentSuccess(true);
   };
 
+  const handleOnClickYes = async () => {
+    await handleRegister(id);
+    setOpenMemberConfirmDialog(false);
+  };
+
   const memberConfirmDialog = (
     <Dialog
       open={openMemberConfirmDialog}
@@ -163,7 +167,7 @@ export default function EventDetail({
       </DialogContent>
       <DialogActions className={classes.dialogAction}>
         <Button onClick={() => setOpenMemberConfirmDialog(false)}>no</Button>
-        <Button color="secondary" onClick={() => handleRegister(id)}>
+        <Button color="secondary" onClick={() => handleOnClickYes()}>
           Yes!
         </Button>
       </DialogActions>
