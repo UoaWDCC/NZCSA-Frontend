@@ -94,6 +94,10 @@ const useStyles = makeStyles((theme) => ({
     backdropFilter: "blur(6px)",
   },
   menuButton: {
+    display: "none",
+    [theme.breakpoints.up("md")]: {
+      display: "block",
+    },
     marginRight: 36,
   },
   menuButtonHidden: {
@@ -284,10 +288,13 @@ export default function Dashboard(props) {
         });
     };
     fetchData();
+  }, [setCurrentUser]);
+  
+  useEffect(() => {
     if (isMobile) {
       setOpen(!open);
     }
-  }, [anchorEl, setCurrentUser]);
+  }, [])
 
   useEffect(() => {
     const fetchData = async () => {
