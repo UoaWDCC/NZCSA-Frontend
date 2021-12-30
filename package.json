@@ -12,6 +12,7 @@
     "@testing-library/jest-dom": "^5.11.10",
     "@testing-library/react": "^11.2.6",
     "@testing-library/user-event": "^12.8.3",
+    "@thumbtack/thumbprint-react": "^14.4.1",
     "axios": "^0.21.1",
     "date-fns": "^2.0.0-beta.5",
     "i": "^0.3.6",

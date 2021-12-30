@@ -34,10 +34,6 @@ import {
   ListItemAvatar,
   ListItemText,
 } from "@material-ui/core";
-import VerifiedUserIcon from "@material-ui/icons/VerifiedUser";
-import VerifiedUserTwoToneIcon from "@material-ui/icons/VerifiedUserTwoTone";
-import VerifiedUserOutlinedIcon from "@material-ui/icons/VerifiedUserOutlined";
-import MainCard from "../../components/MainCard";
 import EventGrid from "./EventGrid";
 import { useParams, Link as RouterLink } from "react-router-dom";
 import EventDetail from "./EventDetail";
@@ -59,6 +55,7 @@ import { DarkModeContext } from "../../context/darkMode";
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import SwipeCard from '../../components/SwiperCard';
+import { AlertBanner } from '@thumbtack/thumbprint-react';
 
 
 const drawerWidth = 240;
@@ -289,7 +286,7 @@ export default function Dashboard(props) {
     };
     fetchData();
   }, [setCurrentUser]);
-  
+
   useEffect(() => {
     if (isMobile) {
       setOpen(!open);
@@ -340,6 +337,13 @@ export default function Dashboard(props) {
       handleSearch();
     }
   };
+
+  useEffect(() => {
+    window.addEventListener('beforeinstallprompt', (e) => {
+      console.log("event firsed")
+      deferredPrompt = e;
+    });
+  })
 
   const menuId = "primary-search-account-menu";
   const renderMenu = (
@@ -629,6 +633,10 @@ export default function Dashboard(props) {
       />
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
+        <AlertBanner theme="info">
+          Install our app on your homescreen to have quick access to your favorites  {' '}
+          <Button size="small">Install now!</Button>
+        </AlertBanner>
         {loading ? (
           <CircularProgress
             color="inherit"
