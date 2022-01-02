@@ -442,9 +442,9 @@ export default function Dashboard(props) {
             textColor="primary"
             centered
           >
-            <Tab label="Previous" />
-            <Tab label="Current" />
-            <Tab label="Comming soon" />
+            <Tab wrapped label="Previous" />
+            <Tab wrapped label="Current" />
+            <Tab wrapped label="Comming soon" />
           </Tabs>
         </Paper>
       </Grid>
