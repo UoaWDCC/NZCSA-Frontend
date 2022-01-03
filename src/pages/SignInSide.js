@@ -21,6 +21,9 @@ import { login } from '../api/connectBackend';
 import { red } from '@material-ui/core/colors';
 import RandomImagePicker from '../components/RandomImagePicker';
 import Copyright from '../components/Copyright';
+import { isMobile } from "react-device-detect";
+import Alert from "@material-ui/lab/Alert";
+import { isIos, isInStandaloneMode } from '../utils/pwaUtils';
 
 
 // TODO: Modify to match figma design
@@ -78,6 +81,8 @@ export default function SignInSide() {
   const [hasErrors, setHasErrors] = useState(false);
 
   const [loading, setLoading] = useState(false);
+  const [deferredPrompt, setDeferredPrompt] = useState(null);
+  const [showIOSInstall, setShowIOSInstall] = useState(false);
 
   const isError = (condition) => hasErrors && condition;
 
@@ -85,6 +90,23 @@ export default function SignInSide() {
   //   props.changeDarkMode(true);
   // }, [])
 
+  useEffect(() => {
+    window.addEventListener("beforeinstallprompt", (e) => {
+      e.preventDefault();
+      setDeferredPrompt(e);
+    });
+  }, []);
+
+  useEffect(() => {
+    if (isIos() && !isInStandaloneMode()) {
+      setShowIOSInstall(true);
+    }
+  }, []);
+
+  const handleInstall = async () => {
+    deferredPrompt.prompt();
+    setDeferredPrompt(null);
+  };
 
   async function handleSignIn() {
     setHasErrors(true);
@@ -111,7 +133,7 @@ export default function SignInSide() {
   return (
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
-      <Grid container className={classes.image} >
+      <Grid container className={classes.image}>
         <Grid item xs={0} sm={12 - 8} md={12 - 5} />
         <Grid
           item
@@ -123,6 +145,23 @@ export default function SignInSide() {
           square
           className={classes.backPanel}
         >
+          {deferredPrompt && isMobile && (
+            <Alert onClose={() => setDeferredPrompt(null)} severity="info">
+              Install our app on your homescreen to have quick access to your
+              favorites
+              <br></br>
+              <Button onClick={handleInstall} color="inherit" size="small" variant="outlined">
+                INSTALL
+              </Button>
+            </Alert>
+          )}
+          {showIOSInstall && (
+            <Alert onClose={() => setShowIOSInstall(false)} severity="info">
+              Install the NZCSA webapp! tap{" "}
+              <img height="16px" src="/images/icons/share-icon.jpg" /> and then
+              select <strong>Add To Home Screen</strong>. (Use the Safari browser)
+            </Alert>
+          )}
           <div className={classes.paper}>
             <Avatar className={classes.avatar}>
               <LockOutlinedIcon />
@@ -133,11 +172,10 @@ export default function SignInSide() {
 
             {/* <form className={classes.form} noValidate> */}
             <div className={classes.form} noValidate>
-              <Typography color='error'>
-                {errorMessage}
-              </Typography>
+              <Typography color="error">{errorMessage}</Typography>
 
-              <TextField variant="outlined"
+              <TextField
+                variant="outlined"
                 margin="normal"
                 required
                 fullWidth
@@ -146,11 +184,14 @@ export default function SignInSide() {
                 name="email"
                 autoComplete="email"
                 autoFocus
-                onChange={e => setEmail(e.target.value.trim().toLowerCase())}
+                onChange={(e) => setEmail(e.target.value.trim().toLowerCase())}
                 error={isError(email.length === 0)}
-                helperText={isError(email.length === 0) && "Please enter your email!"}
+                helperText={
+                  isError(email.length === 0) && "Please enter your email!"
+                }
               />
-              <TextField variant="outlined"
+              <TextField
+                variant="outlined"
                 margin="normal"
                 required
                 fullWidth
@@ -159,9 +200,12 @@ export default function SignInSide() {
                 type="password"
                 id="password"
                 autoComplete="current-password"
-                onChange={e => setPassword(e.target.value)}
+                onChange={(e) => setPassword(e.target.value)}
                 error={isError(password.length === 0)}
-                helperText={isError(password.length === 0) && "Please enter your password!"}
+                helperText={
+                  isError(password.length === 0) &&
+                  "Please enter your password!"
+                }
               />
               <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}
