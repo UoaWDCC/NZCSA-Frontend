@@ -22,7 +22,7 @@ const StyledListItem = withStyles((theme) => ({
         color: theme.palette.common.white
       }
     }
-  }
+  },
 }))(ListItem);
 
 export const mainListItems = (

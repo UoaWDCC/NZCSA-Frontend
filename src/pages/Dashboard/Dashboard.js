@@ -17,6 +17,7 @@ import Paper from "@material-ui/core/Paper";
 // import Link from "@material-ui/core/Link";
 import MenuIcon from "@material-ui/icons/Menu";
 import SearchIcon from "@material-ui/icons/Search";
+import CloseIcon from '@material-ui/icons/Close';
 import InputBase from "@material-ui/core/InputBase";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import { mainListItems, bottomListItems } from "./listItems";
@@ -57,6 +58,8 @@ import Tab from "@material-ui/core/Tab";
 import SwipeCard from "../../components/SwiperCard";
 import Alert from "@material-ui/lab/Alert";
 import { isIos, isInStandaloneMode } from "../../utils/pwaUtils";
+import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+
 
 const drawerWidth = 240;
 
@@ -91,7 +94,7 @@ const useStyles = makeStyles((theme) => ({
     backdropFilter: "blur(6px)",
   },
   menuButton: {
-    display: "none",
+    //display: "none",
     [theme.breakpoints.up("md")]: {
       display: "block",
     },
@@ -538,8 +541,9 @@ export default function Dashboard(props) {
             onClick={handleDrawerOpen}
             className={clsx(classes.menuButton)}
           >
-            <MenuIcon />
+            <MenuIcon/>
           </IconButton>
+          
           <img
             src={!darkMode ? "/logo_black.png" : "/logo_white.png"}
             alt="logo"
@@ -574,20 +578,31 @@ export default function Dashboard(props) {
         </Toolbar>
       </AppBar>
       {renderMenu}
+      
       <Drawer
         variant="permanent"
         classes={{
           paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
         }}
         open={open}
+        onClick={handleDrawerOpen}
       >
+
         <div className={classes.toolbarIcon}>
           <IconButton>
             <ChevronLeftIcon />
           </IconButton>
         </div>
         <Divider />
+
+        {/*<ClickAwayListener onClickAway={closeDrawer}>
+          <List onClick={handleDrawerOpen}>
+            {mainListItems}
+          </List>
+        </ClickAwayListener>*/}
+        
         <List>{mainListItems}</List>
+        
         <Divider variant="middle" />
         <List>
           {!userData.isMembership && (
@@ -631,6 +646,7 @@ export default function Dashboard(props) {
           <List disablePadding>{bottomListItems}</List>
         </Box>
       </Drawer>
+
       <Upgrade
         checkout={props.checkout}
         open={upgradeOpen}
