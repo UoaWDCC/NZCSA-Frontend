@@ -56,6 +56,7 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import SwipeCard from "../../components/SwiperCard";
 import Alert from "@material-ui/lab/Alert";
+import { isIos, isInStandaloneMode } from "../../utils/pwaUtils";
 
 const drawerWidth = 240;
 
@@ -264,26 +265,6 @@ export default function Dashboard(props) {
     deferredPrompt.prompt();
     setDeferredPrompt(null);
   };
-
-  // Detects if device is on iOS
-  const isIos = () => {
-    return (
-      [
-        "iPad Simulator",
-        "iPhone Simulator",
-        "iPod Simulator",
-        "iPad",
-        "iPhone",
-        "iPod",
-      ].includes(navigator.platform) ||
-      // iPad on iOS 13 detection
-      (navigator.userAgent.includes("Mac") && "ontouchend" in document)
-    );
-  };
-
-  // Detects if device is in standalone mode
-  const isInStandaloneMode = () =>
-    "standalone" in window.navigator && window.navigator.standalone;
 
   useEffect(() => {
     const config = {
@@ -676,7 +657,7 @@ export default function Dashboard(props) {
           <Alert onClose={() => setShowIOSInstall(false)} severity="info">
             Install the NZCSA webapp! tap{" "}
             <img height="16px" src="/images/icons/share-icon.jpg" /> and then
-            select <strong>Add To Home Screen</strong>.
+            select <strong>Add To Home Screen</strong>. (Use the Safari browser)
           </Alert>
         )}
         {loading ? (
