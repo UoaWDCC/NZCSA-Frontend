@@ -667,7 +667,7 @@ export default function Dashboard(props) {
             Install our app on your homescreen to have quick access to your
             favorites
             <br></br>
-            <Button onClick={handleInstall} color="inherit" size="small">
+            <Button onClick={handleInstall} color="inherit" size="small" variant="outlined">
               INSTALL
             </Button>
           </Alert>
@@ -676,7 +676,7 @@ export default function Dashboard(props) {
           <Alert onClose={() => setShowIOSInstall(false)} severity="info">
             Install the NZCSA webapp! tap{" "}
             <img height="16px" src="/images/icons/share-icon.jpg" /> and then
-            Add To Homescreen.
+            select <strong>Add To Home Screen</strong>.
           </Alert>
         )}
         {loading ? (
