@@ -35,10 +35,6 @@ import {
   ListItemAvatar,
   ListItemText,
 } from "@material-ui/core";
-import VerifiedUserIcon from "@material-ui/icons/VerifiedUser";
-import VerifiedUserTwoToneIcon from "@material-ui/icons/VerifiedUserTwoTone";
-import VerifiedUserOutlinedIcon from "@material-ui/icons/VerifiedUserOutlined";
-import MainCard from "../../components/MainCard";
 import EventGrid from "./EventGrid";
 import { useParams, Link as RouterLink } from "react-router-dom";
 import EventDetail from "./EventDetail";
@@ -61,7 +57,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import SwipeCard from '../../components/SwiperCard';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
-
+import Alert from "@material-ui/lab/Alert";
 
 const drawerWidth = 240;
 
@@ -236,6 +232,8 @@ export default function Dashboard(props) {
   const [loading, setLoading] = useState(false);
   const [searchInfo, setSearchInfo] = useState("");
   const [searchEventData, setSearchEventData] = useState([]);
+  const [deferredPrompt, setDeferredPrompt] = useState(null);
+  const [showIOSInstall, setShowIOSInstall] = useState(false);
 
   // const [yourEventsData, setYoursEventData] = useState({});
   const [userInforDialog, seUserInforDialog] = useState(false);
@@ -249,7 +247,6 @@ export default function Dashboard(props) {
   const handleChange = (event, value) => {
     setValue(value);
   };
-
 
   const handleDrawerOpen = () => {
     setOpen(!open);
@@ -277,6 +274,31 @@ export default function Dashboard(props) {
     console.log("hi");
   };
 
+  const handleInstall = async () => {
+    deferredPrompt.prompt();
+    setDeferredPrompt(null);
+  };
+
+  // Detects if device is on iOS
+  const isIos = () => {
+    return (
+      [
+        "iPad Simulator",
+        "iPhone Simulator",
+        "iPod Simulator",
+        "iPad",
+        "iPhone",
+        "iPod",
+      ].includes(navigator.platform) ||
+      // iPad on iOS 13 detection
+      (navigator.userAgent.includes("Mac") && "ontouchend" in document)
+    );
+  };
+
+  // Detects if device is in standalone mode
+  const isInStandaloneMode = () =>
+    "standalone" in window.navigator && window.navigator.standalone;
+
   useEffect(() => {
     const config = {
       headers: {
@@ -303,12 +325,12 @@ export default function Dashboard(props) {
     };
     fetchData();
   }, [setCurrentUser]);
-  
+
   useEffect(() => {
     if (isMobile) {
       setOpen(!open);
     }
-  }, [])
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -354,6 +376,19 @@ export default function Dashboard(props) {
       handleSearch();
     }
   };
+
+  useEffect(() => {
+    window.addEventListener("beforeinstallprompt", (e) => {
+      e.preventDefault();
+      setDeferredPrompt(e);
+    });
+  }, []);
+
+  useEffect(() => {
+    if (isIos() && !isInStandaloneMode()) {
+      setShowIOSInstall(true);
+    }
+  }, []);
 
   const menuId = "primary-search-account-menu";
   const renderMenu = (
@@ -434,8 +469,6 @@ export default function Dashboard(props) {
       {/* Main Events Section */}
 
       <Grid item xs={12}>
-
-
         <SwipeCard
           img={img}
           title="永劫无间线上友谊赛"
@@ -651,6 +684,23 @@ export default function Dashboard(props) {
       />
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
+        {deferredPrompt && isMobile && (
+          <Alert onClose={() => setDeferredPrompt(null)} severity="info">
+            Install our app on your homescreen to have quick access to your
+            favorites
+            <br></br>
+            <Button onClick={handleInstall} color="inherit" size="small">
+              INSTALL
+            </Button>
+          </Alert>
+        )}
+        {showIOSInstall && (
+          <Alert onClose={() => setShowIOSInstall(false)} severity="info">
+            Install the NZCSA webapp! tap{" "}
+            <img height="16px" src="/images/icons/share-icon.jpg" /> and then
+            Add To Homescreen.
+          </Alert>
+        )}
         {loading ? (
           <CircularProgress
             color="inherit"
