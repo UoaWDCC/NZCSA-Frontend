@@ -113,7 +113,15 @@ const useStyles = makeStyles((theme) => ({
   drawerPaper: {
     position: "relative",
     whiteSpace: "nowrap",
-    width: drawerWidth,
+    [theme.breakpoints.up('sm')]: {
+      width: drawerWidth,
+      paddingTop: 70, //size of app bar
+    },
+    [theme.breakpoints.down('sm')]: {
+      width: window.innerWidth,
+      alignItems: "center",
+      paddingTop: 170, //size of app bar
+    },
     transition: theme.transitions.create("width", {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
@@ -121,10 +129,12 @@ const useStyles = makeStyles((theme) => ({
   },
   drawerPaperClose: {
     overflowX: "hidden",
+    paddingTop: 70,
     transition: theme.transitions.create("width", {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
+    alignItems: "flex-start",
     width: theme.spacing(7),
     [theme.breakpoints.up("sm")]: {
       width: theme.spacing(9),
@@ -200,6 +210,8 @@ const useStyles = makeStyles((theme) => ({
   },
   about: {
     marginTop: "auto",
+    bottom: 0, 
+    overflow: "hidden"
   },
   loading: {
     left: "55%",
@@ -585,20 +597,20 @@ export default function Dashboard(props) {
         open={open}
         onClick={handleDrawerOpen}
       >
-        <div className={classes.toolbarIcon}>
+        {/*<div className={classes.toolbarIcon}>
           <IconButton>
             <ChevronLeftIcon />
           </IconButton>
         </div>
-        <Divider />
-
-        {/*<ClickAwayListener onClickAway={closeDrawer}>
-          <List onClick={handleDrawerOpen}>
-            {mainListItems}
-          </List>
-        </ClickAwayListener>*/}
+      <Divider />*/}
         
-        <List>{mainListItems}</List>
+        <div>
+          {open ? (
+            <List>
+              {mainListItems}
+            </List>
+          ) : <List>{mainListItems}</List>}
+        </div>
         <Divider variant="middle" />
         <List>
           {!userData.isMembership && (
