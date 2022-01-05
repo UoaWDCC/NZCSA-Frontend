@@ -15,19 +15,29 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 
 const StyledListItem = withStyles((theme) => ({
   root: {
+    [theme.breakpoints.down("md")]: {
+      paddingInline: window.innerWidth/2 - 72, // centering tab
+    },
+    [theme.breakpoints.up("md")]: {
+      paddingInline: 20,
+    },
     "&:focus": {
       backgroundColor: theme.palette.primary.main,
+      width: window.innerWidth, 
       "& .MuiListItemIcon-root, & .MuiListItemText-primary": {
         color: theme.palette.common.white
       }
+    },
+    closedMainItems: {
+      color: 20,
     }
-  }
+  },
 }))(ListItem);
 
 export const mainListItems = (
 
   <div>
-    <StyledListItem button to="/" component={Link} >
+    <StyledListItem button to="/" component={Link}>
       <ListItemIcon>
         <DashboardIcon />
       </ListItemIcon>
@@ -45,6 +55,29 @@ export const mainListItems = (
       </ListItemIcon>
       <ListItemText primary="Sponsors" />
     </StyledListItem>
+  </div>
+);
+
+export const closedMainItems = (
+  <div>
+    <ListItem button to="/" component={Link}>
+      <ListItemIcon>
+        <DashboardIcon />
+      </ListItemIcon>
+      <ListItemText primary="Home" />
+    </ListItem>
+    <ListItem button to="/yourEvents" component={Link}>
+      <ListItemIcon>
+        <EventNote />
+      </ListItemIcon>
+      <ListItemText primary="Your Events" />
+    </ListItem>
+    <ListItem button to="/sponsors" component={Link}>
+      <ListItemIcon>
+        <PeopleIcon />
+      </ListItemIcon>
+      <ListItemText primary="Sponsors" />
+    </ListItem>
   </div>
 );
 

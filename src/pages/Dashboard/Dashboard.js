@@ -17,10 +17,9 @@ import Paper from "@material-ui/core/Paper";
 // import Link from "@material-ui/core/Link";
 import MenuIcon from "@material-ui/icons/Menu";
 import SearchIcon from "@material-ui/icons/Search";
-import CloseIcon from '@material-ui/icons/Close';
 import InputBase from "@material-ui/core/InputBase";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import { mainListItems, bottomListItems } from "./listItems";
+import { mainListItems, closedMainItems, bottomListItems } from "./listItems";
 // import navLogo from "./images/logo_black.png";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -58,6 +57,9 @@ import Tab from '@material-ui/core/Tab';
 import SwipeCard from '../../components/SwiperCard';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Alert from "@material-ui/lab/Alert";
+import DashboardIcon from "@material-ui/icons/Dashboard";
+import PeopleIcon from "@material-ui/icons/People";
+import { EventNote } from "@material-ui/icons";
 
 const drawerWidth = 240;
 
@@ -111,14 +113,15 @@ const useStyles = makeStyles((theme) => ({
   drawerPaper: {
     position: "relative",
     whiteSpace: "nowrap",
+    scale: 2,
     [theme.breakpoints.up('sm')]: {
       width: drawerWidth,
       paddingTop: 70, //size of app bar
     },
     [theme.breakpoints.down('sm')]: {
       width: window.innerWidth,
-      alignItems: "center",
-      paddingTop: 170, //size of app bar
+      paddingTop: 170,
+      alignItems: 'center',
     },
     transition: theme.transitions.create("width", {
       easing: theme.transitions.easing.sharp,
@@ -621,29 +624,26 @@ export default function Dashboard(props) {
           </IconButton>
         </div>
       <Divider />*/}
-        
-        <div>
-          {open ? (
-            <List>
-              {mainListItems}
-            </List>
-          ) : <List>{mainListItems}</List>}
-        </div>
+        {!open ? (
+          <List>
+            {closedMainItems}
+          </List>
+              ) : <List>{mainListItems}</List>}
         <Divider variant="middle" />
         <List>
           {!userData.isMembership && (
             <div>
               {open ? (
                 <ListItem alignItems="flex-start">
-                  <ListItemText
-                    secondary={
-                      <div>
-                        <div>Become a member to join events</div>
-                        <div>and enjoy discounts</div>
-                      </div>
-                    }
-                  />
-                </ListItem>
+                <ListItemText
+                  secondary={
+                    <div>
+                      <div>Become a member to join events</div>
+                      <div>and enjoy discounts</div>
+                    </div>
+                  }
+                />
+              </ListItem>
               ) : null}
               {open ? (
                 <ListItem alignItems="flex-start">
