@@ -19,7 +19,7 @@ import MenuIcon from "@material-ui/icons/Menu";
 import SearchIcon from "@material-ui/icons/Search";
 import InputBase from "@material-ui/core/InputBase";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import { mainListItems, closedMainItems, bottomListItems } from "./listItems";
+import { homeItem, eventItem, sponsorItem, bottomListItems } from "./listItems";
 // import navLogo from "./images/logo_black.png";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -57,9 +57,6 @@ import Tab from '@material-ui/core/Tab';
 import SwipeCard from '../../components/SwiperCard';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Alert from "@material-ui/lab/Alert";
-import DashboardIcon from "@material-ui/icons/Dashboard";
-import PeopleIcon from "@material-ui/icons/People";
-import { EventNote } from "@material-ui/icons";
 
 const drawerWidth = 240;
 
@@ -113,7 +110,6 @@ const useStyles = makeStyles((theme) => ({
   drawerPaper: {
     position: "relative",
     whiteSpace: "nowrap",
-    scale: 2,
     [theme.breakpoints.up('sm')]: {
       width: drawerWidth,
       paddingTop: 70, //size of app bar
@@ -212,7 +208,7 @@ const useStyles = makeStyles((theme) => ({
   about: {
     marginTop: "auto",
     bottom: 0, 
-    overflow: "hidden"
+    overflow: "hidden",
   },
   loading: {
     left: "55%",
@@ -624,12 +620,10 @@ export default function Dashboard(props) {
           </IconButton>
         </div>
       <Divider />*/}
-        {!open ? (
-          <List>
-            {closedMainItems}
-          </List>
-              ) : <List>{mainListItems}</List>}
-        <Divider variant="middle" />
+        <List>{homeItem}</List>
+        <List>{eventItem}</List> 
+        <List>{sponsorItem}</List> 
+        <Divider variant="middle"/>
         <List>
           {!userData.isMembership && (
             <div>
