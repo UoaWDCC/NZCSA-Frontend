@@ -20,7 +20,11 @@ import SearchIcon from "@material-ui/icons/Search";
 import CloseIcon from '@material-ui/icons/Close';
 import InputBase from "@material-ui/core/InputBase";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
+<<<<<<< HEAD
 import { mainListItems, bottomListItems } from "./listItems";
+=======
+import { homeItem, eventItem, sponsorItem, bottomListItems } from "./listItems";
+>>>>>>> 61dbefc (finalising layout)
 // import navLogo from "./images/logo_black.png";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -59,7 +63,6 @@ import SwipeCard from "../../components/SwiperCard";
 import Alert from "@material-ui/lab/Alert";
 import { isIos, isInStandaloneMode } from "../../utils/pwaUtils";
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
-
 
 const drawerWidth = 240;
 
@@ -211,7 +214,7 @@ const useStyles = makeStyles((theme) => ({
   about: {
     marginTop: "auto",
     bottom: 0, 
-    overflow: "hidden"
+    overflow: "hidden",
   },
   loading: {
     left: "55%",
@@ -603,6 +606,7 @@ export default function Dashboard(props) {
           </IconButton>
         </div>
       <Divider />*/}
+<<<<<<< HEAD
         
         <div>
           {open ? (
@@ -612,6 +616,12 @@ export default function Dashboard(props) {
           ) : <List>{mainListItems}</List>}
         </div>
         <Divider variant="middle" />
+=======
+        <List>{homeItem}</List>
+        <List>{eventItem}</List> 
+        <List>{sponsorItem}</List> 
+        <Divider variant="middle"/>
+>>>>>>> 61dbefc (finalising layout)
         <List>
           {!userData.isMembership && (
             <div>

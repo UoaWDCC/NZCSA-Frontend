@@ -17,6 +17,12 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 const StyledListItem = withStyles((theme) => ({
   root: {
     "&:focus": {
+      [theme.breakpoints.down("md")]: {
+        paddingInline: window.innerWidth/2 - 70, // centering tab
+      },
+      [theme.breakpoints.up("md")]: {
+        paddingInline: 20,
+      },
       backgroundColor: theme.palette.primary.main,
       "& .MuiListItemIcon-root, & .MuiListItemText-primary": {
         color: theme.palette.common.white
@@ -25,7 +31,7 @@ const StyledListItem = withStyles((theme) => ({
   }
 }))(ListItem);
 
-export const mainListItems = (
+export const homeItem = (
 
   <div>
     <StyledListItem button to="/" component={Link} >
@@ -34,6 +40,12 @@ export const mainListItems = (
       </ListItemIcon>
       <ListItemText primary="Home" />
     </StyledListItem>
+  </div>
+);
+
+export const eventItem = (
+
+  <div>
     <StyledListItem button to="/yourEvents" component={Link}>
       <ListItemIcon>
         <EventNote />
