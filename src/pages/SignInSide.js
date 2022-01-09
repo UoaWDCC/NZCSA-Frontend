@@ -67,6 +67,24 @@ const useStyles = makeStyles((theme) => ({
   },
   errorMessage: {
     color: red
+  },
+  forgotPasswordText: {
+    [theme.breakpoints.down("xs")]: {
+      display: "flex",
+      justifyContent: "center",
+    }
+
+  },
+  signupText: {
+    [theme.breakpoints.down("sm")]: {
+      display: "flex",
+      justifyContent: "center",
+    },
+    [theme.breakpoints.up("md")]: {
+      display: "flex",
+      justifyContent: "right",
+    }
+
   }
 
 }));
@@ -226,19 +244,19 @@ export default function SignInSide() {
                   <>Sign In</>
                 )}
               </Button>
-              <Grid container>
-                <Grid item xs>
-                  <Link href="/forgotPassword" variant="body2">
+              <Grid container alignContent='space between'>
+                <Grid item xs={12} md>
+                  <Link href="/forgotPassword" variant="body2" className={classes.forgotPasswordText}>
                     Forgot password?
                   </Link>
                 </Grid>
-                <Grid item>
-                  <Link href="/signup" variant="body2">
+                <Grid item xs md>
+                  <Link href="/signup" variant="body2" className={classes.signupText}>
                     {"Don't have an account? Sign Up"}
                   </Link>
                 </Grid>
               </Grid>
-              <Container className={classes.logoNCopyright}>
+              <Container className={classes.logoNCopyright} >
                 <Copyright />
               </Container>
               {/* </form> */}
