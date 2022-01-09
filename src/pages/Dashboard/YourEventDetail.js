@@ -108,7 +108,7 @@ export default function YourEventDetail({ data, ...rest }) {
             <Typography variant="h6" gutterBottom>
               WeChat Group
             </Typography>
-            <img src={event.wechatImgUrl} />
+            <img width="100%" height="auto" src={event.wechatImgUrl} />
           </Paper>
         </Grid>
         {/* Recent Orders */}
