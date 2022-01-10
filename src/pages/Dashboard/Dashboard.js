@@ -207,7 +207,7 @@ const useStyles = makeStyles((theme) => ({
   },
   about: {
     marginTop: "auto",
-    bottom: 0, 
+    bottom: 0,
     overflow: "hidden",
   },
   loading: {
@@ -233,6 +233,7 @@ export default function Dashboard(props) {
   const [searchEventData, setSearchEventData] = useState([]);
   const [deferredPrompt, setDeferredPrompt] = useState(null);
   const [showIOSInstall, setShowIOSInstall] = useState(false);
+  const [selectedMenuItem, setSelectedMenuItem] = useState(0);
 
   // const [yourEventsData, setYoursEventData] = useState({});
   const [userInforDialog, seUserInforDialog] = useState(false);
@@ -272,6 +273,10 @@ export default function Dashboard(props) {
     handleMenuClose();
     console.log("hi");
   };
+
+  const handleSelectedMenuItem = (num) => {
+    setSelectedMenuItem(num);
+  }
 
   const handleInstall = async () => {
     deferredPrompt.prompt();
@@ -605,7 +610,7 @@ export default function Dashboard(props) {
           </IconButton>
         </Toolbar>
       </AppBar>
-      {renderMenu} 
+      {renderMenu}
       <Drawer
         variant="permanent"
         classes={{
@@ -620,26 +625,26 @@ export default function Dashboard(props) {
           </IconButton>
         </div>
       <Divider />*/}
-      <List>
-        <List>{homeItem}</List>
-        <List>{eventItem}</List> 
-        <List>{sponsorItem}</List> 
-      </List>
-        <Divider variant="middle"/>
+        <List>
+          <MenuItem button onClick={() => handleSelectedMenuItem(0)} selected={selectedMenuItem === 0}>{homeItem}</MenuItem>
+          <MenuItem button onClick={() => handleSelectedMenuItem(1)} selected={selectedMenuItem === 1}>{eventItem}</MenuItem>
+          <MenuItem button onClick={() => handleSelectedMenuItem(2)} selected={selectedMenuItem === 2}>{sponsorItem}</MenuItem>
+        </List>
+        <Divider variant="middle" />
         <List>
           {!userData.isMembership && (
             <div>
               {open ? (
                 <ListItem alignItems="flex-start">
-                <ListItemText
-                  secondary={
-                    <div>
-                      <div>Become a member to join events</div>
-                      <div>and enjoy discounts</div>
-                    </div>
-                  }
-                />
-              </ListItem>
+                  <ListItemText
+                    secondary={
+                      <div>
+                        <div>Become a member to join events</div>
+                        <div>and enjoy discounts</div>
+                      </div>
+                    }
+                  />
+                </ListItem>
               ) : null}
               {open ? (
                 <ListItem alignItems="flex-start">
@@ -665,7 +670,7 @@ export default function Dashboard(props) {
         </List>
         <Box className={classes.about}>
           <Divider variant="middle" />
-          <List disablePadding>{bottomListItems}</List>
+          <MenuItem disablePadding button onClick={() => handleSelectedMenuItem(3)} selected={selectedMenuItem === 3}>{bottomListItems}</MenuItem>
         </Box>
       </Drawer>
       <Upgrade
