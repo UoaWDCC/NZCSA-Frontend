@@ -20,11 +20,7 @@ import SearchIcon from "@material-ui/icons/Search";
 import CloseIcon from '@material-ui/icons/Close';
 import InputBase from "@material-ui/core/InputBase";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-<<<<<<< HEAD
-import { mainListItems, bottomListItems } from "./listItems";
-=======
 import { homeItem, eventItem, sponsorItem, bottomListItems } from "./listItems";
->>>>>>> 61dbefc (finalising layout)
 // import navLogo from "./images/logo_black.png";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -138,8 +134,8 @@ const useStyles = makeStyles((theme) => ({
       duration: theme.transitions.duration.leavingScreen,
     }),
     alignItems: "flex-start",
-    width: theme.spacing(7),
-    [theme.breakpoints.up("sm")]: {
+    width: 0,
+    [theme.breakpoints.up("md")]: {
       width: theme.spacing(9),
     },
   },
@@ -607,6 +603,7 @@ export default function Dashboard(props) {
         </div>
       <Divider />*/}
 <<<<<<< HEAD
+<<<<<<< HEAD
         
         <div>
           {open ? (
@@ -617,9 +614,13 @@ export default function Dashboard(props) {
         </div>
         <Divider variant="middle" />
 =======
+=======
+      <List>
+>>>>>>> aae9ea6 (replace slide bar with full screen menu)
         <List>{homeItem}</List>
         <List>{eventItem}</List> 
         <List>{sponsorItem}</List> 
+      </List>
         <Divider variant="middle"/>
 >>>>>>> 61dbefc (finalising layout)
         <List>

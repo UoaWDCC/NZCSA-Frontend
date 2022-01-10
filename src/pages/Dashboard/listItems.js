@@ -17,18 +17,13 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 const StyledListItem = withStyles((theme) => ({
   root: {
     "&:focus": {
-      [theme.breakpoints.down("md")]: {
-        paddingInline: window.innerWidth/2 - 70, // centering tab
-      },
-      [theme.breakpoints.up("md")]: {
-        paddingInline: 20,
-      },
       backgroundColor: theme.palette.primary.main,
       "& .MuiListItemIcon-root, & .MuiListItemText-primary": {
         color: theme.palette.common.white
       }
-    }
-  }
+    },
+    paddingInline: 25,
+  },
 }))(ListItem);
 
 export const homeItem = (
