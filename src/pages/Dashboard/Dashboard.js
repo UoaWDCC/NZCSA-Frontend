@@ -132,8 +132,8 @@ const useStyles = makeStyles((theme) => ({
       duration: theme.transitions.duration.leavingScreen,
     }),
     alignItems: "flex-start",
-    width: theme.spacing(7),
-    [theme.breakpoints.up("sm")]: {
+    width: 0,
+    [theme.breakpoints.up("md")]: {
       width: theme.spacing(9),
     },
   },
@@ -620,9 +620,11 @@ export default function Dashboard(props) {
           </IconButton>
         </div>
       <Divider />*/}
+      <List>
         <List>{homeItem}</List>
         <List>{eventItem}</List> 
         <List>{sponsorItem}</List> 
+      </List>
         <Divider variant="middle"/>
         <List>
           {!userData.isMembership && (
