@@ -209,7 +209,7 @@ const useStyles = makeStyles((theme) => ({
   },
   about: {
     marginTop: "auto",
-    bottom: 0, 
+    bottom: 0,
     overflow: "hidden",
   },
   loading: {
@@ -235,6 +235,7 @@ export default function Dashboard(props) {
   const [searchEventData, setSearchEventData] = useState([]);
   const [deferredPrompt, setDeferredPrompt] = useState(null);
   const [showIOSInstall, setShowIOSInstall] = useState(false);
+  const [selectedMenuItem, setSelectedMenuItem] = useState(0);
 
   // const [yourEventsData, setYoursEventData] = useState({});
   const [userInforDialog, seUserInforDialog] = useState(false);
@@ -274,6 +275,10 @@ export default function Dashboard(props) {
     handleMenuClose();
     console.log("hi");
   };
+
+  const handleSelectedMenuItem = (num) => {
+    setSelectedMenuItem(num);
+  }
 
   const handleInstall = async () => {
     deferredPrompt.prompt();
@@ -587,7 +592,7 @@ export default function Dashboard(props) {
           </IconButton>
         </Toolbar>
       </AppBar>
-      {renderMenu} 
+      {renderMenu}
       <Drawer
         variant="permanent"
         classes={{
@@ -602,27 +607,14 @@ export default function Dashboard(props) {
           </IconButton>
         </div>
       <Divider />*/}
-<<<<<<< HEAD
-<<<<<<< HEAD
-        
-        <div>
-          {open ? (
-            <List>
-              {mainListItems}
-            </List>
-          ) : <List>{mainListItems}</List>}
-        </div>
+
+        <List>
+          <List button onClick={() => handleSelectedMenuItem(0)} selected={selectedMenuItem === 0}>{homeItem}</List>
+          <List button onClick={() => handleSelectedMenuItem(1)} selected={selectedMenuItem === 1}>{eventItem}</List>
+          <List button onClick={() => handleSelectedMenuItem(2)} selected={selectedMenuItem === 2}>{sponsorItem}</List>
+        </List>
         <Divider variant="middle" />
-=======
-=======
-      <List>
->>>>>>> aae9ea6 (replace slide bar with full screen menu)
-        <List>{homeItem}</List>
-        <List>{eventItem}</List> 
-        <List>{sponsorItem}</List> 
-      </List>
-        <Divider variant="middle"/>
->>>>>>> 61dbefc (finalising layout)
+
         <List>
           {!userData.isMembership && (
             <div>
@@ -662,7 +654,7 @@ export default function Dashboard(props) {
         </List>
         <Box className={classes.about}>
           <Divider variant="middle" />
-          <List disablePadding>{bottomListItems}</List>
+          <MenuItem disablePadding button onClick={() => handleSelectedMenuItem(3)} selected={selectedMenuItem === 3}>{bottomListItems}</MenuItem>
         </Box>
       </Drawer>
       <Upgrade
