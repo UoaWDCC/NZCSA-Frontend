@@ -18,11 +18,12 @@ const StyledListItem = withStyles((theme) => ({
     "&:focus": {
       backgroundColor: theme.palette.primary.main,
       width: window.innerWidth, 
+      alignItems: 'center',
       "& .MuiListItemIcon-root, & .MuiListItemText-primary": {
         color: theme.palette.common.white
       }
     },
-    paddingInline: 25,
+    paddingLeft: 25,
   },
 }))(ListItem);
 
