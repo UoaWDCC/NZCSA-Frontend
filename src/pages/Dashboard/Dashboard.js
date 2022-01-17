@@ -112,6 +112,7 @@ const useStyles = makeStyles((theme) => ({
   drawerPaper: {
     position: "relative",
     whiteSpace: "nowrap",
+    overflowX: "hidden",
     [theme.breakpoints.up('sm')]: {
       width: drawerWidth,
       paddingTop: 70, //size of app bar
@@ -128,13 +129,20 @@ const useStyles = makeStyles((theme) => ({
   },
   drawerPaperClose: {
     overflowX: "hidden",
-    paddingTop: 70,
+    width: 0,
+    alignItems: 'center',
     transition: theme.transitions.create("width", {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
     alignItems: "flex-start",
-    width: 0,
+    [theme.breakpoints.up('sm')]: {
+      paddingTop: 70,
+    },
+    [theme.breakpoints.down('sm')]: {
+      paddingTop: 170,
+      alignItems: 'center',
+    },
     [theme.breakpoints.up("md")]: {
       width: theme.spacing(9),
     },
@@ -252,6 +260,7 @@ export default function Dashboard(props) {
 
   const handleDrawerOpen = () => {
     setOpen(!open);
+    window.dispatchEvent(new Event('resize'));
   };
 
   const handleProfileMenuOpen = (event) => {
@@ -653,8 +662,8 @@ export default function Dashboard(props) {
           )}
         </List>
         <Box className={classes.about}>
-          <Divider variant="middle" />
-          <MenuItem disablePadding button onClick={() => handleSelectedMenuItem(3)} selected={selectedMenuItem === 3}>{bottomListItems}</MenuItem>
+          {open ? (<Divider variant="middle" />):null}
+          <List disablePadding button onClick={() => handleSelectedMenuItem(3)} selected={selectedMenuItem === 3}>{bottomListItems}</List>
         </Box>
       </Drawer>
       <Upgrade

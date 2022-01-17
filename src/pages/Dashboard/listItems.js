@@ -22,7 +22,7 @@ const StyledListItem = withStyles((theme) => ({
         color: theme.palette.common.white
       }
     },
-    paddingInline: 25,
+    paddingLeft: 25,
   },
 }))(ListItem);
 
