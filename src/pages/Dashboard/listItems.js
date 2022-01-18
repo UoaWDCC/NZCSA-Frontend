@@ -63,6 +63,17 @@ export const sponsorItem = (
   </div>
 );
 
+export const discountItem = (
+  <div>
+    <StyledListItem button to="/discounts" component={Link}>
+      <ListItemIcon>
+        <PeopleIcon />
+      </ListItemIcon>
+      <ListItemText primary="Discounts" />
+    </StyledListItem>
+  </div>
+);
+
 export const secondaryListItems = (
   <div>
     <ListItem alignItems="flex-start">

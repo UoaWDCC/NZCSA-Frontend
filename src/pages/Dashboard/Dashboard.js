@@ -19,7 +19,7 @@ import MenuIcon from "@material-ui/icons/Menu";
 import SearchIcon from "@material-ui/icons/Search";
 import InputBase from "@material-ui/core/InputBase";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import { homeItem, eventItem, sponsorItem, bottomListItems } from "./listItems";
+import { homeItem, eventItem, sponsorItem, discountItem, bottomListItems } from "./listItems";
 // import navLogo from "./images/logo_black.png";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -35,6 +35,7 @@ import {
   ListItemText,
 } from "@material-ui/core";
 import EventGrid from "./EventGrid";
+import SponsorGrid from "./SponsorGrid";
 import { useParams, Link as RouterLink } from "react-router-dom";
 import EventDetail from "./EventDetail";
 import YourEventDetail from "./YourEventDetail";
@@ -518,7 +519,7 @@ export default function Dashboard(props) {
         />
       )}
       {value === 0 && (
-        <EventGrid
+        <SponsorGrid
           data={searchEventData}
           isMember={userData.isMembership}
           attendedEvents={userData.attendedEvents}
@@ -537,6 +538,17 @@ export default function Dashboard(props) {
         </Paper>
       </Grid>
       <EventGrid data={searchEventData} userData={userData} yourEvents={true} />
+    </Grid>
+  );
+
+  const Discounts = (
+    <Grid container spacing={3}>
+      <Grid item xs={12}>
+        <Paper className={classes.paper}>
+          <Typography variant="h6">discounts</Typography>
+        </Paper>
+      </Grid>
+      <SponsorGrid data={searchEventData} userData={userData} yourEvents={true} />
     </Grid>
   );
 
@@ -638,6 +650,7 @@ export default function Dashboard(props) {
           <List button onClick={() => handleSelectedMenuItem(0)} selected={selectedMenuItem === 0}>{homeItem}</List>
           <List button onClick={() => handleSelectedMenuItem(1)} selected={selectedMenuItem === 1}>{eventItem}</List>
           <List button onClick={() => handleSelectedMenuItem(2)} selected={selectedMenuItem === 2}>{sponsorItem}</List>
+          <List button onClick={() => handleSelectedMenuItem(3)} selected={selectedMenuItem === 3}>{discountItem}</List>
         </List>
         <Divider variant="middle" />
         <List>
@@ -727,6 +740,8 @@ export default function Dashboard(props) {
               )
             ) : props.sponsors ? (
               Sponsor
+            ) : props.discounts ? (
+              Discounts
             ) : props.about ? (
               About
             ) : !id ? (
