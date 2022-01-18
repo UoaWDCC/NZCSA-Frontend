@@ -3,14 +3,14 @@ const data = [
     "name": "笼凤小馆",
     "discount": "10% off",
     "address": "12/26 Swanson Street, Auckland CBD, Auckland 1010",
-    "image": "",
+    "image": "笼凤小馆.jpg",
     "src": "2"
   },
   {
     "name": "Chattime",
     "discount": "Free Upsize",
     "address": "11/350 Queen Street, Auckland Central",
-    "image": "",
+    "image": "ChaTime.png",
     "src": "3"
   },
   {
@@ -38,7 +38,7 @@ const data = [
     "name": "Oxygen Floral",
     "discount": "10% off",
     "address": "https://oxygenfloral.co.nz/",
-    "image": "",
+    "image": "oxygen floral.png",
     "src": "7"
   },
   {
@@ -73,7 +73,7 @@ const data = [
     "name": "Pophut",
     "discount": "10% off",
     "address": "239 Queen Street, Auckland Central",
-    "image": "3 pophut.png",
+    "image": "pophut.jpg",
     "src": "12"
   },
   {
@@ -115,7 +115,7 @@ const data = [
     "name": "Orange Pool Club",
     "discount": "30% off (Saturday 4-7:30pm), 10% off (all other time)",
     "address": "9 City Road, Auckland CBD",
-    "image": "orange pool club.jpeg",
+    "image": "orange pool club.jpg",
     "src": "18"
   },
   {
@@ -136,7 +136,7 @@ const data = [
     "name": "范特西韩国烧烤",
     "discount": "赠送regular奶茶一杯 (不含topping和特调系列)",
     "address": "3/83 New North Road, Eden Terrace",
-    "image": "",
+    "image": "范特西.png",
     "src": "21"
   },
   {
@@ -150,7 +150,7 @@ const data = [
     "name": "Kung Fu Chicken",
     "discount": "20% off",
     "address": "464 Queen Street, CBD, Auckland",
-    "image": "",
+    "image": "kung fu炸鸡.jpg",
     "src": ""
   },
   {
@@ -171,21 +171,21 @@ const data = [
     "name": "福润超市",
     "discount": "5% off (消费$30+, 不含特价商品)",
     "address": "Basement, Unit 1A/239 Queen Street, CBD, Auckland",
-    "image": "",
+    "image": "福润.jpg",
     "src": "25"
   },
   {
     "name": "乌鲁木齐美食",
     "discount": "10% off",
     "address": "598 Dominion Road,Mount Eden,Auckland 1041",
-    "image": "",
+    "image": "乌鲁木齐美食.jpg",
     "src": "26"
   },
   {
     "name": "唐都美食",
     "discount": "10% off",
     "address": "971 Dominion Road,Mount Roskill,Auckland 1041",
-    "image": "",
+    "image": "唐都美食.jpg",
     "src": "27"
   },
   {
@@ -227,7 +227,7 @@ const data = [
     "name": "牛鲜生",
     "discount": "10% off (可叠加店内12%折扣)",
     "address": "Level1 50 high street, Auckland CBD",
-    "image": "21 牛鲜生.jpeg",
+    "image": "牛鲜生.png",
     "src": "33"
   },
   {
