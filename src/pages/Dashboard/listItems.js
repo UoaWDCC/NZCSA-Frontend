@@ -47,28 +47,27 @@ export const eventItem = (
       </ListItemIcon>
       <ListItemText primary="Your Events" />
     </StyledListItem>
+  </div>
+);
+
+export const sponsorItem = (
+  <div>
     <StyledListItem button to="/sponsors" component={Link}>
       <ListItemIcon>
         <PeopleIcon />
       </ListItemIcon>
       <ListItemText primary="Sponsors" />
     </StyledListItem>
-    <StyledListItem button to="/member_discount" component={Link}>
-      <ListItemIcon>
-        <LocalActivityIcon />
-      </ListItemIcon>
-      <ListItemText primary="Member Discount" />
-    </StyledListItem>
   </div>
 );
 
 export const discountItem = (
   <div>
-    <StyledListItem button to="/discounts" component={Link}>
+    <StyledListItem button to="/member_discount" component={Link}>
       <ListItemIcon>
-        <PeopleIcon />
+        <LocalActivityIcon />
       </ListItemIcon>
-      <ListItemText primary="Discounts" />
+      <ListItemText primary="Member Discount" />
     </StyledListItem>
   </div>
 );

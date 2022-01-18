@@ -501,7 +501,7 @@ export default function Dashboard(props) {
         />
       )}
       {value === 0 && (
-        <SponsorGrid
+        <EventGrid
           data={searchEventData}
           isMember={userData.isMembership}
           attendedEvents={userData.attendedEvents}
@@ -523,14 +523,19 @@ export default function Dashboard(props) {
     </Grid>
   );
 
-  const Discounts = (
+  const MemberDiscount = (
     <Grid container spacing={3}>
       <Grid item xs={12}>
         <Paper className={classes.paper}>
-          <Typography variant="h6">discounts</Typography>
+          <Typography variant="h6">Member Discounts</Typography>
         </Paper>
       </Grid>
-      <SponsorGrid data={searchEventData} userData={userData} yourEvents={true} />
+      <SponsorGrid
+          data={searchEventData}
+          isMember={userData.isMembership}
+          attendedEvents={userData.attendedEvents}
+          tab="previous"
+        />
     </Grid>
   );
 
@@ -726,7 +731,7 @@ export default function Dashboard(props) {
               Sponsor
             ) : props.memberDiscount ? (
               // TODO: Change to memeber discount
-              Sponsor
+              MemberDiscount
             ) : props.about ? (
               About
             ) : !id ? (

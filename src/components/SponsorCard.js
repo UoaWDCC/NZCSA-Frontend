@@ -29,9 +29,10 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     overflow: "auto",
     flexDirection: "row",
+    height: 200
   },
   media: {
-
+    
   },
   dialog: {
     paddingLeft: theme.spacing(3),
@@ -172,76 +173,60 @@ export default function EventCard(props) {
       <Notification notify={notify} setNotify={setNotify} />
       {props.isYourPage || props.tab == "previous" ? (
         <Card className={classes.root} flexDirection="row">
-          <Link to={`/yourEvents/${props.id}`} component={CardActionArea}>
-            <CardMedia
-              className={classes.media}
-              component="img"
-              alt="Contemplative Reptile"
-              height="140"
-              image={props.image}
-              title="Contemplative Reptile"
-            />
-            <CardContent flexDirection="row">
-              <Typography variant="h6" component="h5">
-                {props.title}
-              </Typography>
-              <Typography
-                variant="h6"
-                color="primary"
-                component="p"
-              >
-                {props.location}
-              </Typography>
-              <Typography
-                variant="subtitle2"
-                color="textSecondary"
-                component="p"
-              >
-                {props.location}
-              </Typography>
-            </CardContent>
-          </Link>
-        </Card>
-      ) : (
-        <Card className={classes.root}>
-          <Link to={`${props.id}`} component={CardActionArea}>
-            <CardMedia
-              className={classes.media}
-              component="img"
-              alt="Contemplative Reptile"
-              height="140"
-              image={props.image}
-              title="Contemplative Reptile"
-            />
-            <CardContent>
-              <Typography variant="p" component="p">
-                {props.date}
-              </Typography>
-              <Typography variant="h6" component="h5">
-                {props.title}
-              </Typography>
-              <Typography
-                variant="subtitle2"
-                color="textSecondary"
-                component="p"
-              >
-                {props.location}
-              </Typography>
-            </CardContent>
-          </Link>
-          <CardActions>
-            <Button
-              variant="contained"
-              size="medium"
-              onClick={() => handleOnClick(props.id, props.price)}
-              disableElevation
+          <CardMedia
+            className={classes.media}
+            component="img"
+            alt="Contemplative Reptile"
+            height="140"
+            image={props.image}
+            title="Contemplative Reptile"
+          />
+          <CardContent flexDirection="row">
+            <Typography variant="h6" component="h5">
+              {props.title}
+            </Typography>
+            <Typography
+              variant="h6"
+              color="primary"
+              component="p"
             >
-              Register
-            </Button>
-            {/* confirm dialog - pops up when Register button is clicked */}
-            {memberConfirmDialog}
-            {nonMemberConfirmDialog}
-          </CardActions>
+              {props.location}
+            </Typography>
+            <Typography
+              variant="subtitle2"
+              color="textSecondary"
+              component="p"
+            >
+              {props.location}
+            </Typography>
+          </CardContent>
+      </Card>
+    ) : (
+      <Card className={classes.root}>
+          <CardMedia
+            className={classes.media}
+            component="img"
+            alt="Contemplative Reptile"
+            height="140"
+            image={props.image}
+            title="Contemplative Reptile"
+          />
+          <CardContent>
+            <Typography variant="p" component="p">
+              {props.date}
+            </Typography>
+            <Typography variant="h6" component="h5">
+              {props.title}
+            </Typography>
+            <Typography
+              variant="subtitle2"
+              color="textSecondary"
+              component="p"
+            >
+              {props.location}
+            </Typography>
+          </CardContent>
+          
         </Card>
       )}
       <Upgrade open={upgradeOpen} close={setUpgradeOpen} />
