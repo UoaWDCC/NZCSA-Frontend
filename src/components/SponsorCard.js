@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
     height: 200
   },
   media: {
-    
+    width: "30%"
   },
   dialog: {
     paddingLeft: theme.spacing(3),
@@ -74,149 +74,25 @@ export default function EventCard(props) {
   //   setUpgradeOpen(true);
   // };
 
-  const openInNewTab = (url) => {
-    const newWindow = window.open(url, "_blank", "noopener,noreferrer");
-    if (newWindow) newWindow.opener = null;
-  };
-
-  const handleOnClick = (eventId, price) => {
-    if (!isMember) {
-      setOpenNonMemberConfirmDialog(true);
-    } else {
-      if (!attendedEvents.includes(eventId)) {
-        if (price > 0) {
-          setPaymentOpen(true);
-        } else {
-          setOpenMemberConfirmDialog(true);
-        }
-      } else {
-        setNotify({
-          isOpen: true,
-          message: "You have already signed up for this event",
-          type: "warning",
-        });
-      }
-    }
-  };
-
-  async function handleRegister(eventId) {
-    console.log(eventId);
-    const registerInfo = { eventId };
-    try {
-      // setLoading(true);
-      const response = await signUpEvent(registerInfo);
-      if (response.status === 200) {
-        setNotify({
-          isOpen: true,
-          message: "Successfully signed up for this event!",
-          type: "success",
-        });
-      }
-    } catch (e) {
-      // setLoading(false);
-      console.log(e.response.data.error);
-      setNotify({
-        isOpen: true,
-        message: e.response.data.error,
-        type: "error",
-      });
-    }
-  }
-
-  const handleOnClickYes = async (id) => {
-    await handleRegister(id);
-    setOpenMemberConfirmDialog(false);
-  };
-
-  const memberConfirmDialog = (
-    <Dialog
-      open={openMemberConfirmDialog}
-      keepMounted
-      onClose={() => setOpenMemberConfirmDialog(false)}
-    >
-      <DialogContent>
-        <DialogContentText>Do you want to join this event?</DialogContentText>
-      </DialogContent>
-      <DialogActions className={classes.dialogAction}>
-        <Button onClick={() => setOpenMemberConfirmDialog(false)}>no</Button>
-        <Button color="secondary" onClick={() => handleOnClickYes(props.id)}>
-          Yes!
-        </Button>
-      </DialogActions>
-    </Dialog>
-  );
-
-  const nonMemberConfirmDialog = (
-    <Dialog
-      open={openNonMemberConfirmDialog}
-      keepMounted
-      onClose={() => setOpenNonMemberConfirmDialog(false)}
-    >
-      <DialogContent className={classes.dialog}>
-        <DialogContentText>
-          You have to be a member to join this event.
-        </DialogContentText>
-      </DialogContent>
-      <DialogActions className={classes.dialogAction}>
-        <Button onClick={() => setOpenNonMemberConfirmDialog(false)}>
-          Cancel
-        </Button>
-        <Button color="secondary" onClick={() => setUpgradeOpen(true)}>
-          Upgrade
-        </Button>
-      </DialogActions>
-    </Dialog>
-  );
-
   return (
     <Router>
       <Notification notify={notify} setNotify={setNotify} />
-      {props.isYourPage || props.tab == "previous" ? (
-        <Card className={classes.root} flexDirection="row">
-          <CardMedia
-            className={classes.media}
-            component="img"
-            alt="Contemplative Reptile"
-            height="140"
-            image={props.image}
-            title="Contemplative Reptile"
-          />
-          <CardContent flexDirection="row">
-            <Typography variant="h6" component="h5">
-              {props.title}
-            </Typography>
-            <Typography
-              variant="h6"
-              color="primary"
-              component="p"
-            >
-              {props.location}
-            </Typography>
-            <Typography
-              variant="subtitle2"
-              color="textSecondary"
-              component="p"
-            >
-              {props.location}
-            </Typography>
-          </CardContent>
-      </Card>
-    ) : (
+      {props.isYourPage || props.tab == "previous" ? (null) : (
       <Card className={classes.root}>
           <CardMedia
             className={classes.media}
             component="img"
             alt="Contemplative Reptile"
-            height="140"
+            height="100%"
             image={props.image}
             title="Contemplative Reptile"
           />
           <CardContent>
-            <Typography variant="p" component="p">
-              {props.date}
-            </Typography>
             <Typography variant="h6" component="h5">
               {props.title}
+            </Typography>
+            <Typography variant="p" component="p">
+              {props.discount}
             </Typography>
             <Typography
               variant="subtitle2"
@@ -229,13 +105,6 @@ export default function EventCard(props) {
           
         </Card>
       )}
-      <Upgrade open={upgradeOpen} close={setUpgradeOpen} />
-      <Payment
-        open={paymentOpen}
-        close={setPaymentOpen}
-        price={price}
-        eventId={props.id}
-      />
     </Router>
   );
 }

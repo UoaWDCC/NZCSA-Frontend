@@ -18,6 +18,8 @@ const StyledListItem = withStyles((theme) => ({
   root: {
     "&:focus": {
       backgroundColor: theme.palette.primary.main,
+      width: window.innerWidth, 
+      alignItems: 'center',
       "& .MuiListItemIcon-root, & .MuiListItemText-primary": {
         color: theme.palette.common.white
       }
@@ -29,7 +31,7 @@ const StyledListItem = withStyles((theme) => ({
 export const homeItem = (
 
   <div>
-    <StyledListItem button to="/" component={Link} >
+    <StyledListItem button to="/" component={Link}>
       <ListItemIcon>
         <DashboardIcon />
       </ListItemIcon>

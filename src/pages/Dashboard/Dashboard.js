@@ -54,9 +54,9 @@ import img from "../../assets/yong.gif";
 import { SmallAvatar, VipBadge } from "../../components/VipBadget";
 import DarkModeSwitch from "../../components/DarkModeSwitch";
 import { DarkModeContext } from "../../context/darkMode";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
-import SwipeCard from "../../components/SwiperCard";
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import SwipeCard from '../../components/SwiperCard';
 import Alert from "@material-ui/lab/Alert";
 import { isIos, isInStandaloneMode } from "../../utils/pwaUtils";
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
@@ -633,7 +633,6 @@ export default function Dashboard(props) {
           </IconButton>
         </div>
       <Divider />*/}
-
         <List>
           <List button onClick={() => handleSelectedMenuItem(0)} selected={selectedMenuItem === 0}>{homeItem}</List>
           <List button onClick={() => handleSelectedMenuItem(1)} selected={selectedMenuItem === 1}>{eventItem}</List>

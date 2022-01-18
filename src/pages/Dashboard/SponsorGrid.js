@@ -36,7 +36,7 @@ export default function SponsorsLogoLayout() {
               id={src}
               title={name}
               location={address}
-              date={discount}
+              discount={discount}
               image={'./images/discountLogo/'+s}
             />
           </Grid>
