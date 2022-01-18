@@ -676,6 +676,9 @@ export default function Dashboard(props) {
               )
             ) : props.sponsors ? (
               Sponsor
+            ) : props.memberDiscount ? (
+              // TODO: Change to memeber discount
+              Sponsor
             ) : props.about ? (
               About
             ) : !id ? (
