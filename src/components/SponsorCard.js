@@ -21,18 +21,32 @@ import { signUpEvent } from "../api/connectBackend";
 import Upgrade from "../pages/Dashboard/Upgrade";
 import Payment from "../pages/Dashboard/Payment";
 import Notification from "./Notification";
-import Grid from "@material-ui/core/Grid";
-import Container from "@material-ui/core/Container";
+import LocalMallIcon from '@mui/icons-material/LocalMall';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
     overflow: "auto",
-    flexDirection: "row",
-    height: 200
+    width: "100%",
+    [theme.breakpoints.up('sm')]: {
+      flexDirection: "row",
+      height: 200,
+    },
+    [theme.breakpoints.down('xs')]: {
+      flexDirection: "column",
+      width: "100%",
+    }
   },
   media: {
-    width: "30%"
+    [theme.breakpoints.down('md')]: {
+      maxWidth: "100%",
+      width: "40%",
+    },
+    [theme.breakpoints.down('sm')]: {
+      maxWidth: "100%",
+      width: "100%",
+    },
+    height: 200,
   },
   dialog: {
     paddingLeft: theme.spacing(3),
@@ -79,19 +93,31 @@ export default function EventCard(props) {
       <Notification notify={notify} setNotify={setNotify} />
       {props.isYourPage || props.tab == "previous" ? (null) : (
       <Card className={classes.root}>
+        {props.image == "" ? (
+          <CardMedia
+          className={classes.media}
+          component="img"
+          alt="Contemplative Reptile"
+          height="100%"
+          image={'./images/discountLogo/'+'discount.png'}
+          title="Contemplative Reptile"
+        />
+        ) : (
           <CardMedia
             className={classes.media}
             component="img"
             alt="Contemplative Reptile"
             height="100%"
-            image={props.image}
+            image={'./images/discountLogo/'+props.image}
             title="Contemplative Reptile"
           />
+        )}
+          
           <CardContent>
             <Typography variant="h6" component="h5">
               {props.title}
             </Typography>
-            <Typography variant="p" component="p">
+            <Typography variant="p" style={{ whiteSpace: "pre-line" }} color="primary" component="p">
               {props.discount}
             </Typography>
             <Typography
