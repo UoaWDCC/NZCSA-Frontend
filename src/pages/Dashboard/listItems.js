@@ -5,6 +5,7 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import PeopleIcon from "@material-ui/icons/People";
+import LocalActivityIcon from '@mui/icons-material/LocalActivity';
 import Button from "@material-ui/core/Button";
 import { EventNote } from "@material-ui/icons";
 import { BrowserRouter as Router, Link } from "react-router-dom";
@@ -45,6 +46,12 @@ export const mainListItems = (
       </ListItemIcon>
       <ListItemText primary="Sponsors" />
     </StyledListItem>
+    <StyledListItem button to="/member_discount" component={Link}>
+      <ListItemIcon>
+        <LocalActivityIcon />
+      </ListItemIcon>
+      <ListItemText primary="Member Discount" />
+    </StyledListItem>
   </div>
 );
 
@@ -70,11 +77,11 @@ export const secondaryListItems = (
 
 export const bottomListItems = (
   <div>
-      <StyledListItem button to="/about" component={Link}>
-        <ListItemIcon>
-          <InfoIcon />
-        </ListItemIcon>
-        <ListItemText primary="About" />
-      </StyledListItem>
+    <StyledListItem button to="/about" component={Link}>
+      <ListItemIcon>
+        <InfoIcon />
+      </ListItemIcon>
+      <ListItemText primary="About" />
+    </StyledListItem>
   </div>
 );

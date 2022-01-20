@@ -57,6 +57,7 @@ import Tab from "@material-ui/core/Tab";
 import SwipeCard from "../../components/SwiperCard";
 import Alert from "@material-ui/lab/Alert";
 import { isIos, isInStandaloneMode } from "../../utils/pwaUtils";
+import SponsorGrid from "./SponsorGrid"
 
 const drawerWidth = 240;
 
@@ -505,6 +506,17 @@ export default function Dashboard(props) {
     </Grid>
   );
 
+  const Discounts = (
+    <Grid container spacing={3}>
+      <Grid item xs={12}>
+        <Paper className={classes.paper}>
+          <Typography variant="h6">Member Discounts</Typography>
+        </Paper>
+      </Grid>
+      <SponsorGrid data={searchEventData} userData={userData} yourEvents={true} />
+    </Grid>
+  );
+
   const About = <AboutLayout />;
 
   const avatar = userData.isMembership ? (
@@ -676,6 +688,9 @@ export default function Dashboard(props) {
               )
             ) : props.sponsors ? (
               Sponsor
+            ) : props.memberDiscount ? (
+              // TODO: Change to memeber discount
+              Discounts
             ) : props.about ? (
               About
             ) : !id ? (
