@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SponsorsLogoLayout() {
 
-  let s = '';
+  let imageName = '';
   const classes = useStyles();
   return (
     <div className={classes.root}>
@@ -27,15 +27,15 @@ export default function SponsorsLogoLayout() {
       >
         {storeData.map(({ name, discount, image, address, src }) => (
 
-          s = JSON.stringify(image),
-          s = s.slice(1, s.length - 1),
+          imageName = JSON.stringify(image),
+          imageName = imageName.slice(1, imageName.length - 1),
           <Grid item xs={12} key={src}>
             <SponsorCard
               id={src}
               title={name}
               location={address}
               discount={discount}
-              image={s}
+              image={imageName}
             />
           </Grid>
         ))}
