@@ -43,6 +43,7 @@ function App() {
   theme = responsiveFontSizes(theme);
 
   return (
+
     <AuthProvider user={null}>
       <ThemeProvider theme={theme}>
         <div className="App">
