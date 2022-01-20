@@ -167,7 +167,7 @@ export default function UpgradeForm(props) {
         <Grid container spacing={4} justify={"center"}>
           <Grid item md={12}>
             <Grid container justify={"space-evenly"} spacing={4}>
-              <Grid item md={4}>
+              <Grid item md={5}>
                 <FormControl
                   required
                   component="fieldset"
@@ -195,31 +195,6 @@ export default function UpgradeForm(props) {
                 </FormControl>
               </Grid>
               <Grid item md={4}>
-                <TextField
-                  margin="dense"
-                  id="studentId"
-                  label="Student ID"
-                  type="text"
-                  fullwidth="true"
-                  onChange={handleStudentId}
-                />
-              </Grid>
-            </Grid>
-          </Grid>
-          <Grid item md={12}>
-            <Grid container justify={"space-evenly"} spacing={4}>
-              <Grid item md={4}>
-                <TextField
-                  required
-                  margin="dense"
-                  id="Phone"
-                  label="Phone number"
-                  type="tel"
-                  fullwidth="true"
-                  onChange={handlePhone}
-                />
-              </Grid>
-              <Grid item md={4}>
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                   <KeyboardDatePicker
                     required
@@ -238,18 +213,40 @@ export default function UpgradeForm(props) {
                   />
                 </MuiPickersUtilsProvider>
               </Grid>
-            </Grid>
-          </Grid>
-          <Grid item md={12}>
-            <Grid container justify={"space-evenly"} spacing={4}>
-              <Grid item md={4}>
-
+              <Grid item md={5}>
+                <TextField
+                  margin="dense"
+                  id="studentId"
+                  label="Student ID"
+                  type="text"
+                  fullwidth="true"
+                  onChange={handleStudentId}
+                />
               </Grid>
               <Grid item md={4}>
-
+                <TextField
+                  margin="dense"
+                  id="studentId"
+                  label="Wechat ID"
+                  type="text"
+                  fullwidth="true"
+                  onChange={handleStudentId}
+                />
+              </Grid>
+              <Grid item md={10}>
+                <TextField
+                  required
+                  margin="dense"
+                  id="Phone"
+                  label="Phone number"
+                  type="tel"
+                  fullwidth="true"
+                  onChange={handlePhone}
+                />
               </Grid>
             </Grid>
           </Grid>
+          
           <Grid item md={12}>
             <Grid container justify={"space-evenly"} spacing={4}>
               <Grid item md={4}>
