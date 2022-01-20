@@ -28,23 +28,22 @@ const useStyles = makeStyles((theme) => ({
     }
   },
   media: {
-    [theme.breakpoints.down('md')]: {
-      maxWidth: "100%",
-      width: "40%",
-    },
-    [theme.breakpoints.up('md')]: {
-      maxWidth: "100%",
-      width: "40%",
-    },
+    maxWidth: "100%",
+    width: "40%",
     [theme.breakpoints.down('sm')]: {
       maxWidth: "100%",
       width: "100%",
+      resizeMode: 'contain'
     },
     [theme.breakpoints.up('sm')]: {
       maxWidth: "100%",
       width: "40%",
     },
-    height: 200,
+    [theme.breakpoints.up('md')]: {
+      maxWidth: "100%",
+      width: "25%",
+      
+    },
   }
 }));
 
