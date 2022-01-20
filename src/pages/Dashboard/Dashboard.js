@@ -680,7 +680,7 @@ export default function Dashboard(props) {
         </List>
         <Box className={classes.about}>
           {open ? (<Divider variant="middle" />):null}
-          <List disablePadding button onClick={() => handleSelectedMenuItem(3)} selected={selectedMenuItem === 3}>{bottomListItems}</List>
+          <List disablePadding button onClick={() => handleSelectedMenuItem(4)} selected={selectedMenuItem === 4}>{bottomListItems}</List>
         </Box>
       </Drawer>
       <Upgrade

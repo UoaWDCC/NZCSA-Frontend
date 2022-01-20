@@ -53,7 +53,7 @@ const RedTextTypography = withStyles({
   }
 })(Typography);
 
-export default function EventCard(props) {
+export default function SponsorCard(props) {
   const classes = useStyles({
     
   });
