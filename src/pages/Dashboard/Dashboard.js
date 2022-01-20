@@ -510,7 +510,7 @@ export default function Dashboard(props) {
     <Grid container spacing={3}>
       <Grid item xs={12}>
         <Paper className={classes.paper}>
-          <Typography variant="h6">discounts</Typography>
+          <Typography variant="h6">Member Discounts</Typography>
         </Paper>
       </Grid>
       <SponsorGrid data={searchEventData} userData={userData} yourEvents={true} />

@@ -1,11 +1,9 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Box } from "@material-ui/core/";
-import { useEffect, useState } from "react";
 import SponsorCard from "../../components/SponsorCard";
 import storeData from "../../assets/storeData";
-import Typography from "@material-ui/core/Typography";
-import images from '../../pages/Sponsors/SponsorsLogoList';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
