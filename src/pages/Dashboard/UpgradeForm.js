@@ -22,7 +22,6 @@ import {
 import Grid from "@material-ui/core/Grid";
 import { signUpMembership } from '../../api/connectBackend';
 import CircularProgress from '@material-ui/core/CircularProgress';
-
 import FormHelperText from "@material-ui/core/FormHelperText";
 
 const useStyles = makeStyles((theme) => ({
@@ -36,12 +35,13 @@ export default function UpgradeForm(props) {
   // const [selectedDate, setSelectedDate] = React.useState(new Date('2014-08-18T21:11:54'));
   const [loading, setLoading] = useState(false);
   const [gender, setGender] = useState();
-  // const [wechatid, setWechaId] = useState();
+  const [wechatId, setWechaId] = useState();
+  const [wechatError, setWechatError] = useState(false);
   const [phone, setPhone] = useState();
   const [stdentId, setStudentId] = useState();
   const [birthday, setBirthday] = useState();
   const [yearError, setYearError] = useState("");
-  const [university, setUniversity] = useState("UNITEC");
+  const [university, setUniversity] = useState();
   const [faculty, setFaculty] = useState({
     Arts: false,
     BussinessSchool: false,
@@ -80,8 +80,17 @@ export default function UpgradeForm(props) {
     setStudentId(event.target.value);
   };
 
-  const handleWecahtId = (event) => {
+  const handleWechatID = (event) => {
     setWechaId(event.target.value);
+    if ((event.target.value.length >= 6) && (event.target.value.length <= 20) && (isNaN(event.target.value[0]))) {
+      event.target.setAttribute("color", "success")
+      console.log(event.target.value)
+      setWechatError(false)
+    } else {
+      setWechatError(true)
+      event.target.setAttribute("color", "warning")
+      console.log("invalid ID")
+    }
   };
 
   const handleUnderstand = (event) => {
@@ -101,17 +110,6 @@ export default function UpgradeForm(props) {
       .filter((el) => {
         return el != null;
       });
-    // console.log(list);
-  };
-
-  const yearCheck = (e) => {
-    const newValue = e.target.value;
-
-    if (newValue < 1) {
-      setYearError("Year cannot be <1");
-    } else {
-      setYearError("");
-    }
   };
 
   const handleUniversity = (e) => {
@@ -131,8 +129,9 @@ export default function UpgradeForm(props) {
   const handleSubmitUpgradeForm = async () => {
     setLoading(true);
     const selectedFaculty = returnFaculty();
-    const info = { gender, university, selectedFaculty, birthday, phone, stdentId }
+    const info = { gender, university, selectedFaculty, birthday, phone, stdentId, wechatId }
     try {
+      console.log(info)
       const response = await signUpMembership(info);
       if (response.status === 200) {
         setLoading(false);
@@ -167,7 +166,7 @@ export default function UpgradeForm(props) {
         <Grid container spacing={4} justify={"center"}>
           <Grid item md={12}>
             <Grid container justify={"space-evenly"} spacing={4}>
-              <Grid item md={4}>
+              <Grid item md={5}>
                 <FormControl
                   required
                   component="fieldset"
@@ -195,31 +194,6 @@ export default function UpgradeForm(props) {
                 </FormControl>
               </Grid>
               <Grid item md={4}>
-                <TextField
-                  margin="dense"
-                  id="studentId"
-                  label="Student ID"
-                  type="text"
-                  fullwidth="true"
-                  onChange={handleStudentId}
-                />
-              </Grid>
-            </Grid>
-          </Grid>
-          <Grid item md={12}>
-            <Grid container justify={"space-evenly"} spacing={4}>
-              <Grid item md={4}>
-                <TextField
-                  required
-                  margin="dense"
-                  id="Phone"
-                  label="Phone number"
-                  type="tel"
-                  fullwidth="true"
-                  onChange={handlePhone}
-                />
-              </Grid>
-              <Grid item md={4}>
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                   <KeyboardDatePicker
                     required
@@ -238,18 +212,41 @@ export default function UpgradeForm(props) {
                   />
                 </MuiPickersUtilsProvider>
               </Grid>
-            </Grid>
-          </Grid>
-          <Grid item md={12}>
-            <Grid container justify={"space-evenly"} spacing={4}>
-              <Grid item md={4}>
-
+              <Grid item md={5}>
+                <TextField
+                  margin="dense"
+                  id="studentId"
+                  label="Student ID"
+                  type="text"
+                  fullwidth="true"
+                  onChange={handleStudentId}
+                />
               </Grid>
               <Grid item md={4}>
-
+                <TextField
+                  margin="dense"
+                  id="wechatId"
+                  inputProps={{ maxLength: 20 }}
+                  label="Wechat ID"
+                  type="text"
+                  onChange={handleWechatID}
+                  error={wechatError}
+                />
+              </Grid>
+              <Grid item md={10}>
+                <TextField
+                  required
+                  margin="dense"
+                  id="Phone"
+                  InputProps={{ inputProps: { maxLength: 15 } }}
+                  label="Phone number"
+                  fullwidth="true"
+                  onChange={handlePhone}
+                />
               </Grid>
             </Grid>
           </Grid>
+
           <Grid item md={12}>
             <Grid container justify={"space-evenly"} spacing={4}>
               <Grid item md={4}>
