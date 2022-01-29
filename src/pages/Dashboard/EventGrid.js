@@ -16,6 +16,8 @@ export default function AltCard(props) {
   //console.log(props.data);
   const [userEventsDetail, setUserEventsDetail] = useState({});
   const [activeEventsDetail, setActiveEventsDetail] = useState({});
+  console.log(activeEventsDetail);
+
 
   useEffect(() => {
     if (props.userData == undefined) {
@@ -61,7 +63,6 @@ export default function AltCard(props) {
     }
   }, [props.data, props.userData]);
 
-  //console.log(userEventsDetail)
 
   return props.userData == undefined ? (
     <div className={classes.root}>
@@ -84,6 +85,10 @@ export default function AltCard(props) {
               price={activeEventsDetail[elem].eventPrice}
               attendedEvents={props.attendedEvents}
               tab={props.tab}
+              googleSheetUrl={activeEventsDetail[elem].googleSheetUrl}
+              name={props.name}
+              wechatid={props.wechatid}
+              gender={props.gender}
             />
           </Grid>
         ))}
@@ -109,7 +114,8 @@ export default function AltCard(props) {
               isMember={props.isMember}
               price={userEventsDetail[elem].eventPrice}
               attendedEvents={props.attendedEvents}
-              isYourPage={props.userData}
+              googleSheetUrl={props.googleSheetUrl}
+              isYourPage={props.isYourPage}
             />
           </Grid>
         ))}

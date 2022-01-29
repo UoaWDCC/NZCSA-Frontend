@@ -469,6 +469,9 @@ export default function Dashboard(props) {
           data={searchEventData}
           isMember={userData.isMembership}
           attendedEvents={userData.attendedEvents}
+          name={userData.firstname + " " + userData.lastname}
+          wechatid={userData.wechatid != undefined ? userData.wechatid : "None"}
+          gender={userData.gender != undefined ? userData.gender : "None"}
           tab="current"
         />
       )}
@@ -477,6 +480,7 @@ export default function Dashboard(props) {
           data={searchEventData}
           isMember={userData.isMembership}
           attendedEvents={userData.attendedEvents}
+          // userData={userData}
           tab="previous"
         />
       )}
