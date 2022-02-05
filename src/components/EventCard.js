@@ -39,6 +39,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function EventCard(props) {
+  console.log(props)
   // const [loading, setLoading] = useState(false);
   const [upgradeOpen, setUpgradeOpen] = useState(false);
   const [paymentOpen, setPaymentOpen] = useState(false);
@@ -54,6 +55,10 @@ export default function EventCard(props) {
 
   const isMember = props.isMember;
   const attendedEvents = props.attendedEvents;
+  const googleSheetId = props.googleSheetUrl;
+  const name = props.name;
+  const wechatId = props.wechatid;
+  const gender = props.gender
   const classes = useStyles({
     root: {
       Width: "100%",
@@ -97,9 +102,10 @@ export default function EventCard(props) {
   async function handleRegister(eventId) {
     console.log(eventId);
     const registerInfo = { eventId };
+    const userInfo = { name, wechatId, gender, googleSheetId }
     try {
       // setLoading(true);
-      const response = await signUpEvent(registerInfo);
+      const response = await signUpEvent(registerInfo, userInfo);
       if (response.status === 200) {
         setNotify({
           isOpen: true,
