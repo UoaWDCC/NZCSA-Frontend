@@ -63,7 +63,6 @@ async function resetPassword(pathname, password) {
 }
 
 async function signUpEvent(registerInfo, userInfo) {
-  console.log(userInfo)
   const config = {
     headers: {
       "Content-Type": "application/json",
