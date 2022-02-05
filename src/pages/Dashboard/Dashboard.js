@@ -259,7 +259,6 @@ export default function Dashboard(props) {
   const handleUserInformationDialog = () => {
     seUserInforDialog(!userInforDialog);
     handleMenuClose();
-    console.log("hi");
   };
 
   const handleInstall = async () => {
@@ -318,14 +317,11 @@ export default function Dashboard(props) {
         })
         .catch((e) => {
           setLoading(false);
-          //console.log(e)
         });
     };
     fetchData();
   }, []);
 
-  // console.log(userData)
-  // console.log(localStorage.getItem("authToken"));
   useEffect(() => {
     if (searchInfo === "") {
       setSearchEventData(eventData);
@@ -419,7 +415,6 @@ export default function Dashboard(props) {
   );
 
   let { id } = useParams();
-  //console.log(id)
 
   let pathname = window.location.pathname;
   let index = pathname.lastIndexOf("/");
@@ -469,6 +464,9 @@ export default function Dashboard(props) {
           data={searchEventData}
           isMember={userData.isMembership}
           attendedEvents={userData.attendedEvents}
+          name={userData.firstname + " " + userData.lastname}
+          wechatid={userData.wechatid != undefined ? userData.wechatid : "None"}
+          gender={userData.gender != undefined ? userData.gender : "None"}
           tab="current"
         />
       )}
@@ -477,6 +475,7 @@ export default function Dashboard(props) {
           data={searchEventData}
           isMember={userData.isMembership}
           attendedEvents={userData.attendedEvents}
+          // userData={userData}
           tab="previous"
         />
       )}

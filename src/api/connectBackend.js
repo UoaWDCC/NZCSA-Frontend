@@ -13,6 +13,8 @@ async function signUp(signUpInfo) {
     }
   );
 
+
+
   return response;
 }
 
@@ -60,7 +62,7 @@ async function resetPassword(pathname, password) {
   return response;
 }
 
-async function signUpEvent(registerInfo) {
+async function signUpEvent(registerInfo, userInfo) {
   const config = {
     headers: {
       "Content-Type": "application/json",
@@ -72,6 +74,20 @@ async function signUpEvent(registerInfo) {
     registerInfo,
     config
   );
+
+  try {
+    if (userInfo.googleSheetUrl != undefined || userInfo.googleSheetUrl != "") {
+      console.log(userInfo)
+
+      await axios.post(
+        "https://nzcsa-backend.herokuapp.com/api/private/save-to-google-sheet",
+        userInfo,
+        config
+      );
+    }
+  } catch (e) {
+    console.log(e)
+  }
 
   return response;
 }
