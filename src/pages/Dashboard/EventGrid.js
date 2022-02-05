@@ -13,10 +13,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function AltCard(props) {
   const classes = useStyles();
-  //console.log(props.data);
   const [userEventsDetail, setUserEventsDetail] = useState({});
   const [activeEventsDetail, setActiveEventsDetail] = useState({});
-  console.log(activeEventsDetail);
 
 
   useEffect(() => {
