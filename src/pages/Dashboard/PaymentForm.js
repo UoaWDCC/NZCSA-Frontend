@@ -11,8 +11,6 @@ import {
   Box,
   Fade,
   CircularProgress,
-  Tooltip,
-  Zoom
 } from "@material-ui/core";
 import clsx from "clsx";
 import { makePayment, createOrder } from "../../api/connectBackend";
@@ -114,49 +112,13 @@ export default function PaymentForm({ orderType, price, eventId }) {
     <Fade in={true} timeout={1000}>
       <form>
         <Container>
-          <Grid container spacing={6} className={classes.root}>
+          <Grid container spacing={3} className={classes.root}>
             <Grid item xs={12}>
               <Typography variant="h6" gutterBottom>
                 Payment method
               </Typography>
               <Grid container spacing={2}>
-                <Grid item xs>
-                  <Button
-                    fullWidth
-                    className={clsx(
-                      classes.payBtn,
-                      method === "wechat" && classes.selectedBtn
-                    )}
-                    variant="outlined"
-                    onClick={() => setMethod("wechat")}
-                  >
-                    <img
-                      alt="wechat"
-                      width="auto"
-                      height="56"
-                      src="./images/wechat-pay.svg"
-                    />
-                  </Button>
-                </Grid>
-                <Grid item xs>
-                  <Button
-                    fullWidth
-                    className={clsx(
-                      classes.payBtn,
-                      method === "alipay" && classes.selectedBtn
-                    )}
-                    variant="outlined"
-                    onClick={() => setMethod("alipay")}
-                  >
-                    <img
-                      alt="alipay"
-                      width="auto"
-                      height="36"
-                      src="./images/alipay.svg"
-                    />
-                  </Button>
-                </Grid>
-                <Grid item xs>
+                <Grid item xs={12} sm={6}>
                   <Button
                     fullWidth
                     className={clsx(
@@ -174,6 +136,43 @@ export default function PaymentForm({ orderType, price, eventId }) {
                     />
                   </Button>
                 </Grid>
+                <Grid item xs={12} sm={6}>
+                  <Button
+                    fullWidth
+                    className={clsx(
+                      classes.payBtn,
+                      method === "alipay" && classes.selectedBtn
+                    )}
+                    variant="outlined"
+                    onClick={() => setMethod("alipay")}
+                  >
+                    <img
+                      alt="alipay"
+                      width="auto"
+                      height="36"
+                      src="./images/alipay.svg"
+                    />
+                  </Button>
+                </Grid>
+                {/* <Grid item xs>
+                  <Button
+                    disabled
+                    fullWidth
+                    className={clsx(
+                      classes.payBtn,
+                      method === "wechat" && classes.selectedBtn
+                    )}
+                    variant="outlined"
+                    onClick={() => setMethod("wechat")}
+                  >
+                    <img
+                      alt="wechat"
+                      width="auto"
+                      height="56"
+                      src="./images/wechat-pay.svg"
+                    />
+                  </Button>
+                </Grid> */}
               </Grid>
             </Grid>
             <Grid item xs={12}>
@@ -194,7 +193,7 @@ export default function PaymentForm({ orderType, price, eventId }) {
                         <Box mx={2}>
                           <Typography variant="h6" component="h2">
                             {orderType === "membership-payment"
-                              ? "2021 NZCSA Membership Fee"
+                              ? "2022 NZCSA Membership Fee"
                               : "Event Fee"}
                           </Typography>
                         </Box>
@@ -234,9 +233,7 @@ export default function PaymentForm({ orderType, price, eventId }) {
             </Grid>
             <Grid item xs={12}>
               <div style={{ display: "flex", justifyContent: "flex-end" }}>
-                {/* <Button
-                  disabled
-                  style={{ maxWidth: 360, height: 50, borderRadius: 24 }}
+                <Button
                   fullWidth
                   color="secondary"
                   variant="contained"
@@ -250,31 +247,7 @@ export default function PaymentForm({ orderType, price, eventId }) {
                   ) : (
                     <>Pay</>
                   )}
-                </Button> */}
-                <Tooltip 
-                  title={<Typography fontSize={30}>2021会员卡有效期到2021.12.31。2022会员卡敬请期待~</Typography>}
-                  placement='left-start'
-                  >
-                  <span style={{ borderRadius: 24 }}>
-                    <Button
-                      disabled
-                      fullWidth
-                      color="secondary"
-                      variant="contained"
-                      size="large"
-                      onClick={() => handleSumbitPaymentForm()}
-                      // disabled={loading}
-                      title="Delete"
-                    >
-                      {loading ? (
-                        <CircularProgress color="inherit" size="2rem" />
-                      ) : (
-                        <>Pay</>
-                      )}
-                    </Button>
-                  </span>
-                </Tooltip>
-
+                </Button>
               </div>
             </Grid>
           </Grid>
