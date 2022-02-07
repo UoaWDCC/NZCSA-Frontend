@@ -43,7 +43,7 @@ export default function EventCard(props) {
   // const [loading, setLoading] = useState(false);
   const [upgradeOpen, setUpgradeOpen] = useState(false);
   const [paymentOpen, setPaymentOpen] = useState(false);
-  const [price, setPrice] = useState(0);
+  const [price, setPrice] = useState(props.price == 0 || props.price == undefined ? 0 : props.price);
   const [notify, setNotify] = useState({
     isOpen: false,
     message: "",
@@ -100,7 +100,6 @@ export default function EventCard(props) {
   };
 
   async function handleRegister(eventId) {
-    console.log(eventId);
     const registerInfo = { eventId };
     const userInfo = { name, wechatId, gender, googleSheetId }
     try {
