@@ -236,10 +236,10 @@ export default function EventDetail({
             </Typography>
             {event.eventName == "情人节活动" ? (
               <a
-                href="https://docs.google.com/forms/d/1nlQlINF2OLYm0FvsQSpY45NEpeQHR3GFhairoEcNZv8/edit"
+                href="https://docs.google.com/forms/d/e/1FAIpQLScp4Ub38PCjdBx0M9RIgAZ2WFa9SyP96udbpp2qkxXQgXvapw/viewform?usp=pp_url"
                 target="_blank"
               >
-                https://docs.google.com/forms/d/1nlQlINF2OLYm0FvsQSpY45NEpeQHR3GFhairoEcNZv8/edit
+                https://docs.google.com/forms/d/e/1FAIpQLScp4Ub38PCjdBx0M9RIgAZ2WFa9SyP96udbpp2qkxXQgXvapw/viewform?usp=pp_url
               </a>
             ) : null}
           </Paper>
