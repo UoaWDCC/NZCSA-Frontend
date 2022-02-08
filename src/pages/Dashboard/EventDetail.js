@@ -234,6 +234,14 @@ export default function EventDetail({
             <Typography variant="body1" component="p">
               {event.eventDescription}
             </Typography>
+            {event.eventName == "情人节活动" ? (
+              <a
+                href="https://docs.google.com/forms/d/1nlQlINF2OLYm0FvsQSpY45NEpeQHR3GFhairoEcNZv8/edit"
+                target="_blank"
+              >
+                https://docs.google.com/forms/d/1nlQlINF2OLYm0FvsQSpY45NEpeQHR3GFhairoEcNZv8/edit
+              </a>
+            ) : null}
           </Paper>
           <Paper className={classes.paper1}>
             {event.eventPrice > 0 ? (
