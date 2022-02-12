@@ -26,7 +26,7 @@ export default function Copyright() {
         {new Date().getFullYear()}
         {"."}
         <br />
-        Version 3
+        Version 3.1
       </Typography>
     </Box>
   );
