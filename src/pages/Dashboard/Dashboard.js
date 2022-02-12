@@ -57,7 +57,8 @@ import Tab from "@material-ui/core/Tab";
 import SwipeCard from "../../components/SwiperCard";
 import Alert from "@material-ui/lab/Alert";
 import { isIos, isInStandaloneMode } from "../../utils/pwaUtils";
-import SponsorGrid from "./SponsorGrid"
+import SponsorGrid from "./SponsorGrid";
+import { useServiceWorker } from "../../context/serviceWorkerContext";
 
 const drawerWidth = 240;
 
@@ -222,6 +223,7 @@ export default function Dashboard(props) {
   const [searchEventData, setSearchEventData] = useState([]);
   const [deferredPrompt, setDeferredPrompt] = useState(null);
   const [showIOSInstall, setShowIOSInstall] = useState(false);
+  const { isUpdateAvailable, updateAssets } = useServiceWorker();
 
   // const [yourEventsData, setYoursEventData] = useState({});
   const [userInforDialog, seUserInforDialog] = useState(false);
@@ -265,6 +267,8 @@ export default function Dashboard(props) {
     deferredPrompt.prompt();
     setDeferredPrompt(null);
   };
+
+  useEffect(() => {});
 
   useEffect(() => {
     const config = {
@@ -512,7 +516,11 @@ export default function Dashboard(props) {
           <Typography variant="h6">Member Discounts</Typography>
         </Paper>
       </Grid>
-      <SponsorGrid data={searchEventData} userData={userData} yourEvents={true} />
+      <SponsorGrid
+        data={searchEventData}
+        userData={userData}
+        yourEvents={true}
+      />
     </Grid>
   );
 
@@ -659,7 +667,12 @@ export default function Dashboard(props) {
             Install our app on your homescreen to have quick access to your
             favorites
             <br></br>
-            <Button onClick={handleInstall} color="inherit" size="small" variant="outlined">
+            <Button
+              onClick={handleInstall}
+              color="inherit"
+              size="small"
+              variant="outlined"
+            >
               INSTALL
             </Button>
           </Alert>
@@ -669,6 +682,19 @@ export default function Dashboard(props) {
             Install the NZCSA webapp! tap{" "}
             <img height="16px" src="/images/icons/share-icon.jpg" /> and then
             select <strong>Add To Home Screen</strong>. (Use the Safari browser)
+          </Alert>
+        )}
+        {isUpdateAvailable && (
+          <Alert>
+            A new version of this app is available
+            <Button
+              onClick={updateAssets}
+              color="inherit"
+              size="small"
+              variant="outlined"
+            >
+              Update now
+            </Button>
           </Alert>
         )}
         {loading ? (

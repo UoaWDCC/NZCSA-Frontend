@@ -5,48 +5,64 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import PeopleIcon from "@material-ui/icons/People";
-import LocalActivityIcon from '@mui/icons-material/LocalActivity';
+import LocalActivityIcon from "@mui/icons-material/LocalActivity";
 import Button from "@material-ui/core/Button";
 import { EventNote } from "@material-ui/icons";
 import { BrowserRouter as Router, Link } from "react-router-dom";
 import MenuItem from "@material-ui/core/MenuItem";
-import InfoIcon from '@material-ui/icons/Info';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-
+import InfoIcon from "@material-ui/icons/Info";
+import FavoriteIcon from "@material-ui/icons/Favorite";
+import axios from "axios";
 
 const StyledListItem = withStyles((theme) => ({
   root: {
     "&:focus": {
       backgroundColor: theme.palette.primary.main,
       "& .MuiListItemIcon-root, & .MuiListItemText-primary": {
-        color: theme.palette.common.white
-      }
-    }
-  }
+        color: theme.palette.common.white,
+      },
+    },
+  },
 }))(ListItem);
 
-export const mainListItems = (
+const fetchData = async () => {
+  axios
+    .get("https://nzcsa-backend.herokuapp.com/api/private/get-events-info")
+    .then((res) => {})
+    .catch((e) => {});
+};
 
+export const mainListItems = (
   <div>
-    <StyledListItem button to="/" component={Link} >
+    <StyledListItem button to="/" component={Link} onClick={fetchData}>
       <ListItemIcon>
         <DashboardIcon />
       </ListItemIcon>
       <ListItemText primary="Home" />
     </StyledListItem>
-    <StyledListItem button to="/yourEvents" component={Link}>
+    <StyledListItem
+      button
+      to="/yourEvents"
+      component={Link}
+      onClick={fetchData}
+    >
       <ListItemIcon>
         <EventNote />
       </ListItemIcon>
       <ListItemText primary="Your Events" />
     </StyledListItem>
-    <StyledListItem button to="/sponsors" component={Link}>
+    <StyledListItem button to="/sponsors" component={Link} onClick={fetchData}>
       <ListItemIcon>
         <PeopleIcon />
       </ListItemIcon>
       <ListItemText primary="Sponsors" />
     </StyledListItem>
-    <StyledListItem button to="/member_discount" component={Link}>
+    <StyledListItem
+      button
+      to="/member_discount"
+      component={Link}
+      onClick={fetchData}
+    >
       <ListItemIcon>
         <LocalActivityIcon />
       </ListItemIcon>
@@ -77,7 +93,7 @@ export const secondaryListItems = (
 
 export const bottomListItems = (
   <div>
-    <StyledListItem button to="/about" component={Link}>
+    <StyledListItem button to="/about" component={Link} onClick={fetchData}>
       <ListItemIcon>
         <InfoIcon />
       </ListItemIcon>
