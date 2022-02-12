@@ -4,20 +4,20 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import DarkModeProvider from "./context/darkMode";
-import * as serviceWorkerRegistration from './serviceWorkerRegistration';
+import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
+
+import { ServiceWorkerProvider } from "./context/serviceWorkerContext";
 
 ReactDOM.render(
   <React.StrictMode>
     <DarkModeProvider>
-      <App />
+      <ServiceWorkerProvider>
+        <App />
+      </ServiceWorkerProvider>
     </DarkModeProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );
-
-serviceWorkerRegistration.register();
-
-
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
