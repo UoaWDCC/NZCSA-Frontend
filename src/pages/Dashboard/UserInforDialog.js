@@ -113,20 +113,20 @@ export default function UserInforDialog(props) {
             </VipBadge>
             <Typography
               variant="h3"
-              style={{ fontWeight: "bold", paddingTop: 14 }}
+              style={{ fontWeight: "bold", paddingTop: 14, textAlign:'center' }}
             >
               {props.userInfo.firstname} {props.userInfo.lastname}
             </Typography>
             <Typography
               variant="p"
-              style={{color: "grey", fontSize: 20}}
+              style={{ color: "grey", fontSize: 20 }}
             >
               {props.userInfo.stdentId}
             </Typography>
             <Typography
               gutterBottom
               variant="p"
-              style={{color: "grey", fontSize: 5}}
+              style={{ color: "grey", fontSize: 5 }}
             >
               {props.userInfo.university}
             </Typography>
@@ -135,14 +135,14 @@ export default function UserInforDialog(props) {
               label="Member"
               color="secondary"
               size="small"
-              style={{marginBottom: 10}}
+              style={{ marginBottom: 10 }}
             />
-            <Typography variant="p" style={{fontSize: 5}}>
-              <div>This member's Student ID Number has been verified by NZCSA</div>
+            <Typography variant="p" style={{ fontSize: 5, textAlign:'center' }}>
+              <div>This member's Student ID Number has been verified by NZCSA. </div>
               <div>If in doubt, please inquire via &nbsp;
-                <Typography variant="p"style={{textDecoration: 'underline', color: 'blue'}}>
-                  verify@nzcsa.com
-                </Typography>
+              <Typography variant="p"style={{ textDecoration: 'underline', color: 'blue' }}>
+                verify@nzcsa.com
+              </Typography>
               </div>
             </Typography>
           </ProfileHeader>
