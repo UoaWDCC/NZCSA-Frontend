@@ -8,7 +8,7 @@ import Checkbox from "@material-ui/core/Checkbox";
 import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
-import CircularProgress from '@material-ui/core/CircularProgress';
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 //import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
@@ -19,7 +19,7 @@ import signInSymbol from "../assets/signInSymbol.png";
 import logo from "../assets/logo.png";
 import RadioButtonUncheckedIcon from "@material-ui/icons/RadioButtonUnchecked";
 import RadioButtonCheckedIcon from "@material-ui/icons/RadioButtonChecked";
-import { signUp } from '../api/connectBackend';
+import { signUp } from "../api/connectBackend";
 import PasswordStrengthIndicator from "../components/PasswordStrengthIndicator";
 import checkPasswordStrength from "../components/PasswordChecker";
 import Visibility from "@material-ui/icons/Visibility";
@@ -27,9 +27,9 @@ import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import IconButton from "@material-ui/core/IconButton";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import { Controller, useForm } from "react-hook-form";
-import Alert from '@material-ui/lab/Alert';
-import LockOpenIcon from '@material-ui/icons/LockOpen';
-import Copyright from '../components/Copyright';
+import Alert from "@material-ui/lab/Alert";
+import LockOpenIcon from "@material-ui/icons/LockOpen";
+import Copyright from "../components/Copyright";
 //import emailSymbol from "../assets/email symbol.png"
 
 // TODO: Modify to match figma design
@@ -51,7 +51,6 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
   },
   avatar: {
-
     marginTop: theme.spacing(1),
     backgroundColor: theme.palette.primary.main,
   },
@@ -81,23 +80,23 @@ const useStyles = makeStyles((theme) => ({
     // color: 'lightgrey'
   },
   signin: {
-    fontStyle: 'italic',
-    textDecorationLine: 'underline'
-  }
+    fontStyle: "italic",
+    textDecorationLine: "underline",
+  },
 }));
 
 // TODO: Modify to match figma design
 export default function SignUp() {
   const classes = useStyles();
 
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [hasErrors, setHasErrors] = useState(false);
   const [isPasswordSame, setPasswordSame] = useState(true);
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
   const [success, setSuccess] = useState(false);
 
   const [loading, setLoading] = useState(false);
@@ -144,13 +143,25 @@ export default function SignUp() {
   };
 
   const redirectDashboard = () => {
-    window.location.href = '/';
-  }
+    window.location.href = "/";
+  };
 
   async function handleRegister() {
     setHasErrors(true);
-    const signInfo = { firstname: firstName.toLowerCase(), lastname: lastName.toLowerCase(), email: email.toLowerCase(), password: password }
-    if (firstName.length > 0 && lastName.length > 0 && email.length > 0 && password.length > 0 && isPasswordSame) {
+    const signInfo = {
+      firstname: firstName.toLowerCase(),
+      lastname: lastName.toLowerCase(),
+      email: email.toLowerCase(),
+      password: password,
+    };
+    if (
+      firstName.length > 0 &&
+      lastName.length > 0 &&
+      email.length > 0 &&
+      email.endsWith("ac.nz") &&
+      password.length > 0 &&
+      isPasswordSame
+    ) {
       try {
         setLoading(true);
         const response = await signUp(signInfo);
@@ -158,19 +169,19 @@ export default function SignUp() {
           localStorage.setItem("authToken", response.data.token);
           setLoading(false);
 
-          setFirstName('');
-          setLastName('');
-          setEmail('');
-          setPassword('');
-          setConfirmPassword('');
+          setFirstName("");
+          setLastName("");
+          setEmail("");
+          setPassword("");
+          setConfirmPassword("");
           setHasErrors(false);
           setSuccess(true);
-          setMessage('');
+          setMessage("");
 
           setValues({
             showPassword: false,
             showConfirm: false,
-            passStrength: ""
+            passStrength: "",
           });
 
           setTimeout(() => {
@@ -183,32 +194,41 @@ export default function SignUp() {
         //console.log(e.response.data);
 
         setLoading(false);
-        if (e.response.data.info === 'User validation failed: email: Please provide a valid email') {
-          setMessage('The email that you provided is invalid, please provide a valid email.');
+        if (
+          e.response.data.info ===
+          "User validation failed: email: Please provide a valid email"
+        ) {
+          setMessage(
+            "The email that you provided is invalid, please provide a valid email."
+          );
         } else {
-          setMessage('Email is already registered, please sign in.')
+          setMessage("Email is already registered, please sign in.");
         }
       }
     }
   }
 
   return (
-
     <Grid container component="main" className={classes.root}>
       <Grid item xs={12} className={classes.image}>
-        {success && <Alert variant="filled" timeout={1000}> Registered successfully. </Alert>}
+        {success && (
+          <Alert variant="filled" timeout={1000}>
+            {" "}
+            Registered successfully.{" "}
+          </Alert>
+        )}
         <Container maxWidth="sm">
           <CssBaseline />
           <div className={classes.paper}>
             <Avatar className={classes.avatar}>
-              <LockOpenIcon/>
+              <LockOpenIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
               Sign up
             </Typography>
             {/* <form className={classes.form} noValidate> */}
             <div className={classes.form} noValidate>
-              <Typography color='error' className={classes.message}>
+              <Typography color="error" className={classes.message}>
                 {message}
               </Typography>
               <Grid container spacing={2}>
@@ -224,9 +244,12 @@ export default function SignUp() {
                     autoFocus
                     className={classes.textF}
                     value={firstName}
-                    onChange={e => setFirstName(e.target.value)}
+                    onChange={(e) => setFirstName(e.target.value)}
                     error={isError(firstName.length === 0)}
-                    helperText={isError(firstName.length === 0) && "Please enter your first name"}
+                    helperText={
+                      isError(firstName.length === 0) &&
+                      "Please enter your first name"
+                    }
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -240,9 +263,12 @@ export default function SignUp() {
                     autoComplete="lname"
                     className={classes.textF}
                     value={lastName}
-                    onChange={e => setLastName(e.target.value)}
+                    onChange={(e) => setLastName(e.target.value)}
                     error={isError(lastName.length === 0)}
-                    helperText={isError(lastName.length === 0) && "Please enter your last name"}
+                    helperText={
+                      isError(lastName.length === 0) &&
+                      "Please enter your last name"
+                    }
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -256,27 +282,38 @@ export default function SignUp() {
                     autoComplete="email"
                     className={classes.textF}
                     value={email}
-                    onChange={e => setEmail(e.target.value)}
-                    error={isError(email.length === 0)}
-                    helperText={isError(email.length === 0) && "Please enter your email"}
+                    onChange={(e) => setEmail(e.target.value)}
+                    error={
+                      isError(email.length === 0) ||
+                      isError(!email.endsWith("ac.nz"))
+                    }
+                    helperText={
+                      (isError(email.length === 0) &&
+                        "Please enter your email") ||
+                      isError(
+                        !email.endsWith("ac.nz") &&
+                          "Please use your school email"
+                      )
+                    }
                   />
                 </Grid>
                 <Grid item xs={12}>
-
-                  <Typography component="p" variant="body1" className={classes.pStrength}>
-
+                  <Typography
+                    component="p"
+                    variant="body1"
+                    className={classes.pStrength}
+                  >
                     {`Password Strength: ` + values.passStrength}
                   </Typography>
                   <Controller
                     name="password"
                     control={control}
                     defaultValue=""
-
                     rules={{
-                      required: true, minLength: 6, pattern:
-                        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/
+                      required: true,
+                      minLength: 6,
+                      pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/,
                     }}
-
                     render={({ field }) => (
                       <TextField
                         {...field}
@@ -291,7 +328,7 @@ export default function SignUp() {
                         className={classes.textF}
                         value={password}
                         onChange={(e) => {
-                          setPassword(e.target.value)
+                          setPassword(e.target.value);
                           let score = checkPasswordStrength(e.target.value);
                           setValues({ ...values, passStrength: score });
                           if (e.target.value.length === 0) {
@@ -299,7 +336,10 @@ export default function SignUp() {
                           }
                         }}
                         error={isError(password.length === 0)}
-                        helperText={isError(password.length === 0) && "The password cannot be empty"}
+                        helperText={
+                          isError(password.length === 0) &&
+                          "The password cannot be empty"
+                        }
                         InputProps={{
                           endAdornment: (
                             <InputAdornment position="end">
@@ -311,8 +351,8 @@ export default function SignUp() {
                                 {values.showPassword ? (
                                   <Visibility />
                                 ) : (
-                                    <VisibilityOff />
-                                  )}
+                                  <VisibilityOff />
+                                )}
                               </IconButton>
                             </InputAdornment>
                           ),
@@ -334,10 +374,17 @@ export default function SignUp() {
                     autoComplete="confirm password"
                     className={classes.textF}
                     value={confirmPassword}
-                    onChange={e => setConfirmPassword(e.target.value)}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
                     onBlur={handlePasswordError}
-                    error={!isPasswordSame || isError(confirmPassword.length === 0)}
-                    helperText={(!isPasswordSame && "The comfirm password must be same to before") || (isError(confirmPassword.length === 0) && "The password cannot be empty")}
+                    error={
+                      !isPasswordSame || isError(confirmPassword.length === 0)
+                    }
+                    helperText={
+                      (!isPasswordSame &&
+                        "The comfirm password must be same to before") ||
+                      (isError(confirmPassword.length === 0) &&
+                        "The password cannot be empty")
+                    }
                     InputProps={{
                       endAdornment: (
                         <InputAdornment position="end">
@@ -349,8 +396,8 @@ export default function SignUp() {
                             {values.showConfirm ? (
                               <Visibility />
                             ) : (
-                                <VisibilityOff />
-                              )}
+                              <VisibilityOff />
+                            )}
                           </IconButton>
                         </InputAdornment>
                       ),
@@ -378,12 +425,12 @@ export default function SignUp() {
                 {loading ? (
                   <CircularProgress color="inherit" size="2rem" />
                 ) : (
-                    <>Sign Up</>
-                  )}
+                  <>Sign Up</>
+                )}
               </Button>
               <Grid container justify="flex-end">
                 <Grid item>
-                  <Link href="/" variant="body2" >
+                  <Link href="/" variant="body2">
                     Already have an account? Sign in
                   </Link>
                 </Grid>
@@ -397,6 +444,5 @@ export default function SignUp() {
         </Container>
       </Grid>
     </Grid>
-
   );
 }
