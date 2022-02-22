@@ -126,7 +126,7 @@ export default function UserInforDialog(props) {
             <Typography
               gutterBottom
               variant="p"
-              style={{ color: "grey", fontSize: 5 }}
+              style={{ color: "grey", fontSize: 15 }}
             >
               {props.userInfo.university}
             </Typography>
@@ -137,7 +137,7 @@ export default function UserInforDialog(props) {
               size="small"
               style={{ marginBottom: 10 }}
             />
-            <Typography variant="p" style={{ fontSize: 5, textAlign:'center' }}>
+            <Typography variant="p" style={{ fontSize: 15, textAlign:'center' }}>
               <div>This member's Student ID Number has been verified by NZCSA. </div>
               <div>If in doubt, please inquire via &nbsp;
               <Typography variant="p"style={{ textDecoration: 'underline', color: 'blue' }}>
