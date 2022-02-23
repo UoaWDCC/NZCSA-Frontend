@@ -8,6 +8,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Paper from '@material-ui/core/Paper';
 import Box from '@material-ui/core/Box';
+import GoogleIcon from '@mui/icons-material/Google';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -25,8 +26,11 @@ import { isMobile } from "react-device-detect";
 import Alert from "@material-ui/lab/Alert";
 import { isIos, isInStandaloneMode } from '../utils/pwaUtils';
 
+import Divider from '@mui/material/Divider';
+import { GoogleLogin } from 'react-google-login';
+import { signUp } from "../api/connectBackend";
 
-// TODO: Modify to match figma design
+
 const useStyles = makeStyles((theme) => ({
   root: {
     height: '100vh',
@@ -48,6 +52,10 @@ const useStyles = makeStyles((theme) => ({
   avatar: {
     margin: theme.spacing(1),
     backgroundColor: theme.palette.primary.main,
+  },
+  divider: {
+    padding: theme.spacing(2),
+    width: '90%',
   },
   form: {
     width: '100%', // Fix IE 11 issue.
@@ -97,6 +105,7 @@ export default function SignInSide() {
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [hasErrors, setHasErrors] = useState(false);
+  const [googleAuth, setGoogleAuth] = useState("");
 
   const [loading, setLoading] = useState(false);
   const [deferredPrompt, setDeferredPrompt] = useState(null);
@@ -148,6 +157,49 @@ export default function SignInSide() {
     }
   }
 
+
+  // Still in progress
+  const googleSuccess = async (res) => {
+    try {
+
+      const result = res?.profileObj;
+      setGoogleAuth(result.givenName.toLowerCase());
+      console.log(googleAuth);
+      // const token = res?.tokenId;
+
+      const signInfo = {
+        firstname: result.givenName.toLowerCase(),
+        lastname: result.familyName.toLowerCase(),
+        email: result.email.toLowerCase(),
+        password: "123",
+      };
+      // setLoading(true);
+      try {
+        const response = await signUp(signInfo);
+        if (response.status === 201) {
+          localStorage.setItem("authToken", response.data.token);
+          window.location.href = '/';
+        }
+      } catch (e) {
+        setEmail(result.email);
+        setPassword("123");
+        console.log(googleAuth);
+        // handleSignIn();
+      }
+
+    } catch (e) {
+
+      console.log(e);
+
+    }
+
+
+  }
+
+  const googleFailure = () => {
+    console.log("Google signin was unsuccessful");
+  }
+
   return (
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
@@ -181,6 +233,7 @@ export default function SignInSide() {
             </Alert>
           )}
           <div className={classes.paper}>
+
             <Avatar className={classes.avatar}>
               <LockOutlinedIcon />
             </Avatar>
@@ -188,10 +241,46 @@ export default function SignInSide() {
               Sign in
             </Typography>
 
+            <GoogleLogin
+              clientId="804484196875-772dcm3h64clpuikj2rfkvvc5h700036.apps.googleusercontent.com"
+              render={(renderProps) => {
+                return <Button
+                  fullWidth
+                  variant="contained"
+                  color="secondary"
+                  className={classes.submit}
+                  startIcon={<GoogleIcon />}
+                  onClick={renderProps.onClick}
+                  disabled={renderProps.disabled}
+                >
+                  Log in with Google
+                </Button>
+              }}
+              onSuccess={googleSuccess}
+              onFailure={googleFailure}
+              cookiePolicy="single_host_origin"
+            />
+
+
+            {/* <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="secondary"
+              className={classes.submit}
+              startIcon={<GoogleIcon />}
+              onClick={() => handleSignIn()}
+              disabled={false}
+            >
+              Log in with Google
+            </Button> */}
+
+            <Divider className={classes.divider}>OR</Divider>
+
+
             {/* <form className={classes.form} noValidate> */}
             <div className={classes.form} noValidate>
               <Typography color="error">{errorMessage}</Typography>
-
               <TextField
                 variant="outlined"
                 margin="normal"
