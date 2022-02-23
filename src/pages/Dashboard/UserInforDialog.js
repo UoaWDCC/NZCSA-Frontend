@@ -5,6 +5,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import membershipCard from "../../assets/membership_card.jpg";
 import Image from "material-ui-image";
+import { v4 as uuidv4 } from 'uuid';
 import {
   Avatar,
   Grid,
@@ -71,7 +72,7 @@ const DialogTitle = withStyles(styles)((props) => {
   return (
     <MuiDialogTitle disableTypography className={classes.root} {...other}>
       <Typography variant="h6">{children}</Typography>
-      {onClose ? (
+      {onClose ? (  
         <IconButton
           aria-label="close"
           className={classes.closeButton}
@@ -99,6 +100,7 @@ export default function UserInforDialog(props) {
     <DialogContent id="alert-dialog-description" dividers>
       <Grid container xs={12} spacing={2}>
         <Grid item sm={12} md={12} xs={12}>
+          <div style={{ fontWeight: "bold", textAlign: 'center', zIndex:'10', top:'280px' }}>{uuidv4()}</div>
           <CardImage aspectRatio={1.7} src={membershipCard} color="transparent" />
           <ProfileHeader>
             <VipBadge
@@ -113,7 +115,7 @@ export default function UserInforDialog(props) {
             </VipBadge>
             <Typography
               variant="h3"
-              style={{ fontWeight: "bold", paddingTop: 14, textAlign:'center' }}
+              style={{ fontWeight: "bold", paddingTop: 14, textAlign: 'center' }}
             >
               {props.userInfo.firstname} {props.userInfo.lastname}
             </Typography>
@@ -137,12 +139,12 @@ export default function UserInforDialog(props) {
               size="small"
               style={{ marginBottom: 10 }}
             />
-            <Typography variant="p" style={{ fontSize: 15, textAlign:'center' }}>
+            <Typography variant="p" style={{ fontSize: 15, textAlign: 'center' }}>
               <div>This member's Student ID Number has been verified by NZCSA. </div>
               <div>If in doubt, please inquire via &nbsp;
-              <Typography variant="p"style={{ textDecoration: 'underline', color: 'blue' }}>
-                verify@nzcsa.com
-              </Typography>
+                <Typography variant="p" style={{ textDecoration: 'underline', color: 'blue' }}>
+                  verify@nzcsa.com
+                </Typography>
               </div>
             </Typography>
           </ProfileHeader>
