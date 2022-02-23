@@ -8,6 +8,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Paper from '@material-ui/core/Paper';
 import Box from '@material-ui/core/Box';
+import GoogleIcon from '@mui/icons-material/Google';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -103,6 +104,7 @@ export default function SignInSide() {
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [hasErrors, setHasErrors] = useState(false);
+  const [googleAuth, setGoogleAuth] = useState("");
 
   const [loading, setLoading] = useState(false);
   const [deferredPrompt, setDeferredPrompt] = useState(null);
@@ -153,6 +155,49 @@ export default function SignInSide() {
     }
   }
 
+
+  // Still in progress
+  const googleSuccess = async (res) => {
+    try {
+
+      const result = res?.profileObj;
+      setGoogleAuth(result.givenName.toLowerCase());
+      console.log(googleAuth);
+      // const token = res?.tokenId;
+
+      const signInfo = {
+        firstname: result.givenName.toLowerCase(),
+        lastname: result.familyName.toLowerCase(),
+        email: result.email.toLowerCase(),
+        password: "123",
+      };
+      // setLoading(true);
+      try {
+        const response = await signUp(signInfo);
+        if (response.status === 201) {
+          localStorage.setItem("authToken", response.data.token);
+          window.location.href = '/';
+        }
+      } catch (e) {
+        setEmail(result.email);
+        setPassword("123");
+        console.log(googleAuth);
+        // handleSignIn();
+      }
+
+    } catch (e) {
+
+      console.log(e);
+
+    }
+
+
+  }
+
+  const googleFailure = () => {
+    console.log("Google signin was unsuccessful");
+  }
+
   return (
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
@@ -199,7 +244,6 @@ export default function SignInSide() {
 
             {/* <form className={classes.form} noValidate> */}
             <div className={classes.form} noValidate>
-
               <TextField
                 variant="outlined"
                 margin="normal"
