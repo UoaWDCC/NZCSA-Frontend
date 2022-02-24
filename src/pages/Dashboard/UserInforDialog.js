@@ -5,7 +5,6 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import membershipCard from "../../assets/membership_card.jpg";
 import Image from "material-ui-image";
-import { v4 as uuidv4 } from 'uuid';
 import {
   Avatar,
   Grid,
@@ -21,6 +20,7 @@ import { styled } from "@material-ui/core/styles";
 import { deepPurple } from "@material-ui/core/colors";
 import DoneIcon from "@material-ui/icons/Done";
 import { SmallAvatar, VipBadge } from "../../components/VipBadget";
+var hash = require('object-hash');
 
 const CardImage = styled(Image)({
   borderRadius: 24,
@@ -72,7 +72,7 @@ const DialogTitle = withStyles(styles)((props) => {
   return (
     <MuiDialogTitle disableTypography className={classes.root} {...other}>
       <Typography variant="h6">{children}</Typography>
-      {onClose ? (  
+      {onClose ? (
         <IconButton
           aria-label="close"
           className={classes.closeButton}
@@ -100,8 +100,13 @@ export default function UserInforDialog(props) {
     <DialogContent id="alert-dialog-description" dividers>
       <Grid container xs={12} spacing={2}>
         <Grid item sm={12} md={12} xs={12}>
-          <div style={{ fontWeight: "bold", textAlign: 'center', zIndex:'10', top:'280px' }}>{uuidv4()}</div>
-          <CardImage aspectRatio={1.7} src={membershipCard} color="transparent" />
+          <div>
+            <CardImage aspectRatio={1.7} src={membershipCard} color="transparent" />
+            <Typography variant="body2" component="div" gutterBottom style={{"word-break": "break-all", fontWeight: "bold", position: 'relative', top: "-20px",fontSize:'10px', zIndex: '10', textAlign: 'center' }}>
+              {hash(props.userInfo.email)}
+            </Typography>
+          </div>
+
           <ProfileHeader>
             <VipBadge
               overlap="circle"
