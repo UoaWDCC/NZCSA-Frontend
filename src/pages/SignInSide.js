@@ -17,7 +17,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Container } from '@material-ui/core';
 
 import { useState, useEffect } from 'react';
-import { login } from '../api/connectBackend';
+import { login, signUp } from '../api/connectBackend';
 
 import { red } from '@material-ui/core/colors';
 import RandomImagePicker from '../components/RandomImagePicker';
@@ -28,7 +28,6 @@ import { isIos, isInStandaloneMode } from '../utils/pwaUtils';
 
 import Divider from '@mui/material/Divider';
 import { GoogleLogin } from 'react-google-login';
-import { signUp } from "../api/connectBackend";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -102,10 +101,10 @@ export default function SignInSide() {
 
   const classes = useStyles();
   const [email, setEmail] = useState('');
+  const [loadingChecker, setLoadingChecker] = useState(false);
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [hasErrors, setHasErrors] = useState(false);
-  const [googleAuth, setGoogleAuth] = useState("");
 
   const [loading, setLoading] = useState(false);
   const [deferredPrompt, setDeferredPrompt] = useState(null);
@@ -113,21 +112,19 @@ export default function SignInSide() {
 
   const isError = (condition) => hasErrors && condition;
 
-  // useEffect(() => {
-  //   props.changeDarkMode(true);
-  // }, [])
-
   useEffect(() => {
     window.addEventListener("beforeinstallprompt", (e) => {
       e.preventDefault();
       setDeferredPrompt(e);
     });
+
   }, []);
 
   useEffect(() => {
     if (isIos() && !isInStandaloneMode()) {
       setShowIOSInstall(true);
     }
+
   }, []);
 
   const handleInstall = async () => {
@@ -135,8 +132,9 @@ export default function SignInSide() {
     setDeferredPrompt(null);
   };
 
-  async function handleSignIn() {
+  const handleSignIn = async () => {
     setHasErrors(true);
+    setLoadingChecker(true);
     const loginInfo = { email, password }
 
     if (email.length > 0 && password.length > 0) {
@@ -158,22 +156,17 @@ export default function SignInSide() {
   }
 
 
-  // Still in progress
+  // Google Login function
   const googleSuccess = async (res) => {
     try {
-
-      const result = res?.profileObj;
-      setGoogleAuth(result.givenName.toLowerCase());
-      console.log(googleAuth);
-      // const token = res?.tokenId;
-
+      const result = res.profileObj;
       const signInfo = {
         firstname: result.givenName.toLowerCase(),
         lastname: result.familyName.toLowerCase(),
         email: result.email.toLowerCase(),
-        password: "123",
+        password: res.tokenId,
       };
-      // setLoading(true);
+      setLoading(true);
       try {
         const response = await signUp(signInfo);
         if (response.status === 201) {
@@ -181,23 +174,32 @@ export default function SignInSide() {
           window.location.href = '/';
         }
       } catch (e) {
-        setEmail(result.email);
-        setPassword("123");
-        console.log(googleAuth);
-        // handleSignIn();
+
+        const response = await login({
+          email: result.email.toLowerCase(),
+          password: res.tokenId
+        });
+
+        if (response.status === 200) {
+          localStorage.setItem('authToken', response.data.token);
+          window.location.href = '/';
+        }
+
       }
-
     } catch (e) {
-
-      console.log(e);
-
+      setErrorMessage("Your Google account has been registered manually, please use email and password to log in.");
+      setTimeout(() => {
+        setErrorMessage('');
+      }, 8000);
+      setLoading(false);
     }
-
-
   }
 
   const googleFailure = () => {
-    console.log("Google signin was unsuccessful");
+    setErrorMessage("Google login was unsuccessful");
+    setTimeout(() => {
+      setErrorMessage('');
+    }, 8000);
   }
 
   return (
@@ -249,11 +251,15 @@ export default function SignInSide() {
                   variant="contained"
                   color="secondary"
                   className={classes.submit}
-                  startIcon={<GoogleIcon />}
+                  startIcon={loading || <GoogleIcon />}
                   onClick={renderProps.onClick}
                   disabled={renderProps.disabled}
                 >
-                  Log in with Google
+                  {(loading && !loadingChecker) ? (
+                    <CircularProgress color="inherit" size="2rem" />
+                  ) : (
+                    <>Log in with Google</>
+                  )}
                 </Button>
               }}
               onSuccess={googleSuccess}
@@ -261,26 +267,12 @@ export default function SignInSide() {
               cookiePolicy="single_host_origin"
             />
 
-
-            {/* <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="secondary"
-              className={classes.submit}
-              startIcon={<GoogleIcon />}
-              onClick={() => handleSignIn()}
-              disabled={false}
-            >
-              Log in with Google
-            </Button> */}
-
             <Divider className={classes.divider}>OR</Divider>
 
 
             {/* <form className={classes.form} noValidate> */}
             <div className={classes.form} noValidate>
-              <Typography color="error">{errorMessage}</Typography>
+
               <TextField
                 variant="outlined"
                 margin="normal"
@@ -318,6 +310,7 @@ export default function SignInSide() {
                 control={<Checkbox value="remember" color="primary" />}
                 label="Remember me"
               />
+              <Typography color="error">{errorMessage}</Typography>
               <Button
                 type="submit"
                 fullWidth
@@ -327,7 +320,7 @@ export default function SignInSide() {
                 onClick={() => handleSignIn()}
                 disabled={false}
               >
-                {loading ? (
+                {(loading && loadingChecker) ? (
                   <CircularProgress color="inherit" size="2rem" />
                 ) : (
                   <>Sign In</>
