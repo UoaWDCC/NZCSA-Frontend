@@ -17,7 +17,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Container } from '@material-ui/core';
 
 import { useState, useEffect } from 'react';
-import { login } from '../api/connectBackend';
+import { login, signUp } from '../api/connectBackend';
 
 import { red } from '@material-ui/core/colors';
 import RandomImagePicker from '../components/RandomImagePicker';
@@ -104,7 +104,6 @@ export default function SignInSide() {
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [hasErrors, setHasErrors] = useState(false);
-  const [googleAuth, setGoogleAuth] = useState("");
 
   const [loading, setLoading] = useState(false);
   const [deferredPrompt, setDeferredPrompt] = useState(null);
@@ -156,22 +155,17 @@ export default function SignInSide() {
   }
 
 
-  // Still in progress
+  // Google Login function
   const googleSuccess = async (res) => {
     try {
-
-      const result = res?.profileObj;
-      setGoogleAuth(result.givenName.toLowerCase());
-      console.log(googleAuth);
-      // const token = res?.tokenId;
-
+      const result = res.profileObj;
       const signInfo = {
         firstname: result.givenName.toLowerCase(),
         lastname: result.familyName.toLowerCase(),
         email: result.email.toLowerCase(),
-        password: "123",
+        password: res.tokenId,
       };
-      // setLoading(true);
+      setLoading(true);
       try {
         const response = await signUp(signInfo);
         if (response.status === 201) {
@@ -179,23 +173,32 @@ export default function SignInSide() {
           window.location.href = '/';
         }
       } catch (e) {
-        setEmail(result.email);
-        setPassword("123");
-        console.log(googleAuth);
-        // handleSignIn();
+
+        const response = await login({
+          email: result.email.toLowerCase(),
+          password: res.tokenId
+        });
+
+        if (response.status === 200) {
+          localStorage.setItem('authToken', response.data.token);
+          window.location.href = '/';
+        }
+
       }
-
     } catch (e) {
-
-      console.log(e);
-
+      setErrorMessage("Your Google account has been registered manually, please use email and password to log in.");
+      setTimeout(() => {
+        setErrorMessage('');
+      }, 8000);
+      setLoading(false);
     }
-
-
   }
 
   const googleFailure = () => {
-    console.log("Google signin was unsuccessful");
+    setErrorMessage("Google login was unsuccessful");
+    setTimeout(() => {
+      setErrorMessage('');
+    }, 8000);
   }
 
   return (
