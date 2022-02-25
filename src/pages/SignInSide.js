@@ -8,7 +8,6 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Paper from '@material-ui/core/Paper';
 import Box from '@material-ui/core/Box';
-import GoogleIcon from '@mui/icons-material/Google';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -17,7 +16,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Container } from '@material-ui/core';
 
 import { useState, useEffect } from 'react';
-import { login, signUp } from '../api/connectBackend';
+import { login } from '../api/connectBackend';
 
 import { red } from '@material-ui/core/colors';
 import RandomImagePicker from '../components/RandomImagePicker';
@@ -152,53 +151,6 @@ export default function SignInSide() {
         setLoading(false);
       }
     }
-  }
-
-
-  // Google Login function
-  const googleSuccess = async (res) => {
-    try {
-      const result = res.profileObj;
-      const signInfo = {
-        firstname: result.givenName.toLowerCase(),
-        lastname: result.familyName.toLowerCase(),
-        email: result.email.toLowerCase(),
-        password: res.tokenId,
-      };
-      setLoading(true);
-      try {
-        const response = await signUp(signInfo);
-        if (response.status === 201) {
-          localStorage.setItem("authToken", response.data.token);
-          window.location.href = '/';
-        }
-      } catch (e) {
-
-        const response = await login({
-          email: result.email.toLowerCase(),
-          password: res.tokenId
-        });
-
-        if (response.status === 200) {
-          localStorage.setItem('authToken', response.data.token);
-          window.location.href = '/';
-        }
-
-      }
-    } catch (e) {
-      setErrorMessage("Your Google account has been registered manually, please use email and password to log in.");
-      setTimeout(() => {
-        setErrorMessage('');
-      }, 8000);
-      setLoading(false);
-    }
-  }
-
-  const googleFailure = () => {
-    setErrorMessage("Google login was unsuccessful");
-    setTimeout(() => {
-      setErrorMessage('');
-    }, 8000);
   }
 
   return (
