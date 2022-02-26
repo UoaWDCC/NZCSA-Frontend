@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { makeStyles } from "@material-ui/core/styles";
-import { Dialog, DialogTitle } from "@material-ui/core";
+import { Dialog, DialogTitle, Typography } from "@material-ui/core";
 import { DialogContent } from "@material-ui/core";
 import TextField from "@material-ui/core/TextField";
 import Radio from "@material-ui/core/Radio";
@@ -262,6 +262,12 @@ export default function UpgradeForm(props) {
                     (isError(wechatError) && "Please enter a valid WeChat ID")
                   }
                 />
+                <Typography
+                  variant="body2"
+                  style={{ marginBottom: "-50px", color: "#69696b" }}
+                >
+                  If you don't have a WeChat ID, please enter 'nowechatid'
+                </Typography>
               </Grid>
               <Grid item md={10}>
                 <TextField
