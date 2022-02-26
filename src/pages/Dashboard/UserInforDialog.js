@@ -152,6 +152,7 @@ export default function UserInforDialog(props) {
                 fontWeight: "bold",
                 paddingTop: 14,
                 textAlign: "center",
+                textTransform: 'capitalize'
               }}
             >
               {props.userInfo.firstname} {props.userInfo.lastname}
