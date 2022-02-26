@@ -28,6 +28,7 @@ import Copyright from "../components/Copyright";
 import GoogleLoginButton from "../components/Auth/GoogleLoginButton";
 //import emailSymbol from "../assets/email symbol.png"
 
+
 // TODO: Modify to match figma design
 const useStyles = makeStyles((theme) => ({
   root: {
