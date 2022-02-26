@@ -3,7 +3,7 @@ import axios from "axios";
 async function signUp(signUpInfo) {
   const body = signUpInfo;
   const response = await axios(
-    "https://nzcsa-backend.herokuapp.com/api/auth/register",
+    `${process.env.REACT_APP_URL}/api/auth/register`,
     {
       headers: {
         "Content-type": "application/json",
@@ -20,7 +20,7 @@ async function signUp(signUpInfo) {
 
 async function login(loginInfo) {
   const response = await axios(
-    "https://nzcsa-backend.herokuapp.com/api/auth/login",
+    `${process.env.REACT_APP_URL}/api/auth/login`,
     {
       headers: {
         "Content-type": "application/json",
@@ -35,7 +35,7 @@ async function login(loginInfo) {
 async function forgetPassword(email) {
   const body = { email: email };
   const response = await axios(
-    "https://nzcsa-backend.herokuapp.com/api/auth/forgotpassword",
+    `${process.env.REACT_APP_URL}/api/auth/forgotpassword`,
     {
       headers: {
         "Content-type": "application/json",
@@ -50,7 +50,7 @@ async function forgetPassword(email) {
 async function resetPassword(pathname, password) {
   const body = { password: password };
   const response = await axios(
-    `https://nzcsa-backend.herokuapp.com/api/auth/${pathname}`,
+    `${process.env.REACT_APP_URL}/api/auth/${pathname}`,
     {
       headers: {
         "Content-type": "application/json",
@@ -70,7 +70,7 @@ async function signUpEvent(registerInfo, userInfo) {
     },
   };
   const response = await axios.post(
-    "https://nzcsa-backend.herokuapp.com/api/private/sign-up-event",
+    `${process.env.REACT_APP_URL}/api/private/sign-up-event`,
     registerInfo,
     config
   );
@@ -80,7 +80,7 @@ async function signUpEvent(registerInfo, userInfo) {
       console.log(userInfo)
 
       await axios.post(
-        "https://nzcsa-backend.herokuapp.com/api/private/save-to-google-sheet",
+        `${process.env.REACT_APP_URL}/api/private/save-to-google-sheet`,
         userInfo,
         config
       );
@@ -100,7 +100,7 @@ async function signUpMembership(userInfo) {
     },
   };
   const response = await axios.post(
-    "https://nzcsa-backend.herokuapp.com/api/private/sign-up-membership",
+    `${process.env.REACT_APP_URL}/api/private/sign-up-membership`,
     userInfo,
     config
   );
@@ -121,7 +121,7 @@ async function makePayment(paymentMethod, paymentAmount, productName) {
     },
   };
   const response = await axios.post(
-    "https://nzcsa-backend.herokuapp.com/api/payment/make-payment",
+    `${process.env.REACT_APP_URL}/api/payment/make-payment`,
     body,
     config
   );
@@ -138,7 +138,7 @@ async function createOrder(body) {
   };
 
   const response = await axios.post(
-    "https://nzcsa-backend.herokuapp.com/api/payment/create-order",
+    `${process.env.REACT_APP_URL}/api/payment/create-order`,
     body,
     config
   );
@@ -153,7 +153,7 @@ async function validateRedirect(body) {
     },
   };
   const response = await axios.post(
-    "https://nzcsa-backend.herokuapp.com/api/payment/make-payment",
+    `${process.env.REACT_APP_URL}/api/payment/make-payment`,
     body,
     config
   );
@@ -170,7 +170,7 @@ async function getOneOrder(merchantReference) {
     timeout: 1000,
   };
   const response = await axios.get(
-    `https://nzcsa-backend.herokuapp.com/api/payment/orders/${merchantReference}`,
+    `${process.env.REACT_APP_URL}/api/payment/orders/${merchantReference}`,
     config
   );
 
