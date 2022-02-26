@@ -70,7 +70,6 @@ export default function GoogleLoginButton({ setErrorMessage, setTimeout }) {
       <GoogleLogin
         clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
         theme="dark"
-        scope="profile email"
         className={classes.submit}
         onSuccess={googleSuccess}
         onFailure={googleFailure}
