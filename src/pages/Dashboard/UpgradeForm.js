@@ -266,7 +266,10 @@ export default function UpgradeForm(props) {
                   variant="body2"
                   style={{ marginBottom: "-50px", color: "#69696b" }}
                 >
-                  If you don't have a WeChat ID, please enter 'nowechatid'
+                  If you don't have a WeChat ID, please enter&nbsp;
+                  <div style={{ fontWeight: "bold", display: "inline" }}>
+                    nowechatid
+                  </div>
                 </Typography>
               </Grid>
               <Grid item md={10}>
