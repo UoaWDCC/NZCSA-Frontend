@@ -195,7 +195,7 @@ export default function SignUp() {
           "User validation failed: email: Please provide a valid email"
         ) {
           setMessage(
-            "The email that you provided is invalid, please provide a valid email."
+            "The email that you provided is invalid, please provide a valid school email."
           );
         } else {
           setMessage("Email is already registered, please sign in.");
@@ -276,7 +276,7 @@ export default function SignUp() {
                     required
                     fullWidth
                     id="email"
-                    label="Email Address"
+                    label="School Email Address"
                     name="email"
                     autoComplete="email"
                     className={classes.textF}
