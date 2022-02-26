@@ -28,7 +28,6 @@ import Copyright from "../components/Copyright";
 import GoogleLoginButton from "../components/Auth/GoogleLoginButton";
 //import emailSymbol from "../assets/email symbol.png"
 
-
 // TODO: Modify to match figma design
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -196,7 +195,7 @@ export default function SignUp() {
           "User validation failed: email: Please provide a valid email"
         ) {
           setMessage(
-            "The email that you provided is invalid, please provide a valid email."
+            "The email that you provided is invalid, please provide a valid school email."
           );
         } else {
           setMessage("Email is already registered, please sign in.");
@@ -224,7 +223,10 @@ export default function SignUp() {
               Sign up
             </Typography>
 
-            <GoogleLoginButton setErrorMessage={setMessage} setTimeout={setTimeout}/>
+            <GoogleLoginButton
+              setErrorMessage={setMessage}
+              setTimeout={setTimeout}
+            />
 
             {/* <form className={classes.form} noValidate> */}
             <div className={classes.form} noValidate>
@@ -274,7 +276,7 @@ export default function SignUp() {
                     required
                     fullWidth
                     id="email"
-                    label="Email Address"
+                    label="School Email Address"
                     name="email"
                     autoComplete="email"
                     className={classes.textF}

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import axios from 'axios';
+import axios from "axios";
 import { makeStyles } from "@material-ui/core/styles";
-import { Dialog, DialogTitle } from "@material-ui/core";
+import { Dialog, DialogTitle, Typography } from "@material-ui/core";
 import { DialogContent } from "@material-ui/core";
 import TextField from "@material-ui/core/TextField";
 import Radio from "@material-ui/core/Radio";
@@ -20,8 +20,8 @@ import {
   KeyboardDatePicker,
 } from "@material-ui/pickers";
 import Grid from "@material-ui/core/Grid";
-import { signUpMembership } from '../../api/connectBackend';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import { signUpMembership } from "../../api/connectBackend";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import FormHelperText from "@material-ui/core/FormHelperText";
 
 const useStyles = makeStyles((theme) => ({
@@ -31,17 +31,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function UpgradeForm(props) {
-  // const [gender, setGender]=useState()
-  // const [selectedDate, setSelectedDate] = React.useState(new Date('2014-08-18T21:11:54'));
   const [loading, setLoading] = useState(false);
-  const [gender, setGender] = useState();
-  const [wechatId, setWechaId] = useState();
+  const [gender, setGender] = useState("");
+  const [wechatId, setWechaId] = useState("");
   const [wechatError, setWechatError] = useState(false);
-  const [phone, setPhone] = useState();
-  const [stdentId, setStudentId] = useState();
+  const [phone, setPhone] = useState("");
+  const [stdentId, setStudentId] = useState("");
   const [birthday, setBirthday] = useState();
   const [yearError, setYearError] = useState("");
-  const [university, setUniversity] = useState();
+  const [university, setUniversity] = useState("");
   const [faculty, setFaculty] = useState({
     Arts: false,
     BussinessSchool: false,
@@ -57,8 +55,8 @@ export default function UpgradeForm(props) {
   // When others is true, you need to add this into the list of faculty too
   const [otherFaculty, setOtherFculty] = useState("");
   const [understand, setUnderstand] = useState(false);
-
-  // const [facultyList,setFacultyList]=useState();
+  const [showErrors, setShowErrors] = useState(false);
+  const isError = (condition) => showErrors && condition;
 
   const handleBirthdayChange = (date) => {
     setBirthday(date);
@@ -82,14 +80,16 @@ export default function UpgradeForm(props) {
 
   const handleWechatID = (event) => {
     setWechaId(event.target.value);
-    if ((event.target.value.length >= 6) && (event.target.value.length <= 20) && (isNaN(event.target.value[0]))) {
-      event.target.setAttribute("color", "success")
-      console.log(event.target.value)
-      setWechatError(false)
+    if (
+      event.target.value.length >= 6 &&
+      event.target.value.length <= 20 &&
+      isNaN(event.target.value[0])
+    ) {
+      event.target.setAttribute("color", "success");
+      setWechatError(false);
     } else {
-      setWechatError(true)
-      event.target.setAttribute("color", "warning")
-      console.log("invalid ID")
+      setWechatError(true);
+      event.target.setAttribute("color", "warning");
     }
   };
 
@@ -116,33 +116,56 @@ export default function UpgradeForm(props) {
     setUniversity(e.target.value);
   };
 
-  const returnFaculty = () => {
-    let key1 = 'None'
+  const getFaculty = () => {
+    let key1 = "";
     Object.keys(faculty).forEach((key) => {
       if (faculty[key]) {
         key1 = key;
       }
-    })
+    });
     return key1;
-  }
+  };
+
+  const checkIfComplete = () => {
+    return (
+      gender.length > 0 &&
+      phone.length > 0 &&
+      !!birthday &&
+      getFaculty().length > 0 &&
+      wechatId.length > 0 &&
+      !wechatError &&
+      university.length > 0
+    );
+  };
 
   const handleSubmitUpgradeForm = async () => {
-    setLoading(true);
-    const selectedFaculty = returnFaculty();
-    const info = { gender, university, selectedFaculty, birthday, phone, stdentId, wechatId }
-    try {
-      console.log(info)
-      const response = await signUpMembership(info);
-      if (response.status === 200) {
-        setLoading(false);
-        props.handleNext();
-      } else {
+    setShowErrors(true);
+    const selectedFaculty = getFaculty();
+    const info = {
+      gender,
+      university,
+      selectedFaculty,
+      birthday,
+      phone,
+      stdentId,
+      wechatId,
+      university,
+    };
+
+    if (checkIfComplete()) {
+      setLoading(true);
+      try {
+        const response = await signUpMembership(info);
+        if (response.status === 200) {
+          setLoading(false);
+          props.handleNext();
+        } else {
+          setLoading(false);
+        }
+      } catch (error) {
         setLoading(false);
       }
-    } catch (error) {
-      setLoading(false);
     }
-
   };
 
   const {
@@ -158,7 +181,6 @@ export default function UpgradeForm(props) {
     Others,
   } = faculty;
   const classes = useStyles();
-  // console.log(faculty);
 
   return (
     <DialogContent>
@@ -172,6 +194,7 @@ export default function UpgradeForm(props) {
                   component="fieldset"
                   value={gender}
                   onChange={handleGender}
+                  error={isError(gender.length === 0)}
                 >
                   <FormLabel component="legend">Gender</FormLabel>
                   <RadioGroup aria-label="gender" name="gender1" row>
@@ -209,6 +232,7 @@ export default function UpgradeForm(props) {
                     KeyboardButtonProps={{
                       "aria-label": "change date",
                     }}
+                    error={isError(!birthday)}
                   />
                 </MuiPickersUtilsProvider>
               </Grid>
@@ -224,14 +248,29 @@ export default function UpgradeForm(props) {
               </Grid>
               <Grid item md={4}>
                 <TextField
+                  required
                   margin="dense"
                   id="wechatId"
                   inputProps={{ maxLength: 20 }}
                   label="Wechat ID"
                   type="text"
                   onChange={handleWechatID}
-                  error={wechatError}
+                  error={isError(wechatId.length === 0 || wechatError)}
+                  helperText={
+                    (isError(wechatId.length === 0) &&
+                      "Please enter your WeChat ID") ||
+                    (isError(wechatError) && "Please enter a valid WeChat ID")
+                  }
                 />
+                <Typography
+                  variant="body2"
+                  style={{ marginBottom: "-50px", color: "#69696b" }}
+                >
+                  If you don't have a WeChat ID, please enter&nbsp;
+                  <div style={{ fontWeight: "bold", display: "inline" }}>
+                    nowechatid
+                  </div>
+                </Typography>
               </Grid>
               <Grid item md={10}>
                 <TextField
@@ -242,6 +281,11 @@ export default function UpgradeForm(props) {
                   label="Phone number"
                   fullwidth="true"
                   onChange={handlePhone}
+                  error={isError(phone.length === 0)}
+                  helperText={
+                    isError(phone.length === 0) &&
+                    "Please enter your phone number"
+                  }
                 />
               </Grid>
             </Grid>
@@ -261,6 +305,7 @@ export default function UpgradeForm(props) {
                       required
                       component="fieldset"
                       className={classes.formControl}
+                      error={isError(getFaculty().length === 0)}
                     >
                       <FormLabel component="legend">Faculty</FormLabel>
                       <FormGroup>
@@ -268,7 +313,6 @@ export default function UpgradeForm(props) {
                           control={
                             <Checkbox
                               checked={Arts}
-                              o
                               onChange={handleFaculty}
                               name="Arts"
                             />
@@ -362,7 +406,6 @@ export default function UpgradeForm(props) {
                         />
                       </FormGroup>
                     </FormControl>
-
                   </Grid>
                   <Grid item md={12}>
                     {/* <TextField
@@ -385,7 +428,11 @@ export default function UpgradeForm(props) {
                 </Grid>
               </Grid>
               <Grid item md={4}>
-                <FormControl required component="fieldset">
+                <FormControl
+                  required
+                  component="fieldset"
+                  error={isError(university.length === 0)}
+                >
                   <FormLabel component="legend">University</FormLabel>
                   <RadioGroup
                     aria-label="University"
@@ -424,23 +471,23 @@ export default function UpgradeForm(props) {
               <Grid item align={"center"} md={10} className={classes.consent}>
                 <h2>Consent Of Membership</h2>
                 <p>
-                  I have read and understand the regulation and constitution
-                  of NZCSA. I have had the opportunity to ask questions and
-                  have them answered to my satisfaction:
+                  I have read and understand the regulation and constitution of
+                  NZCSA. I have had the opportunity to ask questions and have
+                  them answered to my satisfaction:
                   <br />
                   1. I agree to take part in this students' association.
                   <br />
-                  2. I understand that I am free to discontinue participating
-                  at any time, and to withdraw my data any time without giving
-                  a reason, however, the membership fee will not be refunded.
+                  2. I understand that I am free to discontinue participating at
+                  any time, and to withdraw my data any time without giving a
+                  reason, however, the membership fee will not be refunded.
                   <br />
                   3. I understand that all information provided to the NZCSA:{" "}
                   <br />
                   (1) will remain confidential, <br />
                   (2) will only be used internally within NZCSA.
                   <br />
-                  4. I understand that personal information will be stored for
-                  a period of three years, after which they will be securely
+                  4. I understand that personal information will be stored for a
+                  period of three years, after which they will be securely
                   destroyed.
                 </p>
               </Grid>
@@ -477,7 +524,6 @@ export default function UpgradeForm(props) {
         </Grid>
         <Grid container justify={"center"}>
           <Button disabled={!understand} onClick={handleSubmitUpgradeForm}>
-
             {loading ? (
               <CircularProgress color="inherit" size="2rem" />
             ) : (
