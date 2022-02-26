@@ -25,8 +25,9 @@ import { isMobile } from "react-device-detect";
 import Alert from "@material-ui/lab/Alert";
 import { isIos, isInStandaloneMode } from '../utils/pwaUtils';
 
+import GoogleLoginButton from '../components/Auth/GoogleLoginButton';
 
-// TODO: Modify to match figma design
+
 const useStyles = makeStyles((theme) => ({
   root: {
     height: '100vh',
@@ -48,6 +49,10 @@ const useStyles = makeStyles((theme) => ({
   avatar: {
     margin: theme.spacing(1),
     backgroundColor: theme.palette.primary.main,
+  },
+  divider: {
+    padding: theme.spacing(2),
+    width: '90%',
   },
   form: {
     width: '100%', // Fix IE 11 issue.
@@ -94,6 +99,7 @@ export default function SignInSide() {
 
   const classes = useStyles();
   const [email, setEmail] = useState('');
+  const [loadingChecker, setLoadingChecker] = useState(false);
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [hasErrors, setHasErrors] = useState(false);
@@ -104,21 +110,19 @@ export default function SignInSide() {
 
   const isError = (condition) => hasErrors && condition;
 
-  // useEffect(() => {
-  //   props.changeDarkMode(true);
-  // }, [])
-
   useEffect(() => {
     window.addEventListener("beforeinstallprompt", (e) => {
       e.preventDefault();
       setDeferredPrompt(e);
     });
+
   }, []);
 
   useEffect(() => {
     if (isIos() && !isInStandaloneMode()) {
       setShowIOSInstall(true);
     }
+
   }, []);
 
   const handleInstall = async () => {
@@ -126,8 +130,9 @@ export default function SignInSide() {
     setDeferredPrompt(null);
   };
 
-  async function handleSignIn() {
+  const handleSignIn = async () => {
     setHasErrors(true);
+    setLoadingChecker(true);
     const loginInfo = { email, password }
 
     if (email.length > 0 && password.length > 0) {
@@ -181,6 +186,7 @@ export default function SignInSide() {
             </Alert>
           )}
           <div className={classes.paper}>
+
             <Avatar className={classes.avatar}>
               <LockOutlinedIcon />
             </Avatar>
@@ -188,9 +194,11 @@ export default function SignInSide() {
               Sign in
             </Typography>
 
+            <GoogleLoginButton setErrorMessage={setErrorMessage} setTimeout={setTimeout}/>
+
+
             {/* <form className={classes.form} noValidate> */}
             <div className={classes.form} noValidate>
-              <Typography color="error">{errorMessage}</Typography>
 
               <TextField
                 variant="outlined"
@@ -229,6 +237,7 @@ export default function SignInSide() {
                 control={<Checkbox value="remember" color="primary" />}
                 label="Remember me"
               />
+              <Typography color="error">{errorMessage}</Typography>
               <Button
                 type="submit"
                 fullWidth
@@ -238,7 +247,7 @@ export default function SignInSide() {
                 onClick={() => handleSignIn()}
                 disabled={false}
               >
-                {loading ? (
+                {(loading && loadingChecker) ? (
                   <CircularProgress color="inherit" size="2rem" />
                 ) : (
                   <>Sign In</>

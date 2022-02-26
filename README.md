@@ -28,6 +28,15 @@ $ git clone https://github.com/UoaWDCC/NZCSA-Frontend.git
 
 Notice, you need client and server runs concurrently in different terminal session, in order to make them talk to each other
 
+## Before start
+
+1. 
+```terminal
+$ touch .env   // create react evironment variables .env
+```
+
+2. Then ask project manager for the secret keys
+
 ## Client-side(Frontend) usage(PORT: 3000)
 
 ```terminal

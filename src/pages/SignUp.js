@@ -14,11 +14,6 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import backgroundImage from "../assets/bg.png";
-import signInSymbol from "../assets/signInSymbol.png";
-import logo from "../assets/logo.png";
-import RadioButtonUncheckedIcon from "@material-ui/icons/RadioButtonUnchecked";
-import RadioButtonCheckedIcon from "@material-ui/icons/RadioButtonChecked";
 import { signUp } from "../api/connectBackend";
 import PasswordStrengthIndicator from "../components/PasswordStrengthIndicator";
 import checkPasswordStrength from "../components/PasswordChecker";
@@ -30,6 +25,7 @@ import { Controller, useForm } from "react-hook-form";
 import Alert from "@material-ui/lab/Alert";
 import LockOpenIcon from "@material-ui/icons/LockOpen";
 import Copyright from "../components/Copyright";
+import GoogleLoginButton from "../components/Auth/GoogleLoginButton";
 //import emailSymbol from "../assets/email symbol.png"
 
 // TODO: Modify to match figma design
@@ -226,11 +222,14 @@ export default function SignUp() {
             <Typography component="h1" variant="h5">
               Sign up
             </Typography>
+
+            <GoogleLoginButton
+              setErrorMessage={setMessage}
+              setTimeout={setTimeout}
+            />
+
             {/* <form className={classes.form} noValidate> */}
             <div className={classes.form} noValidate>
-              <Typography color="error" className={classes.message}>
-                {message}
-              </Typography>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>
                   <TextField
@@ -414,6 +413,9 @@ export default function SignUp() {
                   /> */}
                 </Grid>
               </Grid>
+              <Typography color="error" className={classes.message}>
+                {message}
+              </Typography>
               <Button
                 type="submit"
                 fullWidth
