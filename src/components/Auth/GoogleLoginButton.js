@@ -1,6 +1,6 @@
 import React from 'react';
 import { GoogleLogin } from 'react-google-login';
-import { login, signUp } from '../../api/connectBackend';
+import { googleAuthLogin } from '../../api/connectBackend';
 import Divider from '@mui/material/Divider';
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -21,37 +21,18 @@ export default function GoogleLoginButton({ setErrorMessage, setTimeout }) {
 
   const classes = useStyles();
 
-  // Google Login function
   const googleSuccess = async (res) => {
     try {
-      const result = res.profileObj;
-      const signInfo = {
-        firstname: result.givenName.toLowerCase(),
-        lastname: result.familyName.toLowerCase(),
-        email: result.email.toLowerCase(),
-        password: res.tokenId,
+      const info = {
+        token: res.tokenId
       };
-      try {
-        const response = await signUp(signInfo);
-        if (response.status === 201) {
-          localStorage.setItem("authToken", response.data.token);
-          window.location.href = '/';
-        }
-      } catch (e) {
-
-        const response = await login({
-          email: result.email.toLowerCase(),
-          password: res.tokenId
-        });
-
-        if (response.status === 200) {
-          localStorage.setItem('authToken', response.data.token);
-          window.location.href = '/';
-        }
-
+      const response = await googleAuthLogin(info);
+      if (response.status === 201) {
+        localStorage.setItem("authToken", response.data.token);
+        window.location.href = '/';
       }
     } catch (e) {
-      setErrorMessage("Your Google account has been registered manually, please use email and password to log in.");
+      setErrorMessage("Your Google account can not be logged in, please try again.");
       setTimeout(() => {
         setErrorMessage('');
       }, 8000);
@@ -59,7 +40,7 @@ export default function GoogleLoginButton({ setErrorMessage, setTimeout }) {
   }
 
   const googleFailure = () => {
-    setErrorMessage("Google login was unsuccessful");
+    setErrorMessage("Google login is not working...");
     setTimeout(() => {
       setErrorMessage('');
     }, 8000);
