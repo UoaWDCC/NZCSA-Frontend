@@ -177,6 +177,21 @@ async function getOneOrder(merchantReference) {
   return response;
 }
 
+async function googleAuthLogin(body) {
+  const config = {
+    headers: {
+      "Content-Type": "application/json;charset=UTF-8",
+    },
+  };
+  const response = await axios.post(
+    `${process.env.REACT_APP_URL}/api/auth/googleauth`,
+    body,
+    config
+  );
+
+  return response;
+}
+
 export {
   signUp,
   login,
@@ -188,4 +203,5 @@ export {
   createOrder,
   signUpMembership,
   getOneOrder,
+  googleAuthLogin,
 };
