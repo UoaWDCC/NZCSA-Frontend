@@ -500,11 +500,11 @@ export default function Dashboard(props) {
 
   const Sponsor = (
     <Grid container spacing={3}>
-      <Grid item xs={12}>
+      {/* <Grid item xs={12}>
         <Paper className={classes.paper}>
           <Typography variant="h6">Sponsors</Typography>
         </Paper>
-      </Grid>
+  </Grid>*/}
       <SponsorsLogoLayout />
     </Grid>
   );
