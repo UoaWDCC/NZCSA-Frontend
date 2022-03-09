@@ -6,6 +6,7 @@ import {
     Box
 } from '@material-ui/core/';
 import images from './SponsorsLogoList';
+import Typography from "@material-ui/core/Typography";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -15,6 +16,12 @@ const useStyles = makeStyles((theme) => ({
     },
     images: {
         width: '60%',
+    },
+    paper: {
+        padding: theme.spacing(2),
+        display: "flex",
+        overflow: "auto",
+        flexDirection: "column",
     }
 }));
 
@@ -27,9 +34,16 @@ export default function SponsorsLogoLayout() {
             <Grid container
                 spacing={2}
                 direction="row"
+                justifyContent="center"
                 alignItems="center"
-                style={{ minHeight: '100vh' }}>
-                {images.map(({ id, src, title, description }) => (
+                style={{ minHeight: '100vh' }}
+            >
+                <Grid item xs={12}>
+                    <Paper className={classes.paper}>
+                        <Typography variant="h6">Our Valuable Sponsors</Typography>
+                    </Paper>
+                </Grid>
+                {images.filter(image => image.description === "valuable").map(({ id, src, title, description }) => (
                     <Grid item xs={12} sm={6}>
                         <Box
                             display="flex"
@@ -40,13 +54,44 @@ export default function SponsorsLogoLayout() {
                             <img key={id} src={src} alt="Logo" className={classes.images} />
                         </Box>
                     </Grid>
-
-
                 ))}
 
+                <Grid item xs={12}>
+                    <Paper className={classes.paper}>
+                        <Typography variant="h6">Our Contributory Sponsors</Typography>
+                    </Paper>
+                </Grid>
+                {images.filter(image => image.description === "contributory").map(({ id, src, title, description }) => (
+                    <Grid item xs={12} sm={6}>
+                        <Box
+                            display="flex"
+                            justifyContent="center"
+                            alignItems="center"
+                            minHeight="30vh"
+                        >
+                            <img key={id} src={src} alt="Logo" className={classes.images} />
+                        </Box>
+                    </Grid>
+                ))}
 
+                <Grid item xs={12}>
+                    <Paper className={classes.paper}>
+                        <Typography variant="h6">Our Special Sponsors</Typography>
+                    </Paper>
+                </Grid>
+                {images.filter(image => image.description === "special").map(({ id, src, title, description }) => (
+                    <Grid item xs={12} sm={6}>
+                        <Box
+                            display="flex"
+                            justifyContent="center"
+                            alignItems="center"
+                            minHeight="30vh"
+                        >
+                            <img key={id} src={src} alt="Logo" className={classes.images} />
+                        </Box>
+                    </Grid>
+                ))}
             </Grid>
-
         </div >
     )
 }
