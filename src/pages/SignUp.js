@@ -155,7 +155,6 @@ export default function SignUp() {
       firstName.length > 0 &&
       lastName.length > 0 &&
       email.length > 0 &&
-      email.endsWith("ac.nz") &&
       password.length > 0 &&
       isPasswordSame
     ) {
@@ -196,7 +195,7 @@ export default function SignUp() {
           "User validation failed: email: Please provide a valid email"
         ) {
           setMessage(
-            "The email that you provided is invalid, please provide a valid school email."
+            "The email that you provided is invalid, please provide a valid email."
           );
         } else {
           setMessage("Email is already registered, please sign in.");
@@ -277,23 +276,18 @@ export default function SignUp() {
                     required
                     fullWidth
                     id="email"
-                    label="School Email Address"
+                    label="Email Address"
                     name="email"
                     autoComplete="email"
                     className={classes.textF}
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     error={
-                      isError(email.length === 0) ||
-                      isError(!email.endsWith("ac.nz"))
+                      isError(email.length === 0)
                     }
                     helperText={
                       (isError(email.length === 0) &&
-                        "Please enter your email") ||
-                      isError(
-                        !email.endsWith("ac.nz") &&
-                          "Please use your school email"
-                      )
+                        "Please enter your email")
                     }
                   />
                 </Grid>
