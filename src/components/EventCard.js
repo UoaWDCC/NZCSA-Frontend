@@ -21,6 +21,7 @@ import { signUpEvent } from "../api/connectBackend";
 import Upgrade from "../pages/Dashboard/Upgrade";
 import Payment from "../pages/Dashboard/Payment";
 import Notification from "./Notification";
+import { useEffect } from "react";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -73,6 +74,20 @@ export default function EventCard(props) {
   // const handleUpgradeOpen = () => {
   //   setUpgradeOpen(true);
   // };
+  const ifEventAlreadyRegistered = () => {
+      try {
+          console.log(props.id)
+        return props.attendedEvents.includes(props.id)
+      } catch (error) {
+          return false
+      }
+    
+    }
+  const [eventAlreadyRegistered, setEventAlreadyRegistered] = useState(ifEventAlreadyRegistered());
+  
+  useEffect(()=>{
+    setEventAlreadyRegistered(ifEventAlreadyRegistered());
+  }, [props.attendedEvents])
 
   const openInNewTab = (url) => {
     const newWindow = window.open(url, "_blank", "noopener,noreferrer");
@@ -214,6 +229,7 @@ export default function EventCard(props) {
               <Typography variant="p" component="p">
                 {props.date}
               </Typography>
+              <div>what</div>
               <Typography variant="h6" component="h5">
                 {props.title}
               </Typography>
@@ -227,14 +243,36 @@ export default function EventCard(props) {
             </CardContent>
           </Link>
           <CardActions>
-            <Button
+            {
+                eventAlreadyRegistered?
+                    <Button
+                        variant="contained"
+                        size="medium"
+                        disabled
+                        onClick={() => handleOnClick(props.id, props.price)}
+                        disableElevation
+                        >
+                            Registered
+                        </Button>
+                        :
+                    <Button
+                        variant="contained"
+                        size="medium"
+                        color="secondary"
+                        onClick={() => handleOnClick(props.id, props.price)}
+                        disableElevation
+                        >
+                            Register
+                        </Button>
+            }
+            {/* <Button
               variant="contained"
               size="medium"
               onClick={() => handleOnClick(props.id, props.price)}
               disableElevation
             >
               Register
-            </Button>
+            </Button> */}
             {/* confirm dialog - pops up when Register button is clicked */}
             {memberConfirmDialog}
             {nonMemberConfirmDialog}
