@@ -32,7 +32,7 @@ export default function SponsorsLogoLayout() {
     return (
         <div className={classes.root}>
             <Grid container
-                spacing={2}
+                spacing={0}
                 direction="row"
                 justifyContent="center"
                 alignItems="center"
@@ -40,34 +40,34 @@ export default function SponsorsLogoLayout() {
             >
                 <Grid item xs={12}>
                     <Paper className={classes.paper}>
-                        <Typography variant="h6">Our Valuable Sponsors</Typography>
+                        <Typography variant="h6" align='center' variant="h5" >Our Valuable Sponsors</Typography>
                     </Paper>
                 </Grid>
                 {images.filter(image => image.description === "valuable").map(({ id, src, title, description }) => (
-                    <Grid item xs={12} sm={6}>
+                    <Grid item xs={12} sm={4}>
                         <Box
                             display="flex"
                             justifyContent="center"
                             alignItems="center"
-                            minHeight="30vh"
+                            minHeight="20vh"
                         >
-                            <img key={id} src={src} alt="Logo" className={classes.images} />
+                            <img key={id} src={src} alt="Logo" className={classes.images}  />
                         </Box>
                     </Grid>
                 ))}
 
                 <Grid item xs={12}>
                     <Paper className={classes.paper}>
-                        <Typography variant="h6">Our Contributory Sponsors</Typography>
+                        <Typography variant="h6" align='center' variant="h5" >Our Contributory Sponsors</Typography>
                     </Paper>
                 </Grid>
                 {images.filter(image => image.description === "contributory").map(({ id, src, title, description }) => (
-                    <Grid item xs={12} sm={6}>
+                    <Grid item xs={12} sm={4}>
                         <Box
                             display="flex"
                             justifyContent="center"
                             alignItems="center"
-                            minHeight="30vh"
+                            minHeight="20vh"
                         >
                             <img key={id} src={src} alt="Logo" className={classes.images} />
                         </Box>
@@ -76,16 +76,16 @@ export default function SponsorsLogoLayout() {
 
                 <Grid item xs={12}>
                     <Paper className={classes.paper}>
-                        <Typography variant="h6">Our Special Sponsors</Typography>
+                        <Typography variant="h6" align='center' variant="h5" >Our Special Sponsors</Typography>
                     </Paper>
                 </Grid>
                 {images.filter(image => image.description === "special").map(({ id, src, title, description }) => (
-                    <Grid item xs={12} sm={6}>
+                    <Grid item xs={12} sm={4}>
                         <Box
                             display="flex"
                             justifyContent="center"
                             alignItems="center"
-                            minHeight="30vh"
+                            minHeight="20vh"
                         >
                             <img key={id} src={src} alt="Logo" className={classes.images} />
                         </Box>

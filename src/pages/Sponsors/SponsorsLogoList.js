@@ -8,7 +8,8 @@ const images = [
     { id: 7, src: './images/SponsorLogo/statsNZ.jpg', title: 'foo', description: 'special' },
     { id: 8, src: './images/SponsorLogo/WRSA.png', title: 'foo', description: 'special' },
     { id: 9, src: './images/SponsorLogo/SUCSA.jpg', title: 'foo', description: 'special' },
-    
+    { id: 10, src: './images/SponsorLogo/NZCAP.jpg', title: 'foo', description: 'special' },
+    { id: 11, src: './images/SponsorLogo/NZEducation.jpg', title: 'foo', description: 'special' },
 ];
 
 export default images;
