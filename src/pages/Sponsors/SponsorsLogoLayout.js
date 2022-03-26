@@ -98,7 +98,7 @@ export default function SponsorsLogoLayout() {
                   display="flex"
                   justifyContent="center"
                   alignItems="center"
-                  maxWidth="35vh"
+                  maxWidth="40vh"
                 >
                   <img
                     key={id}
