@@ -1,14 +1,10 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
-import CardActionArea from "@material-ui/core/CardActionArea";
-import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
 import "react-confirm-alert/src/react-confirm-alert.css";
-import { useState } from "react";
-// import CircularProgress from '@material-ui/core/CircularProgress';
 import { BrowserRouter as Router, Link } from "react-router-dom";
 import { withStyles } from "@material-ui/core/styles";
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
