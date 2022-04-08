@@ -2,7 +2,7 @@
 name: Issue Template
 about: Create an issue to help us with identifing and resolving the issue
 title: 
-labels:
+labels:[Issue]
 assignees: ''
 ---
 
