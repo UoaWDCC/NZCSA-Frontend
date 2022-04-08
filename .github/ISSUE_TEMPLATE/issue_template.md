@@ -1,8 +1,8 @@
 ---
 name: Issue Template
 about: Create an issue to help us with identifing and resolving the issue
-title: 
-labels:'[New Issue] '
+title: '[New Issue] '
+labels:
 assignees: ''
 ---
 
@@ -11,5 +11,4 @@ assignees: ''
 *(If this issue is about a bug, please describe the problem and steps to reproduce the issue. You can also include screenshots of any stack traces, or any other supporting images).*
 
 **Describe how a solution to your proposed task might look like (and any alternatives considered).**
-
 **Notes**
