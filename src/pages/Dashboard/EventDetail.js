@@ -6,7 +6,7 @@ import MainCard from "../../components/MainCard";
 import { makeStyles } from "@material-ui/core";
 import { useParams } from "react-router";
 // import clsx from "clsx";
-import { Typography, Avatar } from "@material-ui/core";
+import { Typography, Avatar, Link } from "@material-ui/core";
 import { Button } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 import IconButton from "@material-ui/core/IconButton";
@@ -239,7 +239,14 @@ export default function EventDetail({
                 https://forms.gle/YH8tFAYYUs81cFnV6
               </a>
             ) : null}
+            {
+              event.googleFormUrl ? <Link href={event.googleFormUrl} target="_blank">{event.googleFormUrl}</Link> : <Typography variant="body1" component="a">
+                {"You don't have any googleFormUrls"}
+              </Typography>
+            }
+
           </Paper>
+
           <Paper className={classes.paper1}>
             {event.eventPrice > 0 ? (
               <Typography variant="h5" gutterBottom>
