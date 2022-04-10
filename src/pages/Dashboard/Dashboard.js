@@ -519,6 +519,7 @@ export default function Dashboard(props) {
     </Grid>
   );
 
+  // TODO: add forum page content
   const Forum = (
     <Grid container spacing={3}>
       <Grid item xs={12}>
@@ -720,7 +721,6 @@ export default function Dashboard(props) {
             ) : props.sponsors ? (
               Sponsor
             ) : props.memberDiscount ? (
-              // TODO: Change to memeber discount
               Discounts
             ) : props.forum ? (
               Forum
