@@ -519,6 +519,17 @@ export default function Dashboard(props) {
     </Grid>
   );
 
+  const Forum = (
+    <Grid container spacing={3}>
+      <Grid item xs={12}>
+        <Paper className={classes.paper}>
+          <Typography variant="h6">Calendar Forum</Typography>
+        </Paper>
+      </Grid>
+      
+    </Grid>
+  );
+
   const About = <AboutLayout />;
 
   const avatar = userData.isMembership ? (
@@ -711,6 +722,8 @@ export default function Dashboard(props) {
             ) : props.memberDiscount ? (
               // TODO: Change to memeber discount
               Discounts
+            ) : props.forum ? (
+              Forum
             ) : props.about ? (
               About
             ) : !id ? (

@@ -65,6 +65,9 @@ function App() {
                 <PrivateRoute path="/member_discount">
                   <Dashboard memberDiscount={true} />
                 </PrivateRoute>
+                <PrivateRoute path="/forum">
+                  <Dashboard forum={true} />
+                </PrivateRoute>
                 <PrivateRoute path="/about">
                   <Dashboard about={true} />
                 </PrivateRoute>
