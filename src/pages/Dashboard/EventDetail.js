@@ -143,6 +143,7 @@ export default function EventDetail({
             // setLoading(true);
             const response = await signUpEvent(registerInfo);
             if (response.status === 200) {
+                setEventAlreadyRegistered(true);
                 setNotify({
                     isOpen: true,
                     message: "Successfully signed up for this event!",
@@ -278,7 +279,7 @@ export default function EventDetail({
                                 <Button
                                     variant="contained"
                                     size="large"
-                                    color="secondary"
+                                    color="primary"
                                     onClick={() => handleOnClick()}
                                     disableElevation
                                 >

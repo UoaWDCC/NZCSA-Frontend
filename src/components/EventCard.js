@@ -121,6 +121,7 @@ export default function EventCard(props) {
       // setLoading(true);
       const response = await signUpEvent(registerInfo, userInfo);
       if (response.status === 200) {
+        setEventAlreadyRegistered(true);
         setNotify({
           isOpen: true,
           message: "Successfully signed up for this event!",
@@ -258,7 +259,7 @@ export default function EventCard(props) {
                     <Button
                         variant="contained"
                         size="medium"
-                        color="secondary"
+                        color="primary"
                         onClick={() => handleOnClick(props.id, props.price)}
                         disableElevation
                         >
