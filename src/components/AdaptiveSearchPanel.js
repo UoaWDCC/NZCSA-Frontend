@@ -4,6 +4,7 @@ import SearchIcon from '@mui/icons-material/Search'
 import { red } from '@mui/material/colors'
 import { useTheme } from "@material-ui/styles"
 import './AdaptiveSearchPanel.css'
+
 export default function ({
     hide = false,
     searchInputLabel = "search",
