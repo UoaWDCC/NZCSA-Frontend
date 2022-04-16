@@ -230,7 +230,6 @@ export default function EventCard(props) {
               <Typography variant="p" component="p">
                 {props.date}
               </Typography>
-              <div>what</div>
               <Typography variant="h6" component="h5">
                 {props.title}
               </Typography>
