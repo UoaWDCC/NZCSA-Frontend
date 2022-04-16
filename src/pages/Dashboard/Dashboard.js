@@ -681,7 +681,7 @@ export default function Dashboard(props) {
         )}
         {isUpdateAvailable && (
           <Alert>
-            A new version of this app is available
+            A new version of this app is available{" "}
             <Button
               onClick={updateAssets}
               color="inherit"
