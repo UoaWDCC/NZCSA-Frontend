@@ -528,7 +528,7 @@ export default function Dashboard(props) {
           <Typography variant="h6">Calendar Forum</Typography>
         </Paper>
       </Grid>
-      <Grid item xs={5} >
+      <Grid item xs={12} sm={6} md={5}>
         <DateDisplayComponent/>
       </Grid>
       
