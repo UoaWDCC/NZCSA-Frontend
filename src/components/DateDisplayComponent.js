@@ -7,26 +7,26 @@ import Grid from "@material-ui/core/Grid";
 export default function DateDisplayComponent() {
     return (
         <Paper elevation={1} square >
-            <Grid container justifyContent="space-around" >
+            <Grid container justifyContent="space-between" >
                 <Grid item xs={3} >
                     <Typography align="center">year</Typography>
                 </Grid>
-                <Grid item xs={4}>
-                    <Typography align="center" style={{ borderRadius: '6px', color: 'white', fontWeight:'bold', backgroundColor: 'red', fontSize:'10px'}}>
+                <Grid item xs="auto">
+                    <Typography width={'60px'} align="center" marginTop={'4px'} style={{ borderRadius: '2px', color: 'white', fontWeight: 'bold', backgroundColor: 'red', fontSize: '12px' }}>
                         NZCSA
                     </Typography>
                 </Grid>
                 <Grid item xs={3}>
-                    <Typography align="center">zodiac</Typography>
+                    <Typography align="center">肖虎</Typography>
                 </Grid>
             </Grid>
 
-            <Grid container justifyContent="space-around">
+            <Grid container justifyContent="space-between" >
                 <Grid item xs={3}>
                     <Typography align="center">Left Img</Typography>
                 </Grid>
-                <Grid item xs={4}>
-                    <div style={{ fontWeight: 'bold', fontSize: "5vw", textAlign: "center"}}>
+                <Grid item xs="auto">
+                    <div style={{ fontWeight: 'bold', fontSize: "6vw", textAlign: "center" }}>
                         18
                     </div>
                     <div>
