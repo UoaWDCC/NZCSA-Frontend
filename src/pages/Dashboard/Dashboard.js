@@ -58,6 +58,7 @@ import SwipeCard from "../../components/SwiperCard";
 import Alert from "@material-ui/lab/Alert";
 import { isIos, isInStandaloneMode } from "../../utils/pwaUtils";
 import SponsorGrid from "./SponsorGrid";
+import DateDisplayComponent from "../../components/DateDisplayComponent";
 import { useServiceWorker } from "../../context/serviceWorkerContext";
 
 const drawerWidth = 240;
@@ -521,11 +522,14 @@ export default function Dashboard(props) {
 
   // TODO: add forum page content
   const Forum = (
-    <Grid container spacing={3}>
+    <Grid container spacing={3} >
       <Grid item xs={12}>
         <Paper className={classes.paper}>
           <Typography variant="h6">Calendar Forum</Typography>
         </Paper>
+      </Grid>
+      <Grid item xs={5} >
+        <DateDisplayComponent/>
       </Grid>
       
     </Grid>
