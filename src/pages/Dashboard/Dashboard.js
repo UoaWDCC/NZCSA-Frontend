@@ -64,6 +64,7 @@ import {
   isPushNotificationSupported,
 } from "../../utils/pushNotifications";
 import { confirmAlert } from "react-confirm-alert";
+import { AlertTitle } from "@mui/material";
 
 const drawerWidth = 240;
 
@@ -228,6 +229,7 @@ export default function Dashboard(props) {
   const [searchEventData, setSearchEventData] = useState([]);
   const [deferredPrompt, setDeferredPrompt] = useState(null);
   const [showIOSInstall, setShowIOSInstall] = useState(false);
+  const [showNotificationPrompt, setShowNotificationPrompt] = useState(true);
   const { isUpdateAvailable, updateAssets } = useServiceWorker();
 
   // const [yourEventsData, setYoursEventData] = useState({});
@@ -712,13 +714,18 @@ export default function Dashboard(props) {
             select <strong>Add To Home Screen</strong>. (Use the Safari browser)
           </Alert>
         )}
-        {isPushNotificationSupported && (
-          <Alert onClose={() => setShowIOSInstall(false)} severity="info">
-            Get updated about the latest events! {"            "}
+        {isPushNotificationSupported && showNotificationPrompt && (
+          <Alert
+            onClose={() => setShowNotificationPrompt(false)}
+            severity="info"
+          >
+            <AlertTitle>Get updated</AlertTitle>
+            Enable notifications to get notified about the latest events!{" "}
             <Button
               onClick={() => sendNotification()}
               color="secondary"
               variant="outlined"
+              size="small"
             >
               Send Notification
             </Button>
