@@ -59,6 +59,11 @@ import Alert from "@material-ui/lab/Alert";
 import { isIos, isInStandaloneMode } from "../../utils/pwaUtils";
 import SponsorGrid from "./SponsorGrid";
 import { useServiceWorker } from "../../context/serviceWorkerContext";
+import {
+  askUserPermission,
+  isPushNotificationSupported,
+} from "../../utils/pushNotifications";
+import { confirmAlert } from "react-confirm-alert";
 
 const drawerWidth = 240;
 
@@ -233,6 +238,34 @@ export default function Dashboard(props) {
   const isMenuOpen = Boolean(anchorEl);
 
   const [value, setValue] = React.useState(1);
+
+  const showDeniedAlert = () => {
+    confirmAlert({
+      title: "Notification permission blocked",
+      message: "Please allow notifications on your device to receive updates.",
+      buttons: [
+        {
+          label: "Close",
+        },
+      ],
+    });
+  };
+
+  const sendNotification = async () => {
+    const permissionGranted = await askUserPermission();
+    console.log(permissionGranted);
+    if (permissionGranted == "denied") {
+      showDeniedAlert();
+    }
+    const notifTitle = "Event name";
+    const notifBody = "Event description";
+    const notifImg = `https://images.unsplash.com/photo-1511578314322-379afb476865?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8ZXZlbnRzfGVufDB8fDB8fA%3D%3D&w=1000&q=80`;
+    const options = {
+      body: notifBody,
+      icon: notifImg,
+    };
+    new Notification(notifTitle, options);
+  };
 
   const handleChange = (event, value) => {
     setValue(value);
@@ -677,6 +710,18 @@ export default function Dashboard(props) {
             Install the NZCSA webapp! tap{" "}
             <img height="16px" src="/images/icons/share-icon.jpg" /> and then
             select <strong>Add To Home Screen</strong>. (Use the Safari browser)
+          </Alert>
+        )}
+        {isPushNotificationSupported && (
+          <Alert onClose={() => setShowIOSInstall(false)} severity="info">
+            Get updated about the latest events! {"            "}
+            <Button
+              onClick={() => sendNotification()}
+              color="secondary"
+              variant="outlined"
+            >
+              Send Notification
+            </Button>
           </Alert>
         )}
         {isUpdateAvailable && (
