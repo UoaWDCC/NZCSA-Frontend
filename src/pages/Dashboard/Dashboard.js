@@ -58,7 +58,7 @@ import SwipeCard from "../../components/SwiperCard";
 import Alert from "@material-ui/lab/Alert";
 import { isIos, isInStandaloneMode } from "../../utils/pwaUtils";
 import SponsorGrid from "./SponsorGrid";
-import DateDisplayComponent from "../../components/DateDisplayComponent";
+import DateDisplayComponent from "../../components/ForumComponets/DateDisplayComponent";
 import { useServiceWorker } from "../../context/serviceWorkerContext";
 
 const drawerWidth = 240;
