@@ -6,6 +6,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import PeopleIcon from "@material-ui/icons/People";
 import LocalActivityIcon from "@mui/icons-material/LocalActivity";
+import ForumIcon from '@mui/icons-material/Forum';
 import Button from "@material-ui/core/Button";
 import { EventNote } from "@material-ui/icons";
 import { BrowserRouter as Router, Link } from "react-router-dom";
@@ -67,6 +68,12 @@ export const mainListItems = (
         <LocalActivityIcon />
       </ListItemIcon>
       <ListItemText primary="Member Discount" />
+    </StyledListItem>
+    <StyledListItem button to="/forum" component={Link}>
+      <ListItemIcon>
+        <ForumIcon />
+      </ListItemIcon>
+      <ListItemText primary="Calendar Forum" />
     </StyledListItem>
   </div>
 );

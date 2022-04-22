@@ -2,7 +2,7 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Box } from "@material-ui/core/";
 import SponsorCard from "../../components/SponsorCard";
-import storeData from "../../assets/storeData";
+import discountData from "../../assets/discountData";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -25,7 +25,7 @@ export default function SponsorsLogoLayout() {
         justify="flex-start"
         alignItems="flex-start"
       >
-        {storeData.map(({ name, discount, image, address, src }) => (
+        {discountData.map(({ name, discount, image, address, src }) => (
 
           imageName = JSON.stringify(image),
           imageName = imageName.slice(1, imageName.length - 1),
