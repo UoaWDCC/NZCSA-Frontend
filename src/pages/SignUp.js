@@ -26,8 +26,9 @@ import Alert from "@material-ui/lab/Alert";
 import LockOpenIcon from "@material-ui/icons/LockOpen";
 import Copyright from "../components/Copyright";
 import GoogleLoginButton from "../components/Auth/GoogleLoginButton";
-//import emailSymbol from "../assets/email symbol.png"
+import { useServiceWorker } from "../context/serviceWorkerContext";
 
+//import emailSymbol from "../assets/email symbol.png"
 
 // TODO: Modify to match figma design
 const useStyles = makeStyles((theme) => ({
@@ -95,6 +96,7 @@ export default function SignUp() {
   const [isPasswordSame, setPasswordSame] = useState(true);
   const [message, setMessage] = useState("");
   const [success, setSuccess] = useState(false);
+  const { isUpdateAvailable, updateAssets } = useServiceWorker();
 
   const [loading, setLoading] = useState(false);
 
@@ -282,12 +284,9 @@ export default function SignUp() {
                     className={classes.textF}
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    error={
-                      isError(email.length === 0)
-                    }
+                    error={isError(email.length === 0)}
                     helperText={
-                      (isError(email.length === 0) &&
-                        "Please enter your email")
+                      isError(email.length === 0) && "Please enter your email"
                     }
                   />
                 </Grid>
