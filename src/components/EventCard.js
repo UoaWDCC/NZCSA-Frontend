@@ -17,7 +17,7 @@ import "react-confirm-alert/src/react-confirm-alert.css";
 import { useState } from "react";
 // import CircularProgress from '@material-ui/core/CircularProgress';
 import { BrowserRouter as Router, Link } from "react-router-dom";
-import { signUpEvent } from "../api/connectBackend";
+import { signUpEvent, updateUserInfo } from "../api/connectBackend";
 import Upgrade from "../pages/Dashboard/Upgrade";
 import Payment from "../pages/Dashboard/Payment";
 import Notification from "./Notification";
@@ -43,17 +43,13 @@ const useStyles = makeStyles((theme) => ({
 export default function EventCard(props) {
 
 
-  // check if userregistered this event
-  const { currentUser } = useAuth();
+  // check if user registered this event
+  const { currentUser, setCurrentUser } = useAuth();
   const ifRegisteredEventAlready = () => {
     return currentUser.attendedEvents.includes(props.id)
   }
 
 
-
-
-
-  console.log(currentUser)
   // const [loading, setLoading] = useState(false);
   const [upgradeOpen, setUpgradeOpen] = useState(false);
   const [paymentOpen, setPaymentOpen] = useState(false);
@@ -83,24 +79,6 @@ export default function EventCard(props) {
       height: 180,
     },
   });
-
-  // const handleUpgradeOpen = () => {
-  //   setUpgradeOpen(true);
-  // };
-  const ifEventAlreadyRegistered = () => {
-    try {
-      console.log(props.id)
-      return props.attendedEvents.includes(props.id)
-    } catch (error) {
-      return false
-    }
-
-  }
-  const [eventAlreadyRegistered, setEventAlreadyRegistered] = useState(ifEventAlreadyRegistered());
-
-  useEffect(() => {
-    setEventAlreadyRegistered(ifEventAlreadyRegistered());
-  }, [props.attendedEvents])
 
   const openInNewTab = (url) => {
     const newWindow = window.open(url, "_blank", "noopener,noreferrer");
@@ -134,6 +112,7 @@ export default function EventCard(props) {
       // setLoading(true);
       const response = await signUpEvent(registerInfo, userInfo);
       if (response.status === 200) {
+        updateUserInfo(setCurrentUser)
         setNotify({
           isOpen: true,
           message: "Successfully signed up for this event!",
@@ -256,7 +235,7 @@ export default function EventCard(props) {
           </Link>
           <CardActions>
             {
-              ifRegisteredEventAlready ?
+              ifRegisteredEventAlready() ?
                 <Button
                   variant="contained"
                   size="medium"

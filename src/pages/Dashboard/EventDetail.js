@@ -13,13 +13,14 @@ import IconButton from "@material-ui/core/IconButton";
 import { confirmAlert } from "react-confirm-alert";
 import { Dialog, DialogContentText, DialogActions } from "@material-ui/core";
 import { DialogContent } from "@material-ui/core";
-import { signUpEvent } from "../../api/connectBackend";
+import { signUpEvent, updateUserInfo } from "../../api/connectBackend";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { useTheme } from "@material-ui/core/styles";
 import Upgrade from "../Dashboard/Upgrade";
 import Payment from "../Dashboard/Payment";
 import Notification from "../../components/Notification";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
+import { useAuth } from "../../context/auth.context";
 // import UserDetailForm from "./UserDetailForm";
 // import Image from "material-ui-image";
 // import axios from "axios";
@@ -122,19 +123,13 @@ export default function EventDetail({
             }
         }
     };
-    const ifEventAlreadyRegistered = () => {
-        try {
-            return attendedEvents.includes(id)
-        } catch (error) {
-            return false
-        }
 
+    // check if user registered this event
+    const { currentUser, setCurrentUser } = useAuth();
+    const ifRegisteredEventAlready = () => {
+        return currentUser.attendedEvents.includes(props.id)
     }
-    const [eventAlreadyRegistered, setEventAlreadyRegistered] = useState(ifEventAlreadyRegistered());
 
-    useEffect(() => {
-        setEventAlreadyRegistered(ifEventAlreadyRegistered());
-    }, [attendedEvents])
 
     async function handleRegister(eventId) {
         console.log(eventId);
@@ -143,7 +138,7 @@ export default function EventDetail({
             // setLoading(true);
             const response = await signUpEvent(registerInfo);
             if (response.status === 200) {
-                setEventAlreadyRegistered(true);
+                updateUserInfo(setCurrentUser);
                 setNotify({
                     isOpen: true,
                     message: "Successfully signed up for this event!",
@@ -265,7 +260,7 @@ export default function EventDetail({
                             </Typography>
                         )}
                         {
-                            eventAlreadyRegistered ?
+                            ifRegisteredEventAlready() ?
                                 <Button
                                     variant="contained"
                                     size="large"
