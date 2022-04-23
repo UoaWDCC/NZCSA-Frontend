@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
@@ -17,10 +17,12 @@ import "react-confirm-alert/src/react-confirm-alert.css";
 import { useState } from "react";
 // import CircularProgress from '@material-ui/core/CircularProgress';
 import { BrowserRouter as Router, Link } from "react-router-dom";
-import { signUpEvent } from "../api/connectBackend";
+import { signUpEvent, updateUserInfo } from "../api/connectBackend";
 import Upgrade from "../pages/Dashboard/Upgrade";
 import Payment from "../pages/Dashboard/Payment";
 import Notification from "./Notification";
+import { useEffect } from "react";
+import { AuthProvider, useAuth } from "../context/auth.context";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -39,7 +41,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function EventCard(props) {
-  console.log(props)
+
+
+  // check if user registered this event
+  const { currentUser, setCurrentUser } = useAuth();
+
+
   // const [loading, setLoading] = useState(false);
   const [upgradeOpen, setUpgradeOpen] = useState(false);
   const [paymentOpen, setPaymentOpen] = useState(false);
@@ -69,10 +76,6 @@ export default function EventCard(props) {
       height: 180,
     },
   });
-
-  // const handleUpgradeOpen = () => {
-  //   setUpgradeOpen(true);
-  // };
 
   const openInNewTab = (url) => {
     const newWindow = window.open(url, "_blank", "noopener,noreferrer");
@@ -106,6 +109,7 @@ export default function EventCard(props) {
       // setLoading(true);
       const response = await signUpEvent(registerInfo, userInfo);
       if (response.status === 200) {
+        updateUserInfo(setCurrentUser)
         setNotify({
           isOpen: true,
           message: "Successfully signed up for this event!",
@@ -227,14 +231,38 @@ export default function EventCard(props) {
             </CardContent>
           </Link>
           <CardActions>
-            <Button
+            {
+              currentUser ?
+                currentUser.attendedEvents.includes(props.id) ?
+                  <Button
+                    variant="contained"
+                    size="medium"
+                    disabled
+                    onClick={() => handleOnClick(props.id, props.price)}
+                    disableElevation
+                  >
+                    Registered
+                  </Button>
+                  :
+                  <Button
+                    variant="contained"
+                    size="medium"
+                    color="primary"
+                    onClick={() => handleOnClick(props.id, props.price)}
+                    disableElevation
+                  >
+                    Register
+                  </Button>
+                : <></>
+            }
+            {/* <Button
               variant="contained"
               size="medium"
               onClick={() => handleOnClick(props.id, props.price)}
               disableElevation
             >
               Register
-            </Button>
+            </Button> */}
             {/* confirm dialog - pops up when Register button is clicked */}
             {memberConfirmDialog}
             {nonMemberConfirmDialog}
