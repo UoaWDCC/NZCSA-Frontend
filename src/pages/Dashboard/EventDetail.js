@@ -126,9 +126,6 @@ export default function EventDetail({
 
     // check if user registered this event
     const { currentUser, setCurrentUser } = useAuth();
-    const ifRegisteredEventAlready = () => {
-        return currentUser.attendedEvents.includes(props.id)
-    }
 
 
     async function handleRegister(eventId) {
@@ -260,26 +257,28 @@ export default function EventDetail({
                             </Typography>
                         )}
                         {
-                            ifRegisteredEventAlready() ?
-                                <Button
-                                    variant="contained"
-                                    size="large"
-                                    onClick={() => handleOnClick()}
-                                    disableElevation
-                                    disabled
-                                >
-                                    Registered
-                                </Button>
-                                :
-                                <Button
-                                    variant="contained"
-                                    size="large"
-                                    color="primary"
-                                    onClick={() => handleOnClick()}
-                                    disableElevation
-                                >
-                                    Register
-                                </Button>
+                            currentUser ?
+                                currentUser.attendedEvents.includes(id) ?
+                                    <Button
+                                        variant="contained"
+                                        size="large"
+                                        onClick={() => handleOnClick()}
+                                        disableElevation
+                                        disabled
+                                    >
+                                        Registered
+                                    </Button>
+                                    :
+                                    <Button
+                                        variant="contained"
+                                        size="large"
+                                        color="primary"
+                                        onClick={() => handleOnClick()}
+                                        disableElevation
+                                    >
+                                        Register
+                                    </Button>
+                                : <></>
                         }
 
                         {/* confirm dialog - pops up when Register button is clicked */}

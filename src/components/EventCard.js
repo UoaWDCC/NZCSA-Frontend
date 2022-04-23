@@ -45,9 +45,6 @@ export default function EventCard(props) {
 
   // check if user registered this event
   const { currentUser, setCurrentUser } = useAuth();
-  const ifRegisteredEventAlready = () => {
-    return currentUser.attendedEvents.includes(props.id)
-  }
 
 
   // const [loading, setLoading] = useState(false);
@@ -235,26 +232,28 @@ export default function EventCard(props) {
           </Link>
           <CardActions>
             {
-              ifRegisteredEventAlready() ?
-                <Button
-                  variant="contained"
-                  size="medium"
-                  disabled
-                  onClick={() => handleOnClick(props.id, props.price)}
-                  disableElevation
-                >
-                  Registered
-                </Button>
-                :
-                <Button
-                  variant="contained"
-                  size="medium"
-                  color="primary"
-                  onClick={() => handleOnClick(props.id, props.price)}
-                  disableElevation
-                >
-                  Register
-                </Button>
+              currentUser ?
+                currentUser.attendedEvents.includes(props.id) ?
+                  <Button
+                    variant="contained"
+                    size="medium"
+                    disabled
+                    onClick={() => handleOnClick(props.id, props.price)}
+                    disableElevation
+                  >
+                    Registered
+                  </Button>
+                  :
+                  <Button
+                    variant="contained"
+                    size="medium"
+                    color="primary"
+                    onClick={() => handleOnClick(props.id, props.price)}
+                    disableElevation
+                  >
+                    Register
+                  </Button>
+                : <></>
             }
             {/* <Button
               variant="contained"
