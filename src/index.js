@@ -7,7 +7,7 @@ import DarkModeProvider from "./context/darkMode";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 
 import { ServiceWorkerProvider } from "./context/serviceWorkerContext";
-
+console.warn = console.error = () => {};
 ReactDOM.render(
   <React.StrictMode>
     <DarkModeProvider>

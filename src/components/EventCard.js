@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
@@ -22,6 +22,7 @@ import Upgrade from "../pages/Dashboard/Upgrade";
 import Payment from "../pages/Dashboard/Payment";
 import Notification from "./Notification";
 import { useEffect } from "react";
+import { AuthProvider, useAuth } from "../context/auth.context";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -40,7 +41,19 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function EventCard(props) {
-  console.log(props)
+
+
+  // check if userregistered this event
+  const { currentUser } = useAuth();
+  const ifRegisteredEventAlready = () => {
+    return currentUser.attendedEvents.includes(props.id)
+  }
+
+
+
+
+
+  console.log(currentUser)
   // const [loading, setLoading] = useState(false);
   const [upgradeOpen, setUpgradeOpen] = useState(false);
   const [paymentOpen, setPaymentOpen] = useState(false);
@@ -75,17 +88,17 @@ export default function EventCard(props) {
   //   setUpgradeOpen(true);
   // };
   const ifEventAlreadyRegistered = () => {
-      try {
-          console.log(props.id)
-        return props.attendedEvents.includes(props.id)
-      } catch (error) {
-          return false
-      }
-    
+    try {
+      console.log(props.id)
+      return props.attendedEvents.includes(props.id)
+    } catch (error) {
+      return false
     }
+
+  }
   const [eventAlreadyRegistered, setEventAlreadyRegistered] = useState(ifEventAlreadyRegistered());
-  
-  useEffect(()=>{
+
+  useEffect(() => {
     setEventAlreadyRegistered(ifEventAlreadyRegistered());
   }, [props.attendedEvents])
 
@@ -121,7 +134,6 @@ export default function EventCard(props) {
       // setLoading(true);
       const response = await signUpEvent(registerInfo, userInfo);
       if (response.status === 200) {
-        setEventAlreadyRegistered(true);
         setNotify({
           isOpen: true,
           message: "Successfully signed up for this event!",
@@ -245,26 +257,26 @@ export default function EventCard(props) {
           </Link>
           <CardActions>
             {
-                eventAlreadyRegistered?
-                    <Button
-                        variant="contained"
-                        size="medium"
-                        disabled
-                        onClick={() => handleOnClick(props.id, props.price)}
-                        disableElevation
-                        >
-                            Registered
-                        </Button>
-                        :
-                    <Button
-                        variant="contained"
-                        size="medium"
-                        color="primary"
-                        onClick={() => handleOnClick(props.id, props.price)}
-                        disableElevation
-                        >
-                            Register
-                        </Button>
+              ifRegisteredEventAlready ?
+                <Button
+                  variant="contained"
+                  size="medium"
+                  disabled
+                  onClick={() => handleOnClick(props.id, props.price)}
+                  disableElevation
+                >
+                  Registered
+                </Button>
+                :
+                <Button
+                  variant="contained"
+                  size="medium"
+                  color="primary"
+                  onClick={() => handleOnClick(props.id, props.price)}
+                  disableElevation
+                >
+                  Register
+                </Button>
             }
             {/* <Button
               variant="contained"
