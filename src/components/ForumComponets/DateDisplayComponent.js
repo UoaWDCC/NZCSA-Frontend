@@ -4,6 +4,8 @@ import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import Grid from "@material-ui/core/Grid";
 import YearDisplay from "./yearDisplay";
+import { VerticalAlignBottom } from "@material-ui/icons";
+import { textAlign } from "@mui/system";
 
 const commonStyles = {
     bgcolor: "background.paper",
@@ -14,8 +16,8 @@ const commonStyles = {
     alignContent: "center",
     alignItems: "center",
     borderWidth: "2px"
-  };
-  
+};
+
 export default function DateDisplayComponent() {
     return (
         <Paper elevation={1} square >
@@ -33,9 +35,13 @@ export default function DateDisplayComponent() {
                 </Grid>
             </Grid>
 
-            <Grid container justifyContent="space-between" >
+            <Grid container justifyContent="space-between">
                 <Grid item xs={3}>
-                    <Typography align="center">Left Img</Typography>
+                    <Typography align="center" >Left Img</Typography>
+                    <span style={{ writingMode: "vertical-lr", fontWeight: 'bold',fontSize:'12px' }}>Calendar Fourm
+                    </span>
+                    <span style={{ writingMode: "vertical-lr", fontWeight: 'bold',fontSize:'12px' }}>分 享 资 讯
+                    </span>
                 </Grid>
                 <Grid item xs="auto">
                     <div style={{ fontWeight: 'bold', fontSize: "6vw", textAlign: "center", fontFamily: "Roboto" }}>
@@ -47,12 +53,15 @@ export default function DateDisplayComponent() {
                 </Grid>
                 <Grid item xs={3}>
                     <Typography align="center">
-
-                        <YearDisplay/>
-
+                        <YearDisplay year="贰零贰贰" />
                     </Typography>
+                    <span style={{ writingMode: "vertical-lr", fontWeight: 'bold',fontSize:'12px' }}>寻 找 伙 伴
+                    </span>
+                    <span style={{ writingMode: "vertical-lr", backgroundColor: '#F44336',borderRadius: '2px', color: 'white', fontWeight: 'bold',padding: '2px', fontSize:'12px' }}>学 生 论 坛
+                    </span>
                 </Grid>
             </Grid>
+
         </Paper>
     )
 }

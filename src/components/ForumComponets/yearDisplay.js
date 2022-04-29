@@ -17,18 +17,20 @@ const commonStyles = {
   borderBottom: 2
 };
 
-export default function BorderAdditive() {
+export default function BorderAdditive(props) {
+  const year = props.year;
+  
   return (
     <Grid>
       <Box sx={{ display: "flex", justifyContent: "center" }}>
         <Box sx={{ ...commonStyles,  borderLeft: 2,borderTop: 2,borderColor: "error.main"}}>
           <Typography fontSize={"10px"} sx={{ color: "red" }}>
-            贰
+          {year.charAt(0)}
           </Typography>
         </Box>
         <Box sx={{...commonStyles, borderTop: 2,borderColor: "error.main"}}>
           <Typography fontSize={"10px"} sx={{ color: "red" }}>
-            零
+          {year.charAt(1)}
           </Typography>
         </Box>
       </Box>
@@ -36,12 +38,12 @@ export default function BorderAdditive() {
       <Box sx={{ display: "flex", justifyContent: "center" }}>
         <Box sx={{...commonStyles, borderLeft: 2,borderColor: "error.main"}}>
           <Typography fontSize={"10px"} sx={{ color: "red" }}>
-            贰
+          {year.charAt(2)}
           </Typography>
         </Box>
         <Box sx={{...commonStyles,borderColor: "error.main"}}>
           <Typography fontSize={"10px"} sx={{ color: "red" }}>
-            零
+          {year.charAt(3)}
           </Typography>
         </Box>
       </Box>
