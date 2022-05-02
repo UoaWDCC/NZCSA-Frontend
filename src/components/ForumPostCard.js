@@ -8,6 +8,7 @@ import Typography from '@mui/material/Typography';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import {IconButton} from '@mui/material';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 400,
@@ -46,23 +47,30 @@ export default function ForumCard({
           <CardMedia
             component="img"
             height="140"
-            image= {postImg}
+            image="https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png"
             alt="Post Image"
           />
           <CardContent>
             <Typography gutterBottom variant="h5" component="div">
-              {postTitle}
+              {postTitle}abcdefG
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              {postPreview}
+              {postPreview}abcdefG
             </Typography>
           </CardContent>
         <CardActions>
           <IconButton xs="inline-height:15px"><ThumbUpIcon /></IconButton>
-          <Typography variant='span'>{postLikes}</Typography>
+          <Typography variant='span'>{postLikes}11</Typography>
           <Typography variant='body2' align='right' style={{flex:1}}>
-          {postHost}
-          <IconButton><AccountBoxIcon /></IconButton>
+          Auckland University of Technology
+          <IconButton sx={{
+            padding:'0 8px',
+          }}><AccountBoxIcon/></IconButton>
+          <br/>Read More <IconButton sx={{
+            padding:'0 16px 0 0',
+          }}><ArrowRightIcon sx={{
+            fontSize:'1rem',
+          }} /></IconButton>
           </Typography>
         </CardActions>
       </Card>
