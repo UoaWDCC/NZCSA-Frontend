@@ -118,7 +118,7 @@ export default function PaymentForm({ orderType, price, eventId }) {
                 Payment method
               </Typography>
               <Grid container spacing={2}>
-                <Grid item xs={12} sm={6}>
+                {/* <Grid item xs={12} sm={6}>
                   <Button
                     fullWidth
                     className={clsx(
@@ -135,7 +135,7 @@ export default function PaymentForm({ orderType, price, eventId }) {
                       alt="POLi Logo"
                     />
                   </Button>
-                </Grid>
+                </Grid> */}
                 <Grid item xs={12} sm={6}>
                   <Button
                     fullWidth
@@ -154,9 +154,8 @@ export default function PaymentForm({ orderType, price, eventId }) {
                     />
                   </Button>
                 </Grid>
-                {/* <Grid item xs>
+                <Grid item xs>
                   <Button
-                    disabled
                     fullWidth
                     className={clsx(
                       classes.payBtn,
@@ -172,7 +171,7 @@ export default function PaymentForm({ orderType, price, eventId }) {
                       src="./images/wechat-pay.svg"
                     />
                   </Button>
-                </Grid> */}
+                </Grid>
               </Grid>
             </Grid>
             <Grid item xs={12}>
