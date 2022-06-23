@@ -8,6 +8,7 @@ import "react-confirm-alert/src/react-confirm-alert.css";
 import { BrowserRouter as Router, Link } from "react-router-dom";
 import { withStyles } from "@material-ui/core/styles";
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
+import Button from '@mui/material/Button';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -38,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('md')]: {
       maxWidth: "100%",
       width: "25%",
-      
+
     },
   }
 }));
@@ -51,45 +52,45 @@ const RedTextTypography = withStyles({
 
 export default function SponsorCard(props) {
   const classes = useStyles({
-    
+
   });
   return (
     <Router>
       {props.isYourPage || props.tab == "previous" ? (null) : (
-      <Card className={classes.root}>
-        {props.image == "" ? (
-          <CardMedia
-          className={classes.media}
-          component="img"
-          alt="Contemplative Reptile"
-          height="100%"
-          image={'./images/discountLogo/'+'discount.png'}
-          title="Contemplative Reptile"
-        />
-        ) : (
-          <CardMedia
-            className={classes.media}
-            component="img"
-            alt="Contemplative Reptile"
-            height="100%"
-            image={'./images/discountLogo/'+props.image}
-            title="Contemplative Reptile"
-          />
-        )}
+        <Card className={classes.root}>
+          {props.image == "" ? (
+            <CardMedia
+              className={classes.media}
+              component="img"
+              alt="Contemplative Reptile"
+              height="100%"
+              image={'./images/discountLogo/' + 'discount.png'}
+              title="Contemplative Reptile"
+            />
+          ) : (
+            <CardMedia
+              className={classes.media}
+              component="img"
+              alt="Contemplative Reptile"
+              height="100%"
+              image={'./images/discountLogo/' + props.image}
+              title="Contemplative Reptile"
+            />
+          )}
           <CardContent>
             <Typography variant="h6" component="h5">
-              {props.title}              
+              {props.title}
             </Typography>
-            <Typography 
-              variant="p" 
-              style={{ whiteSpace: "pre-line", verticalAlign: "bottom"}} 
-              color="primary" 
+            <Typography
+              variant="p"
+              style={{ whiteSpace: "pre-line", verticalAlign: "bottom" }}
+              color="primary"
               component="p"
             >
-              <LocalOfferIcon style={{height: 13}}/>
+              <LocalOfferIcon style={{ height: 13 }} />
               {props.discount}
             </Typography>
-            <br/>
+            <br />
             <Typography
               variant="subtitle2"
               color="textSecondary"
@@ -97,8 +98,19 @@ export default function SponsorCard(props) {
             >
               {props.location}
             </Typography>
+            <br />
+            <Button
+              variant="contained"
+              href={"https://www.google.com/maps/search/?api=1&query=" + encodeURI(props.title) + encodeURI(props.location)}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => { console.log(props.location) }}
+              style={{}}
+            >
+            Direction >
+            </Button>
           </CardContent>
-          
+
         </Card>
       )}
     </Router>

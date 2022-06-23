@@ -2,9 +2,9 @@ const data = [
   {
     name: "龙门蟹甲",
     discount: "10% OFF",
-    address: "4a/270 Oteha Valley Road, Albany, Auckland 0632",
+    address: "4a/270. Oteha Valley Road, Albany, Auckland 0632",
     image: "bbqking.jpg",
-    src: "30",
+    src: "42",
   },
   {
     name: "小食尚",
