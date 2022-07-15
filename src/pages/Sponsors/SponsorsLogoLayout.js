@@ -93,12 +93,18 @@ export default function SponsorsLogoLayout() {
           {images
             .filter((image) => image.description === "special")
             .map(({ id, src, title, description }) => (
-              <Grid item xs={12} sm={4} alignContent="center">
+              <Grid
+                item
+                xs={12}
+                sm={4}
+                alignContent="center"
+                justifyContent="center"
+              >
                 <Box
                   display="flex"
                   justifyContent="center"
                   alignItems="center"
-                  maxWidth="40vh"
+                  minWidth="50vh"
                 >
                   <img
                     key={id}

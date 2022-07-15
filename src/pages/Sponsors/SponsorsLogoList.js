@@ -61,7 +61,7 @@ const images = [
   },
   {
     id: 11,
-    src: "./images/SponsorLogo/NZEducation.jpg",
+    src: "./images/SponsorLogo/ENZ.png",
     title: "foo",
     description: "special",
   },
