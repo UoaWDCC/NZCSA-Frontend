@@ -118,7 +118,7 @@ export default function PaymentForm({ orderType, price, eventId }) {
                 Payment method
               </Typography>
               <Grid container spacing={2}>
-                {/* <Grid item xs={12} sm={6}>
+                <Grid item xs={12} sm={6}>
                   <Button
                     fullWidth
                     className={clsx(
@@ -135,7 +135,7 @@ export default function PaymentForm({ orderType, price, eventId }) {
                       alt="POLi Logo"
                     />
                   </Button>
-                </Grid> */}
+                </Grid>
                 <Grid item xs={12} sm={6}>
                   <Button
                     fullWidth
