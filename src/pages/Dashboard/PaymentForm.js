@@ -12,6 +12,7 @@ import {
   Fade,
   CircularProgress,
 } from "@material-ui/core";
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import clsx from "clsx";
 import { makePayment, createOrder } from "../../api/connectBackend";
 // import { useHistory } from "react-router-dom";
@@ -29,6 +30,10 @@ const useStyles = makeStyles((theme) => ({
     borderWidth: 3,
     textTransform: "none",
   },
+  transferBox: {
+    textTransform: "none",
+    borderWidth: 3,
+  },
   selectedBtn: {
     borderColor: theme.palette.secondary.main,
   },
@@ -40,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
   },
   detailCard: {
     display: "flex",
-  },
+  }
 }));
 
 export default function PaymentForm({ orderType, price, eventId }) {
@@ -108,11 +113,16 @@ export default function PaymentForm({ orderType, price, eventId }) {
     // handleOrder();
   };
 
+  const handleClickCopy = () => {
+    navigator.clipboard.writeText('12-3011-0933221-00')
+    alert("Copied 12-3011-0933221-00");
+  }
+
   return (
     <Fade in={true} timeout={1000}>
       <form>
         <Container>
-          <Grid container spacing={3} className={classes.root}>
+          <Grid container spacing={3} className={classes.root} >
             <Grid item xs={12}>
               <Typography variant="h6" gutterBottom>
                 Payment method
@@ -154,7 +164,7 @@ export default function PaymentForm({ orderType, price, eventId }) {
                     />
                   </Button>
                 </Grid>
-                <Grid item xs>
+                <Grid item md={12} xs={12}>
                   <Button
                     fullWidth
                     className={clsx(
@@ -172,9 +182,44 @@ export default function PaymentForm({ orderType, price, eventId }) {
                     />
                   </Button>
                 </Grid>
+                <Grid item md={12} xs={12} justifyContent="center">
+                  <Typography variant="h6" style={{ textAlign: "center", fontWeight: 600 }}>Or</Typography>
+                </Grid>
+                <Grid item md={12} xs={12} justifyContent="center">
+                  <Button
+                    fullWidth
+                    className={
+                      classes.transferBox}
+                    variant="outlined"
+                    onClick={() => handleClickCopy()}
+                  >
+                    <Grid container justifyContent="center">
+                      <Grid item xs={12} md={12}>
+                        <Typography>
+                          Bank Transfer:
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={12} md={12}>
+                        <Grid container direction="row" justifyContent="center">
+                          <Typography style={{ marginRight: "1rem" }} >
+                            12-3011-0933221-00
+                          </Typography>
+                          <ContentCopyIcon />
+                        </Grid>
+
+                      </Grid>
+                      <Grid item>
+                        <Typography style={{ fontWeight: 600 }}>
+                          Please show the screenshot of the payment to our commitees or Customer Service
+                        </Typography>
+                      </Grid>
+                    </Grid>
+
+                  </Button>
+                </Grid>
               </Grid>
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} >
               <Typography variant="h6" gutterBottom>
                 Order details
               </Typography>

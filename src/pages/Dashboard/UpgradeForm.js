@@ -130,7 +130,6 @@ export default function UpgradeForm(props) {
     return (
       gender.length > 0 &&
       phone.length > 0 &&
-      !!birthday &&
       getFaculty().length > 0 &&
       wechatId.length > 0 &&
       !wechatError &&
@@ -219,7 +218,6 @@ export default function UpgradeForm(props) {
               <Grid item md={4}>
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                   <KeyboardDatePicker
-                    required
                     disableFuture={true}
                     disableToolbar
                     variant="inline"
@@ -232,7 +230,6 @@ export default function UpgradeForm(props) {
                     KeyboardButtonProps={{
                       "aria-label": "change date",
                     }}
-                    error={isError(!birthday)}
                   />
                 </MuiPickersUtilsProvider>
               </Grid>
