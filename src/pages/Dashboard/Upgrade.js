@@ -33,12 +33,13 @@ const styles = (theme) => ({
 
 const useStyles = makeStyles((theme) => ({}));
 
-const steps = ["Register for membership", "Checkout", "Payment"];
+// const steps = ["Register for membership", "Checkout", "Payment"];
+const steps = ["Checkout", "Payment"];
 
 export default function Upgrade(props) {
   const classes = useStyles();
   const [maxWidth, setMaxWidth] = React.useState("md");
-  const [activeStep, setActiveStep] = React.useState(props.checkout ? 2 : 0);
+  const [activeStep, setActiveStep] = React.useState(props.checkout ? 1 : 0);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("xs"));
 
@@ -51,7 +52,7 @@ export default function Upgrade(props) {
   };
 
   const handlecloseUpgradeForm = () => {
-    if (activeStep === 2) {
+    if (activeStep === 1) {
       return null;
     } else if (window.confirm("All your inputs will be discarded")) {
       props.close(false);
@@ -68,9 +69,9 @@ export default function Upgrade(props) {
 
   function getStepContent(step) {
     switch (step) {
+      // case 0:
+      //   return <UpgradeForm handleNext={handleNext} />;
       case 0:
-        return <UpgradeForm handleNext={handleNext} />;
-      case 1:
         return (
           <PaymentForm
             price={5}
@@ -78,7 +79,7 @@ export default function Upgrade(props) {
             orderType="membership-payment"
           />
         );
-      case 2:
+      case 1:
         return <PaymentResultForm close={finishPayment} />;
       default:
         throw new Error("unknown step");
@@ -94,16 +95,16 @@ export default function Upgrade(props) {
 
     return (
       <MuiDialogTitle disableTypography className={classes.root} {...other}>
-        {activeStep !== 0 && activeStep !== 2 && (
+        {/* {activeStep !== 0 && activeStep !== 2 && (
           <IconButton onClick={handleBack} size="small" aria-label="back">
             <ChevronLeftIcon fontSize="large" />
           </IconButton>
-        )}
+        )} */}
 
         <Typography p={5} variant="h5">
           {children}
         </Typography>
-        {onClose && activeStep !== 2 ? (
+        {onClose ? (
           <IconButton
             aria-label="close"
             className={classes.closeButton}
