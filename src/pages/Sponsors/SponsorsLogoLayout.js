@@ -35,7 +35,7 @@ export default function SponsorsLogoLayout() {
       >
         <Grid item xs={12}>
           <Paper className={classes.paper}>
-            <Typography variant="h6" align="center" variant="h5">
+            <Typography align="center" variant="h5">
               Our Valuable Sponsors
             </Typography>
           </Paper>
@@ -57,7 +57,7 @@ export default function SponsorsLogoLayout() {
 
         <Grid item xs={12}>
           <Paper className={classes.paper}>
-            <Typography variant="h6" align="center" variant="h5">
+            <Typography align="center" variant="h5">
               Our Contributory Sponsors
             </Typography>
           </Paper>
@@ -88,6 +88,7 @@ export default function SponsorsLogoLayout() {
           container
           direction="coloum"
           justifyContent="space-around"
+          alignContent="center"
           style={{ paddingTop: "10px" }}
         >
           {images
@@ -97,14 +98,12 @@ export default function SponsorsLogoLayout() {
                 item
                 xs={12}
                 sm={4}
-                alignContent="center"
-                justifyContent="center"
+                style={{ alignSelf: "center" }}
               >
                 <Box
                   display="flex"
                   justifyContent="center"
                   alignItems="center"
-                  minWidth="50vh"
                 >
                   <img
                     key={id}
