@@ -65,6 +65,12 @@ const images = [
     title: "foo",
     description: "special",
   },
+  {
+    id: 12,
+    src: "./images/SponsorLogo/unionpay.png",
+    title: "foo",
+    description: "valuable",
+  },
 ];
 
 export default images;
