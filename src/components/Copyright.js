@@ -13,6 +13,9 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
+/**
+ * The copyright statement and logo placed at the bottom of every page
+ */
 export default function Copyright() {
   const classes = useStyles();
   return (

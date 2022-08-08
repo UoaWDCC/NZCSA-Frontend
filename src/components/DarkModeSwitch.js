@@ -3,6 +3,7 @@ import { withStyles } from "@material-ui/core/styles";
 import Switch from "@material-ui/core/Switch";
 import { DarkModeContext } from "../context/darkMode";
 
+// styling the switch
 const IOSSwitch = withStyles((theme) => ({
   root: {
     width: 42,
@@ -56,9 +57,13 @@ const IOSSwitch = withStyles((theme) => ({
   );
 });
 
+/**
+ * The switch to change to or from dark theme, located in user profile
+ */
 export default function DarkModeSwitch() {
   const { darkMode, setDarkMode } = useContext(DarkModeContext);
 
+  // not used
   const toggleThemeChange = () => {
     if (localStorage.getItem("theme") === "light") {
       localStorage.setItem("theme", "dark");
@@ -67,6 +72,7 @@ export default function DarkModeSwitch() {
     }
   };
 
+  // not used
   const handleChange = (event) => {
     // setDarkMode(!darkMode);
     setDarkMode;
