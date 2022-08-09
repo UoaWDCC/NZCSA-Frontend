@@ -94,6 +94,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 // TODO: Modify to match figma design
+/**
+ * The signin section on the login page
+ */
 export default function SignInSide() {
   const classes = useStyles();
   const [email, setEmail] = useState("");
@@ -107,8 +110,10 @@ export default function SignInSide() {
   const [showIOSInstall, setShowIOSInstall] = useState(false);
   const { isUpdateAvailable, updateAssets } = useServiceWorker();
 
+  // email or password is left empty
   const isError = (condition) => hasErrors && condition;
 
+  // show prompt message to install our app
   useEffect(() => {
     window.addEventListener("beforeinstallprompt", (e) => {
       e.preventDefault();
@@ -116,17 +121,20 @@ export default function SignInSide() {
     });
   }, []);
 
+  // show prompt message to install our app if user device is IOS 
   useEffect(() => {
     if (isIos() && !isInStandaloneMode()) {
       setShowIOSInstall(true);
     }
   }, []);
 
+  // install app and close install prompt message
   const handleInstall = async () => {
     deferredPrompt.prompt();
     setDeferredPrompt(null);
   };
 
+  // attempt to login
   const handleSignIn = async () => {
     setHasErrors(true);
     setLoadingChecker(true);
@@ -165,6 +173,7 @@ export default function SignInSide() {
           square
           className={classes.backPanel}
         >
+          {/* show prompt message to install our app if user's device is mobile */}
           {deferredPrompt && isMobile && (
             <Alert onClose={() => setDeferredPrompt(null)} severity="info">
               Install our app on your homescreen to have quick access to your
@@ -180,6 +189,7 @@ export default function SignInSide() {
               </Button>
             </Alert>
           )}
+          {/* show prompt message to install our app if user's device is IOS */}
           {showIOSInstall && (
             <Alert onClose={() => setShowIOSInstall(false)} severity="info">
               Install the NZCSA webapp! tap{" "}
@@ -188,6 +198,7 @@ export default function SignInSide() {
               browser)
             </Alert>
           )}
+          {/* show prompt message to update when avaliable */}
           {isUpdateAvailable && (
             <Alert>
               <Typography>A new version of this app is available </Typography>
@@ -210,11 +221,13 @@ export default function SignInSide() {
               Sign in
             </Typography>
 
+            {/* Third party login via Google */}
             <GoogleLoginButton
               setErrorMessage={setErrorMessage}
               setTimeout={setTimeout}
             />
 
+            {/* The sign in form */}
             {/* <form className={classes.form} noValidate> */}
             <div className={classes.form} noValidate>
               <TextField

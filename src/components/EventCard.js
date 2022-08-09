@@ -40,6 +40,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+/**
+ * Event cards used in the Home page
+ * @param {object} props details of the event: id, title, date, price, location, image
+ * @param {object} props details of the user: name, wechatId, isMember, attendedEvents, gender, googleSheetId
+ */
 export default function EventCard(props) {
 
 
@@ -82,6 +87,7 @@ export default function EventCard(props) {
     if (newWindow) newWindow.opener = null;
   };
 
+  // pop up confirmation when user clicks to register
   const handleOnClick = (eventId, price) => {
     if (!isMember) {
       setOpenNonMemberConfirmDialog(true);
@@ -102,6 +108,7 @@ export default function EventCard(props) {
     }
   };
 
+  // register through backend after user confirmed
   async function handleRegister(eventId) {
     const registerInfo = { eventId };
     const userInfo = { name, wechatId, gender, googleSheetId }
@@ -127,11 +134,13 @@ export default function EventCard(props) {
     }
   }
 
+  // user confirmed, send to backend and close popup
   const handleOnClickYes = async (id) => {
     await handleRegister(id);
     setOpenMemberConfirmDialog(false);
   };
 
+  // is a member, ask to confirm register
   const memberConfirmDialog = (
     <Dialog
       open={openMemberConfirmDialog}
@@ -150,6 +159,7 @@ export default function EventCard(props) {
     </Dialog>
   );
 
+  // is not a member, prompt to join before register
   const nonMemberConfirmDialog = (
     <Dialog
       open={openNonMemberConfirmDialog}
@@ -172,6 +182,7 @@ export default function EventCard(props) {
     </Dialog>
   );
 
+  // event card showing "Register", "Registered" or no button for previous events
   return (
     <Router>
       <Notification notify={notify} setNotify={setNotify} />
