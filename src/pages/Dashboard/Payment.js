@@ -1,10 +1,8 @@
 import React from "react";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import { Dialog, IconButton, Typography } from "@material-ui/core";
-// import UpgradeForm from "./UpgradeForm";
 import PaymentForm from "./PaymentForm";
 import PaymentResultForm from "./PaymentResultForm";
-// import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import CloseIcon from "@material-ui/icons/Close";
 import MuiDialogTitle from "@material-ui/core/DialogTitle";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
@@ -29,13 +27,15 @@ const styles = (theme) => ({
   },
 });
 
-const useStyles = makeStyles((theme) => ({}));
 
 const steps = ["Checkout", "Payment"];
 
+/**
+ * Component for determining functionality of payment system popup
+ * @param {object} prop details of the event: eventId, price
+ * @param {object} prop toggling tbe visibility of the menu: open, close
+ */
 export default function Payment(props) {
-  const classes = useStyles();
-  // const [maxWidth, setMaxWidth] = React.useState("md");
   const [activeStep, setActiveStep] = React.useState(0);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("xs"));
@@ -80,10 +80,6 @@ export default function Payment(props) {
 
   const DialogTitle = withStyles(styles)((props) => {
     const { children, classes, onClose, ...other } = props;
-
-    // if (activeStep === 2) {
-    //   return null;
-    // }
 
     return (
       <MuiDialogTitle disableTypography className={classes.root} {...other}>

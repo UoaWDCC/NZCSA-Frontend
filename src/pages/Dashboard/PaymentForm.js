@@ -15,7 +15,6 @@ import {
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import clsx from "clsx";
 import { makePayment, createOrder } from "../../api/connectBackend";
-// import { useHistory } from "react-router-dom";
 import { useAuth } from "../../context/auth.context";
 
 const useStyles = makeStyles((theme) => ({
@@ -48,6 +47,12 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+/**
+ * Actual payment page the user sees to make transactions, calls payment api in backend to send order request
+ * Supports Wechat, Alipay, and bank transfer via polipay.
+ * NOTE: the orderType is either "membership-payment" or "event-payment"
+ * @param {object} props specific to payment: orderType, price, eventId
+ */
 export default function PaymentForm({ orderType, price, eventId }) {
   const { currentUser } = useAuth();
   const classes = useStyles();
@@ -56,6 +61,7 @@ export default function PaymentForm({ orderType, price, eventId }) {
 
   // console.log(currentUser);
 
+  // call backend and wait for order response.
   const handlePayment = async () => {
     try {
       // console.log("payment details");
@@ -69,6 +75,7 @@ export default function PaymentForm({ orderType, price, eventId }) {
         window.location.href = `${response.data.data.host_url}/${response.data.data.nonce}`;
       } else {
         // console.log("error");
+        // redirect to checkout page 
         window.location.href = "/checkout";
       }
     } catch (error) {
@@ -77,6 +84,7 @@ export default function PaymentForm({ orderType, price, eventId }) {
     }
   };
 
+  // call createOrder in backend to create a new payment order using the relevant parameters
   const handleOrder = async (
     merchantReference,
     userId,
@@ -107,6 +115,7 @@ export default function PaymentForm({ orderType, price, eventId }) {
     }
   };
 
+  // called when user clicks on pay
   const handleSumbitPaymentForm = () => {
     setLoading(true);
     handlePayment();
