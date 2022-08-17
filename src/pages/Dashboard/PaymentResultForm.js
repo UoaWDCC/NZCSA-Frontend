@@ -31,11 +31,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function PaymentResultForm(props) {
+/**
+ * Popup shown to users when they are redicted back to website after payment is handled by third party.
+ * The state to show ie. success of failure will depend on the order validation where we call the backend using getOneOrder
+ * to check if there exists an order entry in the DB with the same merchantReference.
+ */
+export default function PaymentResultForm() {
   const classes = useStyles();
   const [loading, setLoading] = React.useState(true);
   const [success, setSuccess] = React.useState(false);
 
+  // validating the order by calling backend, set state of sucess depending on response status
   const validateOrder = async (reference) => {
     try {
       for (var i = 0; i < 20; i++) {
@@ -56,11 +62,12 @@ export default function PaymentResultForm(props) {
     } catch (error) {
       // console.log(error);
     }
-
-
     setLoading(false);
   };
 
+  // parse url in page to get the merchant reference after being redirected from external payment vendor.
+  // For more info on what information is in the URL, see the Latipay documentation:
+  // https://doc.latipay.net/v2/latipay-hosted-online.html#4-Synchronous-Redirection
   React.useEffect(() => {
     const urlSearchParams = new URLSearchParams(window.location.search);
     const params = Object.fromEntries(urlSearchParams.entries());
@@ -82,6 +89,7 @@ export default function PaymentResultForm(props) {
     }
   }, []);
 
+  // show loading spinner when waiting to get status of payment order
   if (loading) {
     return (
       <Fade in timeOut={1000}>
