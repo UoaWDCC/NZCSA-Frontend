@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+// import axios from "axios";
 import { makeStyles } from "@material-ui/core/styles";
 import { Dialog, DialogTitle, Typography } from "@material-ui/core";
 import { DialogContent } from "@material-ui/core";
@@ -22,7 +22,7 @@ import {
 import Grid from "@material-ui/core/Grid";
 import { signUpMembership } from "../../api/connectBackend";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import FormHelperText from "@material-ui/core/FormHelperText";
+// import FormHelperText from "@material-ui/core/FormHelperText";
 
 const useStyles = makeStyles((theme) => ({
   consent: {
@@ -30,6 +30,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+/**
+ * Actual payment page the user sees to make transactions, calls payment api in backend to send order request
+ * Supports Wechat, Alipay, and bank transfer via polipay.
+ * NOTE: the orderType is either "membership-payment" or "event-payment"
+ * @param {object} props handleNext() that notify Upgrade.js membership signup is successful
+ */
 export default function UpgradeForm(props) {
   const [loading, setLoading] = useState(false);
   const [gender, setGender] = useState("");
@@ -54,6 +60,7 @@ export default function UpgradeForm(props) {
   });
   // When others is true, you need to add this into the list of faculty too
   const [otherFaculty, setOtherFculty] = useState("");
+  // the 'I understand' in Consent of Membership
   const [understand, setUnderstand] = useState(false);
   const [showErrors, setShowErrors] = useState(false);
   const isError = (condition) => showErrors && condition;
@@ -97,20 +104,20 @@ export default function UpgradeForm(props) {
     setUnderstand(event.target.checked);
   };
 
-  const getAllFaculty = () => {
-    const list = Object.keys(faculty)
-      .map((key, index) => {
-        if (faculty[key] && key !== "Others") {
-          return key;
-        } else if (key === "Others" && faculty[key] === true) {
-          return otherFaculty;
-        }
-        return null;
-      })
-      .filter((el) => {
-        return el != null;
-      });
-  };
+  // const getAllFaculty = () => {
+  //   const list = Object.keys(faculty)
+  //     .map((key, index) => {
+  //       if (faculty[key] && key !== "Others") {
+  //         return key;
+  //       } else if (key === "Others" && faculty[key] === true) {
+  //         return otherFaculty;
+  //       }
+  //       return null;
+  //     })
+  //     .filter((el) => {
+  //       return el != null;
+  //     });
+  // };
 
   const handleUniversity = (e) => {
     setUniversity(e.target.value);
@@ -126,6 +133,7 @@ export default function UpgradeForm(props) {
     return key1;
   };
 
+  // check all input is valid format
   const checkIfComplete = () => {
     return (
       gender.length > 0 &&
@@ -137,6 +145,7 @@ export default function UpgradeForm(props) {
     );
   };
 
+  // submitting to backend database
   const handleSubmitUpgradeForm = async () => {
     setShowErrors(true);
     const selectedFaculty = getFaculty();
