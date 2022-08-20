@@ -27,7 +27,7 @@ const styles = (theme) => ({
   },
 });
 
-
+const useStyles = makeStyles((theme) => ({}));
 const steps = ["Checkout", "Payment"];
 
 /**
@@ -36,6 +36,7 @@ const steps = ["Checkout", "Payment"];
  * @param {object} prop toggling tbe visibility of the menu: open, close
  */
 export default function Payment(props) {
+  const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("xs"));
