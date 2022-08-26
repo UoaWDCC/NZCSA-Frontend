@@ -1,3 +1,6 @@
+/**
+ * EventDetail.js displays the card for event, giving user access to sign-up and check the availability of an evnt.
+ */
 import React from "react";
 import { useState, useEffect } from "react";
 import { Grid } from "@material-ui/core";
@@ -25,6 +28,9 @@ import { useAuth } from "../../context/auth.context";
 // import Image from "material-ui-image";
 // import axios from "axios";
 
+/**
+ * Applicate CSS Styles along with the variables in the theme
+ */
 const useStyles = makeStyles((theme) => ({
     paper: {
         padding: theme.spacing(2),
@@ -95,6 +101,9 @@ export default function EventDetail({
 
     let history = useHistory();
 
+    /**
+     * Action when close button is pressed. Going Back to the previous window.
+     */
     const handleCloseBtn = () => {
         history.goBack();
     };
@@ -104,17 +113,20 @@ export default function EventDetail({
         if (newWindow) newWindow.opener = null;
     };
 
+    /**
+     * Actions on Click of Register
+     */
     const handleOnClick = () => {
         if (!isMember) {
-            setOpenNonMemberConfirmDialog(true);
+            setOpenNonMemberConfirmDialog(true); 
         } else {
-            if (!attendedEvents.includes(id)) {
+            if (!attendedEvents.includes(id)) { //if member hasn't registered in the event
                 if (event.eventPrice > 0) {
                     setPaymentOpen(true);
                 } else {
                     setOpenMemberConfirmDialog(true);
                 }
-            } else {
+            } else { // if member already signed up the event.
                 setNotify({
                     isOpen: true,
                     message: "You have already signed up for this event",
@@ -127,7 +139,10 @@ export default function EventDetail({
     // check if user registered this event
     const { currentUser, setCurrentUser } = useAuth();
 
-
+    /**
+     * Record the register of the event from the member.
+     * @param {*} eventId  Event ID
+     */
     async function handleRegister(eventId) {
         console.log(eventId);
         const registerInfo = { eventId };
@@ -162,6 +177,9 @@ export default function EventDetail({
         setOpenMemberConfirmDialog(false);
     };
 
+    /**
+     * Dialog that pops up when the account is identified as a member of NZCSA.
+     */
     const memberConfirmDialog = (
         <Dialog
             open={openMemberConfirmDialog}
@@ -180,6 +198,9 @@ export default function EventDetail({
         </Dialog>
     );
 
+    /**
+     * Dialog that pops up when the account isn't a member of NZCSA.
+     */
     const nonMemberConfirmDialog = (
         <Dialog
             open={openNonMemberConfirmDialog}

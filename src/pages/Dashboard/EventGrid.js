@@ -1,3 +1,6 @@
+/**
+ * EventGrid.js displays events in the dashboard, where basic information such as thunbnail, names, dates are shown, with a button to access the detai page of the event..
+ */
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid } from "@material-ui/core/";
@@ -10,6 +13,7 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2),
   },
 }));
+
 
 export default function AltCard(props) {
   const classes = useStyles();
@@ -33,10 +37,10 @@ export default function AltCard(props) {
           }
         });
       }
-      setActiveEventsDetail(eventBufferList);
-      setUserEventsDetail(props.data);
+      setActiveEventsDetail(eventBufferList);  //ActiveEventsDetail stands for all available events in the Database
+      setUserEventsDetail(props.data);// UserEventsDetail stands for events that users signed up.
     } else {
-      if (
+      if ( // Determine whether any parameter is invalid.
         !!props.data &&
         Object.keys(props.data).length != 0 &&
         !!props.userData &&
@@ -63,6 +67,7 @@ export default function AltCard(props) {
 
 
   return props.userData == undefined ? (
+    //below for all active events
     <div className={classes.root}>
       <Grid
         container
@@ -93,6 +98,7 @@ export default function AltCard(props) {
       </Grid>
     </div>
   ) : (
+    //below for all signed up events of the member
     <div className={classes.root}>
       <Grid
         container
