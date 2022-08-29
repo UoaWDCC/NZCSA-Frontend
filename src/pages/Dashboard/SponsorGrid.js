@@ -1,3 +1,6 @@
+/**
+ * SponsorGrid.js displays cooperated merchants information in the dashboard.
+ */
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Box } from "@material-ui/core/";
@@ -26,7 +29,6 @@ export default function SponsorsLogoLayout() {
         alignItems="flex-start"
       >
         {discountData.map(({ name, discount, image, address, src }) => (
-
           imageName = JSON.stringify(image),
           imageName = imageName.slice(1, imageName.length - 1),
           <Grid item xs={12} key={src}>

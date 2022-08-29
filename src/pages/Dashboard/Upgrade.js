@@ -35,6 +35,11 @@ const useStyles = makeStyles((theme) => ({}));
 
 const steps = ["Register for membership", "Checkout", "Payment"];
 
+/**
+ * The pop up window after clicking 'Upgrade'
+ * @param {object} prop record which step the user is up to: checkout
+ * @param {object} prop toggling the visibility of the upgrade pop up: open, close
+ */
 export default function Upgrade(props) {
   const classes = useStyles();
   const [maxWidth, setMaxWidth] = React.useState("md");
@@ -42,14 +47,17 @@ export default function Upgrade(props) {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("xs"));
 
+  // redirect to next step in payment process
   const handleNext = () => {
-    setActiveStep(activeStep + 1); // redirect to next step in payment process
+    setActiveStep(activeStep + 1);
   };
 
+  // redirect to previous step in payment process
   const handleBack = () => {
-    setActiveStep(activeStep - 1); // redirect to previous step in payment process
+    setActiveStep(activeStep - 1);
   };
 
+  // cleaning up before user close the pop up
   const handlecloseUpgradeForm = () => {
     if (activeStep === 2) {
       return null;
@@ -66,6 +74,7 @@ export default function Upgrade(props) {
     setActiveStep(0);
   };
 
+  // show content according to step
   function getStepContent(step) {
     switch (step) {
       case 0:
@@ -85,13 +94,14 @@ export default function Upgrade(props) {
     }
   }
 
+  // the frame of the pop up containing title, close and back button
   const DialogTitle = withStyles(styles)((props) => {
     const { children, classes, onClose, ...other } = props;
 
     // if (activeStep === 2) {
     //   return null;
     // }
-
+    
     return (
       <MuiDialogTitle disableTypography className={classes.root} {...other}>
         {activeStep !== 0 && activeStep !== 2 && (
