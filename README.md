@@ -81,4 +81,7 @@ $ yarn run start // this will run the files in docs, this behavior is exactly th
 | Alex Liang     |
 | Linkun Gao     |
 | Garfield Wang     |
+| Nancy Zhong |
+| Tommer Hu |
+
 
