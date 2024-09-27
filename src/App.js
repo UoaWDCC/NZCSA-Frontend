@@ -17,6 +17,7 @@ import { AuthProvider } from "./context/auth.context";
 import { DarkModeContext } from "./context/darkMode";
 
 import PrivateRoute from "./components/routing/PrivateRoute";
+import AdaptiveSearchPanel from "./components/AdaptiveSearchPanel";
 
 function App() {
   const { darkMode } = useContext(DarkModeContext)
@@ -50,6 +51,10 @@ function App() {
           <header className="App-header">
             <Router>
               <Switch>
+                {/* Where HONGCHEN test the function */}
+                <Route path="/test/hongchen-search" exact>
+                  <AdaptiveSearchPanel />
+                </Route>
                 <PrivateRoute exact path="/checkout">
                   <Dashboard checkout={true} />
                 </PrivateRoute>
@@ -83,6 +88,7 @@ function App() {
                 <PrivateRoute path="/:id">
                   <Dashboard />
                 </PrivateRoute>
+
               </Switch>
             </Router>
           </header>
